@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e7be4c0ec63cb439d47a66dc54ac52, type: 3}
+  m_Name: NodeB
+  m_EditorClassIdentifier: Assembly-CSharp::NarrativeNode
+  narrativeText: 'Asks for personal info as the school you go to and your address '
+  options:
+  - optionText: share your info
+    nextNode: {fileID: 11400000, guid: 4cae0ecafdf4eae4085e707a9fa00bac, type: 2}
+    decisionData: []
+  - optionText: evade the question
+    nextNode: {fileID: 11400000, guid: 66807c1d2ed4ad34cac8cf6a5934a50f, type: 2}
+    decisionData: []
