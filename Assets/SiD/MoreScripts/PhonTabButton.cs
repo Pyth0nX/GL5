@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PhonTabButton : MonoBehaviour
+public class PhoneTabButton : MonoBehaviour
 {
     public GameObject tabToOpen;
     public GameObject[] tabsToClose;

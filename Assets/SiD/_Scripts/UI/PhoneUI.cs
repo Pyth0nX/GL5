@@ -12,7 +12,7 @@ public class PhoneUI : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.xKey.wasPressedThisFrame)
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
             phoneUI.SetActive(!phoneUI.activeSelf);
         }
