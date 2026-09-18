@@ -8,5 +8,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/SiD/_Scenes/Map.unity
+    guid: e8e3d2848fb0fe14a8af27c408cafacf
+  - enabled: 1
+    path: Assets/SiD/_Scenes/Home.unity
+    guid: f2599495a83a5ef439f4aa452e87ccb6
+  - enabled: 1
+    path: Assets/SiD/_Scenes/School.unity
+    guid: a43e60b5b4155a8478cf5a7695509986
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

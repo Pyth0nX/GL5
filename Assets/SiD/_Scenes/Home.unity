@@ -1478,7 +1478,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 17c342ea90a20b641b65313bfa89adb7, type: 2}
+  - {fileID: 2100000, guid: f19d2577200a088438189d733267e1a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3393,7 +3393,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 17c342ea90a20b641b65313bfa89adb7, type: 2}
+  - {fileID: 2100000, guid: 392f464b2f5691a40a8c633c9fded4f1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4203,7 +4203,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 17c342ea90a20b641b65313bfa89adb7, type: 2}
+  - {fileID: 2100000, guid: 7a1dd771d9b15b34ba9f4f6a3648493f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4396,6 +4396,7 @@ GameObject:
   - component: {fileID: 777226397}
   - component: {fileID: 777226396}
   - component: {fileID: 777226400}
+  - component: {fileID: 777226401}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -4523,6 +4524,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &777226401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777226395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52ea9d1664c487d4ab971269d29019fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneChangerObject
+  sceneName: Map
 --- !u!1 &813019331
 GameObject:
   m_ObjectHideFlags: 0
@@ -9265,7 +9279,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 17c342ea90a20b641b65313bfa89adb7, type: 2}
+  - {fileID: 2100000, guid: 119f684fcd1138e4896ee41769563346, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
