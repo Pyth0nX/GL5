@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e7be4c0ec63cb439d47a66dc54ac52, type: 3}
+  m_Name: NodeA
+  m_EditorClassIdentifier: Assembly-CSharp::NarrativeNode
+  narrativeText: 'A stranger asks you for a photo '
+  options:
+  - optionText: do not send photo
+    nextNode: {fileID: 11400000, guid: d48aa71c0a094434c9737337a5547e03, type: 2}
+    decisionData:
+    - type: {fileID: 11400000, guid: 4dd30bbde00d8314d869f702efb9737e, type: 2}
+      value: 10
+  - optionText: send photo
+    nextNode: {fileID: 11400000, guid: 66bec90c318330f4fa7e967dff1193d7, type: 2}
+    decisionData: []

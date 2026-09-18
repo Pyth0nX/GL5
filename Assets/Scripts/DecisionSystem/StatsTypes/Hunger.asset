@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e153e5c702742d947a781c721dfce7e2, type: 3}
-  m_Name: Fear
-  m_EditorClassIdentifier: Assembly-CSharp::DecisionStat
-  description: Meassures how much fear you feel to strangers
+  m_Script: {fileID: 11500000, guid: 3722d4a689cc09641a82b8519344569e, type: 3}
+  m_Name: Hunger
+  m_EditorClassIdentifier: Assembly-CSharp::DecisionData
+  name: 
+  description: 

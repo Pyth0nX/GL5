@@ -18,7 +18,7 @@ public enum ComparisonOperator
 [System.Serializable]
 public struct Condition
 {
-    public DecisionStat decisionStat;
+    public DecisionVariable decisionStat;
     public ComparisonOperator comparisonOperator;
     public int value;
 }
@@ -79,11 +79,11 @@ public class ConditionsChecker : MonoBehaviour
     {
         foreach (var condition in conditions)
         {
-            int decisionValue = DecisionManager.Instance.GetDecisionValue(condition.decisionStat);
-            if (!IsConditionMet(decisionValue, condition.comparisonOperator, condition.value))
-            {
-                return false; // If any condition is not met, return false
-            }
+            return false; // If any condition is not met, return false
+            //int decisionValue = DecisionManager.Instance.GetDecisionValue(condition.decisionStat);
+            //if (!IsConditionMet(decisionValue, condition.comparisonOperator, condition.value))
+            //{
+            //}
         }
         return true; // All conditions are met
     }
