@@ -1,58 +1,74 @@
-using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private InputSystem_Actions.InputSystem_Actions _inputActions;
-    private Vector2 _movement;
-    private InputAction.CallbackContext _actionContext;
+    [SerializeField] private InputAction moveAction;
+    [SerializeField] private InputAction lookAction;
+    
+    [Header("Settings")]
+    [Tooltip("Movement Speed")]
+    [SerializeField] private float movementSpeed = 5f;
+    [Tooltip("Mouse Sensitivity")]
+    [SerializeField] private float mouseSensitivity = 20f;
+    
+    [Tooltip("Vertical Clamp Limits: 0° = Look down, 90° = Look up!")]
+    [Range(0f, 90f)]
+    [SerializeField] private float verticalClamp = 80f;
+    
+    private PlayerInput _playerInput;
+    private Camera _playerCamera;
+    private Vector2 _lookInput;
+    private float _currentYRotation;
 
     private void Awake()
     {
-        
-        _inputActions = new InputSystem_Actions.InputSystem_Actions();
+        _playerCamera = GetComponent<Camera>();
+        _playerInput = GetComponent<PlayerInput>();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
-    void Start()
+    private void Start()
     {
-        Debug.Log("PlayerController is active on: " + gameObject.name);
+        _currentYRotation = 0f;
     }
 
-    private void OnEnable()
-    {
-        _inputActions.Enable();
-
-        _inputActions.Player.Move.performed += OnMove;
-        _inputActions.Player.Move.canceled += OnMove;
-        _inputActions.Player.Jump.performed += OnJump;
-    }
-
-    private void OnDisable()
-    {
-
-        _inputActions.Player.Move.performed -= OnMove;
-        _inputActions.Player.Move.canceled -= OnMove;
-        _inputActions.Player.Jump.performed -= OnJump;
-        
-        _inputActions.Disable();
-        _inputActions.Dispose();
-    }
-
-    // Update is called once per frame
     private void Update()
     {
-        transform.Translate(_movement * Time.deltaTime);
+        MovePlayer();
+        LookAround();
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    void MovePlayer()
     {
-        Vector2 move = context.ReadValue<Vector2>();
-        Debug.Log("Player is walking!");
+        moveAction = _playerInput.actions.FindAction("Move");
+        Vector2 direction = moveAction.ReadValue<Vector2>();
+        Vector3 test = direction.x * transform.right + direction.y * transform.forward;
+        transform.position += new Vector3(test.x, 0, test.z) * movementSpeed * Time.deltaTime;
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    private void LookAround()
     {
-        Debug.Log("Player has jumped!");
+        lookAction = InputSystem.actions.FindAction("Look");
+        // If it's found the Look Action, it reads mouse inputs.
+        if (lookAction != null)
+        {
+            _lookInput = lookAction.ReadValue<Vector2>();
+        }
+
+        if (_lookInput.x != 0 || _lookInput.y != 0)
+        {
+            // Rotates the camera on the Y axis.
+            transform.Rotate(Vector3.up, _lookInput.x * mouseSensitivity * Time.deltaTime, Space.Self);
+            
+            // Rotates the camera on the X axis.
+            _currentYRotation -= _lookInput.y * mouseSensitivity * Time.deltaTime;
+            _currentYRotation = Mathf.Clamp(_currentYRotation, -verticalClamp, verticalClamp);
+            
+            // Clamps the camera at 180°.
+            transform.localRotation = Quaternion.Euler(_currentYRotation, transform.localEulerAngles.y, 0f);
+        }
     }
 }
