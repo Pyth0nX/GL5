@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Movement Speed")]
     [SerializeField] private float movementSpeed = 5f;
     [Tooltip("Mouse Sensitivity")]
-    [SerializeField] private float mouseSensitivity = 20f;
+    [SerializeField] private float mouseSensitivity = 5f;
     
     [Tooltip("Vertical Clamp Limits: 0° = Look down, 90° = Look up!")]
     [Range(0f, 90f)]
@@ -70,5 +70,11 @@ public class PlayerController : MonoBehaviour
             // Clamps the camera at 180°.
             transform.localRotation = Quaternion.Euler(_currentYRotation, transform.localEulerAngles.y, 0f);
         }
+    }
+    
+    public void UnlockMouse()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

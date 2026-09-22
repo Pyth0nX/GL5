@@ -330,7 +330,7 @@ MonoBehaviour:
     m_Name: Move
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 6ce42474-9398-4eb8-acbb-5d6d045bf5cf
+    m_Id: fdd0859e-76a5-4272-95c5-6c842a68dff7
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -340,15 +340,15 @@ MonoBehaviour:
     m_Name: Look
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 3eaa6ff9-eeec-4cd1-a0da-4ee711b4cdfe
+    m_Id: 2cb2723b-e9b2-4189-9058-fdafc7024fd5
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
     m_Priority: 0
   movementSpeed: 5
-  mouseSensitivity: 2
-  verticalClamp: 90
+  mouseSensitivity: 5
+  verticalClamp: 80
 --- !u!1 &169908712
 GameObject:
   m_ObjectHideFlags: 0

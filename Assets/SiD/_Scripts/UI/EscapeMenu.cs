@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class EscapeMenu : MonoBehaviour
 {
     public GameObject escapeMenu;
+    [SerializeField] private PlayerController playerController;
 
     void Start()
     {
@@ -14,6 +15,7 @@ public class EscapeMenu : MonoBehaviour
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
+            playerController.UnlockMouse();
             escapeMenu.SetActive(!escapeMenu.activeSelf);
         }
     }

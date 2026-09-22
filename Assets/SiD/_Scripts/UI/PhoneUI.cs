@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PhoneUI : MonoBehaviour
 {
     public GameObject phoneUI;
+    [SerializeField] private PlayerController playerController;
 
     void Start()
     {
@@ -14,6 +15,7 @@ public class PhoneUI : MonoBehaviour
     {
         if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
+            playerController.UnlockMouse();
             phoneUI.SetActive(!phoneUI.activeSelf);
         }
     }
