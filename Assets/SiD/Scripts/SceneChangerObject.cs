@@ -1,17 +1,12 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class SceneChangerObject : MonoBehaviour
 {
     public string sceneName;
 
-    void Update()
+    public void Interact()
     {
-        if (Keyboard.current.fKey.wasPressedThisFrame)
-        {
-            SceneManager.LoadScene(sceneName);
-
-        }
+        SceneManager.LoadScene(sceneName);
     }
 }
