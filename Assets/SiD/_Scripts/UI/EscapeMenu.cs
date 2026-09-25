@@ -4,19 +4,33 @@ using UnityEngine.InputSystem;
 public class EscapeMenu : MonoBehaviour
 {
     public GameObject escapeMenu;
-    [SerializeField] private PlayerController playerController;
 
     void Start()
     {
         escapeMenu.SetActive(false);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            playerController.UnlockMouse();
             escapeMenu.SetActive(!escapeMenu.activeSelf);
+
+            if (escapeMenu.activeSelf)
+            {
+                // Escape menu OPEN
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                // Escape menu CLOSED
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
     }
 }

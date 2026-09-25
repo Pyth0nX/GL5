@@ -445,86 +445,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c8ab1b43ea7024dbd3b3c085f398e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneChanger
---- !u!1001 &227988358
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 906618277992058987, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1923762533523135584, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2940131745271100518, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3664057728018234671, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -79.0678
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 220.28053
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7708663818236458608, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
---- !u!114 &227988359 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1923762533523135584, guid: b6b93495f4da4184e80aee95b560e1aa, type: 3}
-  m_PrefabInstance: {fileID: 227988358}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df528435e7f0bb41872429db2e4fd1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
 --- !u!1 &301062278
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,7 +1531,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1439255686}
-  - component: {fileID: 1439255684}
+  - component: {fileID: 1439255687}
+  - component: {fileID: 1439255688}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1619,20 +1540,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1439255684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1439255683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8f363db7cdd41342bbdfe0828be15b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EscapeMenu
-  escapeMenu: {fileID: 45856941}
-  playerController: {fileID: 227988359}
 --- !u!4 &1439255686
 Transform:
   m_ObjectHideFlags: 0
@@ -1648,6 +1555,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1439255687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439255683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5087476fb0ff5458d28b267d0df8e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapEscapeMenu
+  escapeMenu: {fileID: 45856941}
+--- !u!114 &1439255688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439255683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d52f8d72cc1924c94007e6878be97e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapMouse
 --- !u!1 &1893211788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1761,4 +1693,3 @@ SceneRoots:
   - {fileID: 301062281}
   - {fileID: 1439255686}
   - {fileID: 45856945}
-  - {fileID: 227988358}
