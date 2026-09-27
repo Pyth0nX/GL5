@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5532515411463739525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5876234489487569942}
+  - component: {fileID: 429433963476449377}
+  - component: {fileID: 3069434280421965302}
+  - component: {fileID: 114566730554550006}
+  m_Layer: 0
+  m_Name: MessagesManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5876234489487569942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532515411463739525}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 620.75006, y: 392.125, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &429433963476449377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532515411463739525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed096f0d2c1e0f439646709c6effeae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MessagesManager
+--- !u!114 &3069434280421965302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532515411463739525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b223d0efd2f3f64c883fd47478ff785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MessagesUI
+  contactListContainer: {fileID: 0}
+  messagesContainer: {fileID: 0}
+  messagePrefab: {fileID: 3268024124555062403, guid: 51d38bb6db73f0947808a4769d7d2d06, type: 3}
+  contactPrefab: {fileID: 6391233378624843405, guid: 920a50a28ceb8404da0f3faa4c5027dd, type: 3}
+  playerMessageColor: {r: 0, g: 0.5921569, b: 0.06666667, a: 1}
+  NPCMessageColor: {r: 0.5018867, g: 0.18086863, b: 0.19428025, a: 1}
+--- !u!114 &114566730554550006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532515411463739525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9d759d9a5d2f44cb444efb5cb695bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhoneStateMachine
+  backButton: {fileID: 0}
+  homeButton: {fileID: 0}
+  tabButton: {fileID: 0}
+  startTab: {fileID: 0}
+  contactsTab: {fileID: 0}
+  messagingTab: {fileID: 0}
+  galleryTab: {fileID: 0}
+  emailTab: {fileID: 0}

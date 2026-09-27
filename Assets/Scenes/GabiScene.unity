@@ -202,7 +202,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2026405182}
         m_TargetAssemblyTypeName: OptionsChanger, Assembly-CSharp
         m_MethodName: ChangeOptions
         m_Mode: 3

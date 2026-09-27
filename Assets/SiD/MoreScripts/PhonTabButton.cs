@@ -16,4 +16,15 @@ public class PhoneTabButton : MonoBehaviour
         if (tabToOpen != null)
             tabToOpen.SetActive(true);
     }
+
+    public void SetTabToOpen(GameObject tab)
+    {
+        tabToOpen = tab;
+    }
+
+    public void SetTabsToClose(GameObject[] tabs)
+    {
+        tabsToClose = tabs;
+    }
+
 }
