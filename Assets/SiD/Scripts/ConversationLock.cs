@@ -8,7 +8,7 @@ public class ConversationLock : MonoBehaviour
     [Header("Player Physics")]
     public Rigidbody playerRigidbody;
 
-    public void LockPlayer(Transform npc)
+    public void LockPlayer()
     {
         // Disable movement / mouse controls
         if (movementScript != null)
@@ -22,15 +22,6 @@ public class ConversationLock : MonoBehaviour
             playerRigidbody.linearVelocity = Vector3.zero;
             playerRigidbody.angularVelocity = Vector3.zero;
             playerRigidbody.isKinematic = true;
-        }
-
-        // Face the NPC
-        Vector3 direction = npc.position - transform.position;
-        direction.y = 0f;
-
-        if (direction.sqrMagnitude > 0.001f)
-        {
-            transform.rotation = Quaternion.LookRotation(direction);
         }
     }
 

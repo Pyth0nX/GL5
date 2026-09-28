@@ -36,16 +36,16 @@ public class NPCDialogue : MonoBehaviour
                 dialogueText.text = dialogue[currentDialogue];
             }
 
-            // Lock player and face this NPC
+            // Lock player controls
             if (conversationLock != null)
             {
-                conversationLock.LockPlayer(transform);
+                conversationLock.LockPlayer();
             }
 
             return;
         }
 
-        // Next dialogue line
+        // Go to next dialogue line
         currentDialogue++;
 
         if (currentDialogue < dialogue.Count)
@@ -58,7 +58,7 @@ public class NPCDialogue : MonoBehaviour
             dialoguePanel.SetActive(false);
             currentDialogue = 0;
 
-            // Give player control back
+            // Give controls back
             if (conversationLock != null)
             {
                 conversationLock.UnlockPlayer();
