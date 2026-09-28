@@ -3281,6 +3281,8 @@ GameObject:
   - component: {fileID: 96855148}
   - component: {fileID: 96855147}
   - component: {fileID: 96855146}
+  - component: {fileID: 96855150}
+  - component: {fileID: 96855149}
   m_Layer: 0
   m_Name: NPC (8)
   m_TagString: Untagged
@@ -3385,6 +3387,45 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96855144}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &96855149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96855144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54155d92b4c52c4793a12398dadafb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  characterName: Sandy
+  dialogue:
+  - Go away, class is about to start!
+  dialoguePanel: {fileID: 746425326}
+  characterNameText: {fileID: 543515584}
+  dialogueText: {fileID: 1374141750}
+--- !u!65 &96855150
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96855144}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 2, z: 3}
+  m_Center: {x: -0.00000047683716, y: 0, z: 0}
 --- !u!1 &101731939
 GameObject:
   m_ObjectHideFlags: 0
@@ -8952,6 +8993,8 @@ GameObject:
   - component: {fileID: 308706581}
   - component: {fileID: 308706580}
   - component: {fileID: 308706579}
+  - component: {fileID: 308706584}
+  - component: {fileID: 308706583}
   m_Layer: 0
   m_Name: Teacher
   m_TagString: Untagged
@@ -9056,6 +9099,45 @@ Transform:
   - {fileID: 2081307493}
   m_Father: {fileID: 1084198217}
   m_LocalEulerAnglesHint: {x: 0, y: -123.376, z: 0}
+--- !u!65 &308706583
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308706578}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.81, y: 2, z: 5.52}
+  m_Center: {x: -0.00000047683716, y: 0, z: 0}
+--- !u!114 &308706584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308706578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54155d92b4c52c4793a12398dadafb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  characterName: Miss. Kim
+  dialogue:
+  - Class is about to start, take your seat Luna!
+  dialoguePanel: {fileID: 746425326}
+  characterNameText: {fileID: 543515584}
+  dialogueText: {fileID: 1374141750}
 --- !u!1 &310067724
 GameObject:
   m_ObjectHideFlags: 0
@@ -29952,6 +30034,8 @@ GameObject:
   - component: {fileID: 1205157569}
   - component: {fileID: 1205157568}
   - component: {fileID: 1205157567}
+  - component: {fileID: 1205157571}
+  - component: {fileID: 1205157570}
   m_Layer: 0
   m_Name: NPC (5)
   m_TagString: Untagged
@@ -30056,6 +30140,45 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205157565}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &1205157570
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205157565}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 2, z: 3}
+  m_Center: {x: -0.00000047683716, y: 0, z: 0}
+--- !u!114 &1205157571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205157565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54155d92b4c52c4793a12398dadafb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  characterName: Mark
+  dialogue:
+  - Go away, class is about to start!
+  dialoguePanel: {fileID: 746425326}
+  characterNameText: {fileID: 543515584}
+  dialogueText: {fileID: 1374141750}
 --- !u!1 &1205320865
 GameObject:
   m_ObjectHideFlags: 0
@@ -36254,6 +36377,8 @@ GameObject:
   - component: {fileID: 1427322319}
   - component: {fileID: 1427322318}
   - component: {fileID: 1427322317}
+  - component: {fileID: 1427322321}
+  - component: {fileID: 1427322320}
   m_Layer: 0
   m_Name: NPC (9)
   m_TagString: Untagged
@@ -36358,6 +36483,45 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1427322315}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1427322320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427322315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54155d92b4c52c4793a12398dadafb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  characterName: Steven
+  dialogue:
+  - Go away, class is about to start!
+  dialoguePanel: {fileID: 746425326}
+  characterNameText: {fileID: 543515584}
+  dialogueText: {fileID: 1374141750}
+--- !u!65 &1427322321
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427322315}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 2, z: 3}
+  m_Center: {x: -0.00000047683716, y: 0, z: 0}
 --- !u!1 &1431352492
 GameObject:
   m_ObjectHideFlags: 0
@@ -46670,6 +46834,8 @@ GameObject:
   - component: {fileID: 1833856083}
   - component: {fileID: 1833856082}
   - component: {fileID: 1833856081}
+  - component: {fileID: 1833856085}
+  - component: {fileID: 1833856084}
   m_Layer: 0
   m_Name: NPC (10)
   m_TagString: Untagged
@@ -46774,6 +46940,45 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1833856079}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1833856084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833856079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54155d92b4c52c4793a12398dadafb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  characterName: Gabriel
+  dialogue:
+  - Go away, class is about to start!
+  dialoguePanel: {fileID: 746425326}
+  characterNameText: {fileID: 543515584}
+  dialogueText: {fileID: 1374141750}
+--- !u!65 &1833856085
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833856079}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 2, z: 3}
+  m_Center: {x: -0.00000047683716, y: 0, z: 0}
 --- !u!1 &1834559171
 GameObject:
   m_ObjectHideFlags: 0
@@ -46786,6 +46991,8 @@ GameObject:
   - component: {fileID: 1834559175}
   - component: {fileID: 1834559174}
   - component: {fileID: 1834559173}
+  - component: {fileID: 1834559177}
+  - component: {fileID: 1834559176}
   m_Layer: 0
   m_Name: NPC (6)
   m_TagString: Untagged
@@ -46890,6 +47097,45 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834559171}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &1834559176
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834559171}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 2, z: 3}
+  m_Center: {x: -0.00000047683716, y: 0, z: 0}
+--- !u!114 &1834559177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834559171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54155d92b4c52c4793a12398dadafb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  characterName: Sarah
+  dialogue:
+  - Go away, class is about to start!
+  dialoguePanel: {fileID: 746425326}
+  characterNameText: {fileID: 543515584}
+  dialogueText: {fileID: 1374141750}
 --- !u!1 &1841161114
 GameObject:
   m_ObjectHideFlags: 0
