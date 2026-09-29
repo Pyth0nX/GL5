@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float movementSpeed = 5f;
     [Tooltip("Mouse Sensitivity")]
     [SerializeField] private float mouseSensitivity = 5f;
+    [Tooltip("Activates the raycast")]
+    [SerializeField] private RaycastHit raycastHit;
     
     [Tooltip("Vertical Clamp Limits: 0° = Look down, 90° = Look up!")]
     [Range(0f, 90f)]
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer();
         LookAround();
+        DetectInteractable();
     }
 
     void MovePlayer()
@@ -71,7 +74,20 @@ public class PlayerController : MonoBehaviour
             transform.localRotation = Quaternion.Euler(_currentYRotation, transform.localEulerAngles.y, 0f);
         }
     }
-    
+
+    public void DetectInteractable()
+    {
+        Vector3 origin = transform.position;
+        Vector3 dir = transform.forward;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(origin, dir, out hit, 100f))
+        {
+            Debug.Log("Hit: " + hit.collider.gameObject.name);
+        }
+    }
+
     public void UnlockMouse()
     {
         Cursor.lockState = CursorLockMode.None;
