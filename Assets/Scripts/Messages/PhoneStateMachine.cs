@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 [Serializable]
 public enum PhoneState
@@ -45,6 +46,8 @@ public class PhoneStateMachine : MonoBehaviour
     [SerializeField]
     private GameObject emailTab;
 
+    [SerializeField]
+    private GameObject decisionsTab;
 
 
     private int _backButtonState = 0; // State to change to when the back button is pressed
@@ -64,52 +67,51 @@ public class PhoneStateMachine : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the callbacks for the buttons based on the current state of the phone.
+    /// Changes the current state to the specified new state and updates the button callbacks accordingly.
     /// </summary>
-    private void SetButtonsCallbacks()
-    {
-
-    }
-
+    /// <param name="newState"></param>
     public void ChangeState(int newState)
     {
         if (_currentState != (PhoneState)newState)
         {
             _currentState = (PhoneState)newState;
-            ChangeButtonsCalls();
+            SetButtonsCallbacks();
         }
     }
 
-    private void ChangeButtonsCalls()
+    /// <summary>
+    /// Sets the callbacks for the buttons based on the current state of the phone.
+    /// </summary>
+    private void SetButtonsCallbacks()
     {
         switch (_currentState)
         {
             case PhoneState.Idle:
-                backButton.SetTabsToClose(new GameObject[] {});
+                backButton.SetTabsToClose(new List<GameObject> { });
                 backButton.SetTabToOpen(null);
                 _backButtonState = 0;
                 break;
             case PhoneState.Contacts:
-                homeButton.SetTabsToClose(new GameObject[] { contactsTab });
-                backButton.SetTabsToClose(new GameObject[] {contactsTab});
+                homeButton.SetTabsToClose(new List<GameObject> { contactsTab });
+                backButton.SetTabsToClose(new List<GameObject> { contactsTab});
                 backButton.SetTabToOpen(startTab);
                 _backButtonState = 0;
                 break;
             case PhoneState.Messaging:
-                homeButton.SetTabsToClose(new GameObject[] { messagingTab });
-                backButton.SetTabsToClose(new GameObject[] { messagingTab });
+                homeButton.SetTabsToClose(new List<GameObject> { messagingTab });
+                backButton.SetTabsToClose(new List<GameObject> { messagingTab });
                 backButton.SetTabToOpen(contactsTab);
                 _backButtonState = 2;
                 break;
             case PhoneState.Gallery:
-                homeButton.SetTabsToClose(new GameObject[] { galleryTab });
-                backButton.SetTabsToClose(new GameObject[] { galleryTab });
+                homeButton.SetTabsToClose(new List<GameObject> { galleryTab });
+                backButton.SetTabsToClose(new List<GameObject> { galleryTab });
                 backButton.SetTabToOpen(startTab);
                 _backButtonState = 0;
                 break;
             case PhoneState.Email:
-                homeButton.SetTabsToClose(new GameObject[] { emailTab });
-                backButton.SetTabsToClose(new GameObject[] { emailTab });
+                homeButton.SetTabsToClose(new List<GameObject> { emailTab });
+                backButton.SetTabsToClose(new List<GameObject> { emailTab });
                 backButton.SetTabToOpen(startTab);
                 _backButtonState = 0;
                 break;
@@ -143,4 +145,13 @@ public class PhoneStateMachine : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Show the decision tab and include it in the list of tabs to close when coming back to other tabs
+    /// </summary>
+    public void ShowDecisionsTab()
+    {
+        homeButton.GetTabsToClose().Add(decisionsTab);
+        backButton.GetTabsToClose().Add(decisionsTab);
+        decisionsTab.SetActive(true);
+    }
 }

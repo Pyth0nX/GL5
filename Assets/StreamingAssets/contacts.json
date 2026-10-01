@@ -1,0 +1,161 @@
+{
+  "contacts": [
+    {
+      "_contactName": "Alice",
+      "_imagePath": "",
+      "_decisionAvailable": false,
+      "_isActive": true,
+      "_currentNarrative": 0,
+      "_lastMessageDate": {
+        "day": 0,
+        "month": 0,
+        "year": 0,
+        "hour": 0,
+        "minute": 0
+      },
+      "_messages": [
+        {
+          "sender": 0,
+          "content": "Hello!",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 0,
+          "content": "How are you?",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 1,
+          "content": "I'm doing well, thanks!",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 1,
+          "content": "What about you?",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 0,
+          "content": "I'm good too!",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        }
+      ]
+    },
+
+    {
+      "_contactName": "Unknown Number",
+      "_imagePath": "",
+      "_decisionAvailable": false,
+      "_isActive": true,
+      "_currentNarrative": 0,
+      "_lastMessageDate": {
+        "day": 0,
+        "month": 0,
+        "year": 0,
+        "hour": 0,
+        "minute": 0
+      },
+      "_messages": [
+        {
+          "sender": 1,
+          "content": "Why did you even show up to school today?",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 1,
+          "content": "Everyone was talking about you behind your back.",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 0,
+          "content": "Who is this? Leave me alone.",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 1,
+          "content": "Don't play dumb. Nobody wants you in our group.",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 0,
+          "content": "If you post that picture, I'm calling the principal.",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 1,
+          "content": "Go ahead and try. Nobody will believe you anyway.",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        }
+      ]
+    },
+
+    {
+      "_contactName": "Mom",
+      "_imagePath": "",
+      "_decisionAvailable": false,
+      "_isActive": true,
+      "_currentNarrative": 0,
+      "_lastMessageDate": {
+        "day": 0,
+        "month": 0,
+        "year": 0,
+        "hour": 0,
+        "minute": 0
+      },
+      "_messages": [
+        {
+          "sender": 1,
+          "content": "Don't forget to take the keys with you!",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 0,
+          "content": "Got them! Will be home around 6 PM.",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 1,
+          "content": "Perfect, dinner will be ready by then.",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        }
+      ]
+    },
+
+    {
+      "_contactName": "Mark (History Group)",
+      "_imagePath": "",
+      "_decisionAvailable": false,
+      "_isActive": false,
+      "_currentNarrative": 0,
+      "_lastMessageDate": {
+        "day": 0,
+        "month": 0,
+        "year": 0,
+        "hour": 0,
+        "minute": 0
+      },
+      "_messages": [
+        {
+          "sender": 1,
+          "content": "Hey, did you finish your part of the presentation?",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 0,
+          "content": "Almost done, just adding the last slides.",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 1,
+          "content": "Awesome, send it over when you're done so I can review it.",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        },
+        {
+          "sender": 0,
+          "content": "Will do in 10 minutes!",
+          "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+        }
+      ]
+    }
+  ]
+}

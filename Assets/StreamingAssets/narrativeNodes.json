@@ -1,0 +1,148 @@
+{
+    "narrativeNodes":[
+        {
+            "id": 0,
+            "options":[
+                {
+                    "text": "",
+                    "nextNode": 1,
+                    "messagesToSend":[
+                        {
+                        "sender": 0,
+                        "content": "I saved all your messages. Let's see what the principal says about these screenshots.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "You think you're so smart, don't you?",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "Delete them right now or you'll regret it.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 0,
+                        "content": "You're the one who should be worried now.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "Fine. Just keep my name out of this and we're done.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        }
+                    ]
+                },
+                {
+                    "text": "",
+                    "nextNode": 2,
+                    "messagesToSend":[
+                        {
+                        "sender": 0,
+                        "content": "I'm done listening to you. I'm reporting this number right now.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "Wait, don't do that!",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "It was just a joke, calm down",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 0,
+                        "content": "For me it wasn't.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 0,
+                        "content": "I'm blocking you.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "You can't just block me! Hello??.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id":1,
+            "options":[
+                {
+                    "text": "",
+                    "nextNode": 1,
+                    "messagesToSend":[
+                        {
+                        "sender": 0,
+                        "content": "I saved all your messages. Let's see what the principal says about these screenshots.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "You think you're so smart, don't you?",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "Delete them right now or you'll regret it.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 0,
+                        "content": "You're the one who should be worried now.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "Fine. Just keep my name out of this and we're done.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        }
+                    ]
+                },
+                {
+                    "text": "",
+                    "nextNode": 2,
+                    "messagesToSend":[
+                        {
+                        "sender": 0,
+                        "content": "I'm done listening to you. I'm reporting this number right now.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "Wait, don't do that!",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "It was just a joke, calm down",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 0,
+                        "content": "For me it wasn't.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 0,
+                        "content": "I'm blocking you.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        },
+                        {
+                        "sender": 1,
+                        "content": "You can't just block me! Hello??.",
+                        "timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

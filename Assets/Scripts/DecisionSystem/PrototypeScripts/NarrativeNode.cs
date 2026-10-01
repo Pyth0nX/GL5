@@ -1,19 +1,26 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NarrativeNode", menuName = "DecisionSystem/NarrativeNode")]
-public class NarrativeNode : ScriptableObject
+[System.Serializable]
+public class NarrativeNode
 {
-    [TextArea(3, 10)]
-    public string narrativeText;
+    [SerializeField]
+    private int id;
 
-    public Option[] options;
+    [SerializeField]
+    private Option[] options = new Option[2];
+
+    public int ID() { return id; }
+
+    public Option[] Options() { return options; }
 }
 
 [System.Serializable]
 public struct Option
 {
-    public string optionText;
-    public NarrativeNode nextNode;
+    public string text;
+    public int nextNode;
 
-    //public DecisionData[] decisionData;
+    public Message[] messagesToSend;
 }

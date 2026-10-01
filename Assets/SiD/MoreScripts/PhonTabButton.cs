@@ -1,9 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PhoneTabButton : MonoBehaviour
 {
     public GameObject tabToOpen;
-    public GameObject[] tabsToClose;
+    public List<GameObject> tabsToClose;
 
     public void OpenTab()
     {
@@ -22,9 +23,14 @@ public class PhoneTabButton : MonoBehaviour
         tabToOpen = tab;
     }
 
-    public void SetTabsToClose(GameObject[] tabs)
+    public void SetTabsToClose(List<GameObject> tabs)
     {
         tabsToClose = tabs;
     }
 
+
+    public List<GameObject> GetTabsToClose()
+    {
+        return tabsToClose;
+    }
 }

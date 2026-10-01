@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections.Generic;
 public class ContactButtonHelper : MonoBehaviour
 {
     private PhoneTabButton _phoneTabButton; // Reference to the PhoneTabButton component
@@ -20,6 +20,9 @@ public class ContactButtonHelper : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Sets the actions for the button when it is clicked. It configures the button to open the messaging tab, close the contacts tab, and set the current contact based on the button's text.
+    /// </summary>
     private void SetButtonActions()
     {
 
@@ -27,14 +30,24 @@ public class ContactButtonHelper : MonoBehaviour
 
         _phoneTabButton.SetTabToOpen(phoneStateMachine.GetMessagingTab());
 
-        _phoneTabButton.SetTabsToClose(new GameObject[] { phoneStateMachine.GetContactsTab() });
+        _phoneTabButton.SetTabsToClose(new List<GameObject> { phoneStateMachine.GetContactsTab() });
 
         string contactName = GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
 
+        Button button = GetComponent<Button>();
+        button.onClick.AddListener(() => MessagesManager.Instance.GetPhoneStateMachine().ChangeState(1));
+        button.onClick.AddListener(() => MessagesManager.Instance.SetCurrentContact(contactName));
+        button.onClick.AddListener(() => MessagesManager.Instance.GetMessagesUI().CreateMessages());
+        button.onClick.AddListener(() => ShowDecisionAvailable());
 
-        GetComponent<Button>().onClick.AddListener(() => MessagesManager.Instance.GetPhoneStateMachine().ChangeState(1));
-        GetComponent<Button>().onClick.AddListener(() => MessagesManager.Instance.SetCurrentContact(contactName));
-        GetComponent<Button>().onClick.AddListener(() => MessagesManager.Instance.GetMessagesUI().CreateMessages());
+    }
 
+
+    private void ShowDecisionAvailable()
+    {
+        if (MessagesManager.Instance.GetCurrentContact().IsDecisionAvailable())
+        {
+            MessagesManager.Instance.GetPhoneStateMachine().ShowDecisionsTab();
+        }
     }
 }

@@ -12,13 +12,107 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e7be4c0ec63cb439d47a66dc54ac52, type: 3}
   m_Name: NodeA
   m_EditorClassIdentifier: Assembly-CSharp::NarrativeNode
-  narrativeText: 'A stranger asks you for a photo '
+  narrativeText: What should I do?
   options:
-  - optionText: do not send photo
-    nextNode: {fileID: 11400000, guid: d48aa71c0a094434c9737337a5547e03, type: 2}
-    decisionData:
-    - type: {fileID: 11400000, guid: 4dd30bbde00d8314d869f702efb9737e, type: 2}
-      value: 10
-  - optionText: send photo
-    nextNode: {fileID: 11400000, guid: 66bec90c318330f4fa7e967dff1193d7, type: 2}
-    decisionData: []
+  - optionText: 'Confront '
+    nextNode: {fileID: 0}
+    messagesToSend:
+    - messageContent: I saved all your messages. Let's see what the principal says about this screenshots.
+      sender: 0
+      timestamp:
+        day: 10
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: You think you are so smart, don't u?
+      sender: 1
+      timestamp:
+        day: 10
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: Delete them rn or you'll regret it. Trust me.
+      sender: 1
+      timestamp:
+        day: 10
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: You're the one who should be worried now.
+      sender: 0
+      timestamp:
+        day: 10
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: "Fine. Just keep my name out of this and we\xB4re done"
+      sender: 1
+      timestamp:
+        day: 10
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+  - optionText: Ignore
+    nextNode: {fileID: 0}
+    messagesToSend:
+    - messageContent: 'I''m done listening to u. '
+      sender: 0
+      timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: I'm reporting this number rn
+      sender: 0
+      timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: Hold on, don't do that
+      sender: 1
+      timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: 'It was just a prank, calm down '
+      sender: 1
+      timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: "For me it wasn\xB4t, I'm blocking u"
+      sender: 0
+      timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: 'U can''t just block me! '
+      sender: 1
+      timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+    - messageContent: Hello???
+      sender: 1
+      timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0

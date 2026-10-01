@@ -51,7 +51,10 @@ public class MessagesUI : MonoBehaviour
         {
             foreach (Contact contact in contacts)
             {
-                InstantiateContact(contact);
+                if(contact.IsActive())
+                {
+                    InstantiateContact(contact);
+                }
             }
         }
     }
@@ -60,7 +63,7 @@ public class MessagesUI : MonoBehaviour
     {
         GameObject contactGO = Instantiate(contactPrefab, contactListContainer);
         TextMeshProUGUI contactNameText = contactGO.GetComponentInChildren<TextMeshProUGUI>();
-        contactNameText.text = contact.GetName();
+        contactNameText.text = contact.Name();
 
     }
 
@@ -72,7 +75,7 @@ public class MessagesUI : MonoBehaviour
     {
         Contact currentContact = MessagesManager.Instance.GetCurrentContact();
         ClearMessages();
-        foreach (Message message in currentContact.GetMessages())
+        foreach (Message message in currentContact.Messages())
         {
             InstantiateMessage(message);
         }
@@ -106,7 +109,7 @@ public class MessagesUI : MonoBehaviour
     {
         GameObject messageGO = Instantiate(messagePrefab, messagesContainer);
         TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
-        messageText.text = message.messageContent;
+        messageText.text = message.content;
 
         Image image = messageGO.GetComponent<Image>();
 

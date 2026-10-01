@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class OptionsChanger : MonoBehaviour
 {
     [SerializeField]
+    private GameObject _decisionsPanel;
+
+    [SerializeField]
     private NarrativeNode _currentNode;
 
     [SerializeField]
@@ -19,10 +22,17 @@ public class OptionsChanger : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        UpdateButtonsTexts();
+    }
+
+    /// <summary>
+    /// Update the buttons texts with the current node info
+    /// </summary>
+    private void UpdateButtonsTexts()
+    {
         //set the initial narrative text and button texts based on the current node
-        _mainText.text = _currentNode.narrativeText;
-        _option1Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.options[0].optionText;
-        _option2Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.options[1].optionText;
+        _option1Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.Options()[0].text;
+        _option2Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.Options()[1].text;
     }
 
     // Update is called once per frame
@@ -31,14 +41,28 @@ public class OptionsChanger : MonoBehaviour
 
     }
 
-    public void ChangeOptions(int selectedOption)
+    public void ChangeOptions(int selectedOptionId)
     {
-        _currentNode = _currentNode.options[selectedOption].nextNode;
+        Option selectedOption =  _currentNode.Options()[selectedOptionId];
 
-        _mainText.text = _currentNode.narrativeText;
+        foreach (var message in selectedOption.messagesToSend)
+        {
+            MessagesManager.Instance.SendMessageToCurrentContact(message);
+        }
 
-        // Update the button texts
-        _option1Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.options[0].optionText;
-        _option2Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.options[1].optionText;
+        //_currentNode = selectedOption.nextNode;
+
+        if(_currentNode == null)
+        {
+            ActiveDecisionsPanel(false);
+            return;
+        }
+
+        UpdateButtonsTexts();
+    }
+
+    public void ActiveDecisionsPanel(bool isActive)
+    {
+        _decisionsPanel.SetActive(isActive);
     }
 }

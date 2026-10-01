@@ -1,6 +1,10 @@
 using NUnit.Framework;
-using UnityEngine;
+using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Name = System.String;
+
 
 
 /// <summary>
@@ -10,13 +14,24 @@ public class MessagesManager : MonoBehaviour
 {
     public static MessagesManager Instance { get; private set; }
 
-    private List<Contact> _contacts; // List of all contacts in the game
 
     private Contact _currentContact; // The contact that is currently being interacted with
 
     private MessagesUI _messagesUI; // Reference to the MessagesUI component for updating the UI
 
     private PhoneStateMachine _phoneStateMachine; // Reference to the PhoneStateMachine component
+
+    [SerializeField]
+    private Dictionary<Name, Contact> _contacts = new(); // Dictionary of all contacts in the game, keyed by contact name
+
+    [SerializeField]
+    private Dictionary<int, NarrativeNode> _narrativeNodes = new(); // All the narrative nodes in the game, keyed by node ID
+
+    [SerializeField]
+    private string contactsFilePath = "contacts.json";
+
+    [SerializeField]
+    private string narrativeNodesFilePath = "narrativeNodes.json";
 
     void Awake()
     {
@@ -30,7 +45,27 @@ public class MessagesManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        CreateNarrativeNodes();
         CreateContacts();
+    }
+
+    private void CreateNarrativeNodes()
+    {
+        List<NarrativeNode> nodesList = DataLoader.LoadNarrativeNodes(narrativeNodesFilePath);
+
+        if (nodesList != null)
+        {
+            foreach (NarrativeNode node in nodesList)
+            {
+                Debug.Log(node);
+                _narrativeNodes[node.ID()] = node;
+            }
+        }
+        else
+        {
+            _narrativeNodes = new Dictionary<int, NarrativeNode>();
+            Debug.LogError("No se pudieron cargar los nodos narrativos.");
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -56,17 +91,18 @@ public class MessagesManager : MonoBehaviour
     /// <returns></returns>
     public List<Contact> GetContacts()
     {
-        return _contacts;
+        //Sort the contacts list so it is always in order of the last message date
+        SortContacts();
+
+        // Return a new list of contacts from the dictionary values
+        List<Contact> contactsList = new List<Contact>(_contacts.Values);
+        return contactsList;
     }
 
     public void AddContact(Contact contact)
     {
-        if (_contacts == null)
-        {
-            _contacts = new List<Contact>();
-        }
-        _contacts.Add(contact);
-
+        _contacts[contact.Name()] = contact;
+        Debug.Log(contact.Messages());
         // sort the contacts list so it is always in order of the last message date
         SortContacts();
     }
@@ -78,7 +114,7 @@ public class MessagesManager : MonoBehaviour
     /// <param name="contactName"></param>
     public void SetCurrentContact(string contactName)
     {
-        _currentContact = _contacts.Find(c => c.GetName() == contactName);
+        _currentContact = _contacts[contactName];
     }
 
     /// <summary>
@@ -102,11 +138,11 @@ public class MessagesManager : MonoBehaviour
             Debug.LogWarning("No current contact selected.");
             return;
         }
-        _currentContact.GetMessages().Add(message);
+        _currentContact.Messages().Add(message);
 
 
         // Update the last message date for the current contact
-        _currentContact.GetLastMessageDate() = message.timestamp;
+        _currentContact.SetLastMessageDate(message.timestamp);
 
         // Add the message to the UI
         _messagesUI.AddMessage(message);
@@ -116,8 +152,8 @@ public class MessagesManager : MonoBehaviour
     /// <summary>
     /// Sorts the contacts list based on the last message date, with the most recent messages appearing first.
     /// </summary>
-    private void SortContacts() { 
-        _contacts.Sort((c1, c2) => c2.GetLastMessageDate().CompareTo(c1.GetLastMessageDate()));
+    private void  SortContacts() { 
+        _contacts = _contacts.OrderByDescending(kvp => kvp.Value.LastMessageDate()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 
     /// <summary>
@@ -138,47 +174,20 @@ public class MessagesManager : MonoBehaviour
         return _messagesUI;
     }
 
+    /// <summary>
+    /// Creates the contacts by loading them from the specified JSON file and adding them to the contacts dictionary.
+    /// </summary>
     private void CreateContacts()
     {
-        Contact contact1 = new Contact();
-        contact1.SetName("Alice");
-        Message message1_1 = new Message("Hello!", Sender.Player, new Date());
-        Message message1_2 = new Message("How are you?", Sender.Player, new Date());
-        Message message1_3 = new Message("I'm doing well, thanks!", Sender.NPC, new Date());
-        Message message1_4 = new Message("What about you?", Sender.NPC, new Date());
-        Message message1_5 = new Message("I'm good too!", Sender.Player, new Date());
-        contact1.SetMessages(new List<Message> { message1_1, message1_2, message1_3, message1_4, message1_5 });
-        AddContact(contact1);
+        // read the contacts info from the JSON
+        List<Contact> contacts = DataLoader.LoadContacts(contactsFilePath);
 
-        Contact contact2 = new Contact();
-        contact2.SetName("Unknown Number");
-        Message message2_1 = new Message("Why did you even show up to school today?", Sender.NPC, new Date());
-        Message message2_2 = new Message("Everyone was talking about you behind your back.", Sender.NPC, new Date());
-        Message message2_3 = new Message("Who is this? Leave me alone.", Sender.Player, new Date());
-        Message message2_4 = new Message("Don't play dumb. Nobody wants you in our group.", Sender.NPC, new Date());
-        Message message2_5 = new Message("If you post that picture, I'm calling the principal.", Sender.Player, new Date());
-        Message message2_6 = new Message("Go ahead and try. Nobody will believe you anyway.", Sender.NPC, new Date());
-        contact2.SetMessages(new List<Message> { message2_1, message2_2, message2_3, message2_4, message2_5, message2_6 });
-        AddContact(contact2);
+        foreach (Contact contact in contacts)
+        {
+            AddContact(contact);
+            Debug.Log(contact);
 
-
-        Contact contact3 = new Contact();
-        contact3.SetName("Mom");
-        Message message3_1 = new Message("Don't forget to take the keys with you!", Sender.NPC, new Date());
-        Message message3_2 = new Message("Got them! Will be home around 6 PM.", Sender.Player, new Date());
-        Message message3_3 = new Message("Perfect, dinner will be ready by then.", Sender.NPC, new Date());
-        contact3.SetMessages(new List<Message> { message3_1, message3_2, message3_3 });
-        AddContact(contact3);
-
-
-        Contact contact4 = new Contact();
-        contact4.SetName("Mark (History Group)");
-        Message message4_1 = new Message("Hey, did you finish your part of the presentation?", Sender.NPC, new Date());
-        Message message4_2 = new Message("Almost done, just adding the last slides.", Sender.Player, new Date());
-        Message message4_3 = new Message("Awesome, send it over when you're done so I can review it.", Sender.NPC, new Date());
-        Message message4_4 = new Message("Will do in 10 minutes!", Sender.Player, new Date());
-        contact4.SetMessages(new List<Message> { message4_1, message4_2, message4_3, message4_4 });
-        AddContact(contact4);
+        }
     }
 
 }
