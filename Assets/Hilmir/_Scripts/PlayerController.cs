@@ -6,14 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private InputAction moveAction;
     [SerializeField] private InputAction lookAction;
+    [SerializeField] private InputAction interactAction;
     
     [Header("Settings")]
     [Tooltip("Movement Speed")]
     [SerializeField] private float movementSpeed = 5f;
     [Tooltip("Mouse Sensitivity")]
     [SerializeField] private float mouseSensitivity = 5f;
-    [Tooltip("Activates the raycast")]
-    [SerializeField] private RaycastHit raycastHit;
     
     [Tooltip("Vertical Clamp Limits: 0° = Look down, 90° = Look up!")]
     [Range(0f, 90f)]
@@ -21,12 +20,13 @@ public class PlayerController : MonoBehaviour
     
     private PlayerInput _playerInput;
     private Camera _playerCamera;
+    private RaycastHit _raycastHit;
     private Vector2 _lookInput;
     private float _currentYRotation;
 
     private void Awake()
     {
-        _playerCamera = GetComponent<Camera>();
+        _playerCamera = GetComponentInChildren<Camera>();
         _playerInput = GetComponent<PlayerInput>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         moveAction = _playerInput.actions.FindAction("Move");
         Vector2 direction = moveAction.ReadValue<Vector2>();
         Vector3 test = direction.x * transform.right + direction.y * transform.forward;
-        transform.position += new Vector3(test.x, 0, test.z) * movementSpeed * Time.deltaTime;
+        transform.position += new Vector3(test.x, 0, test.z) * (movementSpeed * Time.deltaTime);
     }
 
     private void LookAround()
@@ -77,14 +77,21 @@ public class PlayerController : MonoBehaviour
 
     public void DetectInteractable()
     {
+        interactAction = InputSystem.actions.FindAction("Interact");
         Vector3 origin = transform.position;
         Vector3 dir = transform.forward;
 
-        RaycastHit hit;
-
-        if (Physics.Raycast(origin, dir, out hit, 100f))
+        if (Keyboard.current.eKey.isPressed)
         {
-            Debug.Log("Hit: " + hit.collider.gameObject.name);
+            var ray = _playerCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            RaycastHit hit;
+            
+            if (Physics.Raycast(origin, dir, out hit, 100f))
+            {
+                //interactAction.actionMap.actions
+                var hitObject = hit.collider.gameObject.tag.StartsWith("Interactable");
+                Debug.Log("Hit: " + hitObject);
+            }
         }
     }
 
