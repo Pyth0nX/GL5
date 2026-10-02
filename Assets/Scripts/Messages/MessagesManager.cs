@@ -15,14 +15,19 @@ public class MessagesManager : MonoBehaviour
     public static MessagesManager Instance { get; private set; }
 
 
-    private Contact _currentContact; // The contact that is currently being interacted with
+    private string _currentContact; // The contact that is currently being interacted with
 
     private MessagesUI _messagesUI; // Reference to the MessagesUI component for updating the UI
 
     private PhoneStateMachine _phoneStateMachine; // Reference to the PhoneStateMachine component
 
+    private OptionsChanger _optionsChanger; // Reference to the OptionsChanger component for updating the options UI
+
     [SerializeField]
-    private Dictionary<Name, Contact> _contacts = new(); // Dictionary of all contacts in the game, keyed by contact name
+    private Dictionary<Name, List<Message>> _contactsMessages = new(); // Dictionary of List of messages for each contact, keyed by contact name
+
+    [SerializeField]
+    private List<Contact> _contacts = new(); // List of all contacts in the game
 
     [SerializeField]
     private Dictionary<int, NarrativeNode> _narrativeNodes = new(); // All the narrative nodes in the game, keyed by node ID
@@ -32,6 +37,9 @@ public class MessagesManager : MonoBehaviour
 
     [SerializeField]
     private string narrativeNodesFilePath = "narrativeNodes.json";
+    
+    [SerializeField]
+    private string phoneMessagesFilePath = "messages.json";
 
     void Awake()
     {
@@ -47,6 +55,7 @@ public class MessagesManager : MonoBehaviour
 
         CreateNarrativeNodes();
         CreateContacts();
+        CreateMessages();
     }
 
     private void CreateNarrativeNodes()
@@ -76,6 +85,9 @@ public class MessagesManager : MonoBehaviour
 
         // Gets the PhoneStateMachine component attached to the same GameObject as this script
         _phoneStateMachine = GetComponent<PhoneStateMachine>();
+
+        // Gets the OptionsChanger component attached to the same GameObject as this script
+        _optionsChanger = GetComponent<OptionsChanger>();
     }
 
 
@@ -95,18 +107,9 @@ public class MessagesManager : MonoBehaviour
         SortContacts();
 
         // Return a new list of contacts from the dictionary values
-        List<Contact> contactsList = new List<Contact>(_contacts.Values);
+        List<Contact> contactsList = new List<Contact>(_contacts);
         return contactsList;
     }
-
-    public void AddContact(Contact contact)
-    {
-        _contacts[contact.Name()] = contact;
-        Debug.Log(contact.Messages());
-        // sort the contacts list so it is always in order of the last message date
-        SortContacts();
-    }
-
 
     /// <summary>
     /// Sets the current contact that the user is interacting with.
@@ -114,7 +117,7 @@ public class MessagesManager : MonoBehaviour
     /// <param name="contactName"></param>
     public void SetCurrentContact(string contactName)
     {
-        _currentContact = _contacts[contactName];
+        _currentContact = contactName;
     }
 
     /// <summary>
@@ -123,9 +126,64 @@ public class MessagesManager : MonoBehaviour
     /// <returns></returns>
     public Contact GetCurrentContact()
     {
+        return _contacts.Find(contact => contact.Name() == _currentContact);
+    }
+
+    public string GetCurrentContactName()
+    {
         return _currentContact;
     }
 
+    /// <summary>
+    /// Returns the current contact that the user is interacting with.
+    /// </summary>
+    /// <returns></returns>
+    public List<Message> GetCurrentContactMessages()
+    {
+        Contact currentContact = _contacts.Find(contact => contact.Name() == _currentContact);
+        if (currentContact != null)
+        {
+            return _contactsMessages[currentContact.Name()];
+        }
+        return new List<Message>();
+    }
+
+
+    public NarrativeNode GetNarrativeNode(int nodeId)
+    {
+        if (_narrativeNodes.ContainsKey(nodeId))
+        {
+            return _narrativeNodes[nodeId];
+        }
+        else
+        {
+            Debug.LogWarning($"Narrative node with ID {nodeId} not found.");
+            return null;
+        }
+    }
+
+    public NarrativeNode GetCurrentContactNarrativeNode()
+    {
+        Contact currentContact = GetCurrentContact();
+        if (currentContact != null)
+        {
+            return GetNarrativeNode(currentContact.NarrativeNode());
+        }
+        else
+        {
+            Debug.LogWarning("No current contact selected.");
+            return null;
+        }
+    }
+
+    public bool ContactHasMessages(string contactName)
+    {
+        if (_contactsMessages.ContainsKey(contactName))
+        {
+            return _contactsMessages[contactName].Count > 0;
+        }
+        return false;
+    }
 
     /// <summary>
     /// Update the message list of the current contact with a new message
@@ -138,11 +196,11 @@ public class MessagesManager : MonoBehaviour
             Debug.LogWarning("No current contact selected.");
             return;
         }
-        _currentContact.Messages().Add(message);
+        _contactsMessages[_currentContact].Add(message);
 
 
         // Update the last message date for the current contact
-        _currentContact.SetLastMessageDate(message.timestamp);
+        _contacts.Find(contact => contact.Name() == _currentContact).SetLastMessageDate(message.Timestamp());
 
         // Add the message to the UI
         _messagesUI.AddMessage(message);
@@ -153,7 +211,7 @@ public class MessagesManager : MonoBehaviour
     /// Sorts the contacts list based on the last message date, with the most recent messages appearing first.
     /// </summary>
     private void  SortContacts() { 
-        _contacts = _contacts.OrderByDescending(kvp => kvp.Value.LastMessageDate()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        _contacts = _contacts.OrderByDescending(val => val.LastMessageDate()).ToList();
     }
 
     /// <summary>
@@ -174,19 +232,28 @@ public class MessagesManager : MonoBehaviour
         return _messagesUI;
     }
 
+
+    public OptionsChanger GetOptionsChanger()
+    {
+        return _optionsChanger;
+    }
+
     /// <summary>
     /// Creates the contacts by loading them from the specified JSON file and adding them to the contacts dictionary.
     /// </summary>
     private void CreateContacts()
     {
         // read the contacts info from the JSON
-        List<Contact> contacts = DataLoader.LoadContacts(contactsFilePath);
+        _contacts = DataLoader.LoadContacts(contactsFilePath);
+    }
 
-        foreach (Contact contact in contacts)
+    private void CreateMessages()
+    {
+        List<ContactPhoneMessages> contactPhoneMessages = DataLoader.LoadPhoneMessages(phoneMessagesFilePath);
+
+        foreach (ContactPhoneMessages contactMessages in contactPhoneMessages)
         {
-            AddContact(contact);
-            Debug.Log(contact);
-
+            _contactsMessages[contactMessages.ContactName()] = contactMessages.Messages();
         }
     }
 

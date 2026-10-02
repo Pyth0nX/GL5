@@ -88,9 +88,18 @@ public class PlayerController : MonoBehaviour
             
             if (Physics.Raycast(origin, dir, out hit, 100f))
             {
-                //interactAction.actionMap.actions
-                var hitObject = hit.collider.gameObject.tag.StartsWith("Interactable");
+                GameObject hitObject = hit.collider.gameObject;
+                var isInteractable = hitObject.tag.StartsWith("Interactable");
                 Debug.Log("Hit: " + hitObject);
+
+                if (isInteractable)
+                {
+                    // Handle interaction with the hit object
+                    if(hitObject.GetComponent<NPCData>() != null)
+                    {
+                        hitObject.GetComponent<NPCData>().Interact();
+                    }
+                }
             }
         }
     }

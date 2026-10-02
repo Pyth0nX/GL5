@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 429433963476449377}
   - component: {fileID: 3069434280421965302}
   - component: {fileID: 114566730554550006}
+  - component: {fileID: 3943810475704600460}
   m_Layer: 0
   m_Name: MessagesManager
   m_TagString: Untagged
@@ -46,6 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed096f0d2c1e0f439646709c6effeae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MessagesManager
+  _contacts: []
+  _narrativeNodes: []
+  contactsFilePath: contacts.json
+  narrativeNodesFilePath: narrativeNodes.json
 --- !u!114 &3069434280421965302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,3 +89,29 @@ MonoBehaviour:
   messagingTab: {fileID: 0}
   galleryTab: {fileID: 0}
   emailTab: {fileID: 0}
+  decisionsTab: {fileID: 0}
+--- !u!114 &3943810475704600460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532515411463739525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b8bd8a5d03330b4a81e05f0f0755404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OptionsChanger
+  _decisionsPanel: {fileID: 0}
+  _currentNode:
+    id: 0
+    options:
+    - text: 
+      nextNode: 0
+      messagesToSend: []
+    - text: 
+      nextNode: 0
+      messagesToSend: []
+  _mainText: {fileID: 0}
+  _option1Button: {fileID: 0}
+  _option2Button: {fileID: 0}

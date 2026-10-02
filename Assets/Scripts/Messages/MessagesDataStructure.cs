@@ -39,16 +39,23 @@ public struct Date : IComparable<Date>
 [System.Serializable]
 public class Message
 {
-    public string content; //Content of the message
-    public Sender sender; // Who sent the message 
-    public Date timestamp; // Time when the message was sent
+    [SerializeField]
+    private string _content; //Content of the message
+    [SerializeField]
+    private Sender _sender; // Who sent the message 
+    [SerializeField]
+    private Date _timestamp; // Time when the message was sent
+
+    public string Content() { return _content; }
+    public Sender Sender() { return _sender; }
+    public Date Timestamp() { return _timestamp; }
 
 
     public Message(string content, Sender sender, Date timestamp)
     {
-        this.content = content;
-        this.sender = sender;
-        this.timestamp = timestamp;
+        this._content = content;
+        this._sender = sender;
+        this._timestamp = timestamp;
     }
 }
 
@@ -62,44 +69,44 @@ public class Contact
     private string _contactImagePath;
 
     [SerializeField]
-    private bool _decisionAvailable; // Whether the contact has a decision available for the player
-
-    [SerializeField]
-    private bool _isActive; // Whether the contact is currently active in the game
-
     private int _currentNarrative; //Current narrative node 
 
     [SerializeField]
     private Date _lastMessageDate; // Date of the last message sent or received
 
-    [SerializeField]
-    private List<Message> _messages; // All time messages with this contact
-
     #region Getters
     public int NarrativeNode() { return _currentNarrative; }
-    public bool IsDecisionAvailable() { return _decisionAvailable; }
     public Date LastMessageDate() { return _lastMessageDate; }
-    public List<Message> Messages() { return _messages; }
     public string ImagePath() { return _contactImagePath; }
     public string Name() { return _contactName; }
 
-    public bool IsActive() { return _isActive; }
 
     #endregion
 
     #region Setters
     public void SetNarrativeNode(int node) { _currentNarrative = node; }
     public void SetLastMessageDate(Date date) { _lastMessageDate = date; }
-    public void SetDecisionAvailable(bool available) { _decisionAvailable = available; }
-    public void SetMessages(List<Message> messages) { _messages = messages; }
     public void SetImagePath(string imagePath) { _contactImagePath = imagePath; }
     public void SetName(string name) { _contactName = name; }
-    public void SetActive(bool isActive) { _isActive = isActive; }
 
     #endregion
 
 }
 
+
+[System.Serializable]
+public class ContactPhoneMessages
+{
+    [SerializeField]
+    private string _contactName;
+
+    [SerializeField]
+    private List<Message> _messages;
+
+    public List<Message> Messages() { return _messages; }
+
+    public string ContactName() { return _contactName; }
+}
 
 [System.Serializable]
 public class ContactListWrapper
@@ -109,9 +116,9 @@ public class ContactListWrapper
 
 
 [System.Serializable]
-public class MessageListWrapper
+public class PhoneMessageListWrapper
 {
-    public List<Message> messages;
+    public List<ContactPhoneMessages> contactPhoneMessages;
 }
 
 

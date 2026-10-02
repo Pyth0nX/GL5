@@ -31,8 +31,11 @@ public class OptionsChanger : MonoBehaviour
     private void UpdateButtonsTexts()
     {
         //set the initial narrative text and button texts based on the current node
+        Debug.Log($"Updating buttons texts for node: {_currentNode.ID()}");
         _option1Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.Options()[0].text;
+        Debug.Log($"Text for option 1: {_currentNode.Options()[0].text}");
         _option2Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.Options()[1].text;
+        Debug.Log($"Text for option 2: {_option2Button.GetComponentInChildren<TextMeshProUGUI>().text}");
     }
 
     // Update is called once per frame
@@ -58,6 +61,13 @@ public class OptionsChanger : MonoBehaviour
             return;
         }
 
+        UpdateButtonsTexts();
+    }
+
+    public void SetCurrentNode(NarrativeNode node)
+    {
+        Debug.Log($"Setting current node to: {node.ID()}");
+        _currentNode = node;
         UpdateButtonsTexts();
     }
 

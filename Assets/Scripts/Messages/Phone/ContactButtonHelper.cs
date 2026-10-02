@@ -38,6 +38,7 @@ public class ContactButtonHelper : MonoBehaviour
         button.onClick.AddListener(() => MessagesManager.Instance.GetPhoneStateMachine().ChangeState(1));
         button.onClick.AddListener(() => MessagesManager.Instance.SetCurrentContact(contactName));
         button.onClick.AddListener(() => MessagesManager.Instance.GetMessagesUI().CreateMessages());
+        button.onClick.AddListener(() => MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(MessagesManager.Instance.GetCurrentContactNarrativeNode()));
         button.onClick.AddListener(() => ShowDecisionAvailable());
 
     }
@@ -45,7 +46,8 @@ public class ContactButtonHelper : MonoBehaviour
 
     private void ShowDecisionAvailable()
     {
-        if (MessagesManager.Instance.GetCurrentContact().IsDecisionAvailable())
+        int contactNarrativeId = MessagesManager.Instance.GetCurrentContact().NarrativeNode();
+        if (MessagesManager.Instance.GetNarrativeNode(contactNarrativeId).Options().Length > 0)
         {
             MessagesManager.Instance.GetPhoneStateMachine().ShowDecisionsTab();
         }

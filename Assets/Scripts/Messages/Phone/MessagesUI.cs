@@ -51,7 +51,7 @@ public class MessagesUI : MonoBehaviour
         {
             foreach (Contact contact in contacts)
             {
-                if(contact.IsActive())
+                if(MessagesManager.Instance.ContactHasMessages(contact.Name()))
                 {
                     InstantiateContact(contact);
                 }
@@ -73,11 +73,19 @@ public class MessagesUI : MonoBehaviour
     /// </summary>
     public void CreateMessages()
     {
-        Contact currentContact = MessagesManager.Instance.GetCurrentContact();
+        List<Message> currentContactMessages = MessagesManager.Instance.GetCurrentContactMessages();
         ClearMessages();
-        foreach (Message message in currentContact.Messages())
+        if (currentContactMessages.Count > 0)
         {
-            InstantiateMessage(message);
+            foreach (Message message in currentContactMessages)
+            {
+                InstantiateMessage(message);
+            }
+        }
+        else
+        {
+            // Shows an error message in the console if there are no messages for the current contact
+            Debug.LogError("No messages found for the current contact.");
         }
     }
 
@@ -109,11 +117,11 @@ public class MessagesUI : MonoBehaviour
     {
         GameObject messageGO = Instantiate(messagePrefab, messagesContainer);
         TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
-        messageText.text = message.content;
+        messageText.text = message.Content();
 
         Image image = messageGO.GetComponent<Image>();
 
-        if (message.sender == Sender.Player)
+        if (message.Sender() == Sender.Player)
         {
             image.color = playerMessageColor; 
         }

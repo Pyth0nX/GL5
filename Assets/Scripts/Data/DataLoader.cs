@@ -29,6 +29,22 @@ public class DataLoader
         return wrapper != null ? wrapper.contacts : new List<Contact>();
     }
 
+    public static List<ContactPhoneMessages> LoadPhoneMessages(string fileName)
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, fileName);
+
+        // Check if the file exists before attempting to read it
+        if (!File.Exists(path))
+        {
+            // Returns an empty list if the file does not exist
+            return new List<ContactPhoneMessages>();
+        }
+
+        string json = File.ReadAllText(path);
+        PhoneMessageListWrapper wrapper = JsonUtility.FromJson<PhoneMessageListWrapper>(json);
+        return wrapper != null ? wrapper.contactPhoneMessages : new List<ContactPhoneMessages>();
+    }
+
     public static List<NarrativeNode> LoadNarrativeNodes(string fileName)
     {
         string path = Path.Combine(Application.streamingAssetsPath, fileName);
