@@ -66,7 +66,6 @@ public class MessagesManager : MonoBehaviour
         {
             foreach (NarrativeNode node in nodesList)
             {
-                Debug.Log(node);
                 _narrativeNodes[node.ID()] = node;
             }
         }

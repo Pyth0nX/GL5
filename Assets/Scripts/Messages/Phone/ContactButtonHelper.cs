@@ -46,7 +46,7 @@ public class ContactButtonHelper : MonoBehaviour
 
     private void ShowDecisionAvailable()
     {
-        int contactNarrativeId = MessagesManager.Instance.GetCurrentContact().NarrativeNode();
+        int contactNarrativeId = MessagesManager.Instance.GetCurrentContactNarrativeNode().ID();
         if (MessagesManager.Instance.GetNarrativeNode(contactNarrativeId).Options().Length > 0)
         {
             MessagesManager.Instance.GetPhoneStateMachine().ShowDecisionsTab();

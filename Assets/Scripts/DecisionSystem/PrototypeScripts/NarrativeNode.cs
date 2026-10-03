@@ -4,8 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public enum DialogueType
 {
-    InPerson,
-    Phone
+    IN_PERSON,
+    PHONE
 }
 
 
@@ -35,13 +35,18 @@ public class NarrativeNode
     [SerializeField]
     private DialogueType _dialogueType;
 
+    [SerializeField]
+    private bool _hasOptions = false; // Whether this node has options to choose from or not
+
     #region Getters
     public int ID() { return _id; }
 
     public int NextNode() { return _nextNode; }
     
     public Option[] Options() { return _options; }
-    
+
+    public bool HasOptions() { return _hasOptions; }
+
     public List<Message> Dialogues() { return _dialogues; }
     
     public bool IsEndNode() { return _isEndNode; }

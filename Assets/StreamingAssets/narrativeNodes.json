@@ -193,10 +193,72 @@
                 {
                     "_sender":1,
                     "_content": "Get away freak!"
+                },
+                {
+                    "_sender":1,
+                    "_content": "Don't ever come near me again!"
+                }
+            ],
+            "_dialogueType":0,
+            "_nextNode":5
+        },
+        {
+            "_id":5,
+            "_options":[
+                {
+                    "text": "hit",
+                    "nextNode": 6,
+                    "messagesToSend":[
+
+                    ]
+
+                },
+                {
+                    "text": "hug",
+                    "nextNode": 7,
+                    "messagesToSend":[
+                        
+                    ]
+                }
+            ],
+            "_dialogueType":0,
+            "_hasOptions": true
+        },
+        {
+            "_id":6,
+            "_dialogues":[
+                {
+                    "_sender":1,
+                    "_content":"AHHHHH"
+                },
+                {
+                    "_sender":1,
+                    "_content": "Why did you do that?"
+                },
+                {
+                    "_sender":1,
+                    "_content": "I'm going to tell the teacher"
+                }
+            ],
+            "_dialogueType":0,
+            "_isEndNode": true
+            
+        },
+        {
+            "_id":7,
+            "_dialogues":[
+                {
+                    "_sender":1,
+                    "_content":"Ughhh"
+                },
+                {
+                    "_sender":1,
+                    "_content": "You're a weirdo"
                 }
             ],
             "_dialogueType":0,
             "_isEndNode": true
         }
+        
     ]
 }

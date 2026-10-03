@@ -19,6 +19,9 @@ public class OptionsChanger : MonoBehaviour
     [SerializeField]
     private Button _option2Button;
 
+    [SerializeField]
+    private PlayerController _playerController;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,11 +34,8 @@ public class OptionsChanger : MonoBehaviour
     private void UpdateButtonsTexts()
     {
         //set the initial narrative text and button texts based on the current node
-        Debug.Log($"Updating buttons texts for node: {_currentNode.ID()}");
         _option1Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.Options()[0].text;
-        Debug.Log($"Text for option 1: {_currentNode.Options()[0].text}");
         _option2Button.GetComponentInChildren<TextMeshProUGUI>().text = _currentNode.Options()[1].text;
-        Debug.Log($"Text for option 2: {_option2Button.GetComponentInChildren<TextMeshProUGUI>().text}");
     }
 
     // Update is called once per frame
@@ -47,15 +47,22 @@ public class OptionsChanger : MonoBehaviour
     public void ChangeOptions(int selectedOptionId)
     {
         Option selectedOption =  _currentNode.Options()[selectedOptionId];
-
-        foreach (var message in selectedOption.messagesToSend)
+        MessagesManager.Instance.GetCurrentContact().SetNarrativeNode(selectedOption.nextNode);
+        if(_currentNode.DialogueType() == DialogueType.PHONE)
         {
-            MessagesManager.Instance.SendMessageToCurrentContact(message);
+            foreach (var message in selectedOption.messagesToSend)
+            {
+                MessagesManager.Instance.SendMessageToCurrentContact(message);
+            }
+        }
+        else
+        {
+            DialogueManager.Instance.StartDialogue();
         }
 
-        //_currentNode = selectedOption.nextNode;
-
-        if(_currentNode == null)
+        _currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
+        Debug.Log($"Current node: {_currentNode.Options().Length}");
+        if (!_currentNode.HasOptions())
         {
             ActiveDecisionsPanel(false);
             return;
@@ -66,7 +73,6 @@ public class OptionsChanger : MonoBehaviour
 
     public void SetCurrentNode(NarrativeNode node)
     {
-        Debug.Log($"Setting current node to: {node.ID()}");
         _currentNode = node;
         UpdateButtonsTexts();
     }
@@ -74,5 +80,13 @@ public class OptionsChanger : MonoBehaviour
     public void ActiveDecisionsPanel(bool isActive)
     {
         _decisionsPanel.SetActive(isActive);
+        if (isActive)
+        {
+            _playerController.UnlockMouse();
+        }
+        else
+        {
+            _playerController.LockMouse();
+        }
     }
 }

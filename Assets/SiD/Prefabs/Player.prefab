@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 570706017313965645}
   - component: {fileID: 1923762533523135584}
   - component: {fileID: 3574411576372292404}
+  - component: {fileID: 8917504017229517450}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -295,29 +296,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5df528435e7f0bb41872429db2e4fd1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveAction:
-    m_Name: Move
+  _moveAction:
+    m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: fdd0859e-76a5-4272-95c5-6c842a68dff7
+    m_Id: d20e1a59-1a47-46b5-96ca-65813ded097b
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
     m_Priority: 0
-  lookAction:
-    m_Name: Look
+  _lookAction:
+    m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 2cb2723b-e9b2-4189-9058-fdafc7024fd5
+    m_Id: 1bb60fa8-fcd1-417f-b4e1-17c5398be44c
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
     m_Priority: 0
-  movementSpeed: 5
-  mouseSensitivity: 5
-  verticalClamp: 80
+  _interactAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 23a25f8e-d09e-4e92-8ea4-3cc718586f41
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0
+  _phoneAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 305ba771-2c4f-4cdd-89e3-c7fd76ad0c11
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0
+  _phoneUI: {fileID: 0}
+  _movementSpeed: 5
+  _mouseSensitivity: 5
+  _interactDistance: 5
+  _verticalClamp: 80
 --- !u!114 &3574411576372292404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,6 +371,18 @@ MonoBehaviour:
   m_DefaultActionMap: Movement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 5748859957920696502}
+--- !u!114 &8917504017229517450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3664057728018234671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2bc46a841f130041b8661db892cd656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStateMachine
 --- !u!1 &7882699407006810998
 GameObject:
   m_ObjectHideFlags: 0
