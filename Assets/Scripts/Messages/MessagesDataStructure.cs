@@ -44,17 +44,21 @@ public class Message
     [SerializeField]
     private Sender _sender; // Who sent the message 
     [SerializeField]
+    private string _speakerName; // Allows specifying a different speaker name than the current contact
+    [SerializeField]
     private Date _timestamp; // Time when the message was sent
 
     public string Content() { return _content; }
     public Sender Sender() { return _sender; }
+    public string SpeakerName() { return _speakerName; }
     public Date Timestamp() { return _timestamp; }
 
 
-    public Message(string content, Sender sender, Date timestamp)
+    public Message(string content, Sender sender, string speakerName, Date timestamp)
     {
         this._content = content;
         this._sender = sender;
+        this._speakerName = speakerName;
         this._timestamp = timestamp;
     }
 }
@@ -74,12 +78,21 @@ public class Contact
     [SerializeField]
     private Date _lastMessageDate; // Date of the last message sent or received
 
+    [SerializeField]
+    private bool _hasNewMessages; // Flag to indicate if there are new messages for this contact
+
+    [SerializeField]
+    private int _currentMessageIndex = 0; // Index of the next message to be sent from the current narrative node
+
     #region Getters
     public int NarrativeNode() { return _currentNarrative; }
     public Date LastMessageDate() { return _lastMessageDate; }
     public string ImagePath() { return _contactImagePath; }
     public string Name() { return _contactName; }
 
+    public bool HasNewMessages() { return _hasNewMessages; }
+    
+    public int CurrentMessageIndex() { return _currentMessageIndex; }
 
     #endregion
 
@@ -88,6 +101,9 @@ public class Contact
     public void SetLastMessageDate(Date date) { _lastMessageDate = date; }
     public void SetImagePath(string imagePath) { _contactImagePath = imagePath; }
     public void SetName(string name) { _contactName = name; }
+    public void SetHasNewMessages(bool hasNewMessages) { _hasNewMessages = hasNewMessages; }
+    
+    public void SetCurrentMessageIndex(int index) { _currentMessageIndex = index; }
 
     #endregion
 

@@ -4551,7 +4551,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443470537}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LockerConversation, Assembly-CSharp
         m_MethodName: GoQuietly
         m_Mode: 1
@@ -11137,6 +11137,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354232454}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &354386056 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1333551865408897339, guid: cbaee7bb476af3f499f2f2371b5b5ae3, type: 3}
+  m_PrefabInstance: {fileID: 477938615}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &355811812
 GameObject:
   m_ObjectHideFlags: 0
@@ -19189,7 +19194,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 477938621}
     - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
+      propertyPath: _startTab
+      value: 
+      objectReference: {fileID: 477938621}
+    - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
       propertyPath: tabButton
+      value: 
+      objectReference: {fileID: 477938622}
+    - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
+      propertyPath: _tabButton
       value: 
       objectReference: {fileID: 477938622}
     - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
@@ -19205,15 +19218,43 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 477938623}
     - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
+      propertyPath: _backButton
+      value: 
+      objectReference: {fileID: 477938624}
+    - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
+      propertyPath: _galleryTab
+      value: 
+      objectReference: {fileID: 477938618}
+    - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
+      propertyPath: _homeButton
+      value: 
+      objectReference: {fileID: 477938623}
+    - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
       propertyPath: contactsTab
       value: 
       objectReference: {fileID: 477938620}
+    - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
+      propertyPath: _contactsTab
+      value: 
+      objectReference: {fileID: 477938620}
+    - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
+      propertyPath: _dialogueTab
+      value: 
+      objectReference: {fileID: 354386056}
     - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
       propertyPath: decisionsTab
       value: 
       objectReference: {fileID: 741359924}
     - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
       propertyPath: messagingTab
+      value: 
+      objectReference: {fileID: 477938619}
+    - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
+      propertyPath: _decisionsTab
+      value: 
+      objectReference: {fileID: 741359924}
+    - target: {fileID: 114566730554550006, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
+      propertyPath: _messagingTab
       value: 
       objectReference: {fileID: 477938619}
     - target: {fileID: 3069434280421965302, guid: 62c474e05bb56224cb2eda08cc0c51df, type: 3}
@@ -31950,7 +31991,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443470537}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LockerConversation, Assembly-CSharp
         m_MethodName: AskThemToMove
         m_Mode: 1
@@ -41416,6 +41457,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4777216953637248746, guid: 76f6c639b0059bb4bbc4b3a0517357c9, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5991442319281337231, guid: 76f6c639b0059bb4bbc4b3a0517357c9, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -42051,11 +42096,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1443470535}
-  - component: {fileID: 1443470537}
   - component: {fileID: 1443470536}
+  - component: {fileID: 1443470537}
   m_Layer: 0
   m_Name: Quest1
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42107,15 +42152,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1443470534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 890f05dd41217054f9b7f7c3890f441f, type: 3}
+  m_Script: {fileID: 11500000, guid: 1147b2ad88f5ee14f982783fef2370ba, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LockerConversation
-  dialoguePanel: {fileID: 186748874}
-  characterNameText: {fileID: 549250604}
-  dialogueText: {fileID: 483864644}
-  choicePanel: {fileID: 617716490}
-  conversationLock: {fileID: 0}
-  schoolQuestManager: {fileID: 1028443775}
+  m_EditorClassIdentifier: Assembly-CSharp::NPCData
+  _characterName: Emma
 --- !u!1 &1449220139
 GameObject:
   m_ObjectHideFlags: 0

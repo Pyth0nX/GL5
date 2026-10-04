@@ -40,6 +40,7 @@ public class ContactButtonHelper : MonoBehaviour
         button.onClick.AddListener(() => MessagesManager.Instance.GetMessagesUI().CreateMessages());
         button.onClick.AddListener(() => MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(MessagesManager.Instance.GetCurrentContactNarrativeNode()));
         button.onClick.AddListener(() => ShowDecisionAvailable());
+        button.onClick.AddListener(() => ShowDialogueAvailable());
 
     }
 
@@ -47,9 +48,17 @@ public class ContactButtonHelper : MonoBehaviour
     private void ShowDecisionAvailable()
     {
         int contactNarrativeId = MessagesManager.Instance.GetCurrentContactNarrativeNode().ID();
-        if (MessagesManager.Instance.GetNarrativeNode(contactNarrativeId).Options().Length > 0)
+        if (MessagesManager.Instance.GetNarrativeNode(contactNarrativeId).HasOptions())
         {
             MessagesManager.Instance.GetPhoneStateMachine().ShowDecisionsTab();
+        }
+    }
+
+    private void ShowDialogueAvailable()
+    {
+        if(MessagesManager.Instance.GetCurrentContact().HasNewMessages())
+        {
+            MessagesManager.Instance.GetPhoneStateMachine().ShowDialogueTab();
         }
     }
 }

@@ -128,6 +128,11 @@ public class MessagesManager : MonoBehaviour
         return _contacts.Find(contact => contact.Name() == _currentContact);
     }
 
+    public Contact GetContactByName(string contactName)
+    {
+        return _contacts.Find(contact => contact.Name() == contactName);
+    }
+
     public string GetCurrentContactName()
     {
         return _currentContact;
@@ -253,6 +258,15 @@ public class MessagesManager : MonoBehaviour
         foreach (ContactPhoneMessages contactMessages in contactPhoneMessages)
         {
             _contactsMessages[contactMessages.ContactName()] = contactMessages.Messages();
+            if (contactMessages.Messages().Count > 0)
+            {
+                Message lastMsg = contactMessages.Messages()[contactMessages.Messages().Count - 1];
+                Contact contact = _contacts.Find(c => c.Name() == contactMessages.ContactName());
+                if (contact != null)
+                {
+                    contact.SetLastMessageDate(lastMsg.Timestamp());
+                }
+            }
         }
     }
 

@@ -59,8 +59,14 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue()
     {
-        _dialogueBox.SetActive(true);
         NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
+        if (currentNode == null)
+        {
+            Debug.Log("[DialogueManager] Dialogue has ended for this contact (-1).");
+            return;
+        }
+
+        _dialogueBox.SetActive(true);
         _playerController.DisableMovement();
         if (currentNode.HasOptions())
         {
@@ -85,7 +91,25 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         Message currentMessage = _currentDialogues[_currentDialogueIndex];
-        _characterNameText.text = (currentMessage.Sender() == Sender.NPC) ? _currentContact : _currentContact; // !!!THE SECOND PART MUST BE PLAYER NAME
+        
+        string speaker = "";
+        if (currentMessage.Sender() == Sender.Player) 
+        {
+            speaker = _playerController.GetPlayerName();
+        } 
+        else 
+        {
+            if (!string.IsNullOrEmpty(currentMessage.SpeakerName())) 
+            {
+                speaker = currentMessage.SpeakerName();
+            } 
+            else 
+            {
+                speaker = _currentContact;
+            }
+        }
+        
+        _characterNameText.text = speaker;
         _dialogueText.text = currentMessage.Content();
         _currentDialogueIndex++;
     }

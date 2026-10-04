@@ -12,9 +12,6 @@ public class OptionsChanger : MonoBehaviour
     private NarrativeNode _currentNode;
 
     [SerializeField]
-    private TextMeshProUGUI _mainText;
-
-    [SerializeField]
     private Button _option1Button;
     [SerializeField]
     private Button _option2Button;
@@ -61,8 +58,7 @@ public class OptionsChanger : MonoBehaviour
         }
 
         _currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
-        Debug.Log($"Current node: {_currentNode.Options().Length}");
-        if (!_currentNode.HasOptions())
+        if (_currentNode == null || !_currentNode.HasOptions())
         {
             ActiveDecisionsPanel(false);
             return;
@@ -74,7 +70,10 @@ public class OptionsChanger : MonoBehaviour
     public void SetCurrentNode(NarrativeNode node)
     {
         _currentNode = node;
-        UpdateButtonsTexts();
+        if(_currentNode != null)
+        {
+            UpdateButtonsTexts();
+        }
     }
 
     public void ActiveDecisionsPanel(bool isActive)

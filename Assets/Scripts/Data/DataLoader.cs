@@ -60,4 +60,18 @@ public class DataLoader
         NarrativeNodeListWrapper wrapper = JsonUtility.FromJson<NarrativeNodeListWrapper>(json);
         return wrapper != null ? wrapper.narrativeNodes : new List<NarrativeNode>();
     }
+
+    public static List<Objective> LoadObjectives(string fileName)
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, fileName);
+
+        if (!File.Exists(path))
+        {
+            return new List<Objective>();
+        }
+
+        string json = File.ReadAllText(path);
+        ObjectiveListWrapper wrapper = JsonUtility.FromJson<ObjectiveListWrapper>(json);
+        return wrapper != null ? wrapper.objectives : new List<Objective>();
+    }
 }

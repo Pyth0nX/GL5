@@ -1,88 +1,52 @@
 {
-    "contactPhoneMessages":
-    [
+    "contactPhoneMessages": [
         {
             "_contactName": "Alice",
-            "_messages":[
+            "_messages": [
                 {
                     "_sender": 0,
                     "_content": "Hello!",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 0 },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "How are you?",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 1 },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 1,
                     "__content": "I'm doing well, thanks!",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 5 },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 1,
                     "_content": "What about you?",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 5 },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "I'm good too!",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 10 },
                     "_phoneText": false,
                     "_conversationStops": false
                 }
             ]
         },
         {
-            "_contactName":"Unknown Number",
+            "_contactName": "Unknown Number",
             "_messages": [
                 {
                     "_sender": 1,
-                    "_content": "Why did you even show up to school today?",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                    "_phoneText": false,
-                    "_conversationStops": false
-                },
-                {
-                    "_sender": 1,
-                    "_content": "Everyone was talking about you behind your back.",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                    "_phoneText": false,
-                    "_conversationStops": false
-                },
-                {
-                    "_sender": 0,
-                    "_content": "Who is this? Leave me alone.",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                    "_phoneText": false,
-                    "_conversationStops": false
-                },
-                {
-                    "_sender": 1,
-                    "_content": "Don't play dumb. Nobody wants you in our group.",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                    "_phoneText": false,
-                    "_conversationStops": false
-                },
-                {
-                    "_sender": 0,
-                    "_content": "If you post that picture, I'm calling the principal.",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                    "_phoneText": false,
-                    "_conversationStops": false
-                },
-                {
-                    "_sender": 1,
-                    "_content": "Go ahead and try. Nobody will believe you anyway.",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_content": "Hi",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 15, "minute": 50 },
                     "_phoneText": false,
                     "_conversationStops": false
                 }
@@ -94,21 +58,21 @@
                 {
                     "_sender": 1,
                     "_content": "Don't forget to take the keys with you!",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 7, "month": 5, "year": 2023, "hour": 14, "minute": 0 },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "Got them! Will be home around 6 PM.",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 7, "month": 5, "year": 2023, "hour": 14, "minute": 5 },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 1,
                     "_content": "Perfect, dinner will be ready by then.",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 7, "month": 5, "year": 2023, "hour": 14, "minute": 15 },
                     "_phoneText": false,
                     "_conversationStops": true
                 }
@@ -120,34 +84,32 @@
                 {
                     "_sender": 1,
                     "_content": "Hey, did you finish your part of the presentation?",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 9, "month": 5, "year": 2023, "hour": 18, "minute": 0 },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "Almost done, just adding the last slides.",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 9, "month": 5, "year": 2023, "hour": 18, "minute": 5 },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 1,
                     "_content": "Awesome, send it over when you're done so I can review it.",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 9, "month": 5, "year": 2023, "hour": 18, "minute": 10 },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "Will do in 10 minutes!",
-                    "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
+                    "_timestamp": { "day": 9, "month": 5, "year": 2023, "hour": 18, "minute": 12 },
                     "_phoneText": false,
                     "_conversationStops": true
                 }
             ]
         }
     ]
-
-
 }

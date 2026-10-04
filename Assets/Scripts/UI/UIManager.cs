@@ -26,12 +26,12 @@ public class UIManager : MonoBehaviour
 
             if (_menuAction == null)
             {
-                Debug.LogError("[UIManager] No se encontró la acción 'Menu' en el PlayerInput.");
+                Debug.LogError("[UIManager] Couldn't find the 'Menu' action in the PlayerInput.");
             }
         }
         else
         {
-            Debug.LogError("[UIManager] Falta asignar la referencia del PlayerInput en el Inspector.");
+            Debug.LogError("[UIManager] Need to assign the PlayerInput reference in the Inspector.");
         }
     }
 
@@ -57,11 +57,18 @@ public class UIManager : MonoBehaviour
             Debug.Log("[UIManager] Resuming the game.");
             ResumeGame();
         }
+
+        // Force sync the UI state just in case something else touched it
+        if (_pauseMenuPanel != null)
+        {
+            _pauseMenuPanel.SetActive(_isPaused);
+        }
     }
 
     private void PauseGame()
     {
         _pauseMenuPanel.SetActive(true);
+        Time.timeScale = 0f;
 
         if (_playerController != null)
         {

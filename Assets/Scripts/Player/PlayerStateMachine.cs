@@ -44,7 +44,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void SetPhoneOpen(bool isOpen)
     {
-        Debug.Log($"Setting phone open state to: {isOpen}");
         _isPhoneOpen = isOpen;
     }
 

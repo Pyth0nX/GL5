@@ -1,0 +1,25 @@
+{
+    "objectives": [
+        {
+            "id": "tutorial_1",
+            "description": "Interact with your bed.",
+            "targetCount": 1,
+            "eventToListen": "BedInteracted",
+            "eventOnComplete": "TutorialBedCompleted"
+        },
+        {
+            "id": "tutorial_2",
+            "description": "Check your toothbrush 3 times.",
+            "targetCount": 3,
+            "eventToListen": "ToothbrushInteracted",
+            "eventOnComplete": "SchoolUnlocked"
+        },
+        {
+            "id": "go_to_school",
+            "description": "Go to the institute.",
+            "targetCount": 1,
+            "eventToListen": "ArrivedAtSchool",
+            "eventOnComplete": ""
+        }
+    ]
+}

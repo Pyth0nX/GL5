@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _phoneUI;
 
     [Header("Settings")]
+    [Tooltip("Player Name")]
+    [SerializeField] private string _playerName = "Luna";
+
     [Tooltip("Movement Speed")]
     [SerializeField] private float _movementSpeed = 5f;
     [Tooltip("Mouse Sensitivity")]
@@ -132,15 +135,22 @@ public class PlayerController : MonoBehaviour
             if (isInteractable)
             {
                 // Handle interaction with the hit object
-                if(hitObject.GetComponent<NPCData>() != null)
+                IInteractable interactable = hitObject.GetComponent<IInteractable>();
+                if(interactable != null)
                 {
-                    hitObject.GetComponent<NPCData>().Interact();
+                    interactable.Interact();
                     _playerStateMachine.ChangeState(PlayerState.Interacting);
                 }
 
             }
         }
     }
+
+    public string GetPlayerName()
+    {
+        return _playerName;
+    }
+
     public void LockMouse()
     {
         Cursor.lockState = CursorLockMode.Locked;

@@ -26,19 +26,27 @@ public class MessagesUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // Removed bad logic calling CreateMessages every frame
     }
 
 
    
 
-    /// <summary>
-    /// Add a new contact element to the contacts container
-    /// </summary>
-    /// <param name="contact"></param>
     public void AddContact(Contact contact)
     {
         InstantiateContact(contact);
+    }
+
+    /// <summary>
+    /// Refresh the contacts list in the UI
+    /// </summary>
+    public void RefreshContacts()
+    {
+        for (int i = contactListContainer.childCount - 1; i >= 0; i--)
+        {
+            Destroy(contactListContainer.GetChild(i).gameObject);
+        }
+        CreateContacts();
     }
 
     /// <summary>

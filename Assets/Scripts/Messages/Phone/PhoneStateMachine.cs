@@ -22,32 +22,35 @@ public class PhoneStateMachine : MonoBehaviour
 
     [Header("Buttons")]
     [SerializeField]
-    private PhoneTabButton backButton;
+    private PhoneTabButton _backButton;
 
     [SerializeField]
-    private PhoneTabButton homeButton;
+    private PhoneTabButton _homeButton;
 
     [SerializeField]
-    private PhoneTabButton tabButton;
+    private PhoneTabButton _tabButton;
 
 
     [Header("Tabs")]
     [SerializeField]
-    private GameObject startTab;
+    private GameObject _startTab;
     [SerializeField]
-    private GameObject contactsTab;
+    private GameObject _contactsTab;
 
     [SerializeField]
-    private GameObject messagingTab;
+    private GameObject _messagingTab;
 
     [SerializeField]
-    private GameObject galleryTab;
+    private GameObject _galleryTab;
 
     [SerializeField]
-    private GameObject emailTab;
+    private GameObject _emailTab;
 
     [SerializeField]
-    private GameObject decisionsTab;
+    private GameObject _decisionsTab;
+
+    [SerializeField]
+    private GameObject _dialogueTab;
 
 
     private int _backButtonState = 0; // State to change to when the back button is pressed
@@ -57,7 +60,7 @@ public class PhoneStateMachine : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        backButton.GetComponent<Button>().onClick.AddListener(() => ChangeState(_backButtonState));
+        _backButton.GetComponent<Button>().onClick.AddListener(() => ChangeState(_backButtonState));
     }
 
     // Update is called once per frame
@@ -87,32 +90,37 @@ public class PhoneStateMachine : MonoBehaviour
         switch (_currentState)
         {
             case PhoneState.Idle:
-                backButton.SetTabsToClose(new List<GameObject> { });
-                backButton.SetTabToOpen(null);
+                _backButton.SetTabsToClose(new List<GameObject> { });
+                _backButton.SetTabToOpen(null);
                 _backButtonState = 0;
                 break;
             case PhoneState.Contacts:
-                homeButton.SetTabsToClose(new List<GameObject> { contactsTab });
-                backButton.SetTabsToClose(new List<GameObject> { contactsTab});
-                backButton.SetTabToOpen(startTab);
+                _homeButton.SetTabsToClose(new List<GameObject> { _contactsTab });
+                _backButton.SetTabsToClose(new List<GameObject> { _contactsTab});
+                _backButton.SetTabToOpen(_startTab);
                 _backButtonState = 0;
+                
+                if (MessagesManager.Instance != null && MessagesManager.Instance.GetMessagesUI() != null)
+                {
+                    MessagesManager.Instance.GetMessagesUI().RefreshContacts();
+                }
                 break;
             case PhoneState.Messaging:
-                homeButton.SetTabsToClose(new List<GameObject> { messagingTab });
-                backButton.SetTabsToClose(new List<GameObject> { messagingTab });
-                backButton.SetTabToOpen(contactsTab);
+                _homeButton.SetTabsToClose(new List<GameObject> { _messagingTab });
+                _backButton.SetTabsToClose(new List<GameObject> { _messagingTab });
+                _backButton.SetTabToOpen(_contactsTab);
                 _backButtonState = 2;
                 break;
             case PhoneState.Gallery:
-                homeButton.SetTabsToClose(new List<GameObject> { galleryTab });
-                backButton.SetTabsToClose(new List<GameObject> { galleryTab });
-                backButton.SetTabToOpen(startTab);
+                _homeButton.SetTabsToClose(new List<GameObject> { _galleryTab });
+                _backButton.SetTabsToClose(new List<GameObject> { _galleryTab });
+                _backButton.SetTabToOpen(_startTab);
                 _backButtonState = 0;
                 break;
             case PhoneState.Email:
-                homeButton.SetTabsToClose(new List<GameObject> { emailTab });
-                backButton.SetTabsToClose(new List<GameObject> { emailTab });
-                backButton.SetTabToOpen(startTab);
+                _homeButton.SetTabsToClose(new List<GameObject> { _emailTab });
+                _backButton.SetTabsToClose(new List<GameObject> { _emailTab });
+                _backButton.SetTabToOpen(_startTab);
                 _backButtonState = 0;
                 break;
         }
@@ -121,27 +129,27 @@ public class PhoneStateMachine : MonoBehaviour
     #region Getters
     public GameObject GetStartTab()
     {
-        return startTab;
+        return _startTab;
     }
 
     public GameObject GetContactsTab()
     {
-        return contactsTab;
+        return _contactsTab;
     }
 
     public GameObject GetMessagingTab()
     {
-        return messagingTab;
+        return _messagingTab;
     }
 
     public GameObject GetGalleryTab()
     {
-        return galleryTab;
+        return _galleryTab;
     }
 
     public GameObject GetEmailTab()
     {
-        return emailTab;
+        return _emailTab;
     }
     #endregion
 
@@ -150,8 +158,15 @@ public class PhoneStateMachine : MonoBehaviour
     /// </summary>
     public void ShowDecisionsTab()
     {
-        homeButton.GetTabsToClose().Add(decisionsTab);
-        backButton.GetTabsToClose().Add(decisionsTab);
-        decisionsTab.SetActive(true);
+        _homeButton.GetTabsToClose().Add(_decisionsTab);
+        _backButton.GetTabsToClose().Add(_decisionsTab);
+        _decisionsTab.SetActive(true);
+    }
+
+    public void ShowDialogueTab()
+    {
+        _homeButton.GetTabsToClose().Add(_dialogueTab);
+        _backButton.GetTabsToClose().Add(_dialogueTab);
+        _dialogueTab.SetActive(true);
     }
 }

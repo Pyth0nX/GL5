@@ -1,264 +1,713 @@
 {
-    "narrativeNodes":[
+    "narrativeNodes": [
         {
-            "__id": 0,
-            "_options":[
+            "_id": 0,
+            "_dialogues": [
                 {
-                    "text": "opt1",
-                    "nextNode": 1,
-                    "messagesToSend":[
-                        {
-                        "_sender": 0,
-                        "_content": "I saved all your messages. Let's see what the principal says about these screenshots.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "You think you're so smart, don't you?",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "Delete them right now or you'll regret it.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 0,
-                        "_content": "You're the one who should be worried now.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "Fine. Just keep my name out of this and we're done.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        }
-                    ]
+                    "_sender": 0,
+                    "_content": "Hey, do i know you?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 2 }
                 },
                 {
-                    "text": "opt2",
-                    "nextNode": 2,
-                    "messagesToSend":[
-                        {
-                        "_sender": 0,
-                        "_content": "I'm done listening to you. I'm reporting this number right now.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "Wait, don't do that!",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "It was just a joke, calm down",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 0,
-                        "_content": "For me it wasn't.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 0,
-                        "_content": "I'm blocking you.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "You can't just block me! Hello??.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        }
-                    ]
+                    "_sender": 1,
+                    "_content": "No you don't know me, yet ;) Saw you on that forum about the ‘’Lost Cause’’ book.",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 4 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Ohhh that's cool!! Have you read it yourself? It's a great book.",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 6 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "WAIT. Don't tell me you actually liked that ending?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 8 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "EXCUSE ME??",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 10 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "It was PERFECT",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 12 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "The main character ignored EVERY warning sign",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 14 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "THATS WHAT MADE IT SOOO GOOD",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 16 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Okay u are actually funny",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 18 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "I have to go",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 20 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "i'm gonna be late for class ",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 22 }
                 }
             ],
-            "_dialogueType":1
+            "_dialogueType": 1,
+            "_nextNode": 3,
+            "_hasOptions": false,
+            "_isEndNode": false
         },
         {
-            "_id":1,
-            "_options":[
+            "_id": 1,
+            "_dialogues": [
                 {
-                    "text": "",
-                    "nextNode": 1,
-                    "messagesToSend":[
-                        {
-                        "_sender": 0,
-                        "_content": "I saved all your messages. Let's see what the principal says about these screenshots.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "You think you're so smart, don't you?",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "Delete them right now or you'll regret it.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 0,
-                        "_content": "You're the one who should be worried now.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "Fine. Just keep my name out of this and we're done.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        }
-                    ]
+                    "_sender": 1,
+                    "_content": "Get away freak!",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 24 }
                 },
                 {
-                    "text": "",
-                    "nextNode": 2,
-                    "messagesToSend":[
-                        {
-                        "_sender": 0,
-                        "_content": "I'm done listening to you. I'm reporting this number right now.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "Wait, don't do that!",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "It was just a joke, calm down",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 0,
-                        "_content": "For me it wasn't.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 0,
-                        "_content": "I'm blocking you.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 },
-                        "_phoneText": false,
-                        "_conversationStops": false
-                        },
-                        {
-                        "_sender": 1,
-                        "_content": "You can't just block me! Hello??.",
-                        "_timestamp": { "day": 0, "month": 0, "year": 0, "hour": 0, "minute": 0 }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "_id":4,
-            "_dialogues":[
-                {
-                    "_sender":1,
-                    "_content": "Get away freak!"
-                },
-                {
-                    "_sender":1,
-                    "_content": "Don't ever come near me again!"
+                    "_sender": 1,
+                    "_content": "Don't ever come near me again!",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 26 }
                 }
             ],
-            "_dialogueType":0,
-            "_nextNode":5
+            "_dialogueType": 0,
+            "_isEndNode": true
         },
         {
-            "_id":5,
-            "_options":[
+            "_id": 2,
+            "_dialogues": [
                 {
-                    "text": "hit",
+                    "_sender": 1,
+                    "_content": "Hey, did you see the new assignment?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 28 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Yeah, it looks like it's going to take a while.",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 30 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "We should probably start tonight.",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 32 }
+                }
+            ],
+            "_dialogueType": 1,
+            "_nextNode": -1,
+            "_hasOptions": false,
+            "_isEndNode": false
+        },
+        {
+            "_id": 3,
+            "_dialogues": [
+                {
+                    "_sender": 1,
+                    "_content": "Today was a looooong day",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 34 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "You don't say",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 36 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "What's up? Anything you want to talk about?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 38 }
+                }
+            ],
+            "_dialogueType": 1,
+            "_nextNode": 4,
+            "_hasOptions": false,
+            "_isEndNode": false
+        },
+        {
+            "_id": 4,
+            "_options": [
+                {
+                    "text": "Rough day at school. Don't wanna talk about it..",
+                    "nextNode": 5,
+                    "messagesToSend": []
+                },
+                {
+                    "text": "There's these really mean girls at my school who constantly pick on me…",
                     "nextNode": 6,
-                    "messagesToSend":[
-
-                    ]
-
-                },
-                {
-                    "text": "hug",
-                    "nextNode": 7,
-                    "messagesToSend":[
-                        
-                    ]
+                    "messagesToSend": []
                 }
             ],
-            "_dialogueType":0,
+            "_dialogueType": 1,
             "_hasOptions": true
         },
         {
-            "_id":6,
-            "_dialogues":[
+            "_id": 5,
+            "_dialogues": [
                 {
-                    "_sender":1,
-                    "_content":"AHHHHH"
+                    "_sender": 0,
+                    "_content": "Rough day at school. Don't wanna talk about it..",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 40 }
                 },
                 {
-                    "_sender":1,
-                    "_content": "Why did you do that?"
+                    "_sender": 1,
+                    "_content": "Oh that's okay, what's your favorite book?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 42 }
                 },
                 {
-                    "_sender":1,
-                    "_content": "I'm going to tell the teacher"
+                    "_sender": 0,
+                    "_content": "Probably Lost Cause, but you knew that already hahah",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 44 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Should maybe have guessed that yeah haha",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 46 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "What about you?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 48 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Mine is the same as yours!!",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 50 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "No wayyyy, never met someone with the same taste as me",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 52 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "We should read the next book together when it comes out!",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 54 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "YES, id love that!",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 56 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Its a date ;)",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 16, "minute": 58 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "HAHAHAH, shut up",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 0 }
                 }
             ],
-            "_dialogueType":0,
-            "_isEndNode": true
-            
+            "_dialogueType": 1,
+            "_nextNode": 7,
+            "_hasOptions": false,
+            "_isEndNode": false
         },
         {
-            "_id":7,
-            "_dialogues":[
+            "_id": 6,
+            "_dialogues": [
                 {
-                    "_sender":1,
-                    "_content":"Ughhh"
+                    "_sender": 0,
+                    "_content": "There's these really mean girls at my school who constantly pick on me…",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 2 }
                 },
                 {
-                    "_sender":1,
-                    "_content": "You're a weirdo"
+                    "_sender": 1,
+                    "_content": "Wait what??? What do they do?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 4 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "They just constantly make fun of me. I can't even walk into class without them saying something…",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 6 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Have you told anyone about it?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 8 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Not really, it's not like anyone would care either way",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 10 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Hey, don't say that. I'm here for you.",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 12 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Thanks i guess, im just tired of it",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 14 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Atleast we have eachother!If you ever need someone to talk to you can always reach out to me",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 16 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Thanks, I appreciate it :) Im gonna go to bed now, seeya",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 18 }
                 }
             ],
-            "_dialogueType":0,
+            "_dialogueType": 1,
+            "_nextNode": 7,
+            "_hasOptions": false,
+            "_isEndNode": false
+        },
+        {
+            "_id": 7,
+            "_dialogues": [
+                {
+                    "_sender": 1,
+                    "_content": "GUESS WHOOO",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 22 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Oh god, not you again",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 24 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "WOW okay rude",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 26 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "HAHAHA im kidding",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 28 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Anyways, how was school?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 30 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Horrible as usual",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 32 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Those girls again?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 34 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Yeah...",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 36 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "You know you deserve better than that right?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 38 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Thanks :)",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 40 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Ofc!! You're actually really fun to talk to",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 42 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "HAHAHA you too",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 44 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Can I ask you something?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 46 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Sure?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 48 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "What school do you go to? Maybe we live close to each other HAHAHA",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 50 }
+                }
+            ],
+            "_dialogueType": 1,
+            "_nextNode": 8,
+            "_hasOptions": false,
+            "_isEndNode": false
+        },
+        {
+            "_id": 8,
+            "_options": [
+                {
+                    "text": "Rainfall School, what about you?",
+                    "nextNode": 9,
+                    "messagesToSend": []
+                },
+                {
+                    "text": "Why do you wanna know?",
+                    "nextNode": 10,
+                    "messagesToSend": []
+                }
+            ],
+            "_dialogueType": 1,
+            "_hasOptions": true
+        },
+        {
+            "_id": 9,
+            "_dialogues": [
+                {
+                    "_sender": 0,
+                    "_content": "Rainfall School, what about you?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 52 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "WAIT REALLY???",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 54 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "WHAT HAHAHA",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 56 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "I think I know someone who goes there",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 17, "minute": 58 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "NO WAY WHO?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 0 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Can't remember their name rn HAHAHA",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 2 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Ohhh okay",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 4 }
+                }
+            ],
+            "_dialogueType": 1,
+            "_nextNode": 11,
+            "_hasOptions": false,
+            "_isEndNode": false
+        },
+        {
+            "_id": 10,
+            "_dialogues": [
+                {
+                    "_sender": 0,
+                    "_content": "Why do you wanna know?",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 6 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "HAHAHA just curious, maybe we live close to each other",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 8 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "I'd rather not say yet",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 10 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Ohhh okay, that's fair",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 12 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Sorry if that was weird",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 14 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "HAHAHA you're good",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 16 }
+                }
+            ],
+            "_dialogueType": 1,
+            "_nextNode": 11,
+            "_hasOptions": false,
+            "_isEndNode": false
+        },
+        {
+            "_id": 11,
+            "_options": [
+                {
+                    "text": "Send a flirty photo",
+                    "nextNode": 12,
+                    "messagesToSend": []
+                },
+                {
+                    "text": "Send a photo",
+                    "nextNode": 13,
+                    "messagesToSend": []
+                }
+            ],
+            "_dialogueType": 1,
+            "_hasOptions": true
+        },
+        {
+            "_id": 12,
+            "_dialogues": [
+                {
+                    "_sender": 0,
+                    "_content": "*Sends a flirty selfie*",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 18 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": " ;)",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 20 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Daaaaaamn, you are beautiful!",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 22 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "stooooop.. Ur making me blush",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 24 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": " awwwww i got you to smile!!",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 26 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "*Chat notification: Image saved*",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 28 }
+                }
+            ],
+            "_dialogueType": 1,
+            "_nextNode": 14,
+            "_hasOptions": false,
+            "_isEndNode": false
+        },
+        {
+            "_id": 13,
+            "_dialogues": [
+                {
+                    "_sender": 0,
+                    "_content": "*Sends a normal selfie*",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 30 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "There you gooo",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 32 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "YOU'RE SO PRETTY",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 34 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Thank youuuu",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 36 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "See?? Nothing to be nervous about",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 38 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "hahah i guess so",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 40 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Why did you save that??",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 42 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Just wanted to keep it so i can always remind myself of your beautiful face",
+                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 18, "minute": 44 }
+                }
+            ],
+            "_dialogueType": 1,
+            "_nextNode": 14,
+            "_hasOptions": false,
+            "_isEndNode": false
+        },
+        {
+            "_id": 14,
+            "_dialogues": [
+                {
+                    "_sender": 1,
+                    "_content": "GOOOOOD MORNING BEAUTIFUL",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 32 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "good morninggg",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 34 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Sleep well?",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 36 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Yeahhh, what about you?",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 38 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Pretty good, was thinking about you ;)",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 40 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "HAHAHA stooooop",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 42 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Anyways, excited for school?",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 44 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Not really...",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 46 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Those girls again?",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 48 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Yeah, I just wish they'd leave me alone.",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 50 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Awww, don't worry. I'm sure today will be interesting ;)",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 52 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "What do you mean?",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 54 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Nothingggg HAHAHA",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 56 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "You're so weird",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 7, "minute": 58 }
+                },
+                {
+                    "_sender": 1,
+                    "_content": "You love it",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 8, "minute": 0 }
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Whateverrrr",
+                    "_timestamp": { "day": 11, "month": 5, "year": 2023, "hour": 8, "minute": 2 }
+                }
+            ],
+            "_dialogueType": 1,
+            "_nextNode": -1,
+            "_hasOptions": false,
+            "_isEndNode": true
+        },
+        {
+            "_id": 15,
+            "_dialogues": [
+                {
+                    "_sender": 1,
+                    "_speakerName": "Emma",
+                    "_content": "Oh, look who finally decided to show up."
+                },
+                {
+                    "_sender": 1,
+                    "_speakerName": "Sophie",
+                    "_content": "Did you see what she posted yesterday? What a loser"
+                },
+                {
+                    "_sender": 1,
+                    "_speakerName": "Emma",
+                    "_content": "Imagine actually being that embarrassing"
+                }
+            ],
+            "_dialogueType": 0,
+            "_nextNode": 16,
+            "_hasOptions": false,
+            "_isEndNode": false
+        },
+        {
+            "_id": 16,
+            "_options": [
+                {
+                    "text": "Ask them to move",
+                    "nextNode": 17,
+                    "messagesToSend": []
+                },
+                {
+                    "text": "Go quietly and sit down",
+                    "nextNode": 18,
+                    "messagesToSend": []
+                }
+            ],
+            "_dialogueType": 0,
+            "_hasOptions": true
+        },
+        {
+            "_id": 17,
+            "_dialogues": [
+                {
+                    "_sender": 0,
+                    "_content": "Could you move please?"
+                },
+                {
+                    "_sender": 1,
+                    "_speakerName": "Sophie",
+                    "_content": "Last time i checked the booknerds dont talk, move yourself nerd."
+                }
+            ],
+            "_dialogueType": 0,
+            "_nextNode": -1,
+            "_hasOptions": false,
+            "_isEndNode": true
+        },
+        {
+            "_id": 18,
+            "_dialogues": [],
+            "_dialogueType": 0,
+            "_nextNode": -1,
+            "_hasOptions": false,
             "_isEndNode": true
         }
-        
     ]
 }

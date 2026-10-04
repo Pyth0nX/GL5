@@ -1,68 +1,82 @@
 {
-  "contacts": [
-    {
-      "_contactName": "Alice",
-      "_imagePath": "",
-      "_currentNarrative": 0,
-      "_lastMessageDate": {
-        "day": 0,
-        "month": 0,
-        "year": 0,
-        "hour": 0,
-        "minute": 0
-      }
-    },
-
-    {
-      "_contactName": "Unknown Number",
-      "_imagePath": "",
-      "_currentNarrative": 0,
-      "_lastMessageDate": {
-        "day": 0,
-        "month": 0,
-        "year": 0,
-        "hour": 0,
-        "minute": 0
-      }
-      
-    },
-
-    {
-      "_contactName": "Mom",
-      "_imagePath": "",
-      "_currentNarrative": 0,
-      "_lastMessageDate": {
-        "day": 0,
-        "month": 0,
-        "year": 0,
-        "hour": 0,
-        "minute": 0
-      }
-    },
-
-    {
-      "_contactName": "Mark (History Group)",
-      "_imagePath": "",
-      "_currentNarrative": 0,
-      "_lastMessageDate": {
-        "day": 0,
-        "month": 0,
-        "year": 0,
-        "hour": 0,
-        "minute": 0
-      }
-    },
-    {
-      "_contactName": "Bob",
-      "_imagePath": "",
-      "_currentNarrative": 4,
-      "_lastMessageDate": {
-        "day": 0,
-        "month": 0,
-        "year": 0,
-        "hour": 0,
-        "minute": 0
-      }
-    }
-  ]
+    "contacts": [
+        {
+            "_contactName": "Alice",
+            "_imagePath": "",
+            "_currentNarrative": 20,
+            "_lastMessageDate": {
+                "day": 0,
+                "month": 0,
+                "year": 0,
+                "hour": 0,
+                "minute": 0
+            }
+        },
+        {
+            "_contactName": "Unknown Number",
+            "_imagePath": "",
+            "_currentNarrative": 0,
+            "_lastMessageDate": {
+                "day": 0,
+                "month": 0,
+                "year": 0,
+                "hour": 0,
+                "minute": 0
+            },
+            "_hasNewMessages": true,
+            "_currentMessageIndex": 0
+        },
+        {
+            "_contactName": "Mom",
+            "_imagePath": "",
+            "_currentNarrative": 0,
+            "_lastMessageDate": {
+                "day": 0,
+                "month": 0,
+                "year": 0,
+                "hour": 0,
+                "minute": 0
+            }
+        },
+        {
+            "_contactName": "Mark (History Group)",
+            "_imagePath": "",
+            "_currentNarrative": 2,
+            "_lastMessageDate": {
+                "day": 0,
+                "month": 0,
+                "year": 0,
+                "hour": 0,
+                "minute": 0
+            },
+            "_hasNewMessages": true,
+            "_currentMessageIndex": 0
+        },
+        {
+            "_contactName": "Bob",
+            "_imagePath": "",
+            "_currentNarrative": 1,
+            "_lastMessageDate": {
+                "day": 0,
+                "month": 0,
+                "year": 0,
+                "hour": 0,
+                "minute": 0
+            }
+        },
+        {
+            "_contactName": "Emma",
+            "_imagePath": "",
+            "_currentNarrative": 15,
+            "_lastMessageDate": {
+                "day": 0,
+                "month": 0,
+                "year": 0,
+                "hour": 0,
+                "minute": 0
+            },
+            "_hasNewMessages": false,
+            "_currentMessageIndex": 0
+        }
+    ]
 }
