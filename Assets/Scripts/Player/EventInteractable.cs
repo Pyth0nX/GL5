@@ -1,9 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EventInteractable : MonoBehaviour, IInteractable
 {
-    [Tooltip("The name of the event to publish when this object is interacted with. (e.g. 'BedInteracted')")]
-    [SerializeField] private string _eventNameToPublish;
+    [Tooltip("The names of the events to publish when this object is interacted with. (e.g. 'BedInteracted')")]
+    [SerializeField] private List<string> _eventsToPublish = new List<string>();
 
     [Tooltip("If true, the player state won't be stuck in 'Interacting' because we immediately revert it (useful for instant actions like turning on a light).")]
     [SerializeField] private bool _instantAction = true;
@@ -13,13 +14,13 @@ public class EventInteractable : MonoBehaviour, IInteractable
     [SerializeField] private bool _canInteract = true;
 
     [Tooltip("Optional: Events that enable this interactable (e.g. Day1_End, Day2_End).")]
-    [SerializeField] private System.Collections.Generic.List<string> _enableEvents;
+    [SerializeField] private List<string> _enableEvents = new List<string>();
 
     [Tooltip("Optional: Events that disable this interactable (e.g. Start_Day2, Start_Day3).")]
-    [SerializeField] private System.Collections.Generic.List<string> _disableEvents;
+    [SerializeField] private List<string> _disableEvents = new List<string>();
 
-    [Tooltip("Optional: Event to publish if interacted when disabled (e.g. 'Show_NotTired_Message').")]
-    [SerializeField] private string _disabledEventToPublish;
+    [Tooltip("Optional: Events to publish if interacted when disabled (e.g. 'Show_NotTired_Message').")]
+    [SerializeField] private List<string> _disabledEventsToPublish = new List<string>();
 
     private void Start()
     {
@@ -70,20 +71,32 @@ public class EventInteractable : MonoBehaviour, IInteractable
         if (!_canInteract)
         {
             Debug.Log($"Interaction disabled for {gameObject.name}.");
-            if (!string.IsNullOrEmpty(_disabledEventToPublish))
+            if (_disabledEventsToPublish != null)
             {
-                EventBus.Instance.Publish(_disabledEventToPublish);
+                foreach (var ev in _disabledEventsToPublish)
+                {
+                    if (!string.IsNullOrEmpty(ev))
+                    {
+                        EventBus.Instance.Publish(ev);
+                    }
+                }
             }
             
             if (_instantAction) Invoke(nameof(RevertPlayerState), 0.1f);
             return;
         }
 
-        Debug.Log($"Interacting with EventInteractable. Publishing event: {_eventNameToPublish}");
+        Debug.Log($"Interacting with EventInteractable. Publishing events.");
         
-        if (!string.IsNullOrEmpty(_eventNameToPublish))
+        if (_eventsToPublish != null)
         {
-            EventBus.Instance.Publish(_eventNameToPublish);
+            foreach (var ev in _eventsToPublish)
+            {
+                if (!string.IsNullOrEmpty(ev))
+                {
+                    EventBus.Instance.Publish(ev);
+                }
+            }
         }
 
         if (_instantAction)

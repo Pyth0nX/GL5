@@ -155,6 +155,8 @@ public class PlayerController : MonoBehaviour
                     _playerStateMachine.ChangeState(PlayerState.Interacting);
                     return; // Stop searching after we interact
                 }
+
+
             }
             
             // If we hit a solid object that isn't interactable, we break so we can't interact through walls

@@ -294,6 +294,7 @@ GameObject:
   - component: {fileID: 7134304446646759883}
   - component: {fileID: 6670914328922437688}
   - component: {fileID: 336890412752722364}
+  - component: {fileID: 2529846980692796067}
   m_Layer: 5
   m_Name: School
   m_TagString: Untagged
@@ -427,6 +428,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2529846980692796067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2559520821042242384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbcde2cd411ea345a74fc50907a2bd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventInteractable
+  _eventsToPublish:
+  - Day1_GoToSchool
+  _instantAction: 1
+  _canInteract: 1
+  _enableEvents: []
+  _disableEvents: []
+  _disabledEventsToPublish: []
 --- !u!1 &4264533444843195620
 GameObject:
   m_ObjectHideFlags: 0

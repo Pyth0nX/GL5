@@ -1,19 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DialogueButton : MonoBehaviour
 {
     private Button _button;
+    private float _timer = 0f;
+    private Image _image;
+    private TextMeshProUGUI _textMesh;
 
     void Awake()
     {
         _button = GetComponent<Button>();
+        _image = GetComponent<Image>();
+        _textMesh = GetComponentInChildren<TextMeshProUGUI>();
+        
         _button.onClick.AddListener(OnDialogueButtonPressed);
     }
 
     void Update()
     {
         UpdateButtonVisibility();
+    }
+
+    private void SetVisualsActive(bool active)
+    {
+        if (_image != null) _image.enabled = active;
+        if (_textMesh != null) _textMesh.enabled = active;
+        if (_button != null) _button.interactable = active;
     }
 
     private void UpdateButtonVisibility()
@@ -24,6 +38,7 @@ public class DialogueButton : MonoBehaviour
         Contact currentContact = MessagesManager.Instance.GetCurrentContact();
         if (currentContact == null)
         {
+            SetVisualsActive(false);
             _button.gameObject.SetActive(false);
             return;
         }
@@ -33,21 +48,52 @@ public class DialogueButton : MonoBehaviour
             NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
             if (currentNode != null && currentContact.CurrentMessageIndex() < currentNode.Dialogues().Count)
             {
+                // We keep the GameObject active so Update() continues running
                 _button.gameObject.SetActive(true);
+                
+                Message nextMsg = currentNode.Dialogues()[currentContact.CurrentMessageIndex()];
+                if (nextMsg.Sender() == Sender.NPC)
+                {
+                    // It's the NPC's turn. Hide the button visually and wait 1 second.
+                    SetVisualsActive(false);
+                    
+                    _timer += Time.deltaTime;
+                    if (_timer >= 2f)
+                    {
+                        _timer = 0f;
+                        SendNextMessage();
+                    }
+                }
+                else
+                {
+                    // It's the Player's turn. Show the button, wait for click.
+                    SetVisualsActive(true);
+                    _timer = 0f;
+                }
             }
             else
             {
+                SetVisualsActive(false);
                 _button.gameObject.SetActive(false);
                 currentContact.SetHasNewMessages(false);
             }
         }
         else
         {
+            SetVisualsActive(false);
             _button.gameObject.SetActive(false);
         }
     }
 
     private void OnDialogueButtonPressed()
+    {
+        if (_button.interactable)
+        {
+            SendNextMessage();
+        }
+    }
+
+    private void SendNextMessage()
     {
         if (MessagesManager.Instance == null)
             return;
@@ -70,6 +116,7 @@ public class DialogueButton : MonoBehaviour
                     {
                         currentContact.SetHasNewMessages(false);
                         _button.gameObject.SetActive(false);
+                        SetVisualsActive(false);
                         
                         if (!currentNode.HasOptions())
                         {

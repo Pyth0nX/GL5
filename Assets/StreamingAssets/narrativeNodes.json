@@ -391,35 +391,39 @@
                 {
                     "text": "Rough day at school. Don't wanna talk about it..",
                     "nextNode": 7,
-                    "messagesToSend": [{
-                        "_content": "Rough day at school. Don't wanna talk about it..",
-                        "_sender": 0,
-                        "_speakerName": "",
-                        "_timestamp": {
-                        "day": 1,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 32
-                    
-                    }}],
+                    "messagesToSend": [
+                        {
+                            "_content": "Rough day at school. Don't wanna talk about it..",
+                            "_sender": 0,
+                            "_speakerName": "",
+                            "_timestamp": {
+                                "day": 1,
+                                "month": 10,
+                                "year": 2026,
+                                "hour": 15,
+                                "minute": 32
+                            }
+                        }
+                    ],
                     "eventToPublish": ""
                 },
                 {
                     "text": "There's these really mean girls at my school who constantly pick on me...",
                     "nextNode": 8,
-                    "messagesToSend": [{
-                        "_content": "There's these really mean girls at my school who constantly pick on me...",
-                        "_sender": 0,
-                        "_speakerName": "",
-                        "_timestamp": {
-                        "day": 1,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 32
-                    
-                    }}],
+                    "messagesToSend": [
+                        {
+                            "_content": "There's these really mean girls at my school who constantly pick on me...",
+                            "_sender": 0,
+                            "_speakerName": "",
+                            "_timestamp": {
+                                "day": 1,
+                                "month": 10,
+                                "year": 2026,
+                                "hour": 15,
+                                "minute": 32
+                            }
+                        }
+                    ],
                     "eventToPublish": ""
                 }
             ],
@@ -559,7 +563,7 @@
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day1_End"
+            "_eventOnEnd": "Day1_NightConvo_End"
         },
         {
             "_id": 8,
@@ -667,7 +671,7 @@
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day1_End"
+            "_eventOnEnd": "Day1_NightConvo_End"
         },
         {
             "_id": 9,
@@ -1002,7 +1006,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1014,7 +1018,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1026,7 +1030,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1038,7 +1042,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1050,7 +1054,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1062,7 +1066,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1074,7 +1078,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1086,7 +1090,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1098,7 +1102,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1110,7 +1114,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1122,7 +1126,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1134,7 +1138,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1146,7 +1150,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1158,7 +1162,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1170,7 +1174,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1218,7 +1222,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1230,7 +1234,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1242,7 +1246,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1254,7 +1258,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1266,7 +1270,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1278,7 +1282,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1290,7 +1294,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1314,7 +1318,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1326,7 +1330,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1338,7 +1342,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1350,7 +1354,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1362,7 +1366,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1374,7 +1378,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1422,7 +1426,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1434,7 +1438,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1446,7 +1450,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1458,7 +1462,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1470,7 +1474,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1494,7 +1498,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1506,7 +1510,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1518,7 +1522,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1530,7 +1534,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1542,7 +1546,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
@@ -1554,7 +1558,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 16,
@@ -1566,7 +1570,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 16,
@@ -1578,7 +1582,7 @@
                     "_sender": 0,
                     "_speakerName": "",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 16,
@@ -1590,7 +1594,7 @@
                     "_sender": 1,
                     "_speakerName": "Unknown Number",
                     "_timestamp": {
-                        "day": 2,
+                        "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 16,

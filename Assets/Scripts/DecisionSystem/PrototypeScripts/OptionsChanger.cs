@@ -45,11 +45,12 @@ public class OptionsChanger : MonoBehaviour
             EventBus.Instance.Publish(selectedOption.eventToPublish);
         }
 
+        DialogueType lastType = _currentNode.DialogueType();
         Contact contact = MessagesManager.Instance.GetCurrentContact();
         contact.SetNarrativeNode(selectedOption.nextNode);
         contact.SetCurrentMessageIndex(0);
 
-        if(_currentNode.DialogueType() == DialogueType.PHONE)
+        if(lastType == DialogueType.PHONE)
         {
             foreach (var message in selectedOption.messagesToSend)
             {
@@ -74,7 +75,11 @@ public class OptionsChanger : MonoBehaviour
 
         if (_currentNode == null || !_currentNode.HasOptions())
         {
-            ActiveDecisionsPanel(false);
+            _decisionsPanel.SetActive(false);
+            if (lastType == DialogueType.IN_PERSON)
+            {
+                _playerController.LockMouse();
+            }
             return;
         }
 

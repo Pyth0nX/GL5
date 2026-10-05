@@ -2016,6 +2016,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 416939315}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &463628402 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2529846980692796067, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
+  m_PrefabInstance: {fileID: 1617084897}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbcde2cd411ea345a74fc50907a2bd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventInteractable
 --- !u!1 &466485799
 GameObject:
   m_ObjectHideFlags: 0
@@ -2986,17 +2997,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbcde2cd411ea345a74fc50907a2bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EventInteractable
-  _eventNameToPublish: SleepTransition
+  _eventsToPublish:
+  - SleepTransition
+  - Day1_End
   _instantAction: 1
   _canInteract: 0
   _enableEvents:
-  - Day1_End
+  - Day1_NightConvo_End
   - Day2_End
   _disableEvents:
   - Start_Day1
   - Start_Day2
   - Start_Day3
-  _disabledEventToPublish: 
+  _disabledEventsToPublish: []
 --- !u!1 &699230905
 GameObject:
   m_ObjectHideFlags: 0
@@ -5818,6 +5831,34 @@ PrefabInstance:
     - target: {fileID: 218859588585478609, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 336890412752722364, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 336890412752722364, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 336890412752722364, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 463628402}
+    - target: {fileID: 336890412752722364, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 336890412752722364, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Interact
+      objectReference: {fileID: 0}
+    - target: {fileID: 336890412752722364, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: EventInteractable, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 336890412752722364, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8177033869105385255, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
       propertyPath: m_Name

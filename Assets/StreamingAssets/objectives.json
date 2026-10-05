@@ -23,7 +23,14 @@
         },
         {
             "id": "day1_home",
-            "description": "Go home and check your PC/phone.",
+            "description": "Go home and check your phone.",
+            "targetCount": 1,
+            "eventToListen": "Day1_NightConvo_End",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day1_sleep",
+            "description": "Go to sleep.",
             "targetCount": 1,
             "eventToListen": "Day1_End",
             "eventOnComplete": ""
@@ -37,7 +44,7 @@
         },
         {
             "id": "day2_class",
-            "description": "Go to class.",
+            "description": "Talk to Emma.",
             "targetCount": 1,
             "eventToListen": "Day2_ClassroomEncounterEnd",
             "eventOnComplete": ""

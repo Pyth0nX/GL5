@@ -84,6 +84,8 @@ public class DialogueManager : MonoBehaviour
 
         _dialogueBox.SetActive(true);
         _playerController.DisableMovement();
+        _playerController.DisableLook();
+        
         if (currentNode.HasOptions())
         {
             MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(currentNode);
@@ -136,6 +138,7 @@ public class DialogueManager : MonoBehaviour
         {
             _dialogueBox.SetActive(false);
             _playerController.EnableMovement();
+            _playerController.EnableLook();
         }
         _currentDialogueIndex = 0;
         _currentDialogues = null;
