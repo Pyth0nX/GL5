@@ -120,29 +120,45 @@ public class PlayerController : MonoBehaviour
 
     public void DetectInteractable()
     {
-
         Vector3 origin = _playerCamera.transform.position;
         Vector3 dir = _playerCamera.transform.forward;
 
-        RaycastHit hit;
-            
-        if (Physics.Raycast(origin, dir, out hit, _interactDistance))
+        // Draw a line in the Scene view for 2 seconds so you can see where you are aiming
+        Debug.DrawRay(origin, dir * _interactDistance, Color.red, 2f);
+
+        // We use RaycastAll to avoid the ray being blocked by invisible triggers or the player's own capsule
+        RaycastHit[] hits = Physics.RaycastAll(origin, dir, _interactDistance);
+        
+        // Sort hits by distance to get the closest one first
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (RaycastHit hit in hits)
         {
             GameObject hitObject = hit.collider.gameObject;
-            var isInteractable = hitObject.tag.StartsWith("Interactable");
-            Debug.Log("Hit: " + hitObject);
 
-            if (isInteractable)
+            // Ignore the player itself
+            if (hitObject == gameObject || hitObject.transform.root == transform.root) continue;
+            // Ignore trigger colliders (like zones)
+            if (hit.collider.isTrigger) continue;
+
+            // Check if the object or any of its parents has the tag
+            bool hasTag = hitObject.tag.StartsWith("Interactable") || 
+                         (hitObject.transform.parent != null && hitObject.transform.parent.tag.StartsWith("Interactable"));
+
+            if (hasTag)
             {
-                // Handle interaction with the hit object
-                IInteractable interactable = hitObject.GetComponent<IInteractable>();
+                // GetComponentInParent searches the object and its parents for the script
+                IInteractable interactable = hitObject.GetComponentInParent<IInteractable>();
                 if(interactable != null)
                 {
                     interactable.Interact();
                     _playerStateMachine.ChangeState(PlayerState.Interacting);
+                    return; // Stop searching after we interact
                 }
-
             }
+            
+            // If we hit a solid object that isn't interactable, we break so we can't interact through walls
+            break;
         }
     }
 

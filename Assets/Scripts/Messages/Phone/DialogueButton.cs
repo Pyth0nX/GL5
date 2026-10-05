@@ -70,6 +70,30 @@ public class DialogueButton : MonoBehaviour
                     {
                         currentContact.SetHasNewMessages(false);
                         _button.gameObject.SetActive(false);
+                        
+                        if (!currentNode.HasOptions())
+                        {
+                            if (!string.IsNullOrEmpty(currentNode.EventOnEnd()))
+                            {
+                                EventBus.Instance.Publish(currentNode.EventOnEnd());
+                            }
+                            
+                            currentContact.SetNarrativeNode(currentNode.NextNode());
+                            currentContact.SetCurrentMessageIndex(0);
+                            
+                            // Check if the new node has messages to immediately allow reading them
+                            NarrativeNode next = MessagesManager.Instance.GetCurrentContactNarrativeNode();
+                            if (next != null && next.Dialogues().Count > 0)
+                            {
+                                currentContact.SetHasNewMessages(true);
+                            }
+                        }
+                        else
+                        {
+                            // Show options panel
+                            MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(currentNode);
+                            MessagesManager.Instance.GetOptionsChanger().ActiveDecisionsPanel(true);
+                        }
                     }
                 }
             }

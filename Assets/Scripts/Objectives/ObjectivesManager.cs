@@ -25,26 +25,27 @@ public class ObjectivesManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            // Load objectives early so UI can access them in Start
+            _allObjectives = DataLoader.LoadObjectives(_objectivesFileName);
         }
         else
         {
             Destroy(gameObject);
         }
     }
-
-    private void Start()
+    
+    public Objective GetCurrentObjective()
     {
-        _allObjectives = DataLoader.LoadObjectives(_objectivesFileName);
-        
-        if (_allObjectives != null && _allObjectives.Count > 0)
-        {
-            SubscribeToCurrentObjective();
-        }
-        else
-        {
-            Debug.LogWarning("[ObjectivesManager] No objectives loaded.");
-        }
+        if (_allObjectives == null || _currentObjectiveIndex >= _allObjectives.Count) return null;
+        return _allObjectives[_currentObjectiveIndex];
     }
+    
+    public int GetCurrentProgress()
+    {
+        return _currentProgress;
+    }
+
 
     private void SubscribeToCurrentObjective()
     {
@@ -128,12 +129,22 @@ public class ObjectivesManager : MonoBehaviour
         ForceSetObjective(objectiveId);
     }
 
-    private void OnEnable()
+    private void Start()
     {
         EventBus.Instance.Subscribe("ForceSetObjective", (Action<string>)ForceSetObjectiveEvent);
+        
+        // Data is now loaded in Awake()
+        if (_allObjectives != null && _allObjectives.Count > 0)
+        {
+            SubscribeToCurrentObjective();
+        }
+        else
+        {
+            Debug.LogWarning("[ObjectivesManager] No objectives loaded.");
+        }
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (EventBus.Instance != null)
         {

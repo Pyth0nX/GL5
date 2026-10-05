@@ -38,8 +38,13 @@ public class NarrativeNode
     [SerializeField]
     private bool _hasOptions = false; // Whether this node has options to choose from or not
 
+    [SerializeField]
+    private string _eventOnEnd; // Event to fire when this node's dialogue finishes
+
     #region Getters
     public int ID() { return _id; }
+
+    public string EventOnEnd() { return _eventOnEnd; }
 
     public int NextNode() { return _nextNode; }
     
@@ -64,4 +69,5 @@ public struct Option
     public int nextNode;
 
     public Message[] messagesToSend;
+    public string eventToPublish; // Optional event to publish when this option is chosen
 }

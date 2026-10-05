@@ -124,6 +124,12 @@ public class DialogueManager : MonoBehaviour
         _currentDialogueIndex = 0;
         _currentDialogues = null;
         NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
+        
+        if (!string.IsNullOrEmpty(currentNode.EventOnEnd()))
+        {
+            EventBus.Instance.Publish(currentNode.EventOnEnd());
+        }
+
         MessagesManager.Instance.GetCurrentContact().SetNarrativeNode(currentNode.NextNode());
         currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
         if (currentNode != null && currentNode.HasOptions())

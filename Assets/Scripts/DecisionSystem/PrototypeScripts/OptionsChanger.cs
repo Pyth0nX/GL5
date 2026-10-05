@@ -19,11 +19,6 @@ public class OptionsChanger : MonoBehaviour
     [SerializeField]
     private PlayerController _playerController;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        UpdateButtonsTexts();
-    }
 
     /// <summary>
     /// Update the buttons texts with the current node info
@@ -44,6 +39,12 @@ public class OptionsChanger : MonoBehaviour
     public void ChangeOptions(int selectedOptionId)
     {
         Option selectedOption =  _currentNode.Options()[selectedOptionId];
+        
+        if (!string.IsNullOrEmpty(selectedOption.eventToPublish))
+        {
+            EventBus.Instance.Publish(selectedOption.eventToPublish);
+        }
+
         MessagesManager.Instance.GetCurrentContact().SetNarrativeNode(selectedOption.nextNode);
         if(_currentNode.DialogueType() == DialogueType.PHONE)
         {
@@ -64,13 +65,16 @@ public class OptionsChanger : MonoBehaviour
             return;
         }
 
-        UpdateButtonsTexts();
+        if(_currentNode != null && _currentNode.HasOptions())
+        {
+            UpdateButtonsTexts();
+        }
     }
 
     public void SetCurrentNode(NarrativeNode node)
     {
         _currentNode = node;
-        if(_currentNode != null)
+        if(_currentNode != null && _currentNode.HasOptions())
         {
             UpdateButtonsTexts();
         }

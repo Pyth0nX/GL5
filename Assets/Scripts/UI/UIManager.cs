@@ -49,12 +49,10 @@ public class UIManager : MonoBehaviour
 
         if (_isPaused)
         {
-            Debug.Log("[UIManager] Pausing the game.");
             PauseGame();
         }
         else
         {
-            Debug.Log("[UIManager] Resuming the game.");
             ResumeGame();
         }
 

@@ -90,11 +90,13 @@ public class PhoneStateMachine : MonoBehaviour
         switch (_currentState)
         {
             case PhoneState.Idle:
+                Debug.Log("[PhoneStateMachine] Idle state entered.");
                 _backButton.SetTabsToClose(new List<GameObject> { });
                 _backButton.SetTabToOpen(null);
                 _backButtonState = 0;
                 break;
             case PhoneState.Contacts:
+                Debug.Log("[PhoneStateMachine] Contacts state entered. Refreshing contacts UI.");
                 _homeButton.SetTabsToClose(new List<GameObject> { _contactsTab });
                 _backButton.SetTabsToClose(new List<GameObject> { _contactsTab});
                 _backButton.SetTabToOpen(_startTab);
@@ -106,12 +108,14 @@ public class PhoneStateMachine : MonoBehaviour
                 }
                 break;
             case PhoneState.Messaging:
+                Debug.Log("[PhoneStateMachine] Messaging state entered. Refreshing messages UI.");
                 _homeButton.SetTabsToClose(new List<GameObject> { _messagingTab });
                 _backButton.SetTabsToClose(new List<GameObject> { _messagingTab });
                 _backButton.SetTabToOpen(_contactsTab);
                 _backButtonState = 2;
                 break;
             case PhoneState.Gallery:
+                Debug.Log("[PhoneStateMachine] Gallery state entered.");
                 _homeButton.SetTabsToClose(new List<GameObject> { _galleryTab });
                 _backButton.SetTabsToClose(new List<GameObject> { _galleryTab });
                 _backButton.SetTabToOpen(_startTab);

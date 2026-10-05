@@ -8,8 +8,77 @@ public class EventInteractable : MonoBehaviour, IInteractable
     [Tooltip("If true, the player state won't be stuck in 'Interacting' because we immediately revert it (useful for instant actions like turning on a light).")]
     [SerializeField] private bool _instantAction = true;
 
+    [Header("Conditions")]
+    [Tooltip("Can this object be interacted with right now?")]
+    [SerializeField] private bool _canInteract = true;
+
+    [Tooltip("Optional: Events that enable this interactable (e.g. Day1_End, Day2_End).")]
+    [SerializeField] private System.Collections.Generic.List<string> _enableEvents;
+
+    [Tooltip("Optional: Events that disable this interactable (e.g. Start_Day2, Start_Day3).")]
+    [SerializeField] private System.Collections.Generic.List<string> _disableEvents;
+
+    [Tooltip("Optional: Event to publish if interacted when disabled (e.g. 'Show_NotTired_Message').")]
+    [SerializeField] private string _disabledEventToPublish;
+
+    private void Start()
+    {
+        if (_enableEvents != null)
+        {
+            foreach (var ev in _enableEvents)
+            {
+                if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, EnableInteraction);
+            }
+        }
+        
+        if (_disableEvents != null)
+        {
+            foreach (var ev in _disableEvents)
+            {
+                if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, DisableInteraction);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (EventBus.Instance != null)
+        {
+            if (_enableEvents != null)
+            {
+                foreach (var ev in _enableEvents)
+                {
+                    if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Unsubscribe(ev, EnableInteraction);
+                }
+            }
+            
+            if (_disableEvents != null)
+            {
+                foreach (var ev in _disableEvents)
+                {
+                    if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Unsubscribe(ev, DisableInteraction);
+                }
+            }
+        }
+    }
+
+    public void EnableInteraction() => _canInteract = true;
+    public void DisableInteraction() => _canInteract = false;
+
     public void Interact()
     {
+        if (!_canInteract)
+        {
+            Debug.Log($"Interaction disabled for {gameObject.name}.");
+            if (!string.IsNullOrEmpty(_disabledEventToPublish))
+            {
+                EventBus.Instance.Publish(_disabledEventToPublish);
+            }
+            
+            if (_instantAction) Invoke(nameof(RevertPlayerState), 0.1f);
+            return;
+        }
+
         Debug.Log($"Interacting with EventInteractable. Publishing event: {_eventNameToPublish}");
         
         if (!string.IsNullOrEmpty(_eventNameToPublish))
@@ -19,17 +88,7 @@ public class EventInteractable : MonoBehaviour, IInteractable
 
         if (_instantAction)
         {
-            // The PlayerController sets the state to Interacting automatically after calling this.
-            // If it's an instant action (no dialogue), we should tell the player to revert to Idle.
-            PlayerStateMachine playerState = FindAnyObjectByType<PlayerStateMachine>();
-            if (playerState != null)
-            {
-                // We delay by 1 frame or just set it back immediately. 
-                // Actually, the PlayerController sets it AFTER calling this method.
-                // So we can use a small Coroutine or just let the user handle state reset via another script.
-                // For safety, let's just use an Invoke to reset it next frame.
-                Invoke(nameof(RevertPlayerState), 0.1f);
-            }
+            Invoke(nameof(RevertPlayerState), 0.1f);
         }
     }
 

@@ -1,24 +1,108 @@
 {
     "objectives": [
         {
-            "id": "tutorial_1",
-            "description": "Interact with your bed.",
+            "id": "day1_wake",
+            "description": "Check your phone notifications.",
             "targetCount": 1,
-            "eventToListen": "BedInteracted",
-            "eventOnComplete": "TutorialBedCompleted"
+            "eventToListen": "Day1_Convo1_End",
+            "eventOnComplete": ""
         },
         {
-            "id": "tutorial_2",
-            "description": "Check your toothbrush 3 times.",
+            "id": "day1_school",
+            "description": "Go to school.",
+            "targetCount": 1,
+            "eventToListen": "Day1_GoToSchool",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day1_locker",
+            "description": "Get your books from your locker.",
+            "targetCount": 1,
+            "eventToListen": "Day1_LockerEncounterEnd",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day1_home",
+            "description": "Go home and check your PC/phone.",
+            "targetCount": 1,
+            "eventToListen": "Day1_End",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day2_wake",
+            "description": "Check your phone notifications.",
+            "targetCount": 1,
+            "eventToListen": "Day2_Convo1_End",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day2_class",
+            "description": "Go to class.",
+            "targetCount": 1,
+            "eventToListen": "Day2_ClassroomEncounterEnd",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day2_home",
+            "description": "Go home and rest.",
+            "targetCount": 1,
+            "eventToListen": "Day2_End",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day3_wake",
+            "description": "Check your phone notifications.",
+            "targetCount": 1,
+            "eventToListen": "Day3_Convo1_End",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day3_ready",
+            "description": "Get ready for school (Bookshelf, Laptop, Bag).",
             "targetCount": 3,
-            "eventToListen": "ToothbrushInteracted",
-            "eventOnComplete": "SchoolUnlocked"
+            "eventToListen": "Day3_PrepItem",
+            "eventOnComplete": "Day3_ReadyToLeave"
         },
         {
-            "id": "go_to_school",
-            "description": "Go to the institute.",
+            "id": "day3_leave",
+            "description": "Leave your bedroom.",
             "targetCount": 1,
-            "eventToListen": "ArrivedAtSchool",
+            "eventToListen": "Day3_GoToSchool",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day3_school",
+            "description": "Go to class.",
+            "targetCount": 1,
+            "eventToListen": "Day3_School_End",
+            "eventOnComplete": "Day3_RunAway"
+        },
+        {
+            "id": "day3_escape",
+            "description": "Get away from Emma and Sophie!",
+            "targetCount": 1,
+            "eventToListen": "Day3_ArrivedHome",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day3_phone_1",
+            "description": "Check your phone notifications.",
+            "targetCount": 1,
+            "eventToListen": "Day3_Unknown_End",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day3_phone_2",
+            "description": "Check your phone notifications.",
+            "targetCount": 1,
+            "eventToListen": "Day3_EmmaText_End",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day3_finale",
+            "description": "Make a decision.",
+            "targetCount": 1,
+            "eventToListen": "Game_Completed",
             "eventOnComplete": ""
         }
     ]

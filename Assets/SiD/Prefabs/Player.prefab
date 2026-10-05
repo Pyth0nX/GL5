@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _moveAction:
-    m_Name: 
+    m_Name: Move
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: d20e1a59-1a47-46b5-96ca-65813ded097b
@@ -307,7 +307,7 @@ MonoBehaviour:
     m_Flags: 0
     m_Priority: 0
   _lookAction:
-    m_Name: 
+    m_Name: Look
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 1bb60fa8-fcd1-417f-b4e1-17c5398be44c
@@ -317,7 +317,7 @@ MonoBehaviour:
     m_Flags: 0
     m_Priority: 0
   _interactAction:
-    m_Name: 
+    m_Name: Interact
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 23a25f8e-d09e-4e92-8ea4-3cc718586f41
@@ -327,7 +327,7 @@ MonoBehaviour:
     m_Flags: 0
     m_Priority: 0
   _phoneAction:
-    m_Name: 
+    m_Name: Phone
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 305ba771-2c4f-4cdd-89e3-c7fd76ad0c11
@@ -337,8 +337,9 @@ MonoBehaviour:
     m_Flags: 0
     m_Priority: 0
   _phoneUI: {fileID: 0}
+  _playerName: Luna
   _movementSpeed: 5
-  _mouseSensitivity: 5
+  _mouseSensitivity: 1
   _interactDistance: 5
   _verticalClamp: 80
 --- !u!114 &3574411576372292404
