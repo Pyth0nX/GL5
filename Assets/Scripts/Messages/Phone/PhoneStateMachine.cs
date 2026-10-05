@@ -173,4 +173,28 @@ public class PhoneStateMachine : MonoBehaviour
         _backButton.GetTabsToClose().Add(_dialogueTab);
         _dialogueTab.SetActive(true);
     }
+
+    public void CopyReferencesFrom(PhoneStateMachine other)
+    {
+        this._backButton = other._backButton;
+        this._homeButton = other._homeButton;
+        this._tabButton = other._tabButton;
+        
+        this._startTab = other._startTab;
+        this._contactsTab = other._contactsTab;
+        this._messagingTab = other._messagingTab;
+        this._galleryTab = other._galleryTab;
+        this._emailTab = other._emailTab;
+        this._decisionsTab = other._decisionsTab;
+        this._dialogueTab = other._dialogueTab;
+
+        if (this._backButton != null)
+        {
+            this._backButton.GetComponent<Button>().onClick.RemoveAllListeners();
+            this._backButton.GetComponent<Button>().onClick.AddListener(() => ChangeState(this._backButtonState));
+        }
+
+        _currentState = PhoneState.Idle;
+        SetButtonsCallbacks();
+    }
 }

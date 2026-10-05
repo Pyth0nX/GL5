@@ -133,18 +133,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PhoneStateMachine, Assembly-CSharp
-        m_MethodName: ChangeState
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &4933521329525482045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +148,7 @@ MonoBehaviour:
   tabToOpen: {fileID: 657143818532057135}
   tabsToClose:
   - {fileID: 891118975719714065}
+  _targetStateId: 2
 --- !u!1 &454075777912270892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,6 +1512,7 @@ MonoBehaviour:
   tabToOpen: {fileID: 5572264413696622787}
   tabsToClose:
   - {fileID: 891118975719714065}
+  _targetStateId: 3
 --- !u!1 &3329929925024634371
 GameObject:
   m_ObjectHideFlags: 0
@@ -2130,7 +2120,7 @@ GameObject:
   - component: {fileID: 4953132045536784588}
   - component: {fileID: 1621442456479395098}
   m_Layer: 5
-  m_Name: Content
+  m_Name: Contacts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2343,6 +2333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhoneTabButton
   tabToOpen: {fileID: 0}
   tabsToClose: []
+  _targetStateId: -1
 --- !u!1 &4410594562494933282
 GameObject:
   m_ObjectHideFlags: 0
@@ -3358,8 +3349,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e10752f2603364c8141b66311d97a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneTabButton
-  tabToOpen: {fileID: 0}
+  tabToOpen: {fileID: 891118975719714065}
   tabsToClose: []
+  _targetStateId: -1
 --- !u!1 &7622715047849925437
 GameObject:
   m_ObjectHideFlags: 0
@@ -3507,6 +3499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhoneTabButton
   tabToOpen: {fileID: 0}
   tabsToClose: []
+  _targetStateId: -1
 --- !u!1 &7872473987236610302
 GameObject:
   m_ObjectHideFlags: 0

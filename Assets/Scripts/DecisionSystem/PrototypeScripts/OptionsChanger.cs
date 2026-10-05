@@ -45,7 +45,10 @@ public class OptionsChanger : MonoBehaviour
             EventBus.Instance.Publish(selectedOption.eventToPublish);
         }
 
-        MessagesManager.Instance.GetCurrentContact().SetNarrativeNode(selectedOption.nextNode);
+        Contact contact = MessagesManager.Instance.GetCurrentContact();
+        contact.SetNarrativeNode(selectedOption.nextNode);
+        contact.SetCurrentMessageIndex(0);
+
         if(_currentNode.DialogueType() == DialogueType.PHONE)
         {
             foreach (var message in selectedOption.messagesToSend)
@@ -59,6 +62,16 @@ public class OptionsChanger : MonoBehaviour
         }
 
         _currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
+
+        if (_currentNode != null && _currentNode.DialogueType() == DialogueType.PHONE)
+        {
+            if (_currentNode.Dialogues().Count > 0)
+            {
+                contact.SetHasNewMessages(true);
+                MessagesManager.Instance.GetPhoneStateMachine().ShowDialogueTab();
+            }
+        }
+
         if (_currentNode == null || !_currentNode.HasOptions())
         {
             ActiveDecisionsPanel(false);
@@ -90,6 +103,19 @@ public class OptionsChanger : MonoBehaviour
         else
         {
             _playerController.LockMouse();
+        }
+    }
+
+    public void CopyReferencesFrom(OptionsChanger other)
+    {
+        this._decisionsPanel = other._decisionsPanel;
+        this._option1Button = other._option1Button;
+        this._option2Button = other._option2Button;
+        this._playerController = other._playerController;
+        
+        if (this._currentNode != null && this._currentNode.HasOptions())
+        {
+            UpdateButtonsTexts();
         }
     }
 }

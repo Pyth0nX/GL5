@@ -81,11 +81,21 @@ public class DialogueButton : MonoBehaviour
                             currentContact.SetNarrativeNode(currentNode.NextNode());
                             currentContact.SetCurrentMessageIndex(0);
                             
-                            // Check if the new node has messages to immediately allow reading them
                             NarrativeNode next = MessagesManager.Instance.GetCurrentContactNarrativeNode();
-                            if (next != null && next.Dialogues().Count > 0)
+                            if (next != null)
                             {
-                                currentContact.SetHasNewMessages(true);
+                                if (next.Dialogues().Count > 0)
+                                {
+                                    currentContact.SetHasNewMessages(true);
+                                    gameObject.SetActive(true);
+                                    MessagesManager.Instance.GetPhoneStateMachine().ShowDialogueTab();
+                                }
+                                else if (next.HasOptions())
+                                {
+                                    MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(next);
+                                    MessagesManager.Instance.GetOptionsChanger().ActiveDecisionsPanel(true);
+                                    MessagesManager.Instance.GetPhoneStateMachine().ShowDecisionsTab();
+                                }
                             }
                         }
                         else
@@ -93,6 +103,7 @@ public class DialogueButton : MonoBehaviour
                             // Show options panel
                             MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(currentNode);
                             MessagesManager.Instance.GetOptionsChanger().ActiveDecisionsPanel(true);
+                            MessagesManager.Instance.GetPhoneStateMachine().ShowDecisionsTab();
                         }
                     }
                 }

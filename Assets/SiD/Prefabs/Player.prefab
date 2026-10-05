@@ -339,7 +339,7 @@ MonoBehaviour:
   _phoneUI: {fileID: 0}
   _playerName: Luna
   _movementSpeed: 5
-  _mouseSensitivity: 1
+  _mouseSensitivity: 2
   _interactDistance: 5
   _verticalClamp: 80
 --- !u!114 &3574411576372292404

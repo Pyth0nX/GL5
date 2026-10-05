@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3069434280421965302}
   - component: {fileID: 114566730554550006}
   - component: {fileID: 3943810475704600460}
+  - component: {fileID: 3330786319643132578}
   m_Layer: 0
   m_Name: MessagesManager
   m_TagString: Untagged
@@ -47,10 +48,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed096f0d2c1e0f439646709c6effeae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MessagesManager
+  _contactsMessages: []
   _contacts: []
   _narrativeNodes: []
   contactsFilePath: contacts.json
   narrativeNodesFilePath: narrativeNodes.json
+  phoneMessagesFilePath: messages.json
 --- !u!114 &3069434280421965302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,15 +84,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9d759d9a5d2f44cb444efb5cb695bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneStateMachine
-  backButton: {fileID: 0}
-  homeButton: {fileID: 0}
-  tabButton: {fileID: 0}
-  startTab: {fileID: 0}
-  contactsTab: {fileID: 0}
-  messagingTab: {fileID: 0}
-  galleryTab: {fileID: 0}
-  emailTab: {fileID: 0}
-  decisionsTab: {fileID: 0}
+  _backButton: {fileID: 0}
+  _homeButton: {fileID: 0}
+  _tabButton: {fileID: 0}
+  _startTab: {fileID: 0}
+  _contactsTab: {fileID: 0}
+  _messagingTab: {fileID: 0}
+  _galleryTab: {fileID: 0}
+  _emailTab: {fileID: 0}
+  _decisionsTab: {fileID: 0}
+  _dialogueTab: {fileID: 0}
 --- !u!114 &3943810475704600460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,14 +108,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OptionsChanger
   _decisionsPanel: {fileID: 0}
   _currentNode:
-    id: 0
-    options:
+    _id: 0
+    _nextNode: -1
+    _options:
     - text: 
       nextNode: 0
       messagesToSend: []
+      eventToPublish: 
     - text: 
       nextNode: 0
       messagesToSend: []
-  _mainText: {fileID: 0}
+      eventToPublish: 
+    _dialogues: []
+    _isEndNode: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
   _option1Button: {fileID: 0}
   _option2Button: {fileID: 0}
+  _playerController: {fileID: 0}
+--- !u!114 &3330786319643132578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532515411463739525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac8087eaae7455f48b00bd8b9994398a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventNodeUpdater
+  _updateRules:
+  - triggerEventName: Day1_LockerEncounterEnd
+    contactUpdates:
+    - contactName: Unknown Number
+      newNarrativeNodeId: 5
+  - triggerEventName: Start_Day2
+    contactUpdates:
+    - contactName: Unknown Number
+      newNarrativeNodeId: 9
+  - triggerEventName: Day2_Convo1_End
+    contactUpdates:
+    - contactName: Emma
+      newNarrativeNodeId: 10
+  - triggerEventName: Day2_ClassroomEncounterEnd
+    contactUpdates:
+    - contactName: Unkown Number
+      newNarrativeNodeId: 14

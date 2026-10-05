@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChangerObject : MonoBehaviour , IInteractable
+public class MapObject : MonoBehaviour , IInteractable
 {
     [SerializeField]
-    private string _sceneName;
+    private GameObject _map;
 
     [Header("Conditions")]
     [Tooltip("Can this door/object change scenes right now?")]
@@ -82,6 +82,12 @@ public class SceneChangerObject : MonoBehaviour , IInteractable
             return;
         }
 
-        SceneManager.LoadScene(_sceneName);
+        _map.SetActive(true);
+
+        PlayerController player = FindAnyObjectByType<PlayerController>();
+        if (player != null)
+        {
+            player.UnlockMouse();
+        }
     }
 }

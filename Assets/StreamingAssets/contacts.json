@@ -69,6 +69,20 @@
             },
             "_hasNewMessages": false,
             "_currentMessageIndex": 0
+        },
+        {
+            "_contactName": "Bob",
+            "_contactImagePath": "Assets/Sprites/MarkProfile.png",
+            "_currentNarrative": 29,
+            "_lastMessageDate": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 7,
+                "minute": 0
+            },
+            "_hasNewMessages": false,
+            "_currentMessageIndex": 0
         }
     ]
 }

@@ -8,40 +8,64 @@ public struct ContactNodeUpdate
     public int newNarrativeNodeId;
 }
 
+[System.Serializable]
+public struct NodeUpdateRule
+{
+    [Tooltip("The event name to listen for (e.g. 'Day2_Start').")]
+    public string triggerEventName;
+    
+    [Tooltip("The list of contacts and the new narrative nodes they should be set to.")]
+    public List<ContactNodeUpdate> contactUpdates;
+}
+
 public class EventNodeUpdater : MonoBehaviour
 {
-    [Tooltip("The event name to listen for (e.g. 'BedInteracted' or 'ArrivedAtSchool').")]
-    [SerializeField] private string _triggerEventName;
+    [SerializeField] private List<NodeUpdateRule> _updateRules;
 
-    [Tooltip("The list of contacts and the new narrative nodes they should be set to.")]
-    [SerializeField] private List<ContactNodeUpdate> _contactUpdates;
+    private Dictionary<string, System.Action> _subscriptions = new Dictionary<string, System.Action>();
 
     private void Start()
     {
-        if (!string.IsNullOrEmpty(_triggerEventName))
+        if (_updateRules != null)
         {
-            EventBus.Instance.Subscribe(_triggerEventName, ApplyUpdates);
+            foreach (var rule in _updateRules)
+            {
+                if (!string.IsNullOrEmpty(rule.triggerEventName))
+                {
+                    // Local copy for the lambda closure
+                    var ruleCopy = rule;
+                    System.Action action = () => ApplyUpdates(ruleCopy);
+                    
+                    _subscriptions[rule.triggerEventName] = action;
+                    EventBus.Instance.Subscribe(rule.triggerEventName, action);
+                }
+            }
         }
     }
 
     private void OnDestroy()
     {
-        if (!string.IsNullOrEmpty(_triggerEventName) && EventBus.Instance != null)
+        if (EventBus.Instance != null)
         {
-            EventBus.Instance.Unsubscribe(_triggerEventName, ApplyUpdates);
+            foreach (var kvp in _subscriptions)
+            {
+                EventBus.Instance.Unsubscribe(kvp.Key, kvp.Value);
+            }
+            _subscriptions.Clear();
         }
     }
 
-    private void ApplyUpdates()
+    private void ApplyUpdates(NodeUpdateRule rule)
     {
-        Debug.Log($"[EventNodeUpdater] Event '{_triggerEventName}' triggered. Updating { _contactUpdates.Count } contacts.");
+        Debug.Log($"[EventNodeUpdater] Event '{rule.triggerEventName}' triggered. Updating {rule.contactUpdates.Count} contacts.");
         
-        foreach (var update in _contactUpdates)
+        foreach (var update in rule.contactUpdates)
         {
             var contact = MessagesManager.Instance.GetContactByName(update.contactName);
             if (contact != null)
             {
                 contact.SetNarrativeNode(update.newNarrativeNodeId);
+                contact.SetHasNewMessages(true);
                 Debug.Log($"[EventNodeUpdater] Updated {update.contactName} to node {update.newNarrativeNodeId}.");
             }
             else

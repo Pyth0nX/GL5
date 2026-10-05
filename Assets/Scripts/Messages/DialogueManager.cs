@@ -18,7 +18,23 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
+            Instance.CopyReferencesFrom(this);
             Destroy(gameObject);
+            return;
+        }
+    }
+
+    private void CopyReferencesFrom(DialogueManager other)
+    {
+        this._dialogueBox = other._dialogueBox;
+        this._characterNameText = other._characterNameText;
+        this._dialogueText = other._dialogueText;
+        this._playerInput = other._playerInput;
+        this._playerController = other._playerController;
+
+        if (this._playerInput != null)
+        {
+            this._continueDialogue = this._playerInput.actions["ContinueDialogue"];
         }
     }
 

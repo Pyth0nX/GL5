@@ -230,21 +230,8 @@
         },
         {
             "_id": 2,
-            "_nextNode": -1,
-            "_options": [
-                {
-                    "text": "Ask them to move",
-                    "nextNode": 3,
-                    "messagesToSend": [],
-                    "eventToPublish": ""
-                },
-                {
-                    "text": "Go quietly and sit down",
-                    "nextNode": 4,
-                    "messagesToSend": [],
-                    "eventToPublish": ""
-                }
-            ],
+            "_nextNode": 101,
+            "_options": [],
             "_dialogues": [
                 {
                     "_content": "Oh, look who finally decided to show up.",
@@ -261,20 +248,32 @@
                 {
                     "_content": "Did you see what she posted yesterday? What a loser",
                     "_sender": 1,
+                    "_speakerName": "Sophie",
+                    "_timestamp": {
+                        "day": 1,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 8,
+                        "minute": 30
+                    }
+                },
+                {
+                    "_content": "Imagine actually being that embarrassing",
+                    "_sender": 1,
                     "_speakerName": "Emma",
                     "_timestamp": {
                         "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 8,
-                        "minute": 31
+                        "minute": 30
                     }
                 }
             ],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 0,
-            "_hasOptions": true,
+            "_hasOptions": false,
             "_eventOnEnd": ""
         },
         {
@@ -297,13 +296,13 @@
                 {
                     "_content": "Last time i checked the booknerds dont talk, move yourself nerd.",
                     "_sender": 1,
-                    "_speakerName": "Emma",
+                    "_speakerName": "Sophie",
                     "_timestamp": {
                         "day": 1,
                         "month": 10,
                         "year": 2026,
                         "hour": 8,
-                        "minute": 31
+                        "minute": 30
                     }
                 }
             ],
@@ -339,21 +338,8 @@
         },
         {
             "_id": 5,
-            "_nextNode": -1,
-            "_options": [
-                {
-                    "text": "Rough day at school. Don't wanna talk about it..",
-                    "nextNode": 6,
-                    "messagesToSend": [],
-                    "eventToPublish": ""
-                },
-                {
-                    "text": "There's these really mean girls at my school who constantly pick on me...",
-                    "nextNode": 7,
-                    "messagesToSend": [],
-                    "eventToPublish": ""
-                }
-            ],
+            "_nextNode": 6,
+            "_options": [],
             "_dialogues": [
                 {
                     "_content": "Today was a looooong day",
@@ -395,11 +381,56 @@
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 1,
-            "_hasOptions": true,
+            "_hasOptions": false,
             "_eventOnEnd": ""
         },
         {
             "_id": 6,
+            "_nextNode": -1,
+            "_options": [
+                {
+                    "text": "Rough day at school. Don't wanna talk about it..",
+                    "nextNode": 7,
+                    "messagesToSend": [{
+                        "_content": "Rough day at school. Don't wanna talk about it..",
+                        "_sender": 0,
+                        "_speakerName": "",
+                        "_timestamp": {
+                        "day": 1,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 32
+                    
+                    }}],
+                    "eventToPublish": ""
+                },
+                {
+                    "text": "There's these really mean girls at my school who constantly pick on me...",
+                    "nextNode": 8,
+                    "messagesToSend": [{
+                        "_content": "There's these really mean girls at my school who constantly pick on me...",
+                        "_sender": 0,
+                        "_speakerName": "",
+                        "_timestamp": {
+                        "day": 1,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 32
+                    
+                    }}],
+                    "eventToPublish": ""
+                }
+            ],
+            "_isEndNode": false,
+            "_loopNode": -1,
+            "_dialogueType": 1,
+            "_hasOptions": true,
+            "_eventOnEnd": ""
+        },
+        {
+            "_id": 7,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -531,7 +562,7 @@
             "_eventOnEnd": "Day1_End"
         },
         {
-            "_id": 7,
+            "_id": 8,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -639,9 +670,8 @@
             "_eventOnEnd": "Day1_End"
         },
         {
-            "_id": 8,
+            "_id": 9,
             "_nextNode": -1,
-            "_options": [],
             "_dialogues": [
                 {
                     "_content": "GOOOOOD MORNING",
@@ -706,27 +736,14 @@
             ],
             "_isEndNode": true,
             "_loopNode": -1,
-            "_dialogueType": 1,
+            "_dialogueType": 0,
             "_hasOptions": false,
             "_eventOnEnd": "Day2_Convo1_End"
         },
         {
-            "_id": 9,
-            "_nextNode": -1,
-            "_options": [
-                {
-                    "text": "Can you just leave me alone?",
-                    "nextNode": 10,
-                    "messagesToSend": [],
-                    "eventToPublish": ""
-                },
-                {
-                    "text": "Ignore them and walk away.",
-                    "nextNode": 11,
-                    "messagesToSend": [],
-                    "eventToPublish": ""
-                }
-            ],
+            "_id": 10,
+            "_nextNode": 11,
+            "_options": [],
             "_dialogues": [
                 {
                     "_content": "Oh look, it's our favorite little bookworm.",
@@ -737,19 +754,19 @@
                         "month": 10,
                         "year": 2026,
                         "hour": 8,
-                        "minute": 30
+                        "minute": 28
                     }
                 },
                 {
                     "_content": "Did you see her post yesterday? She's actually so embarrassing.",
                     "_sender": 1,
-                    "_speakerName": "Emma",
+                    "_speakerName": "Sophie",
                     "_timestamp": {
                         "day": 2,
                         "month": 10,
                         "year": 2026,
                         "hour": 8,
-                        "minute": 31
+                        "minute": 29
                     }
                 },
                 {
@@ -761,7 +778,19 @@
                         "month": 10,
                         "year": 2026,
                         "hour": 8,
-                        "minute": 32
+                        "minute": 30
+                    }
+                },
+                {
+                    "_content": "*Luna tries to walk past them, but Emma steps in front of her.*",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 8,
+                        "minute": 30
                     }
                 },
                 {
@@ -773,10 +802,34 @@
                         "month": 10,
                         "year": 2026,
                         "hour": 8,
-                        "minute": 33
+                        "minute": 30
                     }
                 }
             ],
+            "_isEndNode": false,
+            "_loopNode": -1,
+            "_dialogueType": 0,
+            "_hasOptions": false,
+            "_eventOnEnd": ""
+        },
+        {
+            "_id": 11,
+            "_nextNode": -1,
+            "_options": [
+                {
+                    "text": "Can you just leave me alone?",
+                    "nextNode": 12,
+                    "messagesToSend": [],
+                    "eventToPublish": ""
+                },
+                {
+                    "text": "Ignore them and walk away.",
+                    "nextNode": 13,
+                    "messagesToSend": [],
+                    "eventToPublish": ""
+                }
+            ],
+            "_dialogues": [],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 0,
@@ -784,7 +837,7 @@
             "_eventOnEnd": ""
         },
         {
-            "_id": 10,
+            "_id": 12,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -815,7 +868,7 @@
                 {
                     "_content": "HAHAHA she's gonna cry.",
                     "_sender": 1,
-                    "_speakerName": "Emma",
+                    "_speakerName": "Sophie",
                     "_timestamp": {
                         "day": 2,
                         "month": 10,
@@ -835,6 +888,18 @@
                         "hour": 8,
                         "minute": 33
                     }
+                },
+                {
+                    "_content": "*Luna walks past them and enters the classroom.*",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 8,
+                        "minute": 34
+                    }
                 }
             ],
             "_isEndNode": true,
@@ -844,14 +909,14 @@
             "_eventOnEnd": "Day2_ClassroomEncounterEnd"
         },
         {
-            "_id": 11,
+            "_id": 13,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
                 {
-                    "_content": "Helloooo? I'm talking to you.",
-                    "_sender": 1,
-                    "_speakerName": "Emma",
+                    "_content": "*Luna ignores Emma and tries to walk past her.*",
+                    "_sender": 0,
+                    "_speakerName": "",
                     "_timestamp": {
                         "day": 2,
                         "month": 10,
@@ -861,7 +926,7 @@
                     }
                 },
                 {
-                    "_content": "She's probably too scared to answer.",
+                    "_content": "Helloooo? I'm talking to you.",
                     "_sender": 1,
                     "_speakerName": "Emma",
                     "_timestamp": {
@@ -873,6 +938,30 @@
                     }
                 },
                 {
+                    "_content": "She's probably too scared to answer.",
+                    "_sender": 1,
+                    "_speakerName": "Sophie",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 8,
+                        "minute": 32
+                    }
+                },
+                {
+                    "_content": "*Emma pushes Luna and her books drop on the floor.*",
+                    "_sender": 1,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 8,
+                        "minute": 33
+                    }
+                },
+                {
                     "_content": "Awwww did you trip? I'm SOOOOOOO sorry.... Hahahha",
                     "_sender": 1,
                     "_speakerName": "Emma",
@@ -881,7 +970,19 @@
                         "month": 10,
                         "year": 2026,
                         "hour": 8,
-                        "minute": 32
+                        "minute": 34
+                    }
+                },
+                {
+                    "_content": "*Luna continues walking and enters the classroom.*",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 8,
+                        "minute": 35
                     }
                 }
             ],
@@ -892,22 +993,9 @@
             "_eventOnEnd": "Day2_ClassroomEncounterEnd"
         },
         {
-            "_id": 12,
-            "_nextNode": -1,
-            "_options": [
-                {
-                    "text": "Rainfall School, what about you?",
-                    "nextNode": 13,
-                    "messagesToSend": [],
-                    "eventToPublish": ""
-                },
-                {
-                    "text": "Why do you wanna know?",
-                    "nextNode": 14,
-                    "messagesToSend": [],
-                    "eventToPublish": ""
-                }
-            ],
+            "_id": 14,
+            "_nextNode": 15,
+            "_options": [],
             "_dialogues": [
                 {
                     "_content": "GUESS WHOOO",
@@ -1093,162 +1181,6 @@
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 1,
-            "_hasOptions": true,
-            "_eventOnEnd": ""
-        },
-        {
-            "_id": 13,
-            "_nextNode": 15,
-            "_options": [],
-            "_dialogues": [
-                {
-                    "_content": "WAIT REALLY???",
-                    "_sender": 1,
-                    "_speakerName": "Unknown Number",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 30
-                    }
-                },
-                {
-                    "_content": "WHAT HAHAHA",
-                    "_sender": 0,
-                    "_speakerName": "",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 31
-                    }
-                },
-                {
-                    "_content": "I think I know someone who goes there",
-                    "_sender": 1,
-                    "_speakerName": "Unknown Number",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 32
-                    }
-                },
-                {
-                    "_content": "NO WAY WHO?",
-                    "_sender": 0,
-                    "_speakerName": "",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 33
-                    }
-                },
-                {
-                    "_content": "Can't remember their name rn HAHAHA",
-                    "_sender": 1,
-                    "_speakerName": "Unknown Number",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 34
-                    }
-                },
-                {
-                    "_content": "Ohhh okay",
-                    "_sender": 0,
-                    "_speakerName": "",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 35
-                    }
-                }
-            ],
-            "_isEndNode": false,
-            "_loopNode": -1,
-            "_dialogueType": 1,
-            "_hasOptions": false,
-            "_eventOnEnd": ""
-        },
-        {
-            "_id": 14,
-            "_nextNode": 15,
-            "_options": [],
-            "_dialogues": [
-                {
-                    "_content": "HAHAHA just curious, maybe we live close to each other",
-                    "_sender": 1,
-                    "_speakerName": "Unknown Number",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 30
-                    }
-                },
-                {
-                    "_content": "I'd rather not say yet",
-                    "_sender": 0,
-                    "_speakerName": "",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 31
-                    }
-                },
-                {
-                    "_content": "Ohhh okay, that's fair",
-                    "_sender": 1,
-                    "_speakerName": "Unknown Number",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 32
-                    }
-                },
-                {
-                    "_content": "Sorry if that was weird",
-                    "_sender": 1,
-                    "_speakerName": "Unknown Number",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 33
-                    }
-                },
-                {
-                    "_content": "HAHAHA you're good",
-                    "_sender": 0,
-                    "_speakerName": "",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 34
-                    }
-                }
-            ],
-            "_isEndNode": false,
-            "_loopNode": -1,
-            "_dialogueType": 1,
             "_hasOptions": false,
             "_eventOnEnd": ""
         },
@@ -1257,16 +1189,16 @@
             "_nextNode": -1,
             "_options": [
                 {
-                    "text": "Send a flirty photo",
+                    "text": "Rainfall School, what about you?",
                     "nextNode": 16,
                     "messagesToSend": [],
-                    "eventToPublish": "SentFlirtyPhoto"
+                    "eventToPublish": ""
                 },
                 {
-                    "text": "Send a normal photo",
+                    "text": "Why do you wanna know?",
                     "nextNode": 17,
                     "messagesToSend": [],
-                    "eventToPublish": "SentNormalPhoto"
+                    "eventToPublish": ""
                 }
             ],
             "_dialogues": [],
@@ -1282,6 +1214,210 @@
             "_options": [],
             "_dialogues": [
                 {
+                    "_content": "Rainfall School, what about you?",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 45
+                    }
+                },
+                {
+                    "_content": "WAIT REALLY???",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 46
+                    }
+                },
+                {
+                    "_content": "WHAT HAHAHA",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 47
+                    }
+                },
+                {
+                    "_content": "I think I know someone who goes there",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 48
+                    }
+                },
+                {
+                    "_content": "NO WAY WHO?",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 49
+                    }
+                },
+                {
+                    "_content": "Can't remember their name rn HAHAHA",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 50
+                    }
+                },
+                {
+                    "_content": "Ohhh okay",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 51
+                    }
+                }
+            ],
+            "_isEndNode": false,
+            "_loopNode": -1,
+            "_dialogueType": 1,
+            "_hasOptions": false,
+            "_eventOnEnd": "ToldSchoolName"
+        },
+        {
+            "_id": 17,
+            "_nextNode": 18,
+            "_options": [],
+            "_dialogues": [
+                {
+                    "_content": "Why do you wanna know?",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 45
+                    }
+                },
+                {
+                    "_content": "HAHAHA just curious, maybe we live close to each other",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 46
+                    }
+                },
+                {
+                    "_content": "I'd rather not say yet",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 47
+                    }
+                },
+                {
+                    "_content": "Ohhh okay, that's fair",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 48
+                    }
+                },
+                {
+                    "_content": "Sorry if that was weird",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 49
+                    }
+                },
+                {
+                    "_content": "HAHAHA you're good",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 50
+                    }
+                }
+            ],
+            "_isEndNode": false,
+            "_loopNode": -1,
+            "_dialogueType": 1,
+            "_hasOptions": false,
+            "_eventOnEnd": "RefusedSchoolName"
+        },
+        {
+            "_id": 18,
+            "_nextNode": -1,
+            "_options": [
+                {
+                    "text": "Send a flirty photo",
+                    "nextNode": 19,
+                    "messagesToSend": [],
+                    "eventToPublish": "SentFlirtyPhoto"
+                },
+                {
+                    "text": "Send a photo",
+                    "nextNode": 20,
+                    "messagesToSend": [],
+                    "eventToPublish": "SentNormalPhoto"
+                }
+            ],
+            "_dialogues": [],
+            "_isEndNode": false,
+            "_loopNode": -1,
+            "_dialogueType": 1,
+            "_hasOptions": true,
+            "_eventOnEnd": ""
+        },
+        {
+            "_id": 19,
+            "_nextNode": -1,
+            "_options": [],
+            "_dialogues": [
+                {
                     "_content": ";)",
                     "_sender": 0,
                     "_speakerName": "",
@@ -1290,7 +1426,7 @@
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
-                        "minute": 30
+                        "minute": 55
                     }
                 },
                 {
@@ -1302,7 +1438,7 @@
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
-                        "minute": 31
+                        "minute": 56
                     }
                 },
                 {
@@ -1314,7 +1450,7 @@
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
-                        "minute": 32
+                        "minute": 57
                     }
                 },
                 {
@@ -1326,91 +1462,7 @@
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
-                        "minute": 33
-                    }
-                }
-            ],
-            "_isEndNode": false,
-            "_loopNode": -1,
-            "_dialogueType": 1,
-            "_hasOptions": false,
-            "_eventOnEnd": ""
-        },
-        {
-            "_id": 17,
-            "_nextNode": 18,
-            "_options": [],
-            "_dialogues": [
-                {
-                    "_content": "There you gooo",
-                    "_sender": 0,
-                    "_speakerName": "",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 30
-                    }
-                },
-                {
-                    "_content": "YOU'RE SO PRETTY",
-                    "_sender": 1,
-                    "_speakerName": "Unknown Number",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 31
-                    }
-                }
-            ],
-            "_isEndNode": false,
-            "_loopNode": -1,
-            "_dialogueType": 1,
-            "_hasOptions": false,
-            "_eventOnEnd": ""
-        },
-        {
-            "_id": 18,
-            "_nextNode": -1,
-            "_options": [],
-            "_dialogues": [
-                {
-                    "_content": "Thank youuuu",
-                    "_sender": 0,
-                    "_speakerName": "",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 30
-                    }
-                },
-                {
-                    "_content": "See?? Nothing to be nervous about",
-                    "_sender": 1,
-                    "_speakerName": "Unknown Number",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 31
-                    }
-                },
-                {
-                    "_content": "hahah i guess so",
-                    "_sender": 0,
-                    "_speakerName": "",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 32
+                        "minute": 58
                     }
                 },
                 {
@@ -1422,31 +1474,7 @@
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
-                        "minute": 33
-                    }
-                },
-                {
-                    "_content": "Why did you save that??",
-                    "_sender": 0,
-                    "_speakerName": "",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 34
-                    }
-                },
-                {
-                    "_content": "Just wanted to keep it so i can always remind myself of your beautiful face",
-                    "_sender": 1,
-                    "_speakerName": "Unknown Number",
-                    "_timestamp": {
-                        "day": 2,
-                        "month": 10,
-                        "year": 2026,
-                        "hour": 15,
-                        "minute": 35
+                        "minute": 59
                     }
                 }
             ],
@@ -1457,7 +1485,127 @@
             "_eventOnEnd": "Day2_End"
         },
         {
-            "_id": 19,
+            "_id": 20,
+            "_nextNode": -1,
+            "_options": [],
+            "_dialogues": [
+                {
+                    "_content": "There you gooo",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 55
+                    }
+                },
+                {
+                    "_content": "YOU'RE SO PRETTY",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 56
+                    }
+                },
+                {
+                    "_content": "Thank youuuu",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 57
+                    }
+                },
+                {
+                    "_content": "See?? Nothing to be nervous about",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 58
+                    }
+                },
+                {
+                    "_content": "hahah i guess so",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 59
+                    }
+                },
+                {
+                    "_content": "*Stranger sends one back, but it is fake.*",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 16,
+                        "minute": 0
+                    }
+                },
+                {
+                    "_content": "[Image Saved]",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 16,
+                        "minute": 1
+                    }
+                },
+                {
+                    "_content": "Why did you save that??",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 16,
+                        "minute": 2
+                    }
+                },
+                {
+                    "_content": "Just wanted to keep it so i can always remind myself of your beautiful face",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 2,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 16,
+                        "minute": 3
+                    }
+                }
+            ],
+            "_isEndNode": true,
+            "_loopNode": -1,
+            "_dialogueType": 1,
+            "_hasOptions": false,
+            "_eventOnEnd": "Day2_End"
+        },
+        {
+            "_id": 21,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -1661,7 +1809,7 @@
             "_eventOnEnd": "Day3_Convo1_End"
         },
         {
-            "_id": 20,
+            "_id": 22,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -1997,7 +2145,7 @@
             "_eventOnEnd": "Day3_School_End"
         },
         {
-            "_id": 21,
+            "_id": 23,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -2369,7 +2517,7 @@
             "_eventOnEnd": "Day3_School_End"
         },
         {
-            "_id": 22,
+            "_id": 24,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -2393,7 +2541,7 @@
             "_eventOnEnd": "Day3_Unknown_End"
         },
         {
-            "_id": 23,
+            "_id": 25,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -2417,18 +2565,18 @@
             "_eventOnEnd": "Day3_EmmaText_End"
         },
         {
-            "_id": 24,
+            "_id": 26,
             "_nextNode": -1,
             "_options": [
                 {
                     "text": "Seek help from a trusted person",
-                    "nextNode": 25,
+                    "nextNode": 27,
                     "messagesToSend": [],
                     "eventToPublish": ""
                 },
                 {
                     "text": "Confront Emma",
-                    "nextNode": 26,
+                    "nextNode": 28,
                     "messagesToSend": [],
                     "eventToPublish": ""
                 }
@@ -2454,7 +2602,7 @@
             "_eventOnEnd": ""
         },
         {
-            "_id": 25,
+            "_id": 27,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -2490,7 +2638,7 @@
             "_eventOnEnd": "Game_Completed"
         },
         {
-            "_id": 26,
+            "_id": 28,
             "_nextNode": -1,
             "_options": [],
             "_dialogues": [
@@ -2524,6 +2672,53 @@
             "_dialogueType": 0,
             "_hasOptions": false,
             "_eventOnEnd": "Game_Completed"
+        },
+        {
+            "_id": 29,
+            "_nextNode": -1,
+            "_options": [],
+            "_dialogues": [
+                {
+                    "_content": "Stay away, you freak!",
+                    "_sender": 1,
+                    "_timestamp": {
+                        "day": 3,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 15,
+                        "minute": 30
+                    }
+                }
+            ],
+            "_isEndNode": true,
+            "_loopNode": -1,
+            "_dialogueType": 0,
+            "_hasOptions": false,
+            "_eventOnEnd": ""
+        },
+        {
+            "_id": 101,
+            "_nextNode": -1,
+            "_options": [
+                {
+                    "text": "Ask them to move",
+                    "nextNode": 3,
+                    "messagesToSend": [],
+                    "eventToPublish": ""
+                },
+                {
+                    "text": "Go quietly and sit down",
+                    "nextNode": 4,
+                    "messagesToSend": [],
+                    "eventToPublish": ""
+                }
+            ],
+            "_dialogues": [],
+            "_isEndNode": false,
+            "_loopNode": -1,
+            "_dialogueType": 0,
+            "_hasOptions": true,
+            "_eventOnEnd": ""
         }
     ]
 }

@@ -50,12 +50,38 @@ public class MessagesManager : MonoBehaviour
         }
         else
         {
+            Instance.CopyReferencesFrom(this);
             Destroy(gameObject);
+            return;
         }
 
         CreateNarrativeNodes();
         CreateContacts();
         CreateMessages();
+    }
+
+    private void CopyReferencesFrom(MessagesManager other)
+    {
+        var myUI = GetComponent<MessagesUI>();
+        var otherUI = other.GetComponent<MessagesUI>();
+        if (myUI != null && otherUI != null)
+        {
+            myUI.CopyReferencesFrom(otherUI);
+        }
+
+        var myPhoneState = GetComponent<PhoneStateMachine>();
+        var otherPhoneState = other.GetComponent<PhoneStateMachine>();
+        if (myPhoneState != null && otherPhoneState != null)
+        {
+            myPhoneState.CopyReferencesFrom(otherPhoneState);
+        }
+
+        var myOptions = GetComponent<OptionsChanger>();
+        var otherOptions = other.GetComponent<OptionsChanger>();
+        if (myOptions != null && otherOptions != null)
+        {
+            myOptions.CopyReferencesFrom(otherOptions);
+        }
     }
 
     private void CreateNarrativeNodes()

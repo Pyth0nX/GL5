@@ -24,8 +24,10 @@ public class TransitionManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
+
 
     private void Start()
     {
@@ -110,9 +112,5 @@ public class TransitionManager : MonoBehaviour
         c.a = endAlpha;
         _fadeImage.color = c;
 
-        if (endAlpha == 0f)
-        {
-            _fadeImage.gameObject.SetActive(false);
-        }
     }
 }
