@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInput _playerInput;
     private PlayerStateMachine _playerStateMachine;
     private Camera _playerCamera;
+    private Rigidbody _rigidbody;
     private RaycastHit _raycastHit;
     private Vector2 _lookInput;
     private float _currentXRotation;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
         _playerCamera = GetComponentInChildren<Camera>();
         _playerInput = GetComponent<PlayerInput>();
         _playerStateMachine = GetComponent<PlayerStateMachine>();
+        _rigidbody = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -55,18 +57,24 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        MovePlayer();
         LookAround();
+
+        CheckInteractableHover();
 
         if(_interactAction.WasPressedThisFrame())
         {
-            DetectInteractable();
+            TryInteract();
         }
 
         if(_phoneAction.WasPressedThisFrame())
         {
             HandlePhone();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer();
     }
 
     private void HandlePhone()
@@ -90,17 +98,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     void MovePlayer()
     {
         Vector2 direction = _moveAction.ReadValue<Vector2>();
-        Vector3 test = direction.x * transform.right + direction.y * transform.forward;
-        transform.position += new Vector3(test.x, 0, test.z) * (_movementSpeed * Time.deltaTime);
+        
+        Vector3 moveDirection = transform.right * direction.x + transform.forward * direction.y;
+        moveDirection.y = 0f;
+        
+        if (moveDirection.magnitude > 1f)
+        {
+            moveDirection.Normalize();
+        }
+
+        Vector3 targetVelocity = moveDirection * _movementSpeed;
+        targetVelocity.y = _rigidbody.linearVelocity.y;
+
+        _rigidbody.linearVelocity = targetVelocity;
     }
 
     private void LookAround()
     {
-        // If it's found the Look Action, it reads mouse inputs.
         if (_lookAction != null)
         {
             _lookInput = _lookAction.ReadValue<Vector2>();
@@ -108,60 +125,98 @@ public class PlayerController : MonoBehaviour
 
         if (_lookInput != Vector2.zero)
         {
-            transform.Rotate(Vector3.up, _lookInput.x * _mouseSensitivity);
+            Quaternion yRotation = Quaternion.Euler(0f, _lookInput.x * _mouseSensitivity, 0f);
+            _rigidbody.MoveRotation(_rigidbody.rotation * yRotation);
 
             _currentXRotation -= _lookInput.y * _mouseSensitivity ;
             _currentXRotation = Mathf.Clamp(_currentXRotation, -_verticalClamp, _verticalClamp);
 
             _playerCamera.transform.localRotation = Quaternion.Euler(_currentXRotation, 0f, 0f);
         }
-
     }
 
-    public void DetectInteractable()
+    private IInteractable _currentHoveredInteractable;
+    private bool _isShowingHoverMessage;
+
+    private void CheckInteractableHover()
+    {
+        IInteractable interactable = GetInteractableInSight();
+
+        if (interactable != null)
+        {
+            if (_currentHoveredInteractable != interactable)
+            {
+                _currentHoveredInteractable = interactable;
+                _isShowingHoverMessage = true;
+                if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.ShowMessage("Press E to interact", Color.white);
+                }
+            }
+        }
+        else
+        {
+            if (_isShowingHoverMessage)
+            {
+                _currentHoveredInteractable = null;
+                _isShowingHoverMessage = false;
+                if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.HideMessage();
+                }
+            }
+        }
+    }
+
+    public void TryInteract()
+    {
+        IInteractable interactable = GetInteractableInSight();
+
+        if (interactable != null)
+        {
+            // We interact. The script (e.g. EventInteractable) will handle if it's not available
+            interactable.Interact();
+            _playerStateMachine.ChangeState(PlayerState.Interacting);
+        }
+        else
+        {
+            // Situation 3: Press E and nothing in front
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ShowTemporaryMessage("Can't Interact", new Color(0.3f, 0.3f, 0.3f), 2f);
+            }
+        }
+    }
+
+    private IInteractable GetInteractableInSight()
     {
         Vector3 origin = _playerCamera.transform.position;
         Vector3 dir = _playerCamera.transform.forward;
 
-        // Draw a line in the Scene view for 2 seconds so you can see where you are aiming
-        Debug.DrawRay(origin, dir * _interactDistance, Color.red, 2f);
-
-        // We use RaycastAll to avoid the ray being blocked by invisible triggers or the player's own capsule
         RaycastHit[] hits = Physics.RaycastAll(origin, dir, _interactDistance);
-        
-        // Sort hits by distance to get the closest one first
         System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
 
         foreach (RaycastHit hit in hits)
         {
             GameObject hitObject = hit.collider.gameObject;
 
-            // Ignore the player itself
             if (hitObject == gameObject || hitObject.transform.root == transform.root) continue;
-            // Ignore trigger colliders (like zones)
             if (hit.collider.isTrigger) continue;
 
-            // Check if the object or any of its parents has the tag
             bool hasTag = hitObject.tag.StartsWith("Interactable") || 
                          (hitObject.transform.parent != null && hitObject.transform.parent.tag.StartsWith("Interactable"));
 
             if (hasTag)
             {
-                // GetComponentInParent searches the object and its parents for the script
                 IInteractable interactable = hitObject.GetComponentInParent<IInteractable>();
-                if(interactable != null)
+                if (interactable != null)
                 {
-                    interactable.Interact();
-                    _playerStateMachine.ChangeState(PlayerState.Interacting);
-                    return; // Stop searching after we interact
+                    return interactable;
                 }
-
-
             }
-            
-            // If we hit a solid object that isn't interactable, we break so we can't interact through walls
             break;
         }
+        return null;
     }
 
     public string GetPlayerName()

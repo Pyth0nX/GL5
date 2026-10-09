@@ -1,10 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance { get; private set; }
+
     [Header("UI Elements")]
     [SerializeField] private GameObject _pauseMenuPanel;
+    [SerializeField] private CanvasGroup _interaccionCanvasGroup;
+    [SerializeField] private TMP_Text _textoInteraccion;
+
+    [Header("Animación Mensajes")]
+    [SerializeField] private float _tiempoAparicion = 0.3f;
+    [SerializeField] private float _tiempoDesaparicion = 0.5f;
 
     [Header("References")]
     [SerializeField] private PlayerController _playerController;
@@ -12,12 +22,31 @@ public class UIManager : MonoBehaviour
 
     private InputAction _menuAction;
     private bool _isPaused = false;
+    private Tween _fadeTween;
+    private Tween _delayTween;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
         if (_pauseMenuPanel != null)
         {
             _pauseMenuPanel.SetActive(false);
+        }
+
+        if (_interaccionCanvasGroup != null)
+        {
+            _interaccionCanvasGroup.alpha = 0f;
         }
 
         if (_playerInput != null)
@@ -56,7 +85,6 @@ public class UIManager : MonoBehaviour
             ResumeGame();
         }
 
-        // Force sync the UI state just in case something else touched it
         if (_pauseMenuPanel != null)
         {
             _pauseMenuPanel.SetActive(_isPaused);
@@ -86,5 +114,48 @@ public class UIManager : MonoBehaviour
             _playerController.LockMouse();
             _playerController.EnableInput(); 
         }
+    }
+
+    public void ShowMessage(string mensaje, Color colorTexto)
+    {
+        if (_interaccionCanvasGroup == null || _textoInteraccion == null) return;
+
+        // 1. Detenemos cualquier animación previa para evitar conflictos
+        _fadeTween?.Kill();
+        _delayTween?.Kill();
+        _interaccionCanvasGroup.DOKill();
+
+        // 2. Actualizamos la información
+        _textoInteraccion.text = mensaje;
+        _textoInteraccion.color = colorTexto;
+
+        // 3. Animamos el Alpha hasta 1
+        _fadeTween = _interaccionCanvasGroup.DOFade(1f, _tiempoAparicion);
+    }
+
+    public void HideMessage()
+    {
+        if (_interaccionCanvasGroup == null) return;
+
+        // 1. Detenemos cualquier animación previa
+        _fadeTween?.Kill();
+        _delayTween?.Kill();
+        _interaccionCanvasGroup.DOKill();
+
+        // 2. Animamos el Alpha hasta 0
+        _fadeTween = _interaccionCanvasGroup.DOFade(0f, _tiempoDesaparicion);
+    }
+
+    public void ShowTemporaryMessage(string mensaje, Color colorTexto, float duracion)
+    {
+        if (_interaccionCanvasGroup == null || _textoInteraccion == null) return;
+
+        ShowMessage(mensaje, colorTexto);
+
+        // Tras 'duracion' segundos, ocultamos el mensaje
+        _delayTween = DOVirtual.DelayedCall(duracion, () => 
+        {
+            HideMessage();
+        });
     }
 }

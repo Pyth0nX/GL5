@@ -82,6 +82,12 @@ public class EventInteractable : MonoBehaviour, IInteractable
                 }
             }
             
+            // Show Not Available message in dark red for 2 seconds
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ShowTemporaryMessage("Not Available", new Color(0.5f, 0f, 0f), 2f);
+            }
+
             if (_instantAction) Invoke(nameof(RevertPlayerState), 0.1f);
             return;
         }
