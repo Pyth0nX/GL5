@@ -3,22 +3,21 @@ using UnityEngine.InputSystem;
 using TMPro;
 using DG.Tweening;
 
+
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
     [Header("UI Elements")]
     [SerializeField] private GameObject _pauseMenuPanel;
-    [SerializeField] private CanvasGroup _interaccionCanvasGroup;
-    [SerializeField] private TMP_Text _textoInteraccion;
+    [SerializeField] private CanvasGroup _interactionCanvasGroup;
+    [SerializeField] private TMP_Text _interactionText;
+    [SerializeField] private GameObject _map;
 
-    [Header("Animación Mensajes")]
-    [SerializeField] private float _tiempoAparicion = 0.3f;
-    [SerializeField] private float _tiempoDesaparicion = 0.5f;
-
-    [Header("References")]
-    [SerializeField] private PlayerController _playerController;
-    [SerializeField] private PlayerInput _playerInput;
+    [Header("Messages Animations")]
+    [SerializeField] private float _appearTime = 0.3f;
+    [SerializeField] private float _disappearTime = 0.5f;
 
     private InputAction _menuAction;
     private bool _isPaused = false;
@@ -30,6 +29,7 @@ public class UIManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -44,29 +44,24 @@ public class UIManager : MonoBehaviour
             _pauseMenuPanel.SetActive(false);
         }
 
-        if (_interaccionCanvasGroup != null)
+        if (_interactionCanvasGroup != null)
         {
-            _interaccionCanvasGroup.alpha = 0f;
+            _interactionCanvasGroup.alpha = 0f;
         }
 
-        if (_playerInput != null)
-        {
-            _menuAction = _playerInput.actions["Menu"];
+        EventBus.Instance.Subscribe("OpenMap", ShowMap);
+        EventBus.Instance.Subscribe("CloseMap", HideMap);
+    }
 
-            if (_menuAction == null)
-            {
-                Debug.LogError("[UIManager] Couldn't find the 'Menu' action in the PlayerInput.");
-            }
-        }
-        else
-        {
-            Debug.LogError("[UIManager] Need to assign the PlayerInput reference in the Inspector.");
-        }
+    private void OnDisable()
+    {
+        EventBus.Instance.Unsubscribe("OpenMap", ShowMap);
+        EventBus.Instance.Unsubscribe("CloseMap", HideMap);
     }
 
     private void Update()
     {
-        if(_menuAction.WasPressedThisFrame())
+        if(InputManager.Instance.MenuWasPressed())
         {
             TogglePause();
         }
@@ -96,11 +91,10 @@ public class UIManager : MonoBehaviour
         _pauseMenuPanel.SetActive(true);
         Time.timeScale = 0f;
 
-        if (_playerController != null)
-        {
-            _playerController.UnlockMouse();
-            _playerController.DisableInput();
-        }
+        UnlockMouse();
+        InputManager.Instance.DisableMovementMap();
+        InputManager.Instance.DisablePhone();
+        InputManager.Instance.DisableInteract();
     }
 
     public void ResumeGame()
@@ -109,53 +103,74 @@ public class UIManager : MonoBehaviour
         _pauseMenuPanel.SetActive(false);
         Time.timeScale = 1f;
 
-        if (_playerController != null)
-        {
-            _playerController.LockMouse();
-            _playerController.EnableInput(); 
-        }
+        LockMouse();
+        InputManager.Instance.EnableMovementMap();
+        InputManager.Instance.EnablePhone();
+        InputManager.Instance.EnableInteract();
     }
 
     public void ShowMessage(string mensaje, Color colorTexto)
     {
-        if (_interaccionCanvasGroup == null || _textoInteraccion == null) return;
+        if (_interactionCanvasGroup == null || _interactionText == null) return;
 
-        // 1. Detenemos cualquier animación previa para evitar conflictos
+        // Stop every previous animation
         _fadeTween?.Kill();
         _delayTween?.Kill();
-        _interaccionCanvasGroup.DOKill();
+        _interactionCanvasGroup.DOKill();
 
-        // 2. Actualizamos la información
-        _textoInteraccion.text = mensaje;
-        _textoInteraccion.color = colorTexto;
+        // Update the info
+        _interactionText.text = mensaje;
+        _interactionText.color = colorTexto;
 
-        // 3. Animamos el Alpha hasta 1
-        _fadeTween = _interaccionCanvasGroup.DOFade(1f, _tiempoAparicion);
+        // animate until the alpha is 1
+        _fadeTween = _interactionCanvasGroup.DOFade(1f, _appearTime);
     }
 
     public void HideMessage()
     {
-        if (_interaccionCanvasGroup == null) return;
+        if (_interactionCanvasGroup == null) return;
 
-        // 1. Detenemos cualquier animación previa
+        // Stop every previous animation
         _fadeTween?.Kill();
         _delayTween?.Kill();
-        _interaccionCanvasGroup.DOKill();
+        _interactionCanvasGroup.DOKill();
 
-        // 2. Animamos el Alpha hasta 0
-        _fadeTween = _interaccionCanvasGroup.DOFade(0f, _tiempoDesaparicion);
+        // Animate until the alpha is 0
+        _fadeTween = _interactionCanvasGroup.DOFade(0f, _disappearTime);
     }
 
-    public void ShowTemporaryMessage(string mensaje, Color colorTexto, float duracion)
+    public void ShowTemporaryMessage(string message, Color textColor, float duration)
     {
-        if (_interaccionCanvasGroup == null || _textoInteraccion == null) return;
+        if (_interactionCanvasGroup == null || _interactionText == null) return;
 
-        ShowMessage(mensaje, colorTexto);
+        ShowMessage(message, textColor);
 
-        // Tras 'duracion' segundos, ocultamos el mensaje
-        _delayTween = DOVirtual.DelayedCall(duracion, () => 
+        // After 'duration' it hides the text
+        _delayTween = DOVirtual.DelayedCall(duration, () => 
         {
             HideMessage();
         });
+    }
+
+    public void LockMouse()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void UnlockMouse()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void ShowMap()
+    {
+        _map.SetActive(true);
+    }
+
+    public void HideMap()
+    {
+        _map.SetActive(false);
     }
 }

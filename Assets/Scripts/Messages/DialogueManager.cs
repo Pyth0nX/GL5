@@ -29,13 +29,6 @@ public class DialogueManager : MonoBehaviour
         this._dialogueBox = other._dialogueBox;
         this._characterNameText = other._characterNameText;
         this._dialogueText = other._dialogueText;
-        this._playerInput = other._playerInput;
-        this._playerController = other._playerController;
-
-        if (this._playerInput != null)
-        {
-            this._continueDialogue = this._playerInput.actions["ContinueDialogue"];
-        }
     }
 
     [SerializeField]
@@ -44,13 +37,8 @@ public class DialogueManager : MonoBehaviour
     private TextMeshProUGUI _characterNameText; // The text component for displaying the character's name
     [SerializeField]
     private TextMeshProUGUI _dialogueText; // The text component for displaying dialogue
-    [SerializeField]
-    private PlayerInput _playerInput; // The PlayerInput component for handling input
-    [SerializeField]
-    private PlayerController _playerController;
 
 
-    private InputAction _continueDialogue; // The input action for continuing the dialogue
 
     private List<Message> _currentDialogues; // The list of dialogues for the current conversation
 
@@ -60,14 +48,10 @@ public class DialogueManager : MonoBehaviour
 
     private bool _isEndNode = false;
 
-    private void Start()
-    {
-        _continueDialogue = _playerInput.actions["ContinueDialogue"];
-    }
 
     private void Update()
     {
-        if (_dialogueBox.activeSelf && _continueDialogue.WasPressedThisFrame())
+        if (_dialogueBox.activeSelf && InputManager.Instance.ContinueDialogueWasPressed())
         {
             ContinueDialogue();
         }
@@ -83,8 +67,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         _dialogueBox.SetActive(true);
-        _playerController.DisableMovement();
-        _playerController.DisableLook();
+        InputManager.Instance.DisableMovementMap();
         
         if (currentNode.HasOptions())
         {
@@ -113,7 +96,7 @@ public class DialogueManager : MonoBehaviour
         string speaker = "";
         if (currentMessage.Sender() == Sender.Player) 
         {
-            speaker = _playerController.GetPlayerName();
+            //speaker = _playerController.GetPlayerName();
         } 
         else 
         {
@@ -137,8 +120,7 @@ public class DialogueManager : MonoBehaviour
         if (_isEndNode) 
         {
             _dialogueBox.SetActive(false);
-            _playerController.EnableMovement();
-            _playerController.EnableLook();
+            InputManager.Instance.EnableMovementMap(); // Enable the player to move and look again
         }
         _currentDialogueIndex = 0;
         _currentDialogues = null;

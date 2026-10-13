@@ -9,6 +9,7 @@ public class SceneChanger : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        EventBus.Instance.Subscribe("Exit",SetupButtons);
     }
 
     private void OnDisable()
@@ -32,13 +33,13 @@ public class SceneChanger : MonoBehaviour
 
         if (_panel != null)
         {
-            // Buscamos entre todos los hijos, incluso los inactivos
+            // Search in all of the children, even if they are inactive
             Button[] buttons = GetComponentsInChildren<Button>(true);
             foreach (Button btn in buttons)
             {
                 if (btn.gameObject.name == "Home" || btn.gameObject.name == "School")
                 {
-                    // Removemos por si acaso ya estaba asignado (para no duplicar)
+                    // Remove just in case it was already asigned
                     btn.onClick.RemoveListener(HidePanel);
                     btn.onClick.AddListener(HidePanel);
                 }

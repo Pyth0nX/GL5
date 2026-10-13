@@ -4,10 +4,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private InputAction _moveAction;
-    [SerializeField] private InputAction _lookAction;
-    [SerializeField] private InputAction _interactAction;
-    [SerializeField] private InputAction _phoneAction;
     [SerializeField] private GameObject _phoneUI;
 
     [Header("Settings")]
@@ -26,12 +22,13 @@ public class PlayerController : MonoBehaviour
     [Range(0f, 90f)]
     [SerializeField] private float _verticalClamp = 80f;
     
+    private IInteractable _currentHoveredInteractable;
+    private bool _isShowingHoverMessage;
     private PlayerInput _playerInput;
     private PlayerStateMachine _playerStateMachine;
     private Camera _playerCamera;
     private Rigidbody _rigidbody;
     private RaycastHit _raycastHit;
-    private Vector2 _lookInput;
     private float _currentXRotation;
 
     private void Awake()
@@ -44,10 +41,6 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
 
 
-        _moveAction = _playerInput.actions["Move"];
-        _lookAction = _playerInput.actions["Look"];
-        _interactAction = _playerInput.actions["Interact"];
-        _phoneAction = _playerInput.actions["Phone"];
     }
 
     private void Start()
@@ -61,12 +54,12 @@ public class PlayerController : MonoBehaviour
 
         CheckInteractableHover();
 
-        if(_interactAction.WasPressedThisFrame())
+        if(InputManager.Instance.InteractWasPressed())
         {
             TryInteract();
         }
 
-        if(_phoneAction.WasPressedThisFrame())
+        if(InputManager.Instance.PhoneWasPressed())
         {
             HandlePhone();
         }
@@ -83,16 +76,14 @@ public class PlayerController : MonoBehaviour
         if (_playerStateMachine.IsPhoneOpen())
         {
             _playerStateMachine.ChangeState(PlayerState.Phone);
-            DisableLook();
-            DisableMovement();
+            InputManager.Instance.DisableMovementMap();
             UnlockMouse();
             _phoneUI.SetActive(true);
         }
         else
         {
             _playerStateMachine.ChangeState(PlayerState.Idle);
-            EnableLook();
-            EnableMovement();
+            InputManager.Instance.EnableMovementMap();
             LockMouse();
             _phoneUI.SetActive(false);
         }
@@ -100,7 +91,8 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        Vector2 direction = _moveAction.ReadValue<Vector2>();
+
+        Vector2 direction = InputManager.Instance.GetPlayerMovement();
         
         Vector3 moveDirection = transform.right * direction.x + transform.forward * direction.y;
         moveDirection.y = 0f;
@@ -118,25 +110,19 @@ public class PlayerController : MonoBehaviour
 
     private void LookAround()
     {
-        if (_lookAction != null)
+        if (InputManager.Instance.PlayerLooked())
         {
-            _lookInput = _lookAction.ReadValue<Vector2>();
-        }
-
-        if (_lookInput != Vector2.zero)
-        {
-            Quaternion yRotation = Quaternion.Euler(0f, _lookInput.x * _mouseSensitivity, 0f);
+            Vector2 lookVec = InputManager.Instance.GetPlayerLook();
+            Quaternion yRotation = Quaternion.Euler(0f, lookVec.x * _mouseSensitivity, 0f);
             _rigidbody.MoveRotation(_rigidbody.rotation * yRotation);
 
-            _currentXRotation -= _lookInput.y * _mouseSensitivity ;
+            _currentXRotation -= lookVec.y * _mouseSensitivity ;
             _currentXRotation = Mathf.Clamp(_currentXRotation, -_verticalClamp, _verticalClamp);
 
             _playerCamera.transform.localRotation = Quaternion.Euler(_currentXRotation, 0f, 0f);
         }
     }
 
-    private IInteractable _currentHoveredInteractable;
-    private bool _isShowingHoverMessage;
 
     private void CheckInteractableHover()
     {
@@ -234,41 +220,5 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-    }
-
-    public void DisableMovement()
-    {
-        _moveAction.Disable();
-    }
-
-    public void EnableMovement()
-    {
-        _moveAction.Enable();
-    }
-
-    public void DisableLook()
-    {
-        _lookAction.Disable();
-    }
-
-    public void EnableLook()
-    {
-        _lookAction.Enable();
-    }
-
-    public void DisableInput()
-    {
-        _moveAction.Disable();
-        _lookAction.Disable();
-        _interactAction.Disable();
-        _phoneAction.Disable();
-    }
-
-    public void EnableInput()
-    {
-        _moveAction.Enable();
-        _lookAction.Enable();
-        _interactAction.Enable();
-        _phoneAction.Enable();
     }
 }

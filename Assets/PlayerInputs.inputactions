@@ -25,46 +25,6 @@
                     "interactions": "",
                     "initialStateCheck": true,
                     "priority": 0
-                },
-                {
-                    "name": "Interact",
-                    "type": "Button",
-                    "id": "3449bea1-c693-4fc4-9c7c-660950d32c2a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
-                    "name": "Phone",
-                    "type": "Button",
-                    "id": "7dfd91ce-d40f-494e-9a26-54fb20054877",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
-                    "name": "Menu",
-                    "type": "Button",
-                    "id": "b0521e82-f4ad-49f0-9627-6d2dedd538ec",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
-                    "name": "ContinueDialogue",
-                    "type": "Button",
-                    "id": "abab5967-aa14-496f-a688-16d1fcfdffaa",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
                 }
             ],
             "bindings": [
@@ -133,21 +93,58 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "Interactions",
+            "id": "839f4562-049e-4eec-bb08-eed2e8416def",
+            "actions": [
                 {
-                    "name": "",
-                    "id": "6ebb3a0f-0400-425d-9a55-bb294057c87b",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
+                    "name": "Phone",
+                    "type": "Button",
+                    "id": "b1a34e4f-d96a-4387-8c38-c792325c0a0b",
+                    "expectedControlType": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 },
                 {
+                    "name": "ContinueDialogue",
+                    "type": "Button",
+                    "id": "3edd32cf-680b-4c17-bf86-17b19e428469",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "bb6d13e2-a184-413f-8967-e77d9cc92564",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "c34bb2f6-e556-4271-9137-ac1998aed4df",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
                     "name": "",
-                    "id": "81eccfad-d598-40cc-ba2f-6c566e99ce00",
+                    "id": "3c4e3e6f-07ad-46db-a671-1f86ba0bb1a7",
                     "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
@@ -158,7 +155,18 @@
                 },
                 {
                     "name": "",
-                    "id": "62258b5a-40b9-4802-b8d2-b0330c536712",
+                    "id": "8f4a0c8c-4db2-400e-bb87-fdded7bc567f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ContinueDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cca83eeb-6c9c-4a52-8058-920d619aba78",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
@@ -169,12 +177,12 @@
                 },
                 {
                     "name": "",
-                    "id": "54c4bf70-7b23-42b8-a018-a66cbe9352ac",
-                    "path": "<Keyboard>/space",
+                    "id": "6cd6fd5a-98ae-4ef4-be17-362a6d3ed32d",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ContinueDialogue",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

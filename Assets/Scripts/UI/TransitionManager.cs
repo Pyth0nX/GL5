@@ -73,24 +73,21 @@ public class TransitionManager : MonoBehaviour
 
     private IEnumerator SleepTransitionRoutine()
     {
-        Debug.Log("[TransitionManager] Starting Sleep Transition...");
-        
-        PlayerController player = FindAnyObjectByType<PlayerController>();
-        if (player != null) player.DisableInput();
+        InputManager.Instance.DisableMovementMap();
+        InputManager.Instance.DisableInteractionsMap();
 
-        // 1. Fade Out
+        // Fade Out
         yield return FadeRoutine(0f, 1f);
 
-        // 2. Wait in black and trigger next day
+        // Wait in black and trigger next day
         EventBus.Instance.Publish("NextDay");
         yield return new WaitForSeconds(_blackScreenDuration);
 
-        // 3. Fade In
+        // Fade In
         yield return FadeRoutine(1f, 0f);
 
-        if (player != null) player.EnableInput();
-        
-        Debug.Log("[TransitionManager] Sleep Transition Complete.");
+        InputManager.Instance.EnableInteractionsMap();
+        InputManager.Instance.EnableMovementMap();
     }
 
     private IEnumerator FadeRoutine(float startAlpha, float endAlpha)

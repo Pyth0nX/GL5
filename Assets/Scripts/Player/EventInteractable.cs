@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class EventInteractable : MonoBehaviour, IInteractable
 {
-    [Tooltip("The names of the events to publish when this object is interacted with. (e.g. 'BedInteracted')")]
+    [Tooltip("The names of the events to publish when this object is interacted with.")]
     [SerializeField] private List<string> _eventsToPublish = new List<string>();
 
     [Tooltip("If true, the player state won't be stuck in 'Interacting' because we immediately revert it (useful for instant actions like turning on a light).")]
@@ -13,13 +13,13 @@ public class EventInteractable : MonoBehaviour, IInteractable
     [Tooltip("Can this object be interacted with right now?")]
     [SerializeField] private bool _canInteract = true;
 
-    [Tooltip("Optional: Events that enable this interactable (e.g. Day1_End, Day2_End).")]
+    [Tooltip("Events that enable this interactable.")]
     [SerializeField] private List<string> _enableEvents = new List<string>();
 
-    [Tooltip("Optional: Events that disable this interactable (e.g. Start_Day2, Start_Day3).")]
+    [Tooltip("Events that disable this interactable.")]
     [SerializeField] private List<string> _disableEvents = new List<string>();
 
-    [Tooltip("Optional: Events to publish if interacted when disabled (e.g. 'Show_NotTired_Message').")]
+    [Tooltip("Events to publish if interacted when disabled.")]
     [SerializeField] private List<string> _disabledEventsToPublish = new List<string>();
 
     private void Start()
@@ -68,11 +68,12 @@ public class EventInteractable : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        
         if (!_canInteract)
         {
-            Debug.Log($"Interaction disabled for {gameObject.name}.");
             if (_disabledEventsToPublish != null)
             {
+                //Publish all the events in _disabledEventsToPublish (see what they are in the tooltip)
                 foreach (var ev in _disabledEventsToPublish)
                 {
                     if (!string.IsNullOrEmpty(ev))
@@ -92,7 +93,6 @@ public class EventInteractable : MonoBehaviour, IInteractable
             return;
         }
 
-        Debug.Log($"Interacting with EventInteractable. Publishing events.");
         
         if (_eventsToPublish != null)
         {
