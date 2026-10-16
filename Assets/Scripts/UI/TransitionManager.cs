@@ -27,26 +27,14 @@ public class TransitionManager : MonoBehaviour
             return;
         }
     }
-
-
     private void Start()
     {
         EventBus.Instance.Subscribe("SleepTransition", OnSleepTransition);
         EventBus.Instance.Subscribe("FadeOut", StartFadeOut);
         EventBus.Instance.Subscribe("FadeIn", StartFadeIn);
-        
-        // Start game with a fade in from black
-        if (_fadeImage != null)
-        {
-            Color c = _fadeImage.color;
-            c.a = 1f;
-            _fadeImage.color = c;
-            _fadeImage.gameObject.SetActive(true);
-            StartCoroutine(FadeRoutine(1f, 0f));
-        }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         if (EventBus.Instance != null)
         {

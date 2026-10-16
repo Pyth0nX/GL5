@@ -6,22 +6,21 @@ public class SceneChanger : MonoBehaviour
 {
     private Transform _panel;
 
+
+    private void Start()
+    {
+        EventBus.Instance.Subscribe("Exit",SetupButtons);
+        SetupButtons();
+    }
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        EventBus.Instance.Subscribe("Exit",SetupButtons);
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-
-    private void Start()
-    {
-        SetupButtons();
-    }
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SetupButtons();

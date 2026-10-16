@@ -9,27 +9,7 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; } // Singleton instance
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Instance.CopyReferencesFrom(this);
-            Destroy(gameObject);
-            return;
-        }
-    }
 
-    private void CopyReferencesFrom(DialogueManager other)
-    {
-        this._dialogueBox = other._dialogueBox;
-        this._characterNameText = other._characterNameText;
-        this._dialogueText = other._dialogueText;
-    }
 
     [SerializeField]
     private GameObject _dialogueBox; // The dialogue box UI element
@@ -37,8 +17,6 @@ public class DialogueManager : MonoBehaviour
     private TextMeshProUGUI _characterNameText; // The text component for displaying the character's name
     [SerializeField]
     private TextMeshProUGUI _dialogueText; // The text component for displaying dialogue
-
-
 
     private List<Message> _currentDialogues; // The list of dialogues for the current conversation
 
@@ -48,6 +26,24 @@ public class DialogueManager : MonoBehaviour
 
     private bool _isEndNode = false;
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    private void Start()
+    {
+        EventBus.Instance.Subscribe("Conversation_Started",StartDialogue);
+    }
 
     private void Update()
     {
@@ -62,7 +58,6 @@ public class DialogueManager : MonoBehaviour
         NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
         if (currentNode == null)
         {
-            Debug.Log("[DialogueManager] Dialogue has ended for this contact (-1).");
             return;
         }
 
@@ -96,7 +91,7 @@ public class DialogueManager : MonoBehaviour
         string speaker = "";
         if (currentMessage.Sender() == Sender.Player) 
         {
-            //speaker = _playerController.GetPlayerName();
+            speaker = GameManager.Instance.GetPlayerName();
         } 
         else 
         {
@@ -120,7 +115,7 @@ public class DialogueManager : MonoBehaviour
         if (_isEndNode) 
         {
             _dialogueBox.SetActive(false);
-            InputManager.Instance.EnableMovementMap(); // Enable the player to move and look again
+            UIManager.Instance.ChangeState(UIState.DEFAULT);
         }
         _currentDialogueIndex = 0;
         _currentDialogues = null;

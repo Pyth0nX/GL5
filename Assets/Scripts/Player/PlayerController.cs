@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameObject _phoneUI;
 
     [Header("Settings")]
     [Tooltip("Player Name")]
@@ -46,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _currentXRotation = 0f;
+        GameManager.Instance.SetPlayerName(_playerName);
     }
 
     private void Update()
@@ -76,16 +76,12 @@ public class PlayerController : MonoBehaviour
         if (_playerStateMachine.IsPhoneOpen())
         {
             _playerStateMachine.ChangeState(PlayerState.Phone);
-            InputManager.Instance.DisableMovementMap();
-            UnlockMouse();
-            _phoneUI.SetActive(true);
+            UIManager.Instance.ChangeState(UIState.PHONE);
         }
         else
         {
             _playerStateMachine.ChangeState(PlayerState.Idle);
-            InputManager.Instance.EnableMovementMap();
-            LockMouse();
-            _phoneUI.SetActive(false);
+            UIManager.Instance.ChangeState(UIState.DEFAULT);
         }
     }
 
@@ -203,22 +199,5 @@ public class PlayerController : MonoBehaviour
             break;
         }
         return null;
-    }
-
-    public string GetPlayerName()
-    {
-        return _playerName;
-    }
-
-    public void LockMouse()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    public void UnlockMouse()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 }

@@ -150,7 +150,6 @@ GameObject:
   - component: {fileID: 4163778632904596172}
   - component: {fileID: 1146940577632107421}
   - component: {fileID: 762555186705901484}
-  - component: {fileID: 3614005810033326662}
   - component: {fileID: 7989768897630957170}
   m_Layer: 5
   m_Name: ContactButton
@@ -261,7 +260,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3614005810033326662}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PhoneTabButton, Assembly-CSharp
         m_MethodName: OpenTab
         m_Mode: 1
@@ -295,21 +294,6 @@ MonoBehaviour:
   m_LayoutPriority: 1
   m_MaxWidth: -1
   m_MaxHeight: -1
---- !u!114 &3614005810033326662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6391233378624843405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e10752f2603364c8141b66311d97a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhoneTabButton
-  tabToOpen: {fileID: 0}
-  tabsToClose:
-  - {fileID: 0}
 --- !u!114 &7989768897630957170
 MonoBehaviour:
   m_ObjectHideFlags: 0

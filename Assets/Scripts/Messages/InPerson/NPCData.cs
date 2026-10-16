@@ -63,7 +63,6 @@ public class NPCData : MonoBehaviour, IInteractable
     {
         if (!_canInteract)
         {
-            Debug.Log($"Interaction disabled for NPC: {_characterName}");
             // Revert player state just in case it got stuck
             PlayerStateMachine playerState = FindAnyObjectByType<PlayerStateMachine>();
             if (playerState != null && playerState.GetCurrentState() == PlayerState.Interacting)
@@ -73,8 +72,7 @@ public class NPCData : MonoBehaviour, IInteractable
             return;
         }
 
-        Debug.Log($"Interacting with NPC: {_characterName}");
+        UIManager.Instance.ChangeState(UIState.CONVERSATION);
         MessagesManager.Instance.SetCurrentContact(_characterName);
-        DialogueManager.Instance.StartDialogue();
     }
 }

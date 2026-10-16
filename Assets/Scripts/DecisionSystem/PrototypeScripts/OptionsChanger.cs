@@ -16,9 +16,6 @@ public class OptionsChanger : MonoBehaviour
     [SerializeField]
     private Button _option2Button;
 
-    [SerializeField]
-    private PlayerController _playerController;
-
 
     /// <summary>
     /// Update the buttons texts with the current node info
@@ -76,10 +73,6 @@ public class OptionsChanger : MonoBehaviour
         if (_currentNode == null || !_currentNode.HasOptions())
         {
             _decisionsPanel.SetActive(false);
-            if (lastType == DialogueType.IN_PERSON)
-            {
-                _playerController.LockMouse();
-            }
             return;
         }
 
@@ -101,26 +94,6 @@ public class OptionsChanger : MonoBehaviour
     public void ActiveDecisionsPanel(bool isActive)
     {
         _decisionsPanel.SetActive(isActive);
-        if (isActive)
-        {
-            _playerController.UnlockMouse();
-        }
-        else
-        {
-            _playerController.LockMouse();
-        }
     }
 
-    public void CopyReferencesFrom(OptionsChanger other)
-    {
-        this._decisionsPanel = other._decisionsPanel;
-        this._option1Button = other._option1Button;
-        this._option2Button = other._option2Button;
-        this._playerController = other._playerController;
-        
-        if (this._currentNode != null && this._currentNode.HasOptions())
-        {
-            UpdateButtonsTexts();
-        }
-    }
 }

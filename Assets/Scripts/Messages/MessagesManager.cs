@@ -50,7 +50,6 @@ public class MessagesManager : MonoBehaviour
         }
         else
         {
-            Instance.CopyReferencesFrom(this);
             Destroy(gameObject);
             return;
         }
@@ -58,30 +57,6 @@ public class MessagesManager : MonoBehaviour
         CreateNarrativeNodes();
         CreateContacts();
         CreateMessages();
-    }
-
-    private void CopyReferencesFrom(MessagesManager other)
-    {
-        var myUI = GetComponent<MessagesUI>();
-        var otherUI = other.GetComponent<MessagesUI>();
-        if (myUI != null && otherUI != null)
-        {
-            myUI.CopyReferencesFrom(otherUI);
-        }
-
-        var myPhoneState = GetComponent<PhoneStateMachine>();
-        var otherPhoneState = other.GetComponent<PhoneStateMachine>();
-        if (myPhoneState != null && otherPhoneState != null)
-        {
-            myPhoneState.CopyReferencesFrom(otherPhoneState);
-        }
-
-        var myOptions = GetComponent<OptionsChanger>();
-        var otherOptions = other.GetComponent<OptionsChanger>();
-        if (myOptions != null && otherOptions != null)
-        {
-            myOptions.CopyReferencesFrom(otherOptions);
-        }
     }
 
     private void CreateNarrativeNodes()
@@ -98,7 +73,6 @@ public class MessagesManager : MonoBehaviour
         else
         {
             _narrativeNodes = new Dictionary<int, NarrativeNode>();
-            Debug.LogError("No se pudieron cargar los nodos narrativos.");
         }
     }
 
@@ -109,17 +83,10 @@ public class MessagesManager : MonoBehaviour
         _messagesUI = GetComponent<MessagesUI>();
 
         // Gets the PhoneStateMachine component attached to the same GameObject as this script
-        _phoneStateMachine = GetComponent<PhoneStateMachine>();
+        _phoneStateMachine = FindAnyObjectByType<PhoneStateMachine>(FindObjectsInactive.Include);
 
         // Gets the OptionsChanger component attached to the same GameObject as this script
         _optionsChanger = GetComponent<OptionsChanger>();
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>

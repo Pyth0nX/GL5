@@ -7,6 +7,7 @@ public class EventBus : MonoBehaviour
     public static EventBus Instance { get; private set; }
 
     private Dictionary<string, Action> _events = new Dictionary<string, Action>();
+    private Dictionary<string, Delegate> _typedEvents = new Dictionary<string, Delegate>();
 
     private void Awake()
     {
@@ -55,22 +56,23 @@ public class EventBus : MonoBehaviour
         }
     }
 
-    // --- String Payload Events ---
-    private Dictionary<string, Action<string>> _stringEvents = new Dictionary<string, Action<string>>();
 
-    public void Subscribe(string eventName, Action<string> listener)
+    public void Subscribe<T>(string eventName, Action<T> listener)
     {
-        if (!_stringEvents.ContainsKey(eventName)) _stringEvents[eventName] = null;
-        _stringEvents[eventName] += listener;
+        if (!_typedEvents.ContainsKey(eventName)) _typedEvents[eventName] = null;
+        _typedEvents[eventName] = (Action<T>)_typedEvents[eventName] + listener;
     }
 
-    public void Unsubscribe(string eventName, Action<string> listener)
+    public void Unsubscribe<T>(string eventName, Action<T> listener)
     {
-        if (_stringEvents.ContainsKey(eventName)) _stringEvents[eventName] -= listener;
+        if (_typedEvents.ContainsKey(eventName)) _typedEvents[eventName] = (Action<T>)_typedEvents[eventName] - listener;
     }
 
-    public void Publish(string eventName, string payload)
+    public void Publish<T>(string eventName, T payload)
     {
-        if (_stringEvents.ContainsKey(eventName)) _stringEvents[eventName]?.Invoke(payload);
+        if (_typedEvents.TryGetValue(eventName, out var del)) 
+        {
+            (del as Action<T>)?.Invoke(payload);
+        } 
     }
 }

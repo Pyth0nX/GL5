@@ -139,18 +139,4 @@ public class MessagesUI : MonoBehaviour
         }
     }
 
-    public void CopyReferencesFrom(MessagesUI other)
-    {
-        this.contactListContainer = other.contactListContainer;
-        this.messagesContainer = other.messagesContainer;
-        this.messagePrefab = other.messagePrefab;
-        this.contactPrefab = other.contactPrefab;
-        this.playerMessageColor = other.playerMessageColor;
-        this.NPCMessageColor = other.NPCMessageColor;
-
-        if (this.contactListContainer != null)
-        {
-            RefreshContacts();
-        }
-    }
 }

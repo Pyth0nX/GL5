@@ -6,11 +6,11 @@ using System.Collections.Generic;
 [Serializable]
 public enum PhoneState
 {
-    Idle,       //0
-    Messaging,  //1
-    Contacts,   //2
-    Gallery,    //3
-    Email,      //4
+    IDLE,       //0
+    MESSAGING,  //1
+    CONTACTS,   //2
+    GALLERY,    //3
+    EMAIL,      //4
 }
 
 /// <summary>
@@ -18,18 +18,11 @@ public enum PhoneState
 /// </summary>
 public class PhoneStateMachine : MonoBehaviour
 {
-    private PhoneState _currentState = PhoneState.Idle;
+    private PhoneState _currentState = PhoneState.IDLE;
 
     [Header("Buttons")]
     [SerializeField]
-    private PhoneTabButton _backButton;
-
-    [SerializeField]
-    private PhoneTabButton _homeButton;
-
-    [SerializeField]
-    private PhoneTabButton _tabButton;
-
+    private Button _backButton;
 
     [Header("Tabs")]
     [SerializeField]
@@ -47,20 +40,15 @@ public class PhoneStateMachine : MonoBehaviour
     private GameObject _emailTab;
 
     [SerializeField]
-    private GameObject _decisionsTab;
-
-    [SerializeField]
     private GameObject _dialogueTab;
 
 
     private int _backButtonState = 0; // State to change to when the back button is pressed
 
-    private int _tabButtonState = 0; // State to change to when the tab button is pressed
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _backButton.GetComponent<Button>().onClick.AddListener(() => ChangeState(_backButtonState));
+        _backButton.onClick.AddListener(() => ChangeState(_backButtonState));
     }
 
     // Update is called once per frame
@@ -75,59 +63,67 @@ public class PhoneStateMachine : MonoBehaviour
     /// <param name="newState"></param>
     public void ChangeState(int newState)
     {
-        if (_currentState != (PhoneState)newState)
-        {
-            _currentState = (PhoneState)newState;
-            SetButtonsCallbacks();
-        }
+        if (_currentState == (PhoneState)newState) return;
+
+        _backButtonState = (int)_currentState;
+        ExitCurrentState();
+        _currentState = (PhoneState)newState;
+        EnterNewState();
     }
 
     /// <summary>
-    /// Sets the callbacks for the buttons based on the current state of the phone.
+    /// Disable the tab associated to the current state
     /// </summary>
-    private void SetButtonsCallbacks()
+    private void ExitCurrentState()
     {
         switch (_currentState)
         {
-            case PhoneState.Idle:
-                Debug.Log("[PhoneStateMachine] Idle state entered.");
-                _backButton.SetTabsToClose(new List<GameObject> { });
-                _backButton.SetTabToOpen(null);
-                _backButtonState = 0;
+            case PhoneState.IDLE:
+                _startTab?.SetActive(false);
                 break;
-            case PhoneState.Contacts:
-                Debug.Log("[PhoneStateMachine] Contacts state entered. Refreshing contacts UI.");
-                _homeButton.SetTabsToClose(new List<GameObject> { _contactsTab });
-                _backButton.SetTabsToClose(new List<GameObject> { _contactsTab});
-                _backButton.SetTabToOpen(_startTab);
-                _backButtonState = 0;
-                
-                if (MessagesManager.Instance != null && MessagesManager.Instance.GetMessagesUI() != null)
-                {
-                    MessagesManager.Instance.GetMessagesUI().RefreshContacts();
-                }
+            case PhoneState.CONTACTS:
+                _contactsTab?.SetActive(false);
                 break;
-            case PhoneState.Messaging:
-                Debug.Log("[PhoneStateMachine] Messaging state entered. Refreshing messages UI.");
-                _homeButton.SetTabsToClose(new List<GameObject> { _messagingTab });
-                _backButton.SetTabsToClose(new List<GameObject> { _messagingTab });
-                _backButton.SetTabToOpen(_contactsTab);
-                _backButtonState = 2;
+            case PhoneState.MESSAGING:
+                _messagingTab?.SetActive(false);
+                _dialogueTab?.SetActive(false);
+                _backButtonState = (int)PhoneState.IDLE;
                 break;
-            case PhoneState.Gallery:
-                Debug.Log("[PhoneStateMachine] Gallery state entered.");
-                _homeButton.SetTabsToClose(new List<GameObject> { _galleryTab });
-                _backButton.SetTabsToClose(new List<GameObject> { _galleryTab });
-                _backButton.SetTabToOpen(_startTab);
-                _backButtonState = 0;
+            case PhoneState.GALLERY:
+                _galleryTab?.SetActive(false);
                 break;
-            case PhoneState.Email:
-                _homeButton.SetTabsToClose(new List<GameObject> { _emailTab });
-                _backButton.SetTabsToClose(new List<GameObject> { _emailTab });
-                _backButton.SetTabToOpen(_startTab);
-                _backButtonState = 0;
+            case PhoneState.EMAIL:
+                _emailTab?.SetActive(false);
                 break;
         }
+
+    }
+
+    /// <summary>
+    /// Enable the tab associated with the new state and calls the required methods if needed
+    /// </summary>
+    private void EnterNewState()
+    {
+        switch (_currentState)
+        {
+            case PhoneState.IDLE:
+                _startTab?.SetActive(true);
+                break;
+            case PhoneState.CONTACTS:
+                _contactsTab?.SetActive(true);
+                MessagesManager.Instance?.GetMessagesUI()?.RefreshContacts();
+                break;
+            case PhoneState.MESSAGING:
+                _messagingTab?.SetActive(true);
+                break;
+            case PhoneState.GALLERY:
+                _galleryTab?.SetActive(true);
+                break;
+            case PhoneState.EMAIL:
+                _emailTab?.SetActive(true);
+                break;
+        }
+
     }
 
     #region Getters
@@ -162,39 +158,14 @@ public class PhoneStateMachine : MonoBehaviour
     /// </summary>
     public void ShowDecisionsTab()
     {
-        _homeButton.GetTabsToClose().Add(_decisionsTab);
-        _backButton.GetTabsToClose().Add(_decisionsTab);
-        _decisionsTab.SetActive(true);
+        //_homeButton.GetTabsToClose().Add(_decisionsTab);
+        //_backButton.GetTabsToClose().Add(_decisionsTab);
+        //_decisionsTab.SetActive(true);
     }
 
     public void ShowDialogueTab()
     {
-        _homeButton.GetTabsToClose().Add(_dialogueTab);
-        _backButton.GetTabsToClose().Add(_dialogueTab);
         _dialogueTab.SetActive(true);
     }
 
-    public void CopyReferencesFrom(PhoneStateMachine other)
-    {
-        this._backButton = other._backButton;
-        this._homeButton = other._homeButton;
-        this._tabButton = other._tabButton;
-        
-        this._startTab = other._startTab;
-        this._contactsTab = other._contactsTab;
-        this._messagingTab = other._messagingTab;
-        this._galleryTab = other._galleryTab;
-        this._emailTab = other._emailTab;
-        this._decisionsTab = other._decisionsTab;
-        this._dialogueTab = other._dialogueTab;
-
-        if (this._backButton != null)
-        {
-            this._backButton.GetComponent<Button>().onClick.RemoveAllListeners();
-            this._backButton.GetComponent<Button>().onClick.AddListener(() => ChangeState(this._backButtonState));
-        }
-
-        _currentState = PhoneState.Idle;
-        SetButtonsCallbacks();
-    }
 }

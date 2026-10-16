@@ -3,8 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class MapObject : MonoBehaviour , IInteractable
 {
-    [SerializeField]
-    private GameObject _map;
 
     [Header("Conditions")]
     [Tooltip("Can this door/object change scenes right now?")]
@@ -82,12 +80,6 @@ public class MapObject : MonoBehaviour , IInteractable
             return;
         }
 
-        _map.SetActive(true);
-
-        PlayerController player = FindAnyObjectByType<PlayerController>();
-        if (player != null)
-        {
-            player.UnlockMouse();
-        }
+        UIManager.Instance.ChangeState(UIState.MAP);
     }
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5876234489487569942}
   - component: {fileID: 429433963476449377}
   - component: {fileID: 3069434280421965302}
-  - component: {fileID: 114566730554550006}
   - component: {fileID: 3943810475704600460}
   - component: {fileID: 3330786319643132578}
   m_Layer: 0
@@ -72,28 +71,6 @@ MonoBehaviour:
   contactPrefab: {fileID: 6391233378624843405, guid: 920a50a28ceb8404da0f3faa4c5027dd, type: 3}
   playerMessageColor: {r: 0, g: 0.5921569, b: 0.06666667, a: 1}
   NPCMessageColor: {r: 0.5018867, g: 0.18086863, b: 0.19428025, a: 1}
---- !u!114 &114566730554550006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5532515411463739525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b9d759d9a5d2f44cb444efb5cb695bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhoneStateMachine
-  _backButton: {fileID: 0}
-  _homeButton: {fileID: 0}
-  _tabButton: {fileID: 0}
-  _startTab: {fileID: 0}
-  _contactsTab: {fileID: 0}
-  _messagingTab: {fileID: 0}
-  _galleryTab: {fileID: 0}
-  _emailTab: {fileID: 0}
-  _decisionsTab: {fileID: 0}
-  _dialogueTab: {fileID: 0}
 --- !u!114 &3943810475704600460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +104,6 @@ MonoBehaviour:
     _eventOnEnd: 
   _option1Button: {fileID: 0}
   _option2Button: {fileID: 0}
-  _playerController: {fileID: 0}
 --- !u!114 &3330786319643132578
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 832037829044368280}
   - component: {fileID: 2203835834691487124}
   - component: {fileID: 3612019585409655235}
-  - component: {fileID: 4933521329525482045}
   m_Layer: 5
   m_Name: Messages
   m_TagString: Untagged
@@ -121,34 +120,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4933521329525482045}
-        m_TargetAssemblyTypeName: PhonTabButton, Assembly-CSharp
-        m_MethodName: OpenTab
-        m_Mode: 1
+      - m_Target: {fileID: 3443642572922151907}
+        m_TargetAssemblyTypeName: PhoneStateMachine, Assembly-CSharp
+        m_MethodName: ChangeState
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4933521329525482045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 271023136733026494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e10752f2603364c8141b66311d97a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhonTabButton
-  tabToOpen: {fileID: 657143818532057135}
-  tabsToClose:
-  - {fileID: 891118975719714065}
-  _targetStateId: 2
 --- !u!1 &454075777912270892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,6 +1236,7 @@ GameObject:
   - component: {fileID: 3961281243668529769}
   - component: {fileID: 8702769484206479335}
   - component: {fileID: 7519667817425791457}
+  - component: {fileID: 3443642572922151907}
   m_Layer: 5
   m_Name: SmartPhoneV3
   m_TagString: Untagged
@@ -1334,7 +1318,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &7519667817425791457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1352,6 +1336,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &3443642572922151907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3061637108304326739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9d759d9a5d2f44cb444efb5cb695bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhoneStateMachine
+  _backButton: {fileID: 609387527121369517}
+  _homeButton: {fileID: 0}
+  _tabButton: {fileID: 0}
+  _startTab: {fileID: 891118975719714065}
+  _contactsTab: {fileID: 657143818532057135}
+  _messagingTab: {fileID: 4410594562494933282}
+  _galleryTab: {fileID: 5572264413696622787}
+  _emailTab: {fileID: 0}
+  _dialogueTab: {fileID: 1333551865408897339}
 --- !u!1 &3209697642008552754
 GameObject:
   m_ObjectHideFlags: 0
@@ -1364,7 +1369,6 @@ GameObject:
   - component: {fileID: 7145776441066135858}
   - component: {fileID: 6985047334827475187}
   - component: {fileID: 6890010670208812355}
-  - component: {fileID: 4503350350275636140}
   m_Layer: 5
   m_Name: Gallery
   m_TagString: Untagged
@@ -1473,19 +1477,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4503350350275636140}
-        m_TargetAssemblyTypeName: PhonTabButton, Assembly-CSharp
-        m_MethodName: OpenTab
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3443642572922151907}
         m_TargetAssemblyTypeName: PhoneStateMachine, Assembly-CSharp
         m_MethodName: ChangeState
         m_Mode: 3
@@ -1497,22 +1489,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4503350350275636140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209697642008552754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e10752f2603364c8141b66311d97a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhonTabButton
-  tabToOpen: {fileID: 5572264413696622787}
-  tabsToClose:
-  - {fileID: 891118975719714065}
-  _targetStateId: 3
 --- !u!1 &3329929925024634371
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198,7 +2174,6 @@ GameObject:
   - component: {fileID: 4032618984723378049}
   - component: {fileID: 7726142820818564238}
   - component: {fileID: 7839437333697670727}
-  - component: {fileID: 7172510111396865507}
   m_Layer: 5
   m_Name: TabButton
   m_TagString: Untagged
@@ -2222,7 +2197,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 136.05, y: -334.15}
+  m_AnchoredPosition: {x: -136.05, y: -334.15}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4032618984723378049
@@ -2306,34 +2281,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7726142820818564238}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7172510111396865507}
-        m_TargetAssemblyTypeName: PhoneTabButton, Assembly-CSharp
-        m_MethodName: OpenTab
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &7172510111396865507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4336751301874663903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e10752f2603364c8141b66311d97a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhoneTabButton
-  tabToOpen: {fileID: 0}
-  tabsToClose: []
-  _targetStateId: -1
+      m_Calls: []
 --- !u!1 &4410594562494933282
 GameObject:
   m_ObjectHideFlags: 0
@@ -3216,7 +3164,6 @@ GameObject:
   - component: {fileID: 7918957452476571096}
   - component: {fileID: 3907654344808339823}
   - component: {fileID: 304190149754002582}
-  - component: {fileID: 8608950254887472020}
   m_Layer: 5
   m_Name: HomeButton
   m_TagString: Untagged
@@ -3325,10 +3272,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8608950254887472020}
-        m_TargetAssemblyTypeName: PhoneTabButton, Assembly-CSharp
-        m_MethodName: OpenTab
-        m_Mode: 1
+      - m_Target: {fileID: 3443642572922151907}
+        m_TargetAssemblyTypeName: PhoneStateMachine, Assembly-CSharp
+        m_MethodName: ChangeState
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3337,21 +3284,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8608950254887472020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7545063247557177291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e10752f2603364c8141b66311d97a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhoneTabButton
-  tabToOpen: {fileID: 891118975719714065}
-  tabsToClose: []
-  _targetStateId: -1
 --- !u!1 &7622715047849925437
 GameObject:
   m_ObjectHideFlags: 0
@@ -3364,7 +3296,6 @@ GameObject:
   - component: {fileID: 2623730545445699012}
   - component: {fileID: 5125230324805734939}
   - component: {fileID: 609387527121369517}
-  - component: {fileID: 1760149007539243079}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -3388,7 +3319,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -136.05, y: -334.15}
+  m_AnchoredPosition: {x: 136.05, y: -334.15}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2623730545445699012
@@ -3472,34 +3403,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5125230324805734939}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1760149007539243079}
-        m_TargetAssemblyTypeName: PhoneTabButton, Assembly-CSharp
-        m_MethodName: OpenTab
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1760149007539243079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7622715047849925437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e10752f2603364c8141b66311d97a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhoneTabButton
-  tabToOpen: {fileID: 0}
-  tabsToClose: []
-  _targetStateId: -1
+      m_Calls: []
 --- !u!1 &7872473987236610302
 GameObject:
   m_ObjectHideFlags: 0

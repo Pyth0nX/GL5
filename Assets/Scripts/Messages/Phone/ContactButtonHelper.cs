@@ -9,8 +9,6 @@ public class ContactButtonHelper : MonoBehaviour
     void Start()
     {
         // Gets the PhoneTabButton component attached to the same GameObject 
-        _phoneTabButton = GetComponent<PhoneTabButton>();
-
         SetButtonActions();
     }
 
@@ -25,13 +23,6 @@ public class ContactButtonHelper : MonoBehaviour
     /// </summary>
     private void SetButtonActions()
     {
-
-        PhoneStateMachine phoneStateMachine = MessagesManager.Instance.GetPhoneStateMachine();
-
-        _phoneTabButton.SetTabToOpen(phoneStateMachine.GetMessagingTab());
-
-        _phoneTabButton.SetTabsToClose(new List<GameObject> { phoneStateMachine.GetContactsTab() });
-
         string contactName = GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
 
         Button button = GetComponent<Button>();
