@@ -49,6 +49,7 @@ public class PhoneStateMachine : MonoBehaviour
     void Start()
     {
         _backButton.onClick.AddListener(() => ChangeState(_backButtonState));
+        EventBus.Instance.Subscribe<int>("Phone_Closed", ChangeState);
     }
 
     // Update is called once per frame
@@ -166,6 +167,14 @@ public class PhoneStateMachine : MonoBehaviour
     public void ShowDialogueTab()
     {
         _dialogueTab.SetActive(true);
+    }
+
+
+    /// <summary>
+    /// Restablece los valores relacionados con el teléfono a su estado predeterminado.
+    /// </summary>
+    private void ResetPhone()
+    {
     }
 
 }

@@ -86,8 +86,8 @@ public class UIManager : MonoBehaviour
 
     public void TogglePause()
     {
-        if (_currentState == UIState.DEFAULT) ChangeState(UIState.MENU);
-        else if (_currentState == UIState.MENU) ChangeState(UIState.DEFAULT);
+        if (_currentState == UIState.DEFAULT) ChangeState(3);
+        else if (_currentState == UIState.MENU) ChangeState(0);
     }
 
     public void ShowMessage(string message, Color colorText)
@@ -147,21 +147,22 @@ public class UIManager : MonoBehaviour
 
     public void ShowMap()
     {
-        _map.SetActive(true);
+        ChangeState(2);
     }
 
     public void HideMap()
     {
-        _map.SetActive(false);
+        ChangeState(0);
     }
 
 
-    public void ChangeState(UIState newState) 
+    public void ChangeState(int newState) 
     {
-        if (newState == _currentState) return;
+        if ((UIState)newState == _currentState) return;
 
+        Debug.Log("[UIManager] Current:" + _currentState);
         ExitCurrentState();
-        _currentState = newState;
+        _currentState = (UIState)newState;
         EnterNewState();
     }
 
@@ -182,12 +183,12 @@ public class UIManager : MonoBehaviour
                 {
                     _phone.SetActive(false);
                     EnableBlur(false);
-                    EventBus.Instance.Publish("Phone_Closed");
+                    EventBus.Instance.Publish("Phone_Closed",0);
                 }
                 break;
             case UIState.MAP:
                 {
-                    HideMap();
+                    _map.SetActive(false);
                 }
                 break;
             case UIState.CONVERSATION:
@@ -228,7 +229,7 @@ public class UIManager : MonoBehaviour
                 break;
             case UIState.MAP:
                 {
-                    ShowMap();
+                    _map.SetActive(true);
                     InputManager.Instance.DisableInteract();
                     InputManager.Instance.DisablePhone();
                 }

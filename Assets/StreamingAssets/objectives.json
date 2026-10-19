@@ -23,7 +23,14 @@
         },
         {
             "id": "day1_home",
-            "description": "Go home and check your phone.",
+            "description": "Go home.",
+            "targetCount": 1,
+            "eventToListen": "Day1_ComebackHome",
+            "eventOnComplete": ""
+        },
+        {
+            "id": "day1_night_convo",
+            "description": "Check your phone.",
             "targetCount": 1,
             "eventToListen": "Day1_NightConvo_End",
             "eventOnComplete": ""

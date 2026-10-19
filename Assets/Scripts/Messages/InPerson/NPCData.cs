@@ -1,13 +1,11 @@
 using UnityEngine;
 
-public class NPCData : MonoBehaviour, IInteractable
+public class NPCData : IInteractable
 {
     [SerializeField]
     private string _characterName; // Name of the character (this need to be exactly the same as stated in the JSON)
 
     [Header("Conditions")]
-    [Tooltip("Can this NPC be interacted with right now?")]
-    [SerializeField] private bool _canInteract = true;
 
     [Tooltip("Optional: Events that enable this NPC (e.g. Day1_LockerEncounterEnd).")]
     [SerializeField] private System.Collections.Generic.List<string> _enableEvents;
@@ -24,7 +22,7 @@ public class NPCData : MonoBehaviour, IInteractable
                 if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, EnableInteraction);
             }
         }
-        
+
         if (_disableEvents != null)
         {
             foreach (var ev in _disableEvents)
@@ -32,6 +30,9 @@ public class NPCData : MonoBehaviour, IInteractable
                 if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, DisableInteraction);
             }
         }
+
+        _interactMessage = "Talk to " + _characterName;
+        _notAvailableMessage = "Can't talk now";
     }
 
     private void OnDestroy()
@@ -59,10 +60,11 @@ public class NPCData : MonoBehaviour, IInteractable
     public void EnableInteraction() => _canInteract = true;
     public void DisableInteraction() => _canInteract = false;
 
-    public void Interact()
+    public override void Interact()
     {
         if (!_canInteract)
         {
+            Debug.Log("[NPC]: Interacted failed");
             // Revert player state just in case it got stuck
             PlayerStateMachine playerState = FindAnyObjectByType<PlayerStateMachine>();
             if (playerState != null && playerState.GetCurrentState() == PlayerState.Interacting)
@@ -72,7 +74,9 @@ public class NPCData : MonoBehaviour, IInteractable
             return;
         }
 
-        UIManager.Instance.ChangeState(UIState.CONVERSATION);
+        Debug.Log("[NPC]: Interacted");
+
         MessagesManager.Instance.SetCurrentContact(_characterName);
+        UIManager.Instance.ChangeState(4);
     }
 }

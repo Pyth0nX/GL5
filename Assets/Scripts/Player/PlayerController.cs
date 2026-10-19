@@ -76,12 +76,12 @@ public class PlayerController : MonoBehaviour
         if (_playerStateMachine.IsPhoneOpen())
         {
             _playerStateMachine.ChangeState(PlayerState.Phone);
-            UIManager.Instance.ChangeState(UIState.PHONE);
+            UIManager.Instance.ChangeState(1);
         }
         else
         {
             _playerStateMachine.ChangeState(PlayerState.Idle);
-            UIManager.Instance.ChangeState(UIState.DEFAULT);
+            UIManager.Instance.ChangeState(0);
         }
     }
 
@@ -132,7 +132,9 @@ public class PlayerController : MonoBehaviour
                 _isShowingHoverMessage = true;
                 if (UIManager.Instance != null)
                 {
-                    UIManager.Instance.ShowMessage("Press E to interact", Color.white);
+                    string messageToShow = (interactable.CanInteract()) ? interactable.InteractionMessage() : interactable.NotAvailableMessage();
+                    Color messageColor = (interactable.CanInteract()) ? Color.white : Color.darkRed;
+                    UIManager.Instance.ShowMessage(messageToShow, messageColor);
                 }
             }
         }
@@ -153,19 +155,22 @@ public class PlayerController : MonoBehaviour
     public void TryInteract()
     {
         IInteractable interactable = GetInteractableInSight();
+        Debug.Log("Interacted tried");
 
         if (interactable != null)
         {
             // We interact. The script (e.g. EventInteractable) will handle if it's not available
+            Debug.Log("Interacted");
             interactable.Interact();
             _playerStateMachine.ChangeState(PlayerState.Interacting);
         }
         else
         {
+
             // Situation 3: Press E and nothing in front
             if (UIManager.Instance != null)
             {
-                UIManager.Instance.ShowTemporaryMessage("Can't Interact", new Color(0.3f, 0.3f, 0.3f), 2f);
+                UIManager.Instance.ShowTemporaryMessage("Nothing to interact", new Color(0.3f, 0.3f, 0.3f), 2f);
             }
         }
     }

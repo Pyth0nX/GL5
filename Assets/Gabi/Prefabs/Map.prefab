@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 6639822768634914797}
   - component: {fileID: 7176987982554268336}
   - component: {fileID: 1020723234554966008}
+  - component: {fileID: 996631407120511749}
   m_Layer: 5
   m_Name: Home
   m_TagString: Untagged
@@ -395,22 +396,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3907933390121799268}
-        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Home
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7372307525939883411}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ChangeState
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -419,6 +408,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 996631407120511749}
+        m_TargetAssemblyTypeName: UIEventPublisher, Assembly-CSharp
+        m_MethodName: PublishConfiguredEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &996631407120511749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2182671784082374351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3b9065fb1bde004fb0e363b28f00576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIEventPublisher
+  _currentEventToPublish: Day1_ComebackHome
+  _eventChangers:
+  - eventToListen: 
+    newEventToPublish: 
 --- !u!1 &2673149364935383253
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,7 +448,7 @@ GameObject:
   - component: {fileID: 4745830973573997246}
   - component: {fileID: 9081665692565510024}
   - component: {fileID: 279481542152241515}
-  - component: {fileID: 7135701516562056454}
+  - component: {fileID: 4466778120676557917}
   m_Layer: 5
   m_Name: School
   m_TagString: Untagged
@@ -541,10 +558,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3907933390121799268}
-        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 5
+      - m_Target: {fileID: 4466778120676557917}
+        m_TargetAssemblyTypeName: UIEventPublisher, Assembly-CSharp
+        m_MethodName: PublishConfiguredEvent
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -553,19 +570,7 @@ MonoBehaviour:
           m_StringArgument: School
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7372307525939883411}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &7135701516562056454
+--- !u!114 &4466778120676557917
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -574,16 +579,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2673149364935383253}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fbcde2cd411ea345a74fc50907a2bd7, type: 3}
+  m_Script: {fileID: 11500000, guid: d3b9065fb1bde004fb0e363b28f00576, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EventInteractable
-  _eventsToPublish:
-  - Day1_GoToSchool
-  _instantAction: 1
-  _canInteract: 1
-  _enableEvents: []
-  _disableEvents: []
-  _disabledEventsToPublish: []
+  m_EditorClassIdentifier: Assembly-CSharp::UIEventPublisher
+  _currentEventToPublish: 
+  _eventChangers: []
 --- !u!1 &7372307525939883411
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,7 +673,6 @@ GameObject:
   - component: {fileID: 8519776986575943968}
   - component: {fileID: 1998766255655157290}
   - component: {fileID: 5031669129558791369}
-  - component: {fileID: 3907933390121799268}
   m_Layer: 5
   m_Name: Map
   m_TagString: Untagged
@@ -690,7 +689,7 @@ RectTransform:
   m_GameObject: {fileID: 8519704884754078627}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1361081060184935957}
@@ -765,15 +764,3 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3907933390121799268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8519704884754078627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c8ab1b43ea7024dbd3b3c085f398e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneChanger

@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Attach this script to a UI Button or any Canvas object.
@@ -20,7 +22,7 @@ public class UIEventPublisher : MonoBehaviour
     }
 
     [Tooltip("List of rules to change what this button does dynamically based on the story.")]
-    [SerializeField] private System.Collections.Generic.List<EventChanger> _eventChangers;
+    [SerializeField] private List<EventChanger> _eventChangers;
 
     private void Start()
     {
@@ -51,7 +53,7 @@ public class UIEventPublisher : MonoBehaviour
     }
     
     // Tracking subscriptions for clean cleanup
-    private System.Collections.Generic.Dictionary<string, System.Action> _subscriptions = new System.Collections.Generic.Dictionary<string, System.Action>();
+    private Dictionary<string, System.Action> _subscriptions = new System.Collections.Generic.Dictionary<string, System.Action>();
 
     private void OnEnable()
     {

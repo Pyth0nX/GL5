@@ -1,12 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MapObject : MonoBehaviour , IInteractable
+public class MapObject : IInteractable
 {
 
     [Header("Conditions")]
-    [Tooltip("Can this door/object change scenes right now?")]
-    [SerializeField] private bool _canInteract = true;
 
     [Tooltip("Optional: Events that enable this door (e.g. Day3_ReadyToLeave).")]
     [SerializeField] private System.Collections.Generic.List<string> _enableEvents;
@@ -61,7 +59,7 @@ public class MapObject : MonoBehaviour , IInteractable
     public void EnableInteraction() => _canInteract = true;
     public void DisableInteraction() => _canInteract = false;
 
-    public void Interact()
+    public override void Interact()
     {
         if (!_canInteract)
         {
@@ -80,6 +78,6 @@ public class MapObject : MonoBehaviour , IInteractable
             return;
         }
 
-        UIManager.Instance.ChangeState(UIState.MAP);
+        UIManager.Instance.ChangeState(2);
     }
 }

@@ -62,6 +62,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         _dialogueBox.SetActive(true);
+        Debug.Log("dialog activated");
         InputManager.Instance.DisableMovementMap();
         
         if (currentNode.HasOptions())
@@ -115,7 +116,7 @@ public class DialogueManager : MonoBehaviour
         if (_isEndNode) 
         {
             _dialogueBox.SetActive(false);
-            UIManager.Instance.ChangeState(UIState.DEFAULT);
+            UIManager.Instance.ChangeState(0);
         }
         _currentDialogueIndex = 0;
         _currentDialogues = null;
