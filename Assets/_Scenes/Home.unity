@@ -2224,6 +2224,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 350168362828224204, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 490144016911053200, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 3
@@ -2292,8 +2296,32 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1845192202362055861, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845192202362055861, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845192202362055861, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845192202362055861, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 960
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845192202362055861, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 540
+      objectReference: {fileID: 0}
     - target: {fileID: 2846898071478923109, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801897889967310680, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_ScreenMatchMode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4493231244334116007, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
@@ -2379,6 +2407,22 @@ PrefabInstance:
     - target: {fileID: 4775460458538024923, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7973820636746429435, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8239754971791461305, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8239754971791461305, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9140921074266637771, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2717,7 +2761,19 @@ MonoBehaviour:
   _interactMessage: Go to sleep
   _notAvailableMessage: Can't sleep now
   _eventsToPublish:
-  - _eventName: NextDay
+  - _eventName: SleepTransition
+    _dataType: 0
+    _stringValue: 
+    _intValue: 0
+    _floatValue: 0
+    _boolValue: 0
+  - _eventName: Day1_End
+    _dataType: 0
+    _stringValue: 
+    _intValue: 0
+    _floatValue: 0
+    _boolValue: 0
+  - _eventName: Day2_End
     _dataType: 0
     _stringValue: 
     _intValue: 0
@@ -3119,6 +3175,12 @@ MonoBehaviour:
   _notAvailableMessage: Can't leave now
   _eventsToPublish:
   - _eventName: OpenMap
+    _dataType: 0
+    _stringValue: 
+    _intValue: 0
+    _floatValue: 0
+    _boolValue: 0
+  - _eventName: Day1_GoToSchool
     _dataType: 0
     _stringValue: 
     _intValue: 0

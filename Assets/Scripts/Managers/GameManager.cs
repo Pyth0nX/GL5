@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     public void ChangeScene(string sceneName)
     {
         if(SceneManager.GetActiveScene().name != sceneName) SceneManager.LoadScene(sceneName);
-        EventBus.Instance.Publish("FadeOut");
+        //EventBus.Instance.Publish("FadeOut");
     }
 
     /// <summary>
@@ -76,6 +76,6 @@ public class GameManager : MonoBehaviour
     /// <param name="mode"></param>
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        EventBus.Instance.Publish("FadeIn");
+        //EventBus.Instance.Publish("FadeIn");
     }
 }

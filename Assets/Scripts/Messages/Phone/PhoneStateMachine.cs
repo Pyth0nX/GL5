@@ -169,12 +169,4 @@ public class PhoneStateMachine : MonoBehaviour
         _dialogueTab.SetActive(true);
     }
 
-
-    /// <summary>
-    /// Restablece los valores relacionados con el teléfono a su estado predeterminado.
-    /// </summary>
-    private void ResetPhone()
-    {
-    }
-
 }

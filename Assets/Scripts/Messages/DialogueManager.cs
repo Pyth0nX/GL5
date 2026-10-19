@@ -42,7 +42,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        EventBus.Instance.Subscribe("Conversation_Started",StartDialogue);
+        EventBus.Instance.Subscribe("Conversation_Started", StartDialogue);
     }
 
     private void Update()
@@ -55,6 +55,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue()
     {
+        Debug.Log("dialog activated");
         NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
         if (currentNode == null)
         {
@@ -62,7 +63,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         _dialogueBox.SetActive(true);
-        Debug.Log("dialog activated");
         InputManager.Instance.DisableMovementMap();
         
         if (currentNode.HasOptions())

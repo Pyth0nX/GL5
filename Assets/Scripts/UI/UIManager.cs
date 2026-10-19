@@ -160,10 +160,12 @@ public class UIManager : MonoBehaviour
     {
         if ((UIState)newState == _currentState) return;
 
-        Debug.Log("[UIManager] Current:" + _currentState);
+        Debug.Log("[UIManager] Previous:" + _currentState);
         ExitCurrentState();
         _currentState = (UIState)newState;
+        Debug.Log("[UIManager] Current:" + _currentState);
         EnterNewState();
+        HideMessage();
     }
 
 
@@ -236,6 +238,7 @@ public class UIManager : MonoBehaviour
                 break;
             case UIState.CONVERSATION:
                 {
+                    Debug.Log("[UIManager] Conversation");
                     EventBus.Instance.Publish("Conversation_Started");
                     InputManager.Instance.DisableInteract();
                     InputManager.Instance.DisablePhone();

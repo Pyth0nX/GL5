@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EventNodeUpdater
   _updateRules:
-  - triggerEventName: Day1_LockerEncounterEnd
+  - triggerEventName: Day1_ComebackHome
     contactUpdates:
     - contactName: Unknown Number
       newNarrativeNodeId: 5

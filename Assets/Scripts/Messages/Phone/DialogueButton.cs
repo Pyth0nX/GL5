@@ -58,7 +58,7 @@ public class DialogueButton : MonoBehaviour
                     SetVisualsActive(false);
                     
                     _timer += Time.deltaTime;
-                    if (_timer >= 2f)
+                    if (_timer >= 1f)
                     {
                         _timer = 0f;
                         SendNextMessage();

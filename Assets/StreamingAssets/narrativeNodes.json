@@ -389,7 +389,7 @@
             "_nextNode": -1,
             "_options": [
                 {
-                    "text": "Rough day at school. Don't wanna talk about it..",
+                    "text": "Don't tell about the bullies",
                     "nextNode": 7,
                     "messagesToSend": [
                         {
@@ -408,7 +408,7 @@
                     "eventToPublish": ""
                 },
                 {
-                    "text": "There's these really mean girls at my school who constantly pick on me...",
+                    "text": "Tell about the bullies",
                     "nextNode": 8,
                     "messagesToSend": [
                         {
@@ -2698,7 +2698,7 @@
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "Bob_Convo_Ended"
         },
         {
             "_id": 101,
