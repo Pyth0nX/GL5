@@ -41,6 +41,11 @@ public class NarrativeNode
     [SerializeField]
     private string _eventOnEnd; // Event to fire when this node's dialogue finishes
 
+    [SerializeField]
+    private EventDataType _eventDataType;
+    [SerializeField]
+    private string _eventDataRawValue;
+
     #region Getters
     public int ID() { return _id; }
 
@@ -59,15 +64,43 @@ public class NarrativeNode
     public int LoopNode() { return _loopNode; }
     
     public DialogueType DialogueType() { return _dialogueType; }
+
+    public object EventDataValue()
+    {
+        return _eventDataType switch
+        {
+            EventDataType.INT => int.Parse(_eventDataRawValue),
+            EventDataType.FLOAT => float.Parse(_eventDataRawValue, System.Globalization.CultureInfo.InvariantCulture),
+            EventDataType.BOOL => bool.Parse(_eventDataRawValue),
+            EventDataType.STRING => _eventDataRawValue,
+            EventDataType.NONE => null,
+            _ => null
+        };
+    }
     #endregion
 }
 
 [System.Serializable]
-public struct Option
+public class Option
 {
     public string text;
     public int nextNode;
 
     public Message[] messagesToSend;
     public string eventToPublish; // Optional event to publish when this option is chosen
+    public EventDataType eventDataType = EventDataType.NONE; // The type of data of the event
+    public string eventDataRawValue; // raw value of the event data
+
+    public object EventDataValue()
+    {
+        return eventDataType switch
+        {
+            EventDataType.INT => int.Parse(eventDataRawValue),
+            EventDataType.FLOAT => float.Parse(eventDataRawValue, System.Globalization.CultureInfo.InvariantCulture),
+            EventDataType.BOOL => bool.Parse(eventDataRawValue),
+            EventDataType.STRING => eventDataRawValue,
+            EventDataType.NONE => null,
+            _ => null
+        };
+    }
 }

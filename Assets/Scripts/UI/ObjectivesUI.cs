@@ -36,8 +36,7 @@ public class ObjectivesUI : MonoBehaviour
 
     private void UpdateUI(Objective currentObj, int progress)
     {
-        // If the objective is null, we have completed the game or there are no objectives left
-        if (currentObj == null)
+        if (!currentObj.IsActive())
         {
             if (_panel != null) _panel.SetActive(false);
             if (_objectiveText != null) _objectiveText.text = "";
@@ -51,14 +50,14 @@ public class ObjectivesUI : MonoBehaviour
         }
 
         // If the target count is greater than 1, we show a progress counter like (1/3)
-        if (currentObj.targetCount > 1)
+        if (currentObj.TargetCount() > 1)
         {
-            _objectiveText.text = $"{currentObj.description} ({progress}/{currentObj.targetCount})";
+            _objectiveText.text = $"{currentObj.Description()} ({progress}/{currentObj.TargetCount()})";
         }
         else
         {
             // If the target is just 1 (e.g. "Go to class"), we just show the description
-            _objectiveText.text = currentObj.description;
+            _objectiveText.text = currentObj.Description();
         }
     }
 }

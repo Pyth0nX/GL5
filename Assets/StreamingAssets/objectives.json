@@ -1,7 +1,7 @@
 {
     "objectives": [
         {
-            "id": "day1_wake",
+            "id": "0",
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day1_Convo1_End",

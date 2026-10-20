@@ -405,7 +405,8 @@
                             }
                         }
                     ],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
                 },
                 {
                     "text": "Tell about the bullies",
@@ -424,7 +425,9 @@
                             }
                         }
                     ],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
+
                 }
             ],
             "_isEndNode": false,
@@ -824,13 +827,15 @@
                     "text": "Can you just leave me alone?",
                     "nextNode": 12,
                     "messagesToSend": [],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
                 },
                 {
                     "text": "Ignore them and walk away.",
                     "nextNode": 13,
                     "messagesToSend": [],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
                 }
             ],
             "_dialogues": [],
@@ -1196,13 +1201,15 @@
                     "text": "Rainfall School, what about you?",
                     "nextNode": 16,
                     "messagesToSend": [],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
                 },
                 {
                     "text": "Why do you wanna know?",
                     "nextNode": 17,
                     "messagesToSend": [],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
                 }
             ],
             "_dialogues": [],
@@ -1400,13 +1407,15 @@
                     "text": "Send a flirty photo",
                     "nextNode": 19,
                     "messagesToSend": [],
-                    "eventToPublish": "SentFlirtyPhoto"
+                    "eventToPublish": "SentFlirtyPhoto",
+                    "eventDataType":0
                 },
                 {
                     "text": "Send a photo",
                     "nextNode": 20,
                     "messagesToSend": [],
-                    "eventToPublish": "SentNormalPhoto"
+                    "eventToPublish": "SentNormalPhoto",
+                    "eventDataType":0
                 }
             ],
             "_dialogues": [],
@@ -2576,13 +2585,15 @@
                     "text": "Seek help from a trusted person",
                     "nextNode": 27,
                     "messagesToSend": [],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
                 },
                 {
                     "text": "Confront Emma",
                     "nextNode": 28,
                     "messagesToSend": [],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
                 }
             ],
             "_dialogues": [
@@ -2708,13 +2719,15 @@
                     "text": "Ask them to move",
                     "nextNode": 3,
                     "messagesToSend": [],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
                 },
                 {
                     "text": "Go quietly and sit down",
                     "nextNode": 4,
                     "messagesToSend": [],
-                    "eventToPublish": ""
+                    "eventToPublish": "",
+                    "eventDataType":0
                 }
             ],
             "_dialogues": [],

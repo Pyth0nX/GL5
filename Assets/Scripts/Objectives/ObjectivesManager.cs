@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class ObjectivesManager : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public class ObjectivesManager : MonoBehaviour
 
     [SerializeField] private string _objectivesFileName = "objectives.json";
 
-    private List<Objective> _allObjectives;
+    private Dictionary<int, Objective> _objectives = new Dictionary<int, Objective>();
+    private Objective _currentObjective;
     private int _currentObjectiveIndex = 0;
     private int _currentProgress = 0;
 
@@ -25,20 +27,31 @@ public class ObjectivesManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            
-            // Load objectives early so UI can access them in Start
-            _allObjectives = DataLoader.LoadObjectives(_objectivesFileName);
+
+            CreateObjectives();
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    
+
+    private void CreateObjectives()
+    {
+        // Load objectives early so UI can access them in Start
+        List<Objective> allObjectives = DataLoader.LoadObjectives(_objectivesFileName);
+        foreach(Objective objective in allObjectives)
+        {
+            _objectives.Add(objective.Id(),objective);
+        }
+        _currentObjective = _objectives[0];
+
+        if(_currentObjective == null) Debug.LogWarning("[ObjectivesManager] No objectives loaded.");
+    }
+
     public Objective GetCurrentObjective()
     {
-        if (_allObjectives == null || _currentObjectiveIndex >= _allObjectives.Count) return null;
-        return _allObjectives[_currentObjectiveIndex];
+        return _currentObjective;
     }
     
     public int GetCurrentProgress()
@@ -49,73 +62,75 @@ public class ObjectivesManager : MonoBehaviour
 
     private void SubscribeToCurrentObjective()
     {
-        if (_currentObjectiveIndex < _allObjectives.Count)
-        {
-            Objective current = _allObjectives[_currentObjectiveIndex];
-            _currentProgress = 0;
+        _currentProgress = 0;
             
-            // Subscribe to the event required to progress this objective
-            if (!string.IsNullOrEmpty(current.eventToListen))
-            {
-                EventBus.Instance.Subscribe(current.eventToListen, OnObjectiveProgressed);
-            }
-            
-            OnObjectiveUpdated?.Invoke(current, _currentProgress);
-        }
-        else
+        // Subscribe to the event required to progress this objective
+        if (!string.IsNullOrEmpty(_currentObjective.EventToListen()))
         {
-            Debug.Log("[ObjectivesManager] All objectives completed!");
-            OnObjectiveUpdated?.Invoke(null, 0);
+            EventBus.Instance.Subscribe(_currentObjective.EventToListen(), OnObjectiveProgressed);
         }
+
+        // Subscribe to the event required to activate this objective
+        if (!string.IsNullOrEmpty(_currentObjective.EventToActivate()))
+        {
+            EventBus.Instance.Subscribe(_currentObjective.EventToActivate(), OnObjectiveActivated);
+        }
+
+            
+        OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
     }
 
     private void OnObjectiveProgressed()
     {
-        Objective current = _allObjectives[_currentObjectiveIndex];
+        // If the objective is not active already
+        if (!_currentObjective.IsActive()) return;
         _currentProgress++;
         
-        Debug.Log($"[ObjectivesManager] Progressed objective '{current.id}': {_currentProgress}/{current.targetCount}");
+        Debug.Log($"[ObjectivesManager] Progressed objective '{_currentObjective.Id()}': {_currentProgress}/{_currentObjective.TargetCount()}");
 
-        OnObjectiveUpdated?.Invoke(current, _currentProgress);
+        OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
 
-        if (_currentProgress >= current.targetCount)
+        if (_currentProgress >= _currentObjective.TargetCount())
         {
             // Unsubscribe from the current event since it's completed
-            if (!string.IsNullOrEmpty(current.eventToListen))
+            if (!string.IsNullOrEmpty(_currentObjective.EventToListen()))
             {
-                EventBus.Instance.Unsubscribe(current.eventToListen, OnObjectiveProgressed);
+                EventBus.Instance.Unsubscribe(_currentObjective.EventToListen(), OnObjectiveProgressed);
             }
             
             // Publish completion event if any
-            if (!string.IsNullOrEmpty(current.eventOnComplete))
+            if (!string.IsNullOrEmpty(_currentObjective.EventOnComplete()))
             {
-                EventBus.Instance.Publish(current.eventOnComplete);
+                EventBus.Instance.Publish(_currentObjective.EventOnComplete());
             }
 
-            // Move to next objective
-            _currentObjectiveIndex++;
+            _currentObjective = (_currentObjective.NextObjective() != -1) ? 
+                                _objectives[_currentObjective.NextObjective()] : 
+                                _objectives[_currentObjective.Id() + 1];
+
             SubscribeToCurrentObjective();
         }
     }
-    
+
+    private void OnObjectiveActivated()
+    {
+        _currentObjective.Activate();
+        OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
+    }
+
     /// <summary>
     /// Forces the system to change the current objective. Useful when changing scenes or jumping sections.
     /// </summary>
-    public void ForceSetObjective(string objectiveId)
+    public void ForceSetObjective(int objectiveId)
     {
-        int index = _allObjectives.FindIndex(o => o.id == objectiveId);
-        if (index != -1)
+        if (objectiveId != -1)
         {
-            if (_currentObjectiveIndex < _allObjectives.Count)
+            if (_currentObjective != null)
             {
-                string oldEvent = _allObjectives[_currentObjectiveIndex].eventToListen;
-                if (!string.IsNullOrEmpty(oldEvent))
-                {
-                    EventBus.Instance.Unsubscribe(oldEvent, OnObjectiveProgressed);
-                }
+                EventBus.Instance.Unsubscribe(_currentObjective.EventToListen(), OnObjectiveProgressed);
             }
             
-            _currentObjectiveIndex = index;
+            _currentObjective = _objectives[objectiveId];
             SubscribeToCurrentObjective();
         }
         else
@@ -124,17 +139,16 @@ public class ObjectivesManager : MonoBehaviour
         }
     }
 
-    private void ForceSetObjectiveEvent(string objectiveId)
+    private void ForceSetObjectiveEvent(int objectiveId)
     {
         ForceSetObjective(objectiveId);
     }
 
     private void Start()
     {
-        EventBus.Instance.Subscribe("ForceSetObjective", (Action<string>)ForceSetObjectiveEvent);
+        EventBus.Instance.Subscribe("ForceSetObjective", (Action<int>)ForceSetObjectiveEvent);
         
-        // Data is now loaded in Awake()
-        if (_allObjectives != null && _allObjectives.Count > 0)
+        if (_currentObjective != null)
         {
             SubscribeToCurrentObjective();
         }
@@ -148,7 +162,7 @@ public class ObjectivesManager : MonoBehaviour
     {
         if (EventBus.Instance != null)
         {
-            EventBus.Instance.Unsubscribe("ForceSetObjective", (Action<string>)ForceSetObjectiveEvent);
+            EventBus.Instance.Unsubscribe("ForceSetObjective", (Action<int>)ForceSetObjectiveEvent);
         }
     }
 }
