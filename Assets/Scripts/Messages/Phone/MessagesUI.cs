@@ -146,6 +146,8 @@ public class MessagesUI : MonoBehaviour
     /// </summary>
     public void RefreshContacts()
     {
+        if (contactListContainer == null) return;
+
         for (int i = contactListContainer.childCount - 1; i >= 0; i--)
         {
             Destroy(contactListContainer.GetChild(i).gameObject);
@@ -158,8 +160,10 @@ public class MessagesUI : MonoBehaviour
     /// </summary>
     private void CreateContacts()
     {
+        if (MessagesManager.Instance == null || contactListContainer == null) return;
+
         List<Contact> contacts = MessagesManager.Instance.GetContacts();
-        if (contacts.Count > 0)
+        if (contacts != null && contacts.Count > 0)
         {
             foreach (Contact contact in contacts)
             {

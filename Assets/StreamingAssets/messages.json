@@ -43,13 +43,6 @@
         {
             "_contactName": "Unknown Number",
             "_messages": [
-                {
-                    "_sender": 1,
-                    "_content": "Hi",
-                    "_timestamp": { "day": 10, "month": 5, "year": 2023, "hour": 15, "minute": 50 },
-                    "_phoneText": false,
-                    "_conversationStops": false
-                }
             ]
         },
         {

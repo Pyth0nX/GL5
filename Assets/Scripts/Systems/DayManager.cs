@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DayManager : MonoBehaviour
@@ -22,7 +23,18 @@ public class DayManager : MonoBehaviour
     private void Start()
     {
         EventBus.Instance.Subscribe("NextDay", OnNextDay);
+        StartCoroutine(SendStartDayEventDelayed());
     }
+
+    private IEnumerator SendStartDayEventDelayed()
+    {
+        yield return new WaitForSeconds(1f);
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Publish($"Start_Day{_currentDay}");
+        }
+    }
+
 
     private void OnDestroy()
     {

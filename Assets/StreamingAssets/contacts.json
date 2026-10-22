@@ -3,7 +3,7 @@
         {
             "_contactName": "Unknown Number",
             "_contactImagePath": "Assets/Sprites/UnknownProfile.png",
-            "_currentNarrative": 0,
+            "_currentNarrative": -1,
             "_lastMessageDate": {
                 "day": 1,
                 "month": 10,

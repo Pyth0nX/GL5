@@ -71,6 +71,11 @@ MonoBehaviour:
   contactPrefab: {fileID: 6391233378624843405, guid: 920a50a28ceb8404da0f3faa4c5027dd, type: 3}
   playerMessageColor: {r: 0, g: 0.5921569, b: 0.06666667, a: 1}
   NPCMessageColor: {r: 0.5018867, g: 0.18086863, b: 0.19428025, a: 1}
+  messagesScrollRect: {fileID: 0}
+  contactNameHeader: {fileID: 0}
+  npcTypingDuration: 2
+  npcDotInterval: 0.35
+  playerTypewriterSpeed: 0.03
 --- !u!114 &3943810475704600460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,16 +97,22 @@ MonoBehaviour:
       nextNode: 0
       messagesToSend: []
       eventToPublish: 
+      eventDataType: 0
+      eventDataRawValue: 
     - text: 
       nextNode: 0
       messagesToSend: []
       eventToPublish: 
+      eventDataType: 0
+      eventDataRawValue: 
     _dialogues: []
     _isEndNode: 0
     _loopNode: -1
     _dialogueType: 0
     _hasOptions: 0
     _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
   _option1Button: {fileID: 0}
   _option2Button: {fileID: 0}
 --- !u!114 &3330786319643132578
@@ -117,6 +128,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EventNodeUpdater
   _updateRules:
+  - triggerEventName: Start_Day1
+    contactUpdates:
+    - contactName: Unkown Number
+      newNarrativeNodeId: 0
   - triggerEventName: Day1_ComebackHome
     contactUpdates:
     - contactName: Unknown Number

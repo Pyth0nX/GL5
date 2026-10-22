@@ -4,7 +4,19 @@
             "_id": 0,
             "_nextNode": -1,
             "_options": [],
-            "_dialogues": [
+            "_dialogues": [  
+                {
+                    "_content": "Hi",
+                    "_sender": 1,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 1,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 7,
+                        "minute": 28
+                    }
+                },
                 {
                     "_content": "Hi, do i know you?",
                     "_sender": 0,

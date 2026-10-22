@@ -12,7 +12,6 @@ public class ObjectivesManager : MonoBehaviour
     [SerializeField]
     private Dictionary<int, Objective> _objectives;
     private Objective _currentObjective;
-    private int _currentObjectiveIndex = 0;
     private int _currentProgress = 0;
 
     /// <summary>

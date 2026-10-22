@@ -59,19 +59,15 @@ public class EventNodeUpdater : MonoBehaviour
     {
         Debug.Log($"[EventNodeUpdater] Event '{rule.triggerEventName}' triggered. Updating {rule.contactUpdates.Count} contacts.");
         
+        if (MessagesManager.Instance == null)
+        {
+            Debug.LogError("[EventNodeUpdater] MessagesManager.Instance is null!");
+            return;
+        }
+
         foreach (var update in rule.contactUpdates)
         {
-            var contact = MessagesManager.Instance.GetContactByName(update.contactName);
-            if (contact != null)
-            {
-                contact.SetNarrativeNode(update.newNarrativeNodeId);
-                contact.SetHasNewMessages(true);
-                Debug.Log($"[EventNodeUpdater] Updated {update.contactName} to node {update.newNarrativeNodeId}.");
-            }
-            else
-            {
-                Debug.LogWarning($"[EventNodeUpdater] Contact '{update.contactName}' not found!");
-            }
+            MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent(update.contactName, update.newNarrativeNodeId);
         }
     }
 }
