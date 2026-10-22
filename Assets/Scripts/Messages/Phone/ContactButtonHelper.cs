@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+
 public class ContactButtonHelper : MonoBehaviour
 {
     private PhoneTabButton _phoneTabButton; // Reference to the PhoneTabButton component
@@ -28,13 +29,12 @@ public class ContactButtonHelper : MonoBehaviour
         Button button = GetComponent<Button>();
         button.onClick.AddListener(() => MessagesManager.Instance.GetPhoneStateMachine().ChangeState(1));
         button.onClick.AddListener(() => MessagesManager.Instance.SetCurrentContact(contactName));
+        button.onClick.AddListener(() => MessagesManager.Instance.GetMessagesUI().SetContactName(contactName));
         button.onClick.AddListener(() => MessagesManager.Instance.GetMessagesUI().CreateMessages());
         button.onClick.AddListener(() => MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(MessagesManager.Instance.GetCurrentContactNarrativeNode()));
         button.onClick.AddListener(() => ShowDecisionAvailable());
         button.onClick.AddListener(() => ShowDialogueAvailable());
-
     }
-
 
     private void ShowDecisionAvailable()
     {

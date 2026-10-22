@@ -9,7 +9,8 @@ public class ObjectivesManager : MonoBehaviour
 
     [SerializeField] private string _objectivesFileName = "objectives.json";
 
-    private Dictionary<int, Objective> _objectives = new Dictionary<int, Objective>();
+    [SerializeField]
+    private Dictionary<int, Objective> _objectives;
     private Objective _currentObjective;
     private int _currentObjectiveIndex = 0;
     private int _currentProgress = 0;

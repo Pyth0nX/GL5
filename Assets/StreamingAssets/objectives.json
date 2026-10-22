@@ -1,119 +1,119 @@
 {
     "objectives": [
         {
-            "id": "0",
+            "id": 0,
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day1_Convo1_End",
             "eventOnComplete": ""
         },
         {
-            "id": "day1_school",
+            "id": 1,
             "description": "Go to school.",
             "targetCount": 1,
             "eventToListen": "Day1_GoToSchool",
             "eventOnComplete": ""
         },
         {
-            "id": "day1_locker",
+            "id": 2,
             "description": "Get your books from your locker.",
             "targetCount": 1,
             "eventToListen": "Day1_LockerEncounterEnd",
             "eventOnComplete": ""
         },
         {
-            "id": "day1_home",
+            "id": 3,
             "description": "Go home.",
             "targetCount": 1,
             "eventToListen": "Day1_ComebackHome",
             "eventOnComplete": ""
         },
         {
-            "id": "day1_night_convo",
+            "id": 4,
             "description": "Check your phone.",
             "targetCount": 1,
             "eventToListen": "Day1_NightConvo_End",
             "eventOnComplete": ""
         },
         {
-            "id": "day1_sleep",
+            "id": 5,
             "description": "Go to sleep.",
             "targetCount": 1,
             "eventToListen": "Day1_End",
             "eventOnComplete": ""
         },
         {
-            "id": "day2_wake",
+            "id": 6,
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day2_Convo1_End",
             "eventOnComplete": ""
         },
         {
-            "id": "day2_class",
+            "id": 7,
             "description": "Talk to Emma.",
             "targetCount": 1,
             "eventToListen": "Day2_ClassroomEncounterEnd",
             "eventOnComplete": ""
         },
         {
-            "id": "day2_home",
+            "id": 8,
             "description": "Go home and rest.",
             "targetCount": 1,
             "eventToListen": "Day2_End",
             "eventOnComplete": ""
         },
         {
-            "id": "day3_wake",
+            "id": 9,
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day3_Convo1_End",
             "eventOnComplete": ""
         },
         {
-            "id": "day3_ready",
+            "id": 10,
             "description": "Get ready for school (Bookshelf, Laptop, Bag).",
             "targetCount": 3,
             "eventToListen": "Day3_PrepItem",
             "eventOnComplete": "Day3_ReadyToLeave"
         },
         {
-            "id": "day3_leave",
+            "id": 11,
             "description": "Leave your bedroom.",
             "targetCount": 1,
             "eventToListen": "Day3_GoToSchool",
             "eventOnComplete": ""
         },
         {
-            "id": "day3_school",
+            "id": 12,
             "description": "Go to class.",
             "targetCount": 1,
             "eventToListen": "Day3_School_End",
             "eventOnComplete": "Day3_RunAway"
         },
         {
-            "id": "day3_escape",
+            "id":13,
             "description": "Get away from Emma and Sophie!",
             "targetCount": 1,
             "eventToListen": "Day3_ArrivedHome",
             "eventOnComplete": ""
         },
         {
-            "id": "day3_phone_1",
+            "id": 14,
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day3_Unknown_End",
             "eventOnComplete": ""
         },
         {
-            "id": "day3_phone_2",
+            "id": 15,
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day3_EmmaText_End",
             "eventOnComplete": ""
         },
         {
-            "id": "day3_finale",
+            "id": 16,
             "description": "Make a decision.",
             "targetCount": 1,
             "eventToListen": "Game_Completed",
