@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class InputManager : MonoBehaviour
 {
@@ -23,6 +24,11 @@ public class InputManager : MonoBehaviour
     private InputAction _pContinueDialogueAction;
     #endregion
 
+
+    #region Flags
+    private bool _menuWasTapped = false;
+    private bool _menuWasHeld = false;
+    #endregion
 
     private void Awake()
     {
@@ -54,9 +60,28 @@ public class InputManager : MonoBehaviour
         _pInteractAction = _pInteractionsMap.FindAction("Interact");
         _pContinueDialogueAction = _pInteractionsMap.FindAction("ContinueDialogue");
         _pMenuAction = _pInteractionsMap.FindAction("Menu");
+
+        _pMenuAction.performed += OnMenuActionPerformed;
     }
 
+    private void OnMenuActionPerformed(InputAction.CallbackContext context)
+    {
+        if (context.interaction is TapInteraction)
+        {
+            _menuWasTapped = true;
+        }
+        else if (context.interaction is HoldInteraction)
+        {
+            _menuWasHeld = true;
+        }
+    }
 
+    private void LateUpdate()
+    {
+        //reset the flags
+        _menuWasTapped = false;
+        _menuWasHeld = false;
+    }
     private void OnEnable()
     {
         if (_pMovementMap != null) _pMovementMap.Enable();
@@ -89,9 +114,14 @@ public class InputManager : MonoBehaviour
         return GetPlayerLook() != Vector2.zero;
     }
 
-    public bool MenuWasPressed()
+    public bool MenuWasTapped()
     {
-        return _pMenuAction.WasPressedThisFrame();
+        return _menuWasTapped;
+    }
+
+    public bool MenuWasHeld()
+    {
+        return _menuWasHeld;
     }
 
     public bool InteractWasPressed() 

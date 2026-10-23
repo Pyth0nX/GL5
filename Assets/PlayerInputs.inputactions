@@ -126,7 +126,7 @@
                     "id": "bb6d13e2-a184-413f-8967-e77d9cc92564",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold,Tap",
                     "initialStateCheck": false,
                     "priority": 0
                 },

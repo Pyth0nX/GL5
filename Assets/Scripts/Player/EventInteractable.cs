@@ -68,8 +68,10 @@ public class EventInteractable : IInteractable
 
 
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         if (_enableEvents != null)
         {
             foreach (var ev in _enableEvents)
@@ -89,6 +91,8 @@ public class EventInteractable : IInteractable
 
     private void OnDestroy()
     {
+        SetOutlineActive(false);
+
         if (EventBus.Instance != null)
         {
             if (_enableEvents != null)

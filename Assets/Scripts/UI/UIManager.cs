@@ -78,7 +78,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if(InputManager.Instance.MenuWasPressed())
+        if(InputManager.Instance.MenuWasTapped())
         {
             TogglePause();
         }

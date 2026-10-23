@@ -1885,6 +1885,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 61300179070458699, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 203371235964153997, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 350168362828224204, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_Color.a
       value: 0
@@ -1953,6 +1961,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1092912902905741068, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1286546265297383807, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
@@ -1981,6 +1993,10 @@ PrefabInstance:
       propertyPath: _notificationSound
       value: 
       objectReference: {fileID: 8300000, guid: a91fca988760c1b49b05e31108c7713d, type: 3}
+    - target: {fileID: 2521210139303971986, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2846898071478923109, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2125,12 +2141,17 @@ PrefabInstance:
       propertyPath: m_ChildForceExpandWidth
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9102514971156697310, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9140921074266637771, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2521210139303971986, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
@@ -2578,6 +2599,7 @@ MonoBehaviour:
   _canInteract: 0
   _interactMessage: Go to sleep
   _notAvailableMessage: Can't sleep now
+  _outlines: []
   _eventsToPublish:
   - _eventName: SleepTransition
     _dataType: 0
@@ -2732,6 +2754,7 @@ GameObject:
   - component: {fileID: 777226396}
   - component: {fileID: 777226400}
   - component: {fileID: 777226402}
+  - component: {fileID: 777226403}
   m_Layer: 9
   m_Name: Door
   m_TagString: Interactable
@@ -2878,6 +2901,7 @@ MonoBehaviour:
   _canInteract: 0
   _interactMessage: Open the door
   _notAvailableMessage: Can't leave now
+  _outlines: []
   _eventsToPublish:
   - _eventName: OpenMap
     _dataType: 0
@@ -2897,6 +2921,24 @@ MonoBehaviour:
   - Day2_Convo1_End
   _disableEvents: []
   _disabledEventsToPublish: []
+--- !u!114 &777226403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777226395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  outlineMode: 0
+  outlineColor: {r: 0.9995369, g: 1, b: 0.53396225, a: 1}
+  outlineWidth: 7
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &863369951
 GameObject:
   m_ObjectHideFlags: 0
@@ -3758,14 +3800,6 @@ PrefabInstance:
     - target: {fileID: 3624375059035361323, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
       propertyPath: m_Layer
       value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5938722491369991941, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
-      propertyPath: m_Size.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5938722491369991941, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
-      propertyPath: m_Center.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7108760320995814739, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
       propertyPath: m_Layer
