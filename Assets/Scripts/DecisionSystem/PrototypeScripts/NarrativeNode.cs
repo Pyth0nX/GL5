@@ -78,6 +78,20 @@ public class NarrativeNode
         };
     }
     #endregion
+
+    #region Setters & Helpers
+    public void AddDialogue(Message message)
+    {
+        if (_dialogues == null) _dialogues = new List<Message>();
+        _dialogues.Add(message);
+    }
+
+    public void AddImageDialogue(string imagePath, Sender sender, string caption = "", string speakerName = "")
+    {
+        if (_dialogues == null) _dialogues = new List<Message>();
+        _dialogues.Add(new Message(caption, sender, speakerName, new Date(), imagePath, MessageType.IMAGE));
+    }
+    #endregion
 }
 
 [System.Serializable]

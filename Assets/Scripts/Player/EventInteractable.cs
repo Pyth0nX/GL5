@@ -113,8 +113,17 @@ public class EventInteractable : IInteractable
         }
     }
 
-    public void EnableInteraction() => _canInteract = true;
-    public void DisableInteraction() => _canInteract = false;
+    public void EnableInteraction()
+    {
+        _canInteract = true;
+        UpdateHoveredOutlineColor();
+    }
+
+    public void DisableInteraction()
+    {
+        _canInteract = false;
+        UpdateHoveredOutlineColor();
+    }
 
     public override void Interact()
     {

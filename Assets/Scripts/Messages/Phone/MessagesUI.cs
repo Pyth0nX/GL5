@@ -13,6 +13,7 @@ public class MessagesUI : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject messagePrefab;
+    [SerializeField] private GameObject imageMessagePrefab;
     [SerializeField] private GameObject contactPrefab;
 
     [Header("Messages Colors")]
@@ -34,6 +35,8 @@ public class MessagesUI : MonoBehaviour
     private Coroutine _processQueueCoroutine;
     private Coroutine _scrollCoroutine;
     private bool _isAnimating = false;
+
+    private static readonly Dictionary<string, Sprite> _loadedSpritesCache = new Dictionary<string, Sprite>();
 
     public bool IsAnimating => _isAnimating || _pendingMessages.Count > 0;
 
@@ -259,114 +262,198 @@ public class MessagesUI : MonoBehaviour
 
     private void InstantiateHistoricalMessage(Message message, float availableWidth)
     {
-        GameObject messageGO = Instantiate(messagePrefab, messagesContainer);
-        CleanUpConflictingComponents(messageGO);
-
-        TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
-        if (messageText != null)
+        if (message.HasImage())
         {
-            messageText.text = message.Content();
-        }
+            GameObject prefabToUse = (imageMessagePrefab != null) ? imageMessagePrefab : messagePrefab;
+            GameObject messageGO = Instantiate(prefabToUse, messagesContainer);
+            CleanUpConflictingComponents(messageGO);
 
-        ApplyMessageDimensions(messageGO, message.Content(), message.Sender(), availableWidth);
+            Sprite sprite = LoadSprite(message.ImagePath());
+            ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: true);
+        }
+        else
+        {
+            GameObject messageGO = Instantiate(messagePrefab, messagesContainer);
+            CleanUpConflictingComponents(messageGO);
+
+            TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
+            if (messageText != null)
+            {
+                messageText.text = message.Content();
+            }
+
+            ApplyMessageDimensions(messageGO, message.Content(), message.Sender(), availableWidth);
+        }
     }
 
     private IEnumerator AnimateMessage(Message message)
     {
-        GameObject messageGO = Instantiate(messagePrefab, messagesContainer);
-        CleanUpConflictingComponents(messageGO);
-
         float availableWidth = GetAvailableWidth();
-        TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
-        string fullContent = message.Content() ?? "";
 
-        if (message.Sender() == Sender.NPC)
+        if (message.HasImage())
         {
-            // NPC typing animation:
-            // Display '.' -> '..' -> '...' for 2 seconds before showing the full message.
-            ApplyMessageDimensions(messageGO, "...", message.Sender(), availableWidth);
-            if (messageText != null)
-            {
-                messageText.text = ".";
-            }
-            RefreshLayoutAndScroll();
+            GameObject prefabToUse = (imageMessagePrefab != null) ? imageMessagePrefab : messagePrefab;
+            GameObject messageGO = Instantiate(prefabToUse, messagesContainer);
+            CleanUpConflictingComponents(messageGO);
 
-            float elapsed = 0f;
-            float dotTimer = 0f;
-            int dotCount = 1;
+            Sprite sprite = LoadSprite(message.ImagePath());
 
-            while (elapsed < npcTypingDuration)
+            if (message.Sender() == Sender.NPC)
             {
-                if (WasSkipPressed())
+                // 1. Create the image message upfront with photo HIDDEN and bubble in compact typing size (48x28)
+                ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: false);
+                RefreshLayoutAndScroll();
+
+                TextMeshProUGUI tempText = messageGO.GetComponentInChildren<TextMeshProUGUI>(true);
+
+                float elapsed = 0f;
+                float dotTimer = 0f;
+                int dotCount = 1;
+
+                while (elapsed < npcTypingDuration)
                 {
-                    break;
+                    if (WasSkipPressed()) break;
+
+                    elapsed += Time.deltaTime;
+                    dotTimer += Time.deltaTime;
+                    if (dotTimer >= npcDotInterval)
+                    {
+                        dotTimer = 0f;
+                        dotCount = (dotCount % 3) + 1;
+                        if (tempText != null)
+                        {
+                            tempText.text = new string('.', dotCount);
+                        }
+                    }
+                    yield return null;
                 }
 
-                elapsed += Time.deltaTime;
-                dotTimer += Time.deltaTime;
-
-                if (dotTimer >= npcDotInterval)
+                // 2. Typing animation finished: FIRST ACTIVATE THE IMAGE (SetActive(true) and alpha = 1)
+                Image photoImage = null;
+                Image[] allImages = messageGO.GetComponentsInChildren<Image>(true);
+                foreach (var img in allImages)
                 {
-                    dotTimer = 0f;
-                    dotCount = (dotCount % 3) + 1; // 1 -> 2 -> 3 -> 1 ...
-                    if (messageText != null)
+                    if (img.gameObject.name == "Photo" || img.gameObject.name == "ImageContent")
                     {
-                        messageText.text = new string('.', dotCount);
+                        photoImage = img;
+                        break;
                     }
                 }
+                if (photoImage != null)
+                {
+                    photoImage.gameObject.SetActive(true);
+                    CanvasGroup cg = photoImage.GetComponent<CanvasGroup>();
+                    if (cg != null) cg.alpha = 1f;
+                }
 
-                yield return null;
+                // 3. RESIZE BUBBLE RESPECT TO IMAGE SIZE AFTER ACTIVATING IT
+                ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: true);
+                RefreshLayoutAndScroll();
             }
-
-            // Reveal complete message and resize bubble
-            if (messageText != null)
+            else
             {
-                messageText.text = fullContent;
+                // Player sent image: immediately visible on the right
+                ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: true);
+                RefreshLayoutAndScroll();
+                yield return new WaitForSeconds(0.1f);
             }
-            ApplyMessageDimensions(messageGO, fullContent, message.Sender(), availableWidth);
-            RefreshLayoutAndScroll();
         }
         else
         {
-            // Player message:
-            // Typewriter effect letter by letter. Skip to full text if 'E' (_pInteractAction) is pressed.
-            ApplyMessageDimensions(messageGO, fullContent, message.Sender(), availableWidth);
-            RefreshLayoutAndScroll();
+            GameObject messageGO = Instantiate(messagePrefab, messagesContainer);
+            CleanUpConflictingComponents(messageGO);
 
-            if (messageText != null)
+            TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
+            string fullContent = message.Content() ?? "";
+
+            if (message.Sender() == Sender.NPC)
             {
-                messageText.text = fullContent;
-                messageText.ForceMeshUpdate();
+                // NPC typing animation:
+                // Display '.' -> '..' -> '...' for 2 seconds before showing the full message.
+                ApplyMessageDimensions(messageGO, "...", message.Sender(), availableWidth);
+                if (messageText != null)
+                {
+                    messageText.text = ".";
+                }
+                RefreshLayoutAndScroll();
 
-                int totalCharacters = messageText.textInfo.characterCount;
-                messageText.maxVisibleCharacters = 0;
+                float elapsed = 0f;
+                float dotTimer = 0f;
+                int dotCount = 1;
 
-                float charTimer = 0f;
-                int visibleChars = 0;
-
-                while (visibleChars < totalCharacters)
+                while (elapsed < npcTypingDuration)
                 {
                     if (WasSkipPressed())
                     {
-                        messageText.maxVisibleCharacters = totalCharacters;
                         break;
                     }
 
-                    charTimer += Time.deltaTime;
-                    while (charTimer >= playerTypewriterSpeed && visibleChars < totalCharacters)
+                    elapsed += Time.deltaTime;
+                    dotTimer += Time.deltaTime;
+
+                    if (dotTimer >= npcDotInterval)
                     {
-                        charTimer -= playerTypewriterSpeed;
-                        visibleChars++;
-                        messageText.maxVisibleCharacters = visibleChars;
+                        dotTimer = 0f;
+                        dotCount = (dotCount % 3) + 1; // 1 -> 2 -> 3 -> 1 ...
+                        if (messageText != null)
+                        {
+                            messageText.text = new string('.', dotCount);
+                        }
                     }
 
                     yield return null;
                 }
 
-                messageText.maxVisibleCharacters = totalCharacters;
+                // Reveal complete message and resize bubble
+                if (messageText != null)
+                {
+                    messageText.text = fullContent;
+                }
+                ApplyMessageDimensions(messageGO, fullContent, message.Sender(), availableWidth);
+                RefreshLayoutAndScroll();
             }
+            else
+            {
+                // Player message:
+                // Typewriter effect letter by letter. Skip to full text if 'E' (_pInteractAction) is pressed.
+                ApplyMessageDimensions(messageGO, fullContent, message.Sender(), availableWidth);
+                RefreshLayoutAndScroll();
 
-            RefreshLayoutAndScroll();
+                if (messageText != null)
+                {
+                    messageText.text = fullContent;
+                    messageText.ForceMeshUpdate();
+
+                    int totalCharacters = messageText.textInfo.characterCount;
+                    messageText.maxVisibleCharacters = 0;
+
+                    float charTimer = 0f;
+                    int visibleChars = 0;
+
+                    while (visibleChars < totalCharacters)
+                    {
+                        if (WasSkipPressed())
+                        {
+                            messageText.maxVisibleCharacters = totalCharacters;
+                            break;
+                        }
+
+                        charTimer += Time.deltaTime;
+                        while (charTimer >= playerTypewriterSpeed && visibleChars < totalCharacters)
+                        {
+                            charTimer -= playerTypewriterSpeed;
+                            visibleChars++;
+                            messageText.maxVisibleCharacters = visibleChars;
+                        }
+
+                        yield return null;
+                    }
+
+                    messageText.maxVisibleCharacters = totalCharacters;
+                }
+
+                RefreshLayoutAndScroll();
+            }
         }
     }
 
@@ -455,6 +542,309 @@ public class MessagesUI : MonoBehaviour
         rowLayout.minHeight = bubbleHeight;
         rowLayout.preferredHeight = bubbleHeight;
         rowLayout.flexibleHeight = 0f;
+    }
+
+    private void ApplyImageMessageDimensions(GameObject messageGO, Message message, Sprite sprite, float availableWidth, bool showPhoto = true)
+    {
+        if (messageGO == null) return;
+
+        float maxBubbleWidth = availableWidth * 0.8f;
+        float padding = 8f;
+        float minBubbleWidth = 40f;
+
+        // 1. Locate components
+        Image bubbleImage = null;
+        Image[] allImages = messageGO.GetComponentsInChildren<Image>(true);
+        Image photoImage = null;
+
+        foreach (var img in allImages)
+        {
+            if (img.gameObject.name == "Photo" || img.gameObject.name == "ImageContent")
+            {
+                photoImage = img;
+            }
+            else if (img.gameObject.name == "Bubble" || (bubbleImage == null && img.gameObject != messageGO))
+            {
+                bubbleImage = img;
+            }
+        }
+
+        if (bubbleImage == null && allImages.Length > 0)
+        {
+            bubbleImage = allImages[0];
+        }
+
+        // Create Photo under Bubble if it doesn't exist yet
+        if (photoImage == null && bubbleImage != null)
+        {
+            GameObject photoGO = new GameObject("Photo", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(CanvasGroup));
+            photoGO.transform.SetParent(bubbleImage.transform, false);
+            photoImage = photoGO.GetComponent<Image>();
+        }
+
+        CanvasGroup photoCg = null;
+        if (photoImage != null)
+        {
+            photoCg = photoImage.GetComponent<CanvasGroup>();
+            if (photoCg == null)
+            {
+                photoCg = photoImage.gameObject.AddComponent<CanvasGroup>();
+            }
+
+            photoImage.sprite = sprite;
+            photoImage.type = Image.Type.Simple;
+            photoImage.preserveAspect = true;
+            photoImage.color = Color.white;
+            photoImage.raycastTarget = true;
+
+            // Apply visibility: hide with SetActive(false) and alpha = 0, or show with SetActive(true) and alpha = 1
+            photoImage.gameObject.SetActive(showPhoto);
+            photoCg.alpha = showPhoto ? 1f : 0f;
+        }
+
+        TextMeshProUGUI captionText = messageGO.GetComponentInChildren<TextMeshProUGUI>(true);
+        string caption = message.Content();
+        bool hasCaption = !string.IsNullOrEmpty(caption);
+
+        // 2. Compute dimensions
+        float bubbleWidth;
+        float bubbleHeight;
+
+        if (showPhoto)
+        {
+            // Sized to the actual image + caption
+            float photoWidth = maxBubbleWidth - (padding * 2f);
+            float photoHeight = photoWidth;
+
+            if (sprite != null && sprite.rect.width > 0f)
+            {
+                float aspect = sprite.rect.height / sprite.rect.width;
+                photoHeight = photoWidth * aspect;
+
+                float maxPhotoHeight = 220f;
+                if (photoHeight > maxPhotoHeight)
+                {
+                    photoHeight = maxPhotoHeight;
+                    photoWidth = photoHeight / aspect;
+                }
+            }
+            else
+            {
+                photoHeight = 100f;
+            }
+
+            bubbleWidth = Mathf.Clamp(photoWidth + (padding * 2f), minBubbleWidth, maxBubbleWidth);
+            bubbleHeight = photoHeight + (padding * 2f);
+
+            // Configure Photo RectTransform
+            if (photoImage != null)
+            {
+                RectTransform photoRect = photoImage.rectTransform;
+                photoRect.anchorMin = new Vector2(0f, 1f);
+                photoRect.anchorMax = new Vector2(0f, 1f);
+                photoRect.pivot = new Vector2(0f, 1f);
+                photoRect.anchoredPosition = new Vector2((bubbleWidth - photoWidth) * 0.5f, -padding);
+                photoRect.sizeDelta = new Vector2(photoWidth, photoHeight);
+            }
+
+            // Configure Caption
+            if (captionText != null)
+            {
+                if (hasCaption)
+                {
+                    captionText.gameObject.SetActive(true);
+                    captionText.text = caption;
+                    captionText.textWrappingMode = TextWrappingModes.Normal;
+                    captionText.alignment = TextAlignmentOptions.TopLeft;
+
+                    Vector2 textSize = captionText.GetPreferredValues(caption, photoWidth, 0f);
+                    float captionHeight = Mathf.Max(18f, textSize.y);
+
+                    RectTransform captionRect = captionText.rectTransform;
+                    captionRect.anchorMin = new Vector2(0f, 1f);
+                    captionRect.anchorMax = new Vector2(0f, 1f);
+                    captionRect.pivot = new Vector2(0f, 1f);
+                    captionRect.anchoredPosition = new Vector2((bubbleWidth - photoWidth) * 0.5f, -(padding + photoHeight + 4f));
+                    captionRect.sizeDelta = new Vector2(photoWidth, captionHeight);
+
+                    bubbleHeight += captionHeight + 4f;
+                }
+                else
+                {
+                    captionText.gameObject.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            // Typing state: compact bubble sized for typing dots ("...")
+            bubbleWidth = 48f;
+            bubbleHeight = 28f;
+
+            if (captionText != null)
+            {
+                captionText.gameObject.SetActive(true);
+                captionText.text = ".";
+                captionText.alignment = TextAlignmentOptions.Center;
+
+                RectTransform captionRect = captionText.rectTransform;
+                captionRect.anchorMin = Vector2.zero;
+                captionRect.anchorMax = Vector2.one;
+                captionRect.pivot = new Vector2(0.5f, 0.5f);
+                captionRect.anchoredPosition = Vector2.zero;
+                captionRect.offsetMin = new Vector2(4f, 4f);
+                captionRect.offsetMax = new Vector2(-4f, -4f);
+            }
+        }
+
+        // 3. Position Bubble inside the row
+        if (bubbleImage != null)
+        {
+            RectTransform bubbleRect = bubbleImage.rectTransform;
+            bubbleRect.anchorMin = new Vector2(0f, 1f);
+            bubbleRect.anchorMax = new Vector2(0f, 1f);
+            bubbleRect.pivot = new Vector2(0f, 1f);
+            bubbleRect.sizeDelta = new Vector2(bubbleWidth, bubbleHeight);
+
+            bool isPlayer = (message.Sender() == Sender.Player);
+            if (isPlayer)
+            {
+                float xOffset = availableWidth - bubbleWidth;
+                bubbleRect.anchoredPosition = new Vector2(xOffset, 0f);
+                bubbleImage.color = playerMessageColor;
+            }
+            else
+            {
+                bubbleRect.anchoredPosition = Vector2.zero;
+                bubbleImage.color = NPCMessageColor;
+            }
+        }
+
+        // 4. Configure Message Row LayoutElement
+        RectTransform messageRect = messageGO.GetComponent<RectTransform>();
+        if (messageRect != null)
+        {
+            messageRect.anchorMin = new Vector2(0f, 1f);
+            messageRect.anchorMax = new Vector2(0f, 1f);
+            messageRect.pivot = new Vector2(0f, 1f);
+            messageRect.anchoredPosition = Vector2.zero;
+            messageRect.sizeDelta = new Vector2(availableWidth, bubbleHeight);
+        }
+
+        LayoutElement rowLayout = messageGO.GetComponent<LayoutElement>();
+        if (rowLayout == null)
+        {
+            rowLayout = messageGO.AddComponent<LayoutElement>();
+        }
+        rowLayout.flexibleWidth = 1f;
+        rowLayout.minWidth = availableWidth;
+        rowLayout.preferredWidth = availableWidth;
+        rowLayout.minHeight = bubbleHeight;
+        rowLayout.preferredHeight = bubbleHeight;
+        rowLayout.flexibleHeight = 0f;
+    }
+
+    /// <summary>
+    /// Loads a sprite from Resources, StreamingAssets, or project-relative file paths with caching.
+    /// </summary>
+    public static Sprite LoadSprite(string path)
+    {
+        if (string.IsNullOrEmpty(path)) return null;
+
+        if (_loadedSpritesCache.TryGetValue(path, out Sprite cached) && cached != null)
+        {
+            return cached;
+        }
+
+        Sprite loadedSprite = null;
+
+        // 1. Try Resources.Load directly
+        loadedSprite = Resources.Load<Sprite>(path);
+
+        // 2. Try Resources.Load without file extension
+        if (loadedSprite == null)
+        {
+            string ext = System.IO.Path.GetExtension(path);
+            if (!string.IsNullOrEmpty(ext))
+            {
+                string dir = System.IO.Path.GetDirectoryName(path) ?? "";
+                string nameWithoutExt = System.IO.Path.GetFileNameWithoutExtension(path);
+                string pathNoExt = System.IO.Path.Combine(dir, nameWithoutExt).Replace('\\', '/');
+                loadedSprite = Resources.Load<Sprite>(pathNoExt);
+            }
+        }
+
+        // 3. Try File System (StreamingAssets, project-relative, dataPath, or absolute)
+        if (loadedSprite == null)
+        {
+            string fullPath = path;
+
+            if (!System.IO.File.Exists(fullPath))
+            {
+                // StreamingAssets
+                string saPath = System.IO.Path.Combine(Application.streamingAssetsPath, path);
+                if (System.IO.File.Exists(saPath))
+                {
+                    fullPath = saPath;
+                }
+                else
+                {
+                    // StreamingAssets/Images subfolder fallback
+                    string saImgPath = System.IO.Path.Combine(Application.streamingAssetsPath, "Images", path);
+                    if (System.IO.File.Exists(saImgPath))
+                    {
+                        fullPath = saImgPath;
+                    }
+                    else
+                    {
+                        // Project root relative
+                        string projPath = System.IO.Path.Combine(Application.dataPath, "..", path);
+                        if (System.IO.File.Exists(projPath))
+                        {
+                            fullPath = projPath;
+                        }
+                        else
+                        {
+                            // Assets relative
+                            string inDataPath = System.IO.Path.Combine(Application.dataPath, path);
+                            if (System.IO.File.Exists(inDataPath))
+                            {
+                                fullPath = inDataPath;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (System.IO.File.Exists(fullPath))
+            {
+                try
+                {
+                    byte[] bytes = System.IO.File.ReadAllBytes(fullPath);
+                    Texture2D tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                    if (tex.LoadImage(bytes))
+                    {
+                        tex.name = System.IO.Path.GetFileNameWithoutExtension(fullPath);
+                        loadedSprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"[MessagesUI] Error loading image from '{fullPath}': {ex.Message}");
+                }
+            }
+        }
+
+        if (loadedSprite != null)
+        {
+            _loadedSpritesCache[path] = loadedSprite;
+        }
+        else
+        {
+            Debug.LogWarning($"[MessagesUI] Image not found at path '{path}'.");
+        }
+
+        return loadedSprite;
     }
 
     private void CleanUpConflictingComponents(GameObject messageGO)

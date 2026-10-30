@@ -6,35 +6,95 @@
                 {
                     "_sender": 0,
                     "_content": "Hello!",
-                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 0 },
+                    "_timestamp": {
+                        "day": 8,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 10,
+                        "minute": 0
+                    },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "How are you?",
-                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 1 },
+                    "_timestamp": {
+                        "day": 8,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 10,
+                        "minute": 1
+                    },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 1,
-                    "__content": "I'm doing well, thanks!",
-                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 5 },
+                    "_timestamp": {
+                        "day": 8,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 10,
+                        "minute": 5
+                    },
                     "_phoneText": false,
-                    "_conversationStops": false
+                    "_conversationStops": false,
+                    "_content": "I'm doing well, thanks!"
+                },
+                {
+                    "_sender": 1,
+                    "_content": "Look at what I just bought!",
+                    "_timestamp": {
+                        "day": 8,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 10,
+                        "minute": 6
+                    },
+                    "_phoneText": false,
+                    "_conversationStops": false,
+                    "_imagePath": "Images/Candy.png",
+                    "_messageType": 1
+                },
+                {
+                    "_sender": 0,
+                    "_content": "Here is the cover of that book:",
+                    "_timestamp": {
+                        "day": 8,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 10,
+                        "minute": 8
+                    },
+                    "_phoneText": false,
+                    "_conversationStops": false,
+                    "_imagePath": "Images/LostCause.png",
+                    "_messageType": 1
                 },
                 {
                     "_sender": 1,
                     "_content": "What about you?",
-                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 5 },
+                    "_timestamp": {
+                        "day": 8,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 10,
+                        "minute": 5
+                    },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "I'm good too!",
-                    "_timestamp": { "day": 8, "month": 5, "year": 2023, "hour": 10, "minute": 10 },
+                    "_timestamp": {
+                        "day": 8,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 10,
+                        "minute": 10
+                    },
                     "_phoneText": false,
                     "_conversationStops": false
                 }
@@ -42,8 +102,7 @@
         },
         {
             "_contactName": "Unknown Number",
-            "_messages": [
-            ]
+            "_messages": []
         },
         {
             "_contactName": "Mom",
@@ -51,21 +110,39 @@
                 {
                     "_sender": 1,
                     "_content": "Don't forget to take the keys with you!",
-                    "_timestamp": { "day": 7, "month": 5, "year": 2023, "hour": 14, "minute": 0 },
+                    "_timestamp": {
+                        "day": 7,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 14,
+                        "minute": 0
+                    },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "Got them! Will be home around 6 PM.",
-                    "_timestamp": { "day": 7, "month": 5, "year": 2023, "hour": 14, "minute": 5 },
+                    "_timestamp": {
+                        "day": 7,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 14,
+                        "minute": 5
+                    },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 1,
                     "_content": "Perfect, dinner will be ready by then.",
-                    "_timestamp": { "day": 7, "month": 5, "year": 2023, "hour": 14, "minute": 15 },
+                    "_timestamp": {
+                        "day": 7,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 14,
+                        "minute": 15
+                    },
                     "_phoneText": false,
                     "_conversationStops": true
                 }
@@ -77,28 +154,52 @@
                 {
                     "_sender": 1,
                     "_content": "Hey, did you finish your part of the presentation?",
-                    "_timestamp": { "day": 9, "month": 5, "year": 2023, "hour": 18, "minute": 0 },
+                    "_timestamp": {
+                        "day": 9,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 18,
+                        "minute": 0
+                    },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "Almost done, just adding the last slides.",
-                    "_timestamp": { "day": 9, "month": 5, "year": 2023, "hour": 18, "minute": 5 },
+                    "_timestamp": {
+                        "day": 9,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 18,
+                        "minute": 5
+                    },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 1,
                     "_content": "Awesome, send it over when you're done so I can review it.",
-                    "_timestamp": { "day": 9, "month": 5, "year": 2023, "hour": 18, "minute": 10 },
+                    "_timestamp": {
+                        "day": 9,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 18,
+                        "minute": 10
+                    },
                     "_phoneText": false,
                     "_conversationStops": false
                 },
                 {
                     "_sender": 0,
                     "_content": "Will do in 10 minutes!",
-                    "_timestamp": { "day": 9, "month": 5, "year": 2023, "hour": 18, "minute": 12 },
+                    "_timestamp": {
+                        "day": 9,
+                        "month": 5,
+                        "year": 2023,
+                        "hour": 18,
+                        "minute": 12
+                    },
                     "_phoneText": false,
                     "_conversationStops": true
                 }

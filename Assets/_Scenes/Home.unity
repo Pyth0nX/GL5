@@ -2233,6 +2233,10 @@ MonoBehaviour:
   _canInteract: 0
   _interactMessage: Go to sleep
   _notAvailableMessage: Can't sleep now
+  _interactableOutlines: []
+  _autoAddOutline: 1
+  _defaultOutlineColor: {r: 1, g: 0.85, b: 0.2, a: 1}
+  _defaultOutlineWidth: 2.5
   _outlines: []
   _eventsToPublish:
   - _eventName: SleepTransition
@@ -3186,26 +3190,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 3648891177847179755, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
-      propertyPath: outlineMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3648891177847179755, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
-      propertyPath: outlineWidth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3648891177847179755, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
-      propertyPath: precomputeOutline
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3648891177847179755, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
-      propertyPath: bakeKeys.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3648891177847179755, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
-      propertyPath: bakeValues.Array.size
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 4074626699668709545, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.965
@@ -3221,6 +3205,26 @@ PrefabInstance:
     - target: {fileID: 4294446157043709550, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
       propertyPath: m_LocalPosition.z
       value: -1.358
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729827464833882921, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
+      propertyPath: _outlineColor.b
+      value: 0.34509802
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729827464833882921, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
+      propertyPath: _outlineColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729827464833882921, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
+      propertyPath: _outlineColor.r
+      value: 0.44283536
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729827464833882921, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
+      propertyPath: _includeChildren
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729827464833882921, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
+      propertyPath: _customRenderers.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7108760320995814739, guid: 22531fee703a6e14ebbdd826f8c54de2, type: 3}
       propertyPath: m_Layer

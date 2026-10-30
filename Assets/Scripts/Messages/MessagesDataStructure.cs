@@ -1,13 +1,17 @@
-using NUnit.Framework;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-
 
 public enum Sender
 {
     Player,
     NPC
+}
+
+public enum MessageType
+{
+    TEXT = 0,
+    IMAGE = 1
 }
 
 [System.Serializable]
@@ -33,26 +37,37 @@ public struct Date : IComparable<Date>
 
         return minute.CompareTo(other.minute);
     }
-
 }
 
 [System.Serializable]
 public class Message
 {
     [SerializeField]
-    private string _content; //Content of the message
+    private string _content; // Content of the message (or image caption)
     [SerializeField]
     private Sender _sender; // Who sent the message 
     [SerializeField]
     private string _speakerName; // Allows specifying a different speaker name than the current contact
     [SerializeField]
     private Date _timestamp; // Time when the message was sent
+    [SerializeField]
+    private string _imagePath; // Path or name of the image
+    [SerializeField]
+    private MessageType _messageType = MessageType.TEXT; // Message type (TEXT or IMAGE)
 
     public string Content() { return _content; }
     public Sender Sender() { return _sender; }
     public string SpeakerName() { return _speakerName; }
     public Date Timestamp() { return _timestamp; }
+    public string ImagePath() { return _imagePath; }
+    public MessageType Type() { return _messageType; }
+    public bool HasImage() { return _messageType == MessageType.IMAGE || !string.IsNullOrEmpty(_imagePath); }
 
+    public void SetContent(string content) { _content = content; }
+    public void SetImagePath(string imagePath) { _imagePath = imagePath; }
+    public void SetMessageType(MessageType type) { _messageType = type; }
+
+    public Message() { }
 
     public Message(string content, Sender sender, string speakerName, Date timestamp)
     {
@@ -60,6 +75,18 @@ public class Message
         this._sender = sender;
         this._speakerName = speakerName;
         this._timestamp = timestamp;
+        this._messageType = MessageType.TEXT;
+        this._imagePath = "";
+    }
+
+    public Message(string content, Sender sender, string speakerName, Date timestamp, string imagePath, MessageType messageType = MessageType.IMAGE)
+    {
+        this._content = content;
+        this._sender = sender;
+        this._speakerName = speakerName;
+        this._timestamp = timestamp;
+        this._imagePath = imagePath;
+        this._messageType = messageType;
     }
 }
 

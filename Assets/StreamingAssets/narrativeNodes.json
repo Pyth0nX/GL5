@@ -42,6 +42,20 @@
                     }
                 },
                 {
+                    "_content": "Here is the special edition cover:",
+                    "_sender": 1,
+                    "_speakerName": "Unknown Number",
+                    "_timestamp": {
+                        "day": 1,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 7,
+                        "minute": 32
+                    },
+                    "_imagePath": "Images/LostCause.png",
+                    "_messageType": 1
+                },
+                {
                     "_content": "Ohhh that's cool!! Have you read it yourself? It's a great book.",
                     "_sender": 0,
                     "_speakerName": "",

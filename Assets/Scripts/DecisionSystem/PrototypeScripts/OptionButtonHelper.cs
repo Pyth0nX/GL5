@@ -6,21 +6,32 @@ public class OptionButtonHelper : MonoBehaviour
     [SerializeField]
     private int _optionIndex;
     private Button _button;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public int OptionIndex => _optionIndex;
+
+    public void SetOptionIndex(int index)
+    {
+        _optionIndex = index;
+    }
+
     void Start()
     {
         _button = GetComponent<Button>();
         SetButtonCallbacks();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void SetButtonCallbacks()
     {
-        _button.onClick.AddListener(() => MessagesManager.Instance.GetOptionsChanger().ChangeOptions(_optionIndex));
+        if (_button != null)
+        {
+            _button.onClick.RemoveAllListeners();
+            _button.onClick.AddListener(() =>
+            {
+                if (MessagesManager.Instance != null && MessagesManager.Instance.GetOptionsChanger() != null)
+                {
+                    MessagesManager.Instance.GetOptionsChanger().ChangeOptions(_optionIndex);
+                }
+            });
+        }
     }
 }

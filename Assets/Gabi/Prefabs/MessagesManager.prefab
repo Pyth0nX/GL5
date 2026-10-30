@@ -68,6 +68,7 @@ MonoBehaviour:
   contactListContainer: {fileID: 0}
   messagesContainer: {fileID: 0}
   messagePrefab: {fileID: 3268024124555062403, guid: 51d38bb6db73f0947808a4769d7d2d06, type: 3}
+  imageMessagePrefab: {fileID: 4000000000000001, guid: a840e671c6994fb4ba90ef98b871c421, type: 3}
   contactPrefab: {fileID: 6391233378624843405, guid: 920a50a28ceb8404da0f3faa4c5027dd, type: 3}
   playerMessageColor: {r: 0, g: 0.5921569, b: 0.06666667, a: 1}
   NPCMessageColor: {r: 0.5018867, g: 0.18086863, b: 0.19428025, a: 1}

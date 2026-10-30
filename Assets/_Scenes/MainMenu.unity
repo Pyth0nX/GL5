@@ -318,6 +318,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 119550969}
   m_CullTransparentMesh: 1
+--- !u!114 &441089817 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6506868847471398616, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &441089818 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5309255125833518808, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &444303785
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,13 +1334,25 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 540
       objectReference: {fileID: 0}
-    - target: {fileID: 1892811428119644862, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1653.0001
+    - target: {fileID: 2102590370431664514, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1892811428119644862, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1026.1
+    - target: {fileID: 2102590370431664514, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2102590370431664514, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2102590370431664514, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3024456466709207853, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4168856769120692112, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_PresetInfoIsWorld
@@ -1331,14 +1365,6 @@ PrefabInstance:
     - target: {fileID: 4493231244334116007, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4591451868617729644, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1508.0001
-      objectReference: {fileID: 0}
-    - target: {fileID: 4591451868617729644, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1026.5
       objectReference: {fileID: 0}
     - target: {fileID: 4729391286748858532, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_Color.a
@@ -1436,14 +1462,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5265590209432003344, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1666
-      objectReference: {fileID: 0}
-    - target: {fileID: 5265590209432003344, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 995
-      objectReference: {fileID: 0}
     - target: {fileID: 7973820636746429435, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1464,37 +1482,9 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8242407709445905479, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242407709445905479, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242407709445905479, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242407709445905479, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_LocalPosition.z
+    - target: {fileID: 9030196130029607267, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: _simulateInEditor
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242407709445905479, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242407709445905479, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8860055607220079284, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1644
-      objectReference: {fileID: 0}
-    - target: {fileID: 8860055607220079284, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 963.00006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1526,6 +1516,16 @@ MonoBehaviour:
 --- !u!1 &1466581394 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 203371235964153997, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1466581395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8947758157725208284, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1466581396 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9191732648007864028, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
   m_PrefabInstance: {fileID: 1466581391}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1485176522
@@ -1855,6 +1855,14 @@ PrefabInstance:
       value: GameManagers
       objectReference: {fileID: 0}
     - target: {fileID: 1028408777372330462, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
+      propertyPath: _row1
+      value: 
+      objectReference: {fileID: 1466581396}
+    - target: {fileID: 1028408777372330462, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
+      propertyPath: _row2
+      value: 
+      objectReference: {fileID: 1466581395}
+    - target: {fileID: 1028408777372330462, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
       propertyPath: _option1Button
       value: 
       objectReference: {fileID: 1466581393}
@@ -1866,6 +1874,26 @@ PrefabInstance:
       propertyPath: _decisionsPanel
       value: 
       objectReference: {fileID: 1466581394}
+    - target: {fileID: 1028408777372330462, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
+      propertyPath: _optionButtons.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1028408777372330462, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
+      propertyPath: '_optionButtons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1466581393}
+    - target: {fileID: 1028408777372330462, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
+      propertyPath: '_optionButtons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1466581392}
+    - target: {fileID: 1028408777372330462, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
+      propertyPath: '_optionButtons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 441089818}
+    - target: {fileID: 1028408777372330462, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
+      propertyPath: '_optionButtons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 441089817}
     - target: {fileID: 1147952936942903479, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
       propertyPath: m_LocalPosition.x
       value: 537.64703

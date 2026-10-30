@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _verticalClamp = 80f;
     
     private IInteractable _currentHoveredInteractable;
+    private InteractableOutline _currentHoveredStandaloneOutline;
     private bool _isShowingHoverMessage;
     private PlayerInput _playerInput;
     private PlayerStateMachine _playerStateMachine;
@@ -117,6 +118,12 @@ public class PlayerController : MonoBehaviour
             _currentHoveredInteractable = null;
         }
 
+        if (_currentHoveredStandaloneOutline != null)
+        {
+            _currentHoveredStandaloneOutline.SetOutlineActive(false);
+            _currentHoveredStandaloneOutline = null;
+        }
+
         if (_isShowingHoverMessage)
         {
             _isShowingHoverMessage = false;
@@ -182,6 +189,13 @@ public class PlayerController : MonoBehaviour
 
         if (interactable != null)
         {
+            // Clear any standalone outline we were hovering
+            if (_currentHoveredStandaloneOutline != null)
+            {
+                _currentHoveredStandaloneOutline.SetOutlineActive(false);
+                _currentHoveredStandaloneOutline = null;
+            }
+
             if (_currentHoveredInteractable != interactable)
             {
                 if (_currentHoveredInteractable != null)
@@ -202,10 +216,48 @@ public class PlayerController : MonoBehaviour
                     UIManager.Instance.ShowMessage(messageToShow, messageColor);
                 }
             }
+            else
+            {
+                _currentHoveredInteractable.UpdateHoveredOutlineColor();
+            }
         }
         else
         {
-            ClearHoveredInteractable();
+            // If no IInteractable in sight, check if looking at a standalone object with InteractableOutline
+            InteractableOutline standaloneOutline = GetStandaloneOutlineInSight();
+
+            if (standaloneOutline != null)
+            {
+                if (_currentHoveredInteractable != null)
+                {
+                    _currentHoveredInteractable.SetOutlineActive(false);
+                    _currentHoveredInteractable = null;
+                }
+
+                if (_currentHoveredStandaloneOutline != standaloneOutline)
+                {
+                    if (_currentHoveredStandaloneOutline != null)
+                    {
+                        _currentHoveredStandaloneOutline.SetOutlineActive(false);
+                    }
+
+                    _currentHoveredStandaloneOutline = standaloneOutline;
+                    _currentHoveredStandaloneOutline.SetOutlineActive(true);
+                }
+
+                if (_isShowingHoverMessage)
+                {
+                    _isShowingHoverMessage = false;
+                    if (UIManager.Instance != null)
+                    {
+                        UIManager.Instance.HideMessage();
+                    }
+                }
+            }
+            else
+            {
+                ClearHoveredInteractable();
+            }
         }
     }
 
@@ -264,6 +316,33 @@ public class PlayerController : MonoBehaviour
             }
 
             // Hit an obstacle/wall that is not an interactable; stop ray
+            break;
+        }
+        return null;
+    }
+
+    private InteractableOutline GetStandaloneOutlineInSight()
+    {
+        Vector3 origin = _playerCamera.transform.position;
+        Vector3 dir = _playerCamera.transform.forward;
+
+        RaycastHit[] hits = Physics.RaycastAll(origin, dir, _interactDistance);
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (RaycastHit hit in hits)
+        {
+            GameObject hitObject = hit.collider.gameObject;
+
+            if (hitObject == gameObject || hitObject.transform.root == transform.root) continue;
+            if (hit.collider.isTrigger) continue;
+
+            InteractableOutline outline = hitObject.GetComponentInParent<InteractableOutline>();
+            if (outline != null)
+            {
+                return outline;
+            }
+
+            // Hit an obstacle/wall that has no outline; stop ray
             break;
         }
         return null;
