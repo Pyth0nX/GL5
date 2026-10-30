@@ -43,6 +43,27 @@ public class PlayerController : MonoBehaviour
     {
         _currentXRotation = 0f;
         GameManager.Instance.SetPlayerName(_playerName);
+
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Subscribe("Conversation_Ended", OnConversationEnded);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Unsubscribe("Conversation_Ended", OnConversationEnded);
+        }
+    }
+
+    private void OnConversationEnded()
+    {
+        if (_playerStateMachine != null && _playerStateMachine.GetCurrentState() == PlayerState.Interacting)
+        {
+            _playerStateMachine.ChangeState(PlayerState.Idle);
+        }
     }
 
     private void Update()
@@ -141,6 +162,15 @@ public class PlayerController : MonoBehaviour
 
     private void CheckInteractableHover()
     {
+        // Safety recovery: If UI returned to DEFAULT mode, ensure player state is back to Idle
+        if (_playerStateMachine != null && _playerStateMachine.GetCurrentState() == PlayerState.Interacting)
+        {
+            if (UIManager.Instance != null && UIManager.Instance.GetCurrentState() == UIState.DEFAULT)
+            {
+                _playerStateMachine.ChangeState(PlayerState.Idle);
+            }
+        }
+
         // Don't detect or highlight interactables when the player is not in Idle state (phone, conversation, interacting, etc.)
         if (_playerStateMachine != null && _playerStateMachine.GetCurrentState() != PlayerState.Idle)
         {
@@ -191,10 +221,16 @@ public class PlayerController : MonoBehaviour
 
         if (interactable != null)
         {
-            // We interact. The script (e.g. EventInteractable) will handle if it's not available
             Debug.Log("Interacted");
-            interactable.Interact();
-            _playerStateMachine.ChangeState(PlayerState.Interacting);
+            if (interactable.CanInteract())
+            {
+                _playerStateMachine.ChangeState(PlayerState.Interacting);
+                interactable.Interact();
+            }
+            else
+            {
+                interactable.Interact();
+            }
         }
         else
         {

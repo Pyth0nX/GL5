@@ -84,6 +84,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public UIState GetCurrentState() => _currentState;
+
     public void TogglePause()
     {
         if (_currentState == UIState.DEFAULT) ChangeState(3);

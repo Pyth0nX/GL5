@@ -1,9 +1,13 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    private string _playerName;
+    private bool _hasEnteredHomeFirstTime = false;
 
     private void Awake()
     {
@@ -19,8 +23,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private string _playerName;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,6 +35,13 @@ public class GameManager : MonoBehaviour
         
     }
 
+    private void OnDestroy()
+    {
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Unsubscribe<string>("ChangeScene", ChangeScene);
+        }
+    }
 
     private void OnEnable()
     {
@@ -77,5 +86,45 @@ public class GameManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         //EventBus.Instance.Publish("FadeIn");
+        if (scene.name.Equals("MainMenu", System.StringComparison.OrdinalIgnoreCase))
+        {
+            _hasEnteredHomeFirstTime = false;
+            if (DayManager.Instance != null)
+            {
+                DayManager.Instance.ResetDay();
+            }
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.ChangeMusic("Menu");
+            }
+        }
+        else if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) ||
+                 scene.name.Equals("School", System.StringComparison.OrdinalIgnoreCase))
+        {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.ChangeMusic("Game");
+            }
+
+            if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) && !_hasEnteredHomeFirstTime)
+            {
+                _hasEnteredHomeFirstTime = true;
+                StartCoroutine(AdvanceDayNextFrame());
+            }
+        }
+    }
+
+    private IEnumerator AdvanceDayNextFrame()
+    {
+        yield return null;
+        if (DayManager.Instance != null)
+        {
+            EventBus.Instance.Publish("NextDay");
+        }
+        else
+        {
+            Debug.LogWarning("[GameManager] DayManager.Instance is null when advancing day.");
+        }
     }
 }

@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,7 +34,12 @@ public class OptionsChanger : MonoBehaviour
 
     public void ChangeOptions(int selectedOptionId)
     {
-        Option selectedOption =  _currentNode.Options()[selectedOptionId];
+        if (DialogueManager.Instance != null)
+        {
+            DialogueManager.Instance.SetHasActiveDecision(false);
+        }
+
+        Option selectedOption = _currentNode.Options()[selectedOptionId];
         
         if (!string.IsNullOrEmpty(selectedOption.eventToPublish))
         {
@@ -47,36 +51,39 @@ public class OptionsChanger : MonoBehaviour
         contact.SetNarrativeNode(selectedOption.nextNode);
         contact.SetCurrentMessageIndex(0);
 
-        if(lastType == DialogueType.PHONE)
+        _currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
+
+        // If the new node doesn't have options, close the decisions panel
+        if (_currentNode == null || !_currentNode.HasOptions())
+        {
+            _decisionsPanel.SetActive(false);
+        }
+
+        if (lastType == DialogueType.PHONE)
         {
             foreach (var message in selectedOption.messagesToSend)
             {
                 MessagesManager.Instance.SendMessageToCurrentContact(message);
             }
+
+            if (_currentNode != null && _currentNode.DialogueType() == DialogueType.PHONE)
+            {
+                if (_currentNode.Dialogues().Count > 0)
+                {
+                    contact.SetHasNewMessages(true);
+                    MessagesManager.Instance.GetPhoneStateMachine().ShowDialogueTab();
+                }
+            }
         }
         else
         {
-            DialogueManager.Instance.StartDialogue();
-        }
-
-        _currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
-
-        if (_currentNode != null && _currentNode.DialogueType() == DialogueType.PHONE)
-        {
-            if (_currentNode.Dialogues().Count > 0)
+            if (DialogueManager.Instance != null)
             {
-                contact.SetHasNewMessages(true);
-                MessagesManager.Instance.GetPhoneStateMachine().ShowDialogueTab();
+                DialogueManager.Instance.StartDialogue();
             }
         }
 
-        if (_currentNode == null || !_currentNode.HasOptions())
-        {
-            _decisionsPanel.SetActive(false);
-            return;
-        }
-
-        if(_currentNode != null && _currentNode.HasOptions())
+        if (_currentNode != null && _currentNode.HasOptions())
         {
             UpdateButtonsTexts();
         }
@@ -85,7 +92,7 @@ public class OptionsChanger : MonoBehaviour
     public void SetCurrentNode(NarrativeNode node)
     {
         _currentNode = node;
-        if(_currentNode != null && _currentNode.HasOptions())
+        if (_currentNode != null && _currentNode.HasOptions())
         {
             UpdateButtonsTexts();
         }
@@ -94,6 +101,14 @@ public class OptionsChanger : MonoBehaviour
     public void ActiveDecisionsPanel(bool isActive)
     {
         _decisionsPanel.SetActive(isActive);
+        if (DialogueManager.Instance != null)
+        {
+            DialogueManager.Instance.SetHasActiveDecision(isActive);
+        }
     }
 
+    public bool IsDecisionsPanelActive()
+    {
+        return _decisionsPanel != null && _decisionsPanel.activeSelf;
+    }
 }

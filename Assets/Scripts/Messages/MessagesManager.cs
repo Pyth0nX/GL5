@@ -224,7 +224,14 @@ public class MessagesManager : MonoBehaviour
         }
 
         // Check if the new narrative node belongs to a mobile phone conversation
-        if (newNode.DialogueType() == DialogueType.PHONE)
+        bool isPhoneConversation = newNode.DialogueType() == DialogueType.PHONE;
+        if (!isPhoneConversation && (string.Equals(contact.Name(), "Unknown Number", StringComparison.OrdinalIgnoreCase) ||
+                                     string.Equals(contact.Name(), "Unkown Number", StringComparison.OrdinalIgnoreCase)))
+        {
+            isPhoneConversation = true;
+        }
+
+        if (isPhoneConversation)
         {
             List<Message> dialogues = newNode.Dialogues();
             if (dialogues != null && dialogues.Count > 0 && dialogues[0].Sender() == Sender.NPC)
@@ -297,7 +304,7 @@ public class MessagesManager : MonoBehaviour
         // Refresh contact list in MessagesUI so new/updated contact appears immediately
         if (_messagesUI == null)
         {
-            _messagesUI = GetComponent<MessagesUI>() ?? FindFirstObjectByType<MessagesUI>(FindObjectsInactive.Include);
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
         }
         _messagesUI?.RefreshContacts();
 

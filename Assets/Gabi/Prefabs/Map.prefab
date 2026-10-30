@@ -311,7 +311,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -411, y: -139}
+  m_AnchoredPosition: {x: -351, y: -267}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6639822768634914797
@@ -432,10 +432,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3b9065fb1bde004fb0e363b28f00576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIEventPublisher
-  _currentEventToPublish: Day1_ComebackHome
+  _currentEventToPublish: 
   _eventChangers:
-  - eventToListen: 
-    newEventToPublish: 
+  - eventToListen: Attend_Classes
+    newEventToPublish: Day1_ComebackHome
 --- !u!1 &2673149364935383253
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +473,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 237, y: 205}
+  m_AnchoredPosition: {x: 441, y: 294}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4745830973573997246
@@ -582,7 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3b9065fb1bde004fb0e363b28f00576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIEventPublisher
-  _currentEventToPublish: 
+  _currentEventToPublish: Day1_GoToSchool
   _eventChangers: []
 --- !u!1 &7372307525939883411
 GameObject:
@@ -651,7 +651,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -266531332663490922, guid: 95b4c725ffc55b5489800b6411f73f09, type: 3}
+  m_Sprite: {fileID: -5993320396804647507, guid: 7102156c5e2f0964c8fb5d25a963b4bd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -689,7 +689,7 @@ RectTransform:
   m_GameObject: {fileID: 8519704884754078627}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1361081060184935957}
@@ -746,7 +746,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5031669129558791369
 MonoBehaviour:
   m_ObjectHideFlags: 0

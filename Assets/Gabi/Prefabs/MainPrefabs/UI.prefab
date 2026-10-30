@@ -165,10 +165,10 @@ RectTransform:
   - {fileID: 8239754971791461305}
   - {fileID: 9157061194383142823}
   - {fileID: 1845192202362055861}
-  - {fileID: 3571015788545260882}
   - {fileID: 5194547496499240887}
   - {fileID: 8634040309147448059}
   - {fileID: 1729959731255247497}
+  - {fileID: 3571015788545260882}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -359,7 +359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7372307525939883411, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8519704884754078627, guid: 04cda3d344b57c94c868d6ea0ece1cf9, type: 3}
       propertyPath: m_Name
@@ -566,6 +566,10 @@ PrefabInstance:
     - target: {fileID: 839636939380691526, guid: 3df5710899c282440aa213ca0575a8cc, type: 3}
       propertyPath: m_Name
       value: TransitionManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8528601281495565826, guid: 3df5710899c282440aa213ca0575a8cc, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1042,6 +1046,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4511314614360239790, guid: 716f3016fff9e8248ae2ce4a14f9e1d5, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5367352753417856509, guid: 716f3016fff9e8248ae2ce4a14f9e1d5, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
@@ -1081,6 +1089,10 @@ PrefabInstance:
     - target: {fileID: 5683703459019140181, guid: 716f3016fff9e8248ae2ce4a14f9e1d5, type: 3}
       propertyPath: m_Name
       value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 5683703459019140181, guid: 716f3016fff9e8248ae2ce4a14f9e1d5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8945317989376768999, guid: 716f3016fff9e8248ae2ce4a14f9e1d5, type: 3}
       propertyPath: m_IsActive
@@ -1152,6 +1164,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4775460458538024923}
     m_Modifications:
+    - target: {fileID: 2087853664456990211, guid: 76f6c639b0059bb4bbc4b3a0517357c9, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5991442319281337231, guid: 76f6c639b0059bb4bbc4b3a0517357c9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

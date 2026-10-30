@@ -13,8 +13,10 @@ public class NPCData : IInteractable
     [Tooltip("Optional: Events that disable this NPC.")]
     [SerializeField] private System.Collections.Generic.List<string> _disableEvents;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         if (_enableEvents != null)
         {
             foreach (var ev in _enableEvents)
@@ -37,6 +39,8 @@ public class NPCData : IInteractable
 
     private void OnDestroy()
     {
+        SetOutlineActive(false);
+
         if (EventBus.Instance != null)
         {
             if (_enableEvents != null)
@@ -65,6 +69,10 @@ public class NPCData : IInteractable
         if (!_canInteract)
         {
             Debug.Log("[NPC]: Interacted failed");
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ShowTemporaryMessage(_notAvailableMessage, Color.darkRed, 2f);
+            }
             // Revert player state just in case it got stuck
             PlayerStateMachine playerState = FindAnyObjectByType<PlayerStateMachine>();
             if (playerState != null && playerState.GetCurrentState() == PlayerState.Interacting)

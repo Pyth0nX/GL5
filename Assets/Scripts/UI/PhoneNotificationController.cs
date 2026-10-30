@@ -66,7 +66,7 @@ public class PhoneNotificationController : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = FindFirstObjectByType<PhoneNotificationController>();
+                _instance = FindAnyObjectByType<PhoneNotificationController>();
                 if (_instance == null)
                 {
                     // Search in loaded scene objects (including inactive)

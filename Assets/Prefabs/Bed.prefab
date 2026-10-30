@@ -127,7 +127,8 @@ MonoBehaviour:
   _canInteract: 0
   _interactMessage: Go to sleep
   _notAvailableMessage: Can't sleep now
-  _outlines: []
+  _outlines:
+  - {fileID: 3648891177847179755}
   _eventsToPublish:
   - _eventName: SleepTransition
     _dataType: 0

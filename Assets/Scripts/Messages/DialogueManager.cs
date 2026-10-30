@@ -1,15 +1,11 @@
-using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine.InputSystem;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; } // Singleton instance
-
-
 
     [SerializeField]
     private GameObject _dialogueBox; // The dialogue box UI element
@@ -25,6 +21,15 @@ public class DialogueManager : MonoBehaviour
     private int _currentDialogueIndex = 0; // The index of the current dialogue being displayed
 
     private bool _isEndNode = false;
+
+    private bool _hasActiveDecision = false;
+
+    public bool HasActiveDecision => _hasActiveDecision;
+
+    public void SetHasActiveDecision(bool hasActiveDecision)
+    {
+        _hasActiveDecision = hasActiveDecision;
+    }
 
     void Awake()
     {
@@ -42,11 +47,27 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        EventBus.Instance.Subscribe("Conversation_Started", StartDialogue);
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Subscribe("Conversation_Started", StartDialogue);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Unsubscribe("Conversation_Started", StartDialogue);
+        }
     }
 
     private void Update()
     {
+        if (_hasActiveDecision)
+        {
+            return;
+        }
+
         if (_dialogueBox.activeSelf && InputManager.Instance.ContinueDialogueWasPressed())
         {
             ContinueDialogue();
@@ -59,6 +80,12 @@ public class DialogueManager : MonoBehaviour
         NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
         if (currentNode == null)
         {
+            SetHasActiveDecision(false);
+            _dialogueBox.SetActive(false);
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ChangeState(0);
+            }
             return;
         }
 
@@ -67,11 +94,13 @@ public class DialogueManager : MonoBehaviour
         
         if (currentNode.HasOptions())
         {
+            SetHasActiveDecision(true);
             MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(currentNode);
             MessagesManager.Instance.GetOptionsChanger().ActiveDecisionsPanel(true);
         }
         else
         {
+            SetHasActiveDecision(false);
             _currentDialogues = currentNode.Dialogues();
             _currentContact = MessagesManager.Instance.GetCurrentContactName();
             _isEndNode = currentNode.IsEndNode();
@@ -79,9 +108,13 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-
     public void ContinueDialogue()
     {
+        if (_hasActiveDecision)
+        {
+            return;
+        }
+
         if (_currentDialogues == null || _currentDialogueIndex >= _currentDialogues.Count)
         {
             EndDialogue();
@@ -113,27 +146,40 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
-        if (_isEndNode) 
-        {
-            _dialogueBox.SetActive(false);
-            UIManager.Instance.ChangeState(0);
-        }
         _currentDialogueIndex = 0;
         _currentDialogues = null;
         NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
         
-        if (!string.IsNullOrEmpty(currentNode.EventOnEnd()))
+        if (currentNode != null)
         {
-            EventBus.Instance.Publish(currentNode.EventOnEnd());
+            if (!string.IsNullOrEmpty(currentNode.EventOnEnd()))
+            {
+                EventBus.Instance.Publish(currentNode.EventOnEnd());
+            }
+
+            MessagesManager.Instance.GetCurrentContact().SetNarrativeNode(currentNode.NextNode());
+            currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
         }
 
-        MessagesManager.Instance.GetCurrentContact().SetNarrativeNode(currentNode.NextNode());
-        currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
         if (currentNode != null && currentNode.HasOptions())
         {
+            SetHasActiveDecision(true);
             MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(currentNode);
             MessagesManager.Instance.GetOptionsChanger().ActiveDecisionsPanel(true);
         }
+        else if (currentNode != null && !_isEndNode)
+        {
+            SetHasActiveDecision(false);
+            StartDialogue();
+        }
+        else
+        {
+            SetHasActiveDecision(false);
+            _dialogueBox.SetActive(false);
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ChangeState(0);
+            }
+        }
     }
-
 }

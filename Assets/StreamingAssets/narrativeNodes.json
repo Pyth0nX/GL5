@@ -4,7 +4,7 @@
             "_id": 0,
             "_nextNode": -1,
             "_options": [],
-            "_dialogues": [  
+            "_dialogues": [
                 {
                     "_content": "Hi",
                     "_sender": 1,
@@ -418,7 +418,7 @@
                         }
                     ],
                     "eventToPublish": "",
-                    "eventDataType":0
+                    "eventDataType": 0
                 },
                 {
                     "text": "Tell about the bullies",
@@ -438,8 +438,7 @@
                         }
                     ],
                     "eventToPublish": "",
-                    "eventDataType":0
-
+                    "eventDataType": 0
                 }
             ],
             "_isEndNode": false,
@@ -755,9 +754,10 @@
             ],
             "_isEndNode": true,
             "_loopNode": -1,
-            "_dialogueType": 0,
+            "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day2_Convo1_End"
+            "_eventOnEnd": "Day2_Convo1_End",
+            "_options": []
         },
         {
             "_id": 10,
@@ -840,14 +840,14 @@
                     "nextNode": 12,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType":0
+                    "eventDataType": 0
                 },
                 {
                     "text": "Ignore them and walk away.",
                     "nextNode": 13,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType":0
+                    "eventDataType": 0
                 }
             ],
             "_dialogues": [],
@@ -1214,14 +1214,14 @@
                     "nextNode": 16,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType":0
+                    "eventDataType": 0
                 },
                 {
                     "text": "Why do you wanna know?",
                     "nextNode": 17,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType":0
+                    "eventDataType": 0
                 }
             ],
             "_dialogues": [],
@@ -1420,14 +1420,14 @@
                     "nextNode": 19,
                     "messagesToSend": [],
                     "eventToPublish": "SentFlirtyPhoto",
-                    "eventDataType":0
+                    "eventDataType": 0
                 },
                 {
                     "text": "Send a photo",
                     "nextNode": 20,
                     "messagesToSend": [],
                     "eventToPublish": "SentNormalPhoto",
-                    "eventDataType":0
+                    "eventDataType": 0
                 }
             ],
             "_dialogues": [],
@@ -2598,14 +2598,14 @@
                     "nextNode": 27,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType":0
+                    "eventDataType": 0
                 },
                 {
                     "text": "Confront Emma",
                     "nextNode": 28,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType":0
+                    "eventDataType": 0
                 }
             ],
             "_dialogues": [
@@ -2732,14 +2732,14 @@
                     "nextNode": 3,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType":0
+                    "eventDataType": 0
                 },
                 {
                     "text": "Go quietly and sit down",
                     "nextNode": 4,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType":0
+                    "eventDataType": 0
                 }
             ],
             "_dialogues": [],

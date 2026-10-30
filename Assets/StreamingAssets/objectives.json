@@ -16,104 +16,117 @@
         },
         {
             "id": 2,
+            "nextObjectiveId": 3,
             "description": "Get your books from your locker.",
             "targetCount": 1,
             "eventToListen": "Day1_LockerEncounterEnd",
             "eventOnComplete": ""
+            
         },
         {
             "id": 3,
-            "description": "Go home.",
+            "nextObjectiveId": 4,
+            "description": "Go to class.",
+            "targetCount": 1,
+            "eventToListen": "Attend_Classes",
+            "eventOnComplete": "",
+            "isActive": false,
+            "eventToActivate":"Class_Started"
+            
+        },
+        {
+            "id": 4,
+            "description": "Comeback home.",
             "targetCount": 1,
             "eventToListen": "Day1_ComebackHome",
             "eventOnComplete": ""
         },
         {
-            "id": 4,
+            "id": 5,
             "description": "Check your phone.",
             "targetCount": 1,
             "eventToListen": "Day1_NightConvo_End",
             "eventOnComplete": ""
         },
         {
-            "id": 5,
+            "id": 6,
             "description": "Go to sleep.",
             "targetCount": 1,
             "eventToListen": "Day1_End",
             "eventOnComplete": ""
         },
         {
-            "id": 6,
+            "id": 7,
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day2_Convo1_End",
             "eventOnComplete": ""
         },
         {
-            "id": 7,
+            "id": 8,
             "description": "Talk to Emma.",
             "targetCount": 1,
             "eventToListen": "Day2_ClassroomEncounterEnd",
             "eventOnComplete": ""
         },
         {
-            "id": 8,
+            "id": 9,
             "description": "Go home and rest.",
             "targetCount": 1,
             "eventToListen": "Day2_End",
             "eventOnComplete": ""
         },
         {
-            "id": 9,
+            "id": 10,
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day3_Convo1_End",
             "eventOnComplete": ""
         },
         {
-            "id": 10,
+            "id": 11,
             "description": "Get ready for school (Bookshelf, Laptop, Bag).",
             "targetCount": 3,
             "eventToListen": "Day3_PrepItem",
             "eventOnComplete": "Day3_ReadyToLeave"
         },
         {
-            "id": 11,
+            "id": 12,
             "description": "Leave your bedroom.",
             "targetCount": 1,
             "eventToListen": "Day3_GoToSchool",
             "eventOnComplete": ""
         },
         {
-            "id": 12,
+            "id": 13,
             "description": "Go to class.",
             "targetCount": 1,
             "eventToListen": "Day3_School_End",
             "eventOnComplete": "Day3_RunAway"
         },
         {
-            "id":13,
+            "id":14,
             "description": "Get away from Emma and Sophie!",
             "targetCount": 1,
             "eventToListen": "Day3_ArrivedHome",
             "eventOnComplete": ""
         },
         {
-            "id": 14,
+            "id": 15,
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day3_Unknown_End",
             "eventOnComplete": ""
         },
         {
-            "id": 15,
+            "id": 16,
             "description": "Check your phone notifications.",
             "targetCount": 1,
             "eventToListen": "Day3_EmmaText_End",
             "eventOnComplete": ""
         },
         {
-            "id": 16,
+            "id": 17,
             "description": "Make a decision.",
             "targetCount": 1,
             "eventToListen": "Game_Completed",

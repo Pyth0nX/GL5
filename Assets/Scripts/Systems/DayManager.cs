@@ -5,7 +5,7 @@ public class DayManager : MonoBehaviour
 {
     public static DayManager Instance { get; private set; }
 
-    [SerializeField] private int _currentDay = 1;
+    [SerializeField] private int _currentDay = 0;
 
     private void Awake()
     {
@@ -23,7 +23,6 @@ public class DayManager : MonoBehaviour
     private void Start()
     {
         EventBus.Instance.Subscribe("NextDay", OnNextDay);
-        StartCoroutine(SendStartDayEventDelayed());
     }
 
     private IEnumerator SendStartDayEventDelayed()
@@ -42,6 +41,11 @@ public class DayManager : MonoBehaviour
         {
             EventBus.Instance.Unsubscribe("NextDay", OnNextDay);
         }
+    }
+
+    public void ResetDay()
+    {
+        _currentDay = 0;
     }
 
     private void OnNextDay()

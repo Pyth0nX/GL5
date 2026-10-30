@@ -247,6 +247,48 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &8011223344556677889
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2481197744676903552}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!114 &9011223344556677889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2481197744676903552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6161bd071fb450ca6fdaceb301dbac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhoneNotificationController
+  _appNameText: {fileID: 6871635226879812228}
+  _notificationMessageText: {fileID: 2846565628053751498}
+  _appLogoImage: {fileID: 168879375017993786}
+  _bgImage: {fileID: 2755623925109710039}
+  _canvasGroup: {fileID: 8011223344556677889}
+  _panelRect: {fileID: 1584483295212849204}
+  _stayDuration: 2
+  _slideDuration: 0.45
+  _slideDistance: 600
+  _slideInEase: 7
+  _slideOutEase: 5
+  _defaultDisplayDuration: 2
+  _audioSource: {fileID: 0}
+  _notificationSound: {fileID: 8300000, guid: a91fca988760c1b49b05e31108c7713d, type: 3}
+  _appConfigs:
+  - App: 0
+    DisplayName: Messages
+    AppIcon: {fileID: 0}
 --- !u!1 &4465946267359587393
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,45 +576,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!225 &8011223344556677889
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2481197744676903552}
-  m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
---- !u!114 &9011223344556677889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2481197744676903552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6161bd071fb450ca6fdaceb301dbac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhoneNotificationController
-  _appNameText: {fileID: 6871635226879812228}
-  _notificationMessageText: {fileID: 2846565628053751498}
-  _appLogoImage: {fileID: 168879375017993786}
-  _bgImage: {fileID: 2755623925109710039}
-  _canvasGroup: {fileID: 8011223344556677889}
-  _panelRect: {fileID: 0}
-  _stayDuration: 2
-  _slideDuration: 0.45
-  _slideDistance: 600
-  _slideInEase: 7
-  _slideOutEase: 5
-  _defaultDisplayDuration: 2
-  _audioSource: {fileID: 0}
-  _notificationSound: {fileID: 0}
-  _appConfigs:
-  - App: 0
-    DisplayName: Messages
-    AppIcon: {fileID: 0}
