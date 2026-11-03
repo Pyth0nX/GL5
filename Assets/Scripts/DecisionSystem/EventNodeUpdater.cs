@@ -1,11 +1,14 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public struct ContactNodeUpdate
 {
     public string contactName;
     public int newNarrativeNodeId;
+
+    [Tooltip("Optional: If conditions are added, this node jump only applies when all conditions are met (e.g. Reputation GreaterThan 60).")]
+    public List<Condition> conditions;
 }
 
 [System.Serializable]
@@ -57,7 +60,7 @@ public class EventNodeUpdater : MonoBehaviour
 
     private void ApplyUpdates(NodeUpdateRule rule)
     {
-        Debug.Log($"[EventNodeUpdater] Event '{rule.triggerEventName}' triggered. Updating {rule.contactUpdates.Count} contacts.");
+        Debug.Log($"[EventNodeUpdater] Event '{rule.triggerEventName}' triggered. Evaluating {rule.contactUpdates.Count} contact updates.");
         
         if (MessagesManager.Instance == null)
         {
@@ -67,7 +70,10 @@ public class EventNodeUpdater : MonoBehaviour
 
         foreach (var update in rule.contactUpdates)
         {
-            MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent(update.contactName, update.newNarrativeNodeId);
+            if (ConditionsChecker.AreConditionsMet(update.conditions))
+            {
+                MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent(update.contactName, update.newNarrativeNodeId);
+            }
         }
     }
 }

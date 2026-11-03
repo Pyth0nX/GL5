@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
 public class DialogueManager : MonoBehaviour
@@ -77,7 +77,8 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue()
     {
         Debug.Log("dialog activated");
-        NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
+        // Resolve entry redirects based on Reputation/Safety before starting the node
+        NarrativeNode currentNode = MessagesManager.Instance.ResolveAndGetCurrentContactNode();
         if (currentNode == null)
         {
             SetHasActiveDecision(false);
@@ -101,7 +102,7 @@ public class DialogueManager : MonoBehaviour
         else
         {
             SetHasActiveDecision(false);
-            _currentDialogues = currentNode.Dialogues();
+            _currentDialogues = currentNode.GetActiveDialogues();
             _currentContact = MessagesManager.Instance.GetCurrentContactName();
             _isEndNode = currentNode.IsEndNode();
             ContinueDialogue();
@@ -152,12 +153,17 @@ public class DialogueManager : MonoBehaviour
         
         if (currentNode != null)
         {
-            if (!string.IsNullOrEmpty(currentNode.EventOnEnd()))
-            {
-                EventBus.Instance.Publish(currentNode.EventOnEnd());
-            }
+            // 1. Apply any Reputation/Safety impact configured upon finishing the node
+            currentNode.ApplyEndReputationImpact();
 
-            MessagesManager.Instance.GetCurrentContact().SetNarrativeNode(currentNode.NextNode());
+            // 2. Publish node end event
+            PublishNodeEndEvent(currentNode);
+
+            // 3. Resolve the next node by evaluating conditional reputation branches
+            int nextNodeId = currentNode.ResolveNextNode();
+            nextNodeId = MessagesManager.Instance.ResolveEntryRedirects(nextNodeId);
+
+            MessagesManager.Instance.GetCurrentContact().SetNarrativeNode(nextNodeId);
             currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
         }
 
@@ -179,6 +185,36 @@ public class DialogueManager : MonoBehaviour
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.ChangeState(0);
+            }
+        }
+    }
+
+    private static void PublishNodeEndEvent(NarrativeNode node)
+    {
+        if (node == null || string.IsNullOrEmpty(node.EventOnEnd()) || EventBus.Instance == null)
+            return;
+
+        EventBus.Instance.Publish(node.EventOnEnd());
+
+        if (node.EndEventDataType() != EventDataType.NONE)
+        {
+            object val = node.EventDataValue();
+            if (val == null) return;
+
+            switch (node.EndEventDataType())
+            {
+                case EventDataType.INT:
+                    EventBus.Instance.Publish<int>(node.EventOnEnd(), (int)val);
+                    break;
+                case EventDataType.FLOAT:
+                    EventBus.Instance.Publish<float>(node.EventOnEnd(), (float)val);
+                    break;
+                case EventDataType.BOOL:
+                    EventBus.Instance.Publish<bool>(node.EventOnEnd(), (bool)val);
+                    break;
+                case EventDataType.STRING:
+                    EventBus.Instance.Publish<string>(node.EventOnEnd(), (string)val);
+                    break;
             }
         }
     }

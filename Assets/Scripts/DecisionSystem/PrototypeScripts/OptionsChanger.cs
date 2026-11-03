@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class OptionsChanger : MonoBehaviour
 {
+    private struct DisplayOptionEntry
+    {
+        public int realOptionIndex;
+        public Option option;
+        public bool isUnlocked;
+    }
+
     [SerializeField]
     private GameObject _decisionsPanel;
 
@@ -111,7 +118,8 @@ public class OptionsChanger : MonoBehaviour
     }
 
     /// <summary>
-    /// Update the buttons texts with the current node info and adapt layout for 1, 2, 3, or 4 options.
+    /// Update the buttons texts with the current node info, filtering/locking options by Reputation conditions,
+    /// and adapting layout for 1, 2, 3, or 4 visible options.
     /// </summary>
     private void UpdateButtonsTexts()
     {
@@ -120,42 +128,80 @@ public class OptionsChanger : MonoBehaviour
         InitializeButtons();
 
         Option[] options = _currentNode.Options();
-        int totalOptions = options != null ? options.Length : 0;
+        List<DisplayOptionEntry> displayOptions = new List<DisplayOptionEntry>();
 
-        // Populate and enable/disable individual buttons
+        if (options != null)
+        {
+            for (int i = 0; i < options.Length; i++)
+            {
+                Option opt = options[i];
+                if (opt == null) continue;
+
+                bool unlocked = opt.AreConditionsMet();
+                if (!unlocked && opt.unavailableBehavior == UnavailableOptionBehavior.Hide)
+                {
+                    continue;
+                }
+
+                displayOptions.Add(new DisplayOptionEntry
+                {
+                    realOptionIndex = i,
+                    option = opt,
+                    isUnlocked = unlocked
+                });
+            }
+        }
+
+        int visibleCount = displayOptions.Count;
+
+        // Populate and enable/disable individual UI button slots
         if (_optionButtons != null)
         {
-            for (int i = 0; i < _optionButtons.Length; i++)
+            for (int slot = 0; slot < _optionButtons.Length; slot++)
             {
-                if (_optionButtons[i] == null) continue;
+                Button btn = _optionButtons[slot];
+                if (btn == null) continue;
 
-                if (i < totalOptions)
+                if (slot < visibleCount)
                 {
-                    _optionButtons[i].gameObject.SetActive(true);
-                    var textComponent = _optionButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+                    DisplayOptionEntry entry = displayOptions[slot];
+                    btn.gameObject.SetActive(true);
+                    btn.interactable = entry.isUnlocked;
+
+                    // Map this UI slot to the real Option index inside _currentNode.Options()
+                    OptionButtonHelper helper = btn.GetComponent<OptionButtonHelper>();
+                    if (helper != null)
+                    {
+                        helper.SetOptionIndex(entry.realOptionIndex);
+                    }
+
+                    var textComponent = btn.GetComponentInChildren<TextMeshProUGUI>();
                     if (textComponent != null)
                     {
-                        textComponent.text = options[i].text;
+                        string displayText = (!entry.isUnlocked && !string.IsNullOrEmpty(entry.option.lockedText))
+                            ? entry.option.lockedText
+                            : entry.option.text;
+                        textComponent.text = displayText;
                     }
                 }
                 else
                 {
-                    _optionButtons[i].gameObject.SetActive(false);
+                    btn.gameObject.SetActive(false);
                 }
             }
         }
 
         // Manage Row visibility (Option B layout):
-        // Row 1 contains options 0 and 1. Visible if >= 1 option.
-        // Row 2 contains options 2 and 3. Visible if >= 3 options.
+        // Row 1 contains slots 0 and 1. Visible if >= 1 visible option.
+        // Row 2 contains slots 2 and 3. Visible if >= 3 visible options.
         if (_row1 != null)
         {
-            _row1.SetActive(totalOptions >= 1);
+            _row1.SetActive(visibleCount >= 1);
         }
 
         if (_row2 != null)
         {
-            _row2.SetActive(totalOptions >= 3);
+            _row2.SetActive(visibleCount >= 3);
         }
 
         // Force layout rebuild so LayoutGroups update immediately without a 1-frame visual delay
@@ -177,26 +223,37 @@ public class OptionsChanger : MonoBehaviour
 
     public void ChangeOptions(int selectedOptionId)
     {
-        if (DialogueManager.Instance != null)
-        {
-            DialogueManager.Instance.SetHasActiveDecision(false);
-        }
-
-        if (_currentNode == null || !_currentNode.HasOptions() || selectedOptionId >= _currentNode.Options().Length)
+        if (_currentNode == null || !_currentNode.HasOptions() ||
+            selectedOptionId < 0 || selectedOptionId >= _currentNode.Options().Length)
         {
             return;
         }
 
         Option selectedOption = _currentNode.Options()[selectedOptionId];
-        
-        if (!string.IsNullOrEmpty(selectedOption.eventToPublish))
+        if (selectedOption == null || !selectedOption.AreConditionsMet())
         {
-            EventBus.Instance.Publish(selectedOption.eventToPublish);
+            return;
         }
+
+        if (DialogueManager.Instance != null)
+        {
+            DialogueManager.Instance.SetHasActiveDecision(false);
+        }
+
+        // 1. Apply the Reputation/Safety impact first so subsequent branches reflect the updated state
+        selectedOption.ApplyReputationImpact();
+
+        // 2. Publish optional event on the EventBus
+        PublishOptionEvent(selectedOption);
 
         DialogueType lastType = _currentNode.DialogueType();
         Contact contact = MessagesManager.Instance.GetCurrentContact();
-        contact.SetNarrativeNode(selectedOption.nextNode);
+
+        // 3. Resolve the next node by evaluating conditional reputation branches (both on the option and upon entering the target node)
+        int targetNodeId = selectedOption.ResolveNextNode();
+        targetNodeId = MessagesManager.Instance.ResolveEntryRedirects(targetNodeId);
+
+        contact.SetNarrativeNode(targetNodeId);
         contact.SetCurrentMessageIndex(0);
 
         _currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
@@ -209,14 +266,17 @@ public class OptionsChanger : MonoBehaviour
 
         if (lastType == DialogueType.PHONE)
         {
-            foreach (var message in selectedOption.messagesToSend)
+            if (selectedOption.messagesToSend != null)
             {
-                MessagesManager.Instance.SendMessageToCurrentContact(message);
+                foreach (var message in selectedOption.messagesToSend)
+                {
+                    MessagesManager.Instance.SendMessageToCurrentContact(message);
+                }
             }
 
             if (_currentNode != null && _currentNode.DialogueType() == DialogueType.PHONE)
             {
-                if (_currentNode.Dialogues().Count > 0)
+                if (_currentNode.GetActiveDialogues().Count > 0)
                 {
                     contact.SetHasNewMessages(true);
                     MessagesManager.Instance.GetPhoneStateMachine().ShowDialogueTab();
@@ -234,6 +294,36 @@ public class OptionsChanger : MonoBehaviour
         if (_currentNode != null && _currentNode.HasOptions())
         {
             UpdateButtonsTexts();
+        }
+    }
+
+    private static void PublishOptionEvent(Option option)
+    {
+        if (option == null || string.IsNullOrEmpty(option.eventToPublish) || EventBus.Instance == null)
+            return;
+
+        // Always notify parameterless subscribers for compatibility across the project
+        EventBus.Instance.Publish(option.eventToPublish);
+
+        // If a typed payload was also defined, publish it as well
+        if (option.eventDataType != EventDataType.NONE && !string.IsNullOrEmpty(option.eventDataRawValue))
+        {
+            object val = option.EventDataValue();
+            switch (option.eventDataType)
+            {
+                case EventDataType.INT:
+                    EventBus.Instance.Publish<int>(option.eventToPublish, (int)val);
+                    break;
+                case EventDataType.FLOAT:
+                    EventBus.Instance.Publish<float>(option.eventToPublish, (float)val);
+                    break;
+                case EventDataType.BOOL:
+                    EventBus.Instance.Publish<bool>(option.eventToPublish, (bool)val);
+                    break;
+                case EventDataType.STRING:
+                    EventBus.Instance.Publish<string>(option.eventToPublish, (string)val);
+                    break;
+            }
         }
     }
 

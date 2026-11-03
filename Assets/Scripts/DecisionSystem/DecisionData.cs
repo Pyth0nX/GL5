@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+
 public enum DataType
 {
     Integer,
@@ -8,12 +10,23 @@ public enum DataType
     Custom
 }
 
-public struct DecisionVariable 
+[Serializable]
+public struct DecisionVariable
 {
-    //name of the data this contains
+    // Name of the data this contains (e.g. "Reputation")
     public string name;
-    // description of for what is this data used for
+
+    // Description of what this data is used for
     public string description;
-    // type of the data this contains (could be any type)
+
+    // Runtime value of the data this contains (could be any type)
+    [NonSerialized]
     public object value;
+
+    public DecisionVariable(string name, object value, string description = "")
+    {
+        this.name = name;
+        this.description = description;
+        this.value = value;
+    }
 }

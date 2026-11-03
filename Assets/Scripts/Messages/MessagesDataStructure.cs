@@ -54,6 +54,9 @@ public class Message
     private string _imagePath; // Path or name of the image
     [SerializeField]
     private MessageType _messageType = MessageType.TEXT; // Message type (TEXT or IMAGE)
+    [Tooltip("Optional: Reputation/State conditions required to display this dialogue line.")]
+    [SerializeField]
+    private List<Condition> _conditions = new List<Condition>();
 
     public string Content() { return _content; }
     public Sender Sender() { return _sender; }
@@ -62,6 +65,8 @@ public class Message
     public string ImagePath() { return _imagePath; }
     public MessageType Type() { return _messageType; }
     public bool HasImage() { return _messageType == MessageType.IMAGE || !string.IsNullOrEmpty(_imagePath); }
+    public List<Condition> Conditions() { return _conditions; }
+    public bool AreConditionsMet() { return ConditionsChecker.AreConditionsMet(_conditions); }
 
     public void SetContent(string content) { _content = content; }
     public void SetImagePath(string imagePath) { _imagePath = imagePath; }

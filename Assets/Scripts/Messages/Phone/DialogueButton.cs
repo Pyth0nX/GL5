@@ -1,6 +1,7 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class DialogueButton : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class DialogueButton : MonoBehaviour
 
         if (currentContact.HasNewMessages())
         {
-            NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
+            NarrativeNode currentNode = MessagesManager.Instance.ResolveAndGetCurrentContactNode();
             if (currentNode != null)
             {
                 // If a message is currently animating in the UI, wait for it to finish
@@ -56,12 +57,13 @@ public class DialogueButton : MonoBehaviour
                     return;
                 }
 
-                if (currentContact.CurrentMessageIndex() < currentNode.Dialogues().Count)
+                List<Message> activeDialogues = currentNode.GetActiveDialogues();
+                if (currentContact.CurrentMessageIndex() < activeDialogues.Count)
                 {
                     // We keep the GameObject active so Update() continues running
                     _button.gameObject.SetActive(true);
                     
-                    Message nextMsg = currentNode.Dialogues()[currentContact.CurrentMessageIndex()];
+                    Message nextMsg = activeDialogues[currentContact.CurrentMessageIndex()];
                     if (nextMsg.Sender() == Sender.NPC)
                     {
                         // It's the NPC's turn. Hide the button visually and wait 1 second.
@@ -120,10 +122,11 @@ public class DialogueButton : MonoBehaviour
             NarrativeNode currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
             if (currentNode != null)
             {
+                List<Message> activeDialogues = currentNode.GetActiveDialogues();
                 int msgIndex = currentContact.CurrentMessageIndex();
-                if (msgIndex < currentNode.Dialogues().Count)
+                if (msgIndex < activeDialogues.Count)
                 {
-                    Message msg = currentNode.Dialogues()[msgIndex];
+                    Message msg = activeDialogues[msgIndex];
                     MessagesManager.Instance.SendMessageToCurrentContact(msg);
                     currentContact.SetCurrentMessageIndex(msgIndex + 1);
                 }
@@ -139,18 +142,23 @@ public class DialogueButton : MonoBehaviour
         
         if (!currentNode.HasOptions())
         {
-            if (!string.IsNullOrEmpty(currentNode.EventOnEnd()))
+            currentNode.ApplyEndReputationImpact();
+
+            if (!string.IsNullOrEmpty(currentNode.EventOnEnd()) && EventBus.Instance != null)
             {
                 EventBus.Instance.Publish(currentNode.EventOnEnd());
             }
             
-            currentContact.SetNarrativeNode(currentNode.NextNode());
+            int nextNodeId = currentNode.ResolveNextNode();
+            nextNodeId = MessagesManager.Instance.ResolveEntryRedirects(nextNodeId);
+
+            currentContact.SetNarrativeNode(nextNodeId);
             currentContact.SetCurrentMessageIndex(0);
             
             NarrativeNode next = MessagesManager.Instance.GetCurrentContactNarrativeNode();
             if (next != null)
             {
-                if (next.Dialogues().Count > 0)
+                if (next.GetActiveDialogues().Count > 0)
                 {
                     currentContact.SetHasNewMessages(true);
                     gameObject.SetActive(true);

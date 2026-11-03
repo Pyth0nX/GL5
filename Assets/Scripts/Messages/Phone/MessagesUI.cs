@@ -26,6 +26,10 @@ public class MessagesUI : MonoBehaviour
     [Header("Contact Info Header")]
     [SerializeField] private TextMeshProUGUI contactNameHeader;
 
+    [Header("Quick Gallery Access")]
+    [Tooltip("Optional button in conversation view to open Gallery in Quick Select Mode.")]
+    [SerializeField] private Button quickGalleryButton;
+
     [Header("Animation Settings")]
     [SerializeField] private float npcTypingDuration = 2.0f;
     [SerializeField] private float npcDotInterval = 0.35f;
@@ -35,6 +39,7 @@ public class MessagesUI : MonoBehaviour
     private Coroutine _processQueueCoroutine;
     private Coroutine _scrollCoroutine;
     private bool _isAnimating = false;
+    private bool _quickGalleryListenerBound = false;
 
     private static readonly Dictionary<string, Sprite> _loadedSpritesCache = new Dictionary<string, Sprite>();
 
@@ -44,12 +49,14 @@ public class MessagesUI : MonoBehaviour
     {
         EnsureScrollRect();
         EnsureContactNameHeader();
+        EnsureQuickGalleryButton();
     }
 
     void Start()
     {
         EnsureScrollRect();
         EnsureContactNameHeader();
+        EnsureQuickGalleryButton();
         CreateContacts(); 
     }
 
@@ -68,6 +75,68 @@ public class MessagesUI : MonoBehaviour
         if (messagesScrollRect == null && messagesContainer != null)
         {
             messagesScrollRect = messagesContainer.GetComponentInParent<ScrollRect>();
+        }
+    }
+
+    private void EnsureQuickGalleryButton()
+    {
+        if (quickGalleryButton == null && messagesContainer != null)
+        {
+            // Search MessagesScreen hierarchy for a button with QuickGalleryButton or named QuickGalleryButton / AttachPhotoButton
+            Transform screenRoot = messagesContainer;
+            while (screenRoot.parent != null && screenRoot.name != "MessagesScreen")
+            {
+                screenRoot = screenRoot.parent;
+            }
+
+            QuickGalleryButton helper = screenRoot.GetComponentInChildren<QuickGalleryButton>(true);
+            if (helper != null)
+            {
+                quickGalleryButton = helper.GetComponent<Button>();
+            }
+            else
+            {
+                Button[] buttons = screenRoot.GetComponentsInChildren<Button>(true);
+                foreach (Button btn in buttons)
+                {
+                    if (btn.gameObject.name == "QuickGalleryButton" || btn.gameObject.name == "AttachPhotoButton")
+                    {
+                        quickGalleryButton = btn;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (quickGalleryButton != null && !_quickGalleryListenerBound)
+        {
+            // If the button already uses the QuickGalleryButton component, it manages its own onClick
+            if (quickGalleryButton.GetComponent<QuickGalleryButton>() == null)
+            {
+                quickGalleryButton.onClick.AddListener(OpenQuickGalleryForCurrentContact);
+            }
+            _quickGalleryListenerBound = true;
+        }
+    }
+
+    /// <summary>
+    /// Opens the Gallery app in Quick Select Mode to attach and send a photo to the current contact.
+    /// </summary>
+    public void OpenQuickGalleryForCurrentContact()
+    {
+        if (IsAnimating) return;
+
+        GalleryManager gallery = MessagesManager.Instance != null
+            ? MessagesManager.Instance.GetGalleryManager()
+            : FindAnyObjectByType<GalleryManager>(FindObjectsInactive.Include);
+
+        if (gallery != null)
+        {
+            gallery.OpenQuickSelectForCurrentContact();
+        }
+        else
+        {
+            Debug.LogWarning("[MessagesUI] GalleryManager not found to open quick select.");
         }
     }
 
@@ -195,6 +264,7 @@ public class MessagesUI : MonoBehaviour
     {
         StopAnimationQueue();
         UpdateContactNameHeader();
+        EnsureQuickGalleryButton();
 
         List<Message> currentContactMessages = MessagesManager.Instance.GetCurrentContactMessages();
         ClearMessages();
@@ -742,6 +812,15 @@ public class MessagesUI : MonoBehaviour
         rowLayout.minHeight = bubbleHeight;
         rowLayout.preferredHeight = bubbleHeight;
         rowLayout.flexibleHeight = 0f;
+    }
+
+    /// <summary>
+    /// Registers an in-memory Sprite directly in the cache so image messages using Inspector Sprites resolve immediately.
+    /// </summary>
+    public static void RegisterSpriteInCache(string key, Sprite sprite)
+    {
+        if (string.IsNullOrEmpty(key) || sprite == null) return;
+        _loadedSpritesCache[key] = sprite;
     }
 
     /// <summary>

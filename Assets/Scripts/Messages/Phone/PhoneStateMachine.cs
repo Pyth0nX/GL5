@@ -37,10 +37,14 @@ public class PhoneStateMachine : MonoBehaviour
     private GameObject _galleryTab;
 
     [SerializeField]
-    private GameObject _emailTab;
+    private GameObject _quickGalleryButton;
 
     [SerializeField]
     private GameObject _dialogueTab;
+
+    [Header("App Managers (Optional - Auto-Detected)")]
+    [SerializeField]
+    private GalleryManager _galleryManager;
 
 
     private int _backButtonState = 0; // State to change to when the back button is pressed
@@ -48,8 +52,55 @@ public class PhoneStateMachine : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _backButton.onClick.AddListener(() => ChangeState(_backButtonState));
-        EventBus.Instance.Subscribe<int>("Phone_Closed", ChangeState);
+        if (_backButton != null)
+        {
+            _backButton.onClick.AddListener(OnBackButtonPressed);
+        }
+
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Subscribe<int>("Phone_Closed", ChangeState);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_backButton != null)
+        {
+            _backButton.onClick.RemoveListener(OnBackButtonPressed);
+        }
+
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Unsubscribe<int>("Phone_Closed", ChangeState);
+        }
+    }
+
+    private void OnBackButtonPressed()
+    {
+        if (_currentState == PhoneState.GALLERY)
+        {
+            EnsureGalleryManager();
+            if (_galleryManager != null && _galleryManager.TryHandleBackButton())
+            {
+                return;
+            }
+        }
+
+        ChangeState(_backButtonState);
+    }
+
+    private void EnsureGalleryManager()
+    {
+        if (_galleryManager == null && _galleryTab != null)
+        {
+            _galleryManager = _galleryTab.GetComponentInChildren<GalleryManager>(true);
+        }
+
+        if (_galleryManager == null)
+        {
+            _galleryManager = GalleryManager.Instance;
+        }
     }
 
     // Update is called once per frame
@@ -64,18 +115,29 @@ public class PhoneStateMachine : MonoBehaviour
     /// <param name="newState"></param>
     public void ChangeState(int newState)
     {
-        if (_currentState == (PhoneState)newState) return;
+        PhoneState targetState = (PhoneState)newState;
+        if (_currentState == targetState) return;
 
         _backButtonState = (int)_currentState;
-        ExitCurrentState();
-        _currentState = (PhoneState)newState;
+        ExitCurrentState(targetState);
+        _currentState = targetState;
         EnterNewState();
+    }
+
+    public void SetBackButtonState(int state)
+    {
+        _backButtonState = state;
+    }
+
+    public PhoneState GetCurrentState()
+    {
+        return _currentState;
     }
 
     /// <summary>
     /// Disable the tab associated to the current state
     /// </summary>
-    private void ExitCurrentState()
+    private void ExitCurrentState(PhoneState nextState = PhoneState.IDLE)
     {
         switch (_currentState)
         {
@@ -87,14 +149,26 @@ public class PhoneStateMachine : MonoBehaviour
                 break;
             case PhoneState.MESSAGING:
                 _messagingTab?.SetActive(false);
+                _quickGalleryButton?.SetActive(false);
                 _dialogueTab?.SetActive(false);
-                _backButtonState = (int)PhoneState.IDLE;
+
+                // Hide decisions panel if it was open during mobile messaging when switching tabs
+                OptionsChanger optionsChanger = MessagesManager.Instance?.GetOptionsChanger();
+                if (optionsChanger != null && optionsChanger.IsDecisionsPanelActive())
+                {
+                    optionsChanger.ActiveDecisionsPanel(false);
+                }
+
+                // Keep MESSAGING as return state if navigating to GALLERY (Quick Select); otherwise return to IDLE
+                if (nextState != PhoneState.GALLERY)
+                {
+                    _backButtonState = (int)PhoneState.IDLE;
+                }
                 break;
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(false);
                 break;
             case PhoneState.EMAIL:
-                _emailTab?.SetActive(false);
                 break;
         }
 
@@ -116,12 +190,12 @@ public class PhoneStateMachine : MonoBehaviour
                 break;
             case PhoneState.MESSAGING:
                 _messagingTab?.SetActive(true);
+                _quickGalleryButton?.SetActive(true);
                 break;
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(true);
                 break;
             case PhoneState.EMAIL:
-                _emailTab?.SetActive(true);
                 break;
         }
 
@@ -148,10 +222,7 @@ public class PhoneStateMachine : MonoBehaviour
         return _galleryTab;
     }
 
-    public GameObject GetEmailTab()
-    {
-        return _emailTab;
-    }
+    
     #endregion
 
     /// <summary>

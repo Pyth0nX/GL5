@@ -94,6 +94,12 @@ public class GameManager : MonoBehaviour
                 DayManager.Instance.ResetDay();
             }
 
+            var reputationManager = FindAnyObjectByType<ReputationManager>(FindObjectsInactive.Include);
+            if (reputationManager != null)
+            {
+                reputationManager.ResetReputation();
+            }
+
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.ChangeMusic("Menu");

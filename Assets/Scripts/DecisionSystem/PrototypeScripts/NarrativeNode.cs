@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 [System.Serializable]
 public enum DialogueType
 {
@@ -8,6 +9,32 @@ public enum DialogueType
     PHONE
 }
 
+/// <summary>
+/// Defines how a narrative option behaves in the interface when its reputation conditions are NOT met.
+/// </summary>
+[System.Serializable]
+public enum UnavailableOptionBehavior
+{
+    Hide = 0,          // Hides the option and automatically readjusts the layout of remaining buttons
+    DisableButton = 1  // Shows the disabled button (not clickable) with optional lock text
+}
+
+/// <summary>
+/// Conditional branch leading to another narrative node, evaluated using ConditionsChecker.
+/// Branches are evaluated in order and the first one with matching conditions is selected.
+/// </summary>
+[System.Serializable]
+public class ConditionalNodeBranch
+{
+    [Tooltip("Optional descriptive note to identify the branch in the Inspector (e.g., 'High Reputation >= 70').")]
+    public string description;
+
+    [Tooltip("List of conditions (logical AND) that must be met to take this branch.")]
+    public List<Condition> conditions = new List<Condition>();
+
+    [Tooltip("Node ID of the destination NarrativeNode if all conditions are met.")]
+    public int nextNode = -1;
+}
 
 [CreateAssetMenu(fileName = "NarrativeNode", menuName = "DecisionSystem/NarrativeNode")]
 [System.Serializable]
@@ -17,20 +44,20 @@ public class NarrativeNode
     private int _id;
 
     [SerializeField]
-    private int _nextNode = -1; // The next node to go to after this one, if none it's -1. Onky used if there are no options to choose from, otherwise the next node is determined by the option chosen.
+    private int _nextNode = -1; // The next node to go to after this one, if none it's -1. Used as fallback if no conditional branch matches.
 
     [SerializeField]
     private Option[] _options = new Option[2];
 
     [SerializeField]
-    // List of dialogues to show when this node is reached (for both , in person and phone conversations)
+    // List of dialogues to show when this node is reached (for both, in person and phone conversations)
     private List<Message> _dialogues = new List<Message>(); 
 
     [SerializeField]
     private bool _isEndNode = false; // Whether this node is an end node or not (end of the current state)
 
     [SerializeField]
-    private int _loopNode = -1; // The node to loop back to , if none it's -1
+    private int _loopNode = -1; // The node to loop back to, if none it's -1
 
     [SerializeField]
     private DialogueType _dialogueType;
@@ -46,10 +73,30 @@ public class NarrativeNode
     [SerializeField]
     private string _eventDataRawValue;
 
+    [Header("Reputation / Safety — Impact on Finishing the Node")]
+    [Tooltip("Optional operation on Reputation/Safety when finishing this narrative node.")]
+    [SerializeField]
+    private ReputationOperation _reputationOperationOnEnd = ReputationOperation.None;
+
+    [Tooltip("Value of Reputation/Safety to add, subtract or set when finishing this node.")]
+    [SerializeField]
+    private int _reputationAmountOnEnd = 0;
+
+    [Header("Reputation / Safety — Conditional Branches")]
+    [Tooltip("Optional: Redirects immediately to another node BEFORE playing this node if the conditions are met (useful when starting a conversation with an NPC).")]
+    [SerializeField]
+    private List<ConditionalNodeBranch> _entryBranches = new List<ConditionalNodeBranch>();
+
+    [Tooltip("Optional: Evaluates these branches in order when finishing the node. If none match, jumps to '_nextNode'.")]
+    [SerializeField]
+    private List<ConditionalNodeBranch> _conditionalNextNodes = new List<ConditionalNodeBranch>();
+
     #region Getters
     public int ID() { return _id; }
 
     public string EventOnEnd() { return _eventOnEnd; }
+
+    public EventDataType EndEventDataType() { return _eventDataType; }
 
     public int NextNode() { return _nextNode; }
     
@@ -58,12 +105,111 @@ public class NarrativeNode
     public bool HasOptions() { return _hasOptions; }
 
     public List<Message> Dialogues() { return _dialogues; }
+
+    /// <summary>
+    /// Returns only the dialogue lines whose Reputation/State conditions are currently met.
+    /// If no lines define conditions, returns the original list intact.
+    /// </summary>
+    public List<Message> GetActiveDialogues()
+    {
+        if (_dialogues == null || _dialogues.Count == 0)
+        {
+            return new List<Message>();
+        }
+
+        // Optimization: if no message has conditions, return the list as is
+        bool anyConditional = false;
+        for (int i = 0; i < _dialogues.Count; i++)
+        {
+            var msg = _dialogues[i];
+            if (msg != null && msg.Conditions() != null && msg.Conditions().Count > 0)
+            {
+                anyConditional = true;
+                break;
+            }
+        }
+
+        if (!anyConditional)
+        {
+            return _dialogues;
+        }
+
+        List<Message> filtered = new List<Message>(_dialogues.Count);
+        for (int i = 0; i < _dialogues.Count; i++)
+        {
+            var msg = _dialogues[i];
+            if (msg != null && msg.AreConditionsMet())
+            {
+                filtered.Add(msg);
+            }
+        }
+        return filtered;
+    }
     
     public bool IsEndNode() { return _isEndNode; }
     
     public int LoopNode() { return _loopNode; }
     
     public DialogueType DialogueType() { return _dialogueType; }
+
+    public ReputationOperation ReputationOperationOnEnd() { return _reputationOperationOnEnd; }
+
+    public int ReputationAmountOnEnd() { return _reputationAmountOnEnd; }
+
+    public List<ConditionalNodeBranch> EntryBranches() { return _entryBranches; }
+
+    public List<ConditionalNodeBranch> ConditionalNextNodes() { return _conditionalNextNodes; }
+
+    /// <summary>
+    /// If this node defines entry redirection branches (_entryBranches) and one is met,
+    /// returns the alternative node ID; otherwise returns this node's own _id.
+    /// </summary>
+    public int ResolveEntryNodeId()
+    {
+        if (_entryBranches != null)
+        {
+            for (int i = 0; i < _entryBranches.Count; i++)
+            {
+                var branch = _entryBranches[i];
+                if (branch != null && branch.nextNode >= 0 && ConditionsChecker.AreConditionsMet(branch.conditions))
+                {
+                    return branch.nextNode;
+                }
+            }
+        }
+        return _id;
+    }
+
+    /// <summary>
+    /// Evaluates _conditionalNextNodes in order using ConditionsChecker.
+    /// Returns the first nextNode whose conditions are met, or _nextNode by default.
+    /// </summary>
+    public int ResolveNextNode()
+    {
+        if (_conditionalNextNodes != null)
+        {
+            for (int i = 0; i < _conditionalNextNodes.Count; i++)
+            {
+                var branch = _conditionalNextNodes[i];
+                if (branch != null && ConditionsChecker.AreConditionsMet(branch.conditions))
+                {
+                    return branch.nextNode;
+                }
+            }
+        }
+        return _nextNode;
+    }
+
+    /// <summary>
+    /// Applies the Reputation/Safety impact configured upon finishing this node (if any).
+    /// </summary>
+    public void ApplyEndReputationImpact()
+    {
+        if (_reputationOperationOnEnd != ReputationOperation.None && ReputationManager.Instance != null)
+        {
+            ReputationManager.Instance.ApplyOperation(_reputationOperationOnEnd, _reputationAmountOnEnd);
+        }
+    }
 
     public object EventDataValue()
     {
@@ -104,6 +250,65 @@ public class Option
     public string eventToPublish; // Optional event to publish when this option is chosen
     public EventDataType eventDataType = EventDataType.NONE; // The type of data of the event
     public string eventDataRawValue; // raw value of the event data
+
+    [Header("Reputation / Safety — Impact on Choosing Option")]
+    [Tooltip("Operation on Reputation/Safety when choosing this decision (None, Add, Subtract, Set).")]
+    public ReputationOperation reputationOperation = ReputationOperation.None;
+
+    [Tooltip("Numeric value to add, subtract or set in Reputation/Safety.")]
+    public int reputationAmount = 0;
+
+    [Header("Reputation / Safety — Conditions for Unlocking")]
+    [Tooltip("Conditions necessary for this option to be available. Empty = always available.")]
+    public List<Condition> conditions = new List<Condition>();
+
+    [Tooltip("What happens if the conditions are not met: Hide (hides the button) or DisableButton (shows as blocked).")]
+    public UnavailableOptionBehavior unavailableBehavior = UnavailableOptionBehavior.Hide;
+
+    [Tooltip("Alternative text optional when unavailableBehavior == DisableButton and the option is locked.")]
+    public string lockedText;
+
+    [Header("Reputation / Safety — Conditional Branches")]
+    [Tooltip("Optional: Allows choosing this same option to lead to different nodes based on current Reputation. If no branch matches, uses 'nextNode'.")]
+    public List<ConditionalNodeBranch> conditionalNextNodes = new List<ConditionalNodeBranch>();
+
+    /// <summary>
+    /// Checks if all conditions for this option are currently met using ConditionsChecker.
+    /// </summary>
+    public bool AreConditionsMet()
+    {
+        return ConditionsChecker.AreConditionsMet(conditions);
+    }
+
+    /// <summary>
+    /// Applies the reputation/safety modification configured for this option.
+    /// </summary>
+    public void ApplyReputationImpact()
+    {
+        if (reputationOperation != ReputationOperation.None && ReputationManager.Instance != null)
+        {
+            ReputationManager.Instance.ApplyOperation(reputationOperation, reputationAmount);
+        }
+    }
+
+    /// <summary>
+    /// Resolves the next node by evaluating conditionalNextNodes first and using nextNode as the default value.
+    /// </summary>
+    public int ResolveNextNode()
+    {
+        if (conditionalNextNodes != null)
+        {
+            for (int i = 0; i < conditionalNextNodes.Count; i++)
+            {
+                var branch = conditionalNextNodes[i];
+                if (branch != null && ConditionsChecker.AreConditionsMet(branch.conditions))
+                {
+                    return branch.nextNode;
+                }
+            }
+        }
+        return nextNode;
+    }
 
     public object EventDataValue()
     {

@@ -21,6 +21,8 @@ public class MessagesManager : MonoBehaviour
 
     private OptionsChanger _optionsChanger; // Reference to the OptionsChanger component for updating the options UI
 
+    private GalleryManager _galleryManager; // Reference to the GalleryManager component for bidirectional photo sharing
+
     [SerializeField]
     private Dictionary<Name, List<Message>> _contactsMessages = new(); // Dictionary of List of messages for each contact, keyed by contact name
 
@@ -29,6 +31,11 @@ public class MessagesManager : MonoBehaviour
 
     [SerializeField]
     private Dictionary<int, NarrativeNode> _narrativeNodes = new(); // All the narrative nodes in the game, keyed by node ID
+
+    [Header("Inspector Narrative Nodes (Visual Editor & Overrides)")]
+    [Tooltip("Allows visualizing, adding, or overriding NarrativeNodes directly from the Unity Inspector (use component context menu to import/export with narrativeNodes.json).")]
+    [SerializeField]
+    private List<NarrativeNode> _inspectorNarrativeNodes = new();
 
     [SerializeField]
     private string contactsFilePath = "contacts.json";
@@ -59,19 +66,62 @@ public class MessagesManager : MonoBehaviour
 
     private void CreateNarrativeNodes()
     {
+        _narrativeNodes = new Dictionary<int, NarrativeNode>();
         List<NarrativeNode> nodesList = DataLoader.LoadNarrativeNodes(narrativeNodesFilePath);
 
         if (nodesList != null)
         {
             foreach (NarrativeNode node in nodesList)
             {
-                _narrativeNodes[node.ID()] = node;
+                if (node != null)
+                {
+                    _narrativeNodes[node.ID()] = node;
+                }
             }
         }
-        else
+
+        // If there are nodes configured or overridden in the Inspector, they take precedence over the base JSON
+        if (_inspectorNarrativeNodes != null && _inspectorNarrativeNodes.Count > 0)
         {
-            _narrativeNodes = new Dictionary<int, NarrativeNode>();
+            foreach (NarrativeNode inspectorNode in _inspectorNarrativeNodes)
+            {
+                if (inspectorNode != null)
+                {
+                    _narrativeNodes[inspectorNode.ID()] = inspectorNode;
+                }
+            }
         }
+    }
+
+    [ContextMenu("Narrative Nodes: Import from JSON to Inspector")]
+    private void ImportNarrativeNodesFromJsonToInspector()
+    {
+        List<NarrativeNode> loaded = DataLoader.LoadNarrativeNodes(narrativeNodesFilePath);
+        _inspectorNarrativeNodes = loaded ?? new List<NarrativeNode>();
+        Debug.Log($"[MessagesManager] Imported {_inspectorNarrativeNodes.Count} narrative nodes from '{narrativeNodesFilePath}' to Inspector.");
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
+    }
+
+    [ContextMenu("Narrative Nodes: Save Inspector to JSON")]
+    private void ExportInspectorNarrativeNodesToJson()
+    {
+        if (_inspectorNarrativeNodes == null || _inspectorNarrativeNodes.Count == 0)
+        {
+            Debug.LogWarning("[MessagesManager] '_inspectorNarrativeNodes' is empty. Import from JSON first before saving.");
+            return;
+        }
+
+        NarrativeNodeListWrapper wrapper = new NarrativeNodeListWrapper
+        {
+            narrativeNodes = _inspectorNarrativeNodes
+        };
+
+        string path = System.IO.Path.Combine(Application.streamingAssetsPath, narrativeNodesFilePath);
+        string json = JsonUtility.ToJson(wrapper, true);
+        System.IO.File.WriteAllText(path, json);
+        Debug.Log($"[MessagesManager] Guardados {_inspectorNarrativeNodes.Count} nodos narrativos en '{path}'.");
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -85,6 +135,9 @@ public class MessagesManager : MonoBehaviour
 
         // Gets the OptionsChanger component attached to the same GameObject as this script
         _optionsChanger = GetComponent<OptionsChanger>();
+
+        // Gets the GalleryManager component in the phone hierarchy (including inactive tabs)
+        _galleryManager = FindAnyObjectByType<GalleryManager>(FindObjectsInactive.Include);
     }
 
     /// <summary>
@@ -158,6 +211,24 @@ public class MessagesManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the stored message history for a specific contact without changing the active contact.
+    /// </summary>
+    public List<Message> GetContactMessages(string contactName)
+    {
+        if (string.IsNullOrEmpty(contactName)) return new List<Message>();
+
+        Contact contact = GetContactByName(contactName);
+        string keyName = contact != null ? contact.Name() : contactName;
+
+        if (_contactsMessages.TryGetValue(keyName, out List<Message> messages) && messages != null)
+        {
+            return messages;
+        }
+
+        return new List<Message>();
+    }
+
+    /// <summary>
     /// Adds a message directly to a contact's history, updating timestamp and sorting contacts.
     /// Also updates the active chat UI if this contact is currently open.
     /// </summary>
@@ -182,9 +253,14 @@ public class MessagesManager : MonoBehaviour
 
         SortContacts();
 
+        if (message.HasImage() && !string.IsNullOrEmpty(message.ImagePath()))
+        {
+            GetGalleryManager()?.NotifyChatImageReceived(message.ImagePath());
+        }
+
         if (_messagesUI == null)
         {
-            _messagesUI = GetComponent<MessagesUI>() ?? FindFirstObjectByType<MessagesUI>(FindObjectsInactive.Include);
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
         }
 
         // If this contact is currently open on screen in MessagesUI, show it live
@@ -212,13 +288,14 @@ public class MessagesManager : MonoBehaviour
             _contactsMessages[contact.Name()] = new List<Message>();
         }
 
-        contact.SetNarrativeNode(newNarrativeNodeId);
+        int resolvedNodeId = ResolveEntryRedirects(newNarrativeNodeId);
+        contact.SetNarrativeNode(resolvedNodeId);
         contact.SetCurrentMessageIndex(0);
 
-        NarrativeNode newNode = GetNarrativeNode(newNarrativeNodeId);
+        NarrativeNode newNode = GetNarrativeNode(resolvedNodeId);
         if (newNode == null)
         {
-            Debug.LogWarning($"[MessagesManager] NarrativeNode '{newNarrativeNodeId}' not found for contact '{contactName}'.");
+            Debug.LogWarning($"[MessagesManager] NarrativeNode '{resolvedNodeId}' not found for contact '{contactName}'.");
             contact.SetHasNewMessages(false);
             return;
         }
@@ -233,7 +310,7 @@ public class MessagesManager : MonoBehaviour
 
         if (isPhoneConversation)
         {
-            List<Message> dialogues = newNode.Dialogues();
+            List<Message> dialogues = newNode.GetActiveDialogues();
             if (dialogues != null && dialogues.Count > 0 && dialogues[0].Sender() == Sender.NPC)
             {
                 int addedCount = 0;
@@ -328,6 +405,11 @@ public class MessagesManager : MonoBehaviour
 
     public NarrativeNode GetNarrativeNode(int nodeId)
     {
+        if (nodeId < 0)
+        {
+            return null;
+        }
+
         if (_narrativeNodes.ContainsKey(nodeId))
         {
             return _narrativeNodes[nodeId];
@@ -337,6 +419,59 @@ public class MessagesManager : MonoBehaviour
             Debug.LogWarning($"Narrative node with ID {nodeId} not found.");
             return null;
         }
+    }
+
+    /// <summary>
+    /// Follows any conditional entry branches (_entryBranches) defined on the target node
+    /// based on current Reputation/Safety, with cycle protection.
+    /// </summary>
+    public int ResolveEntryRedirects(int startNodeId)
+    {
+        if (startNodeId < 0) return startNodeId;
+
+        int currentId = startNodeId;
+        const int maxHops = 8;
+
+        for (int hop = 0; hop < maxHops; hop++)
+        {
+            if (!_narrativeNodes.TryGetValue(currentId, out NarrativeNode node) || node == null)
+            {
+                break;
+            }
+
+            int redirectedId = node.ResolveEntryNodeId();
+            if (redirectedId == currentId || redirectedId < 0)
+            {
+                break;
+            }
+
+            currentId = redirectedId;
+        }
+
+        return currentId;
+    }
+
+    /// <summary>
+    /// Resolves conditional entry redirects for the current contact and returns the resulting NarrativeNode.
+    /// </summary>
+    public NarrativeNode ResolveAndGetCurrentContactNode()
+    {
+        Contact currentContact = GetCurrentContact();
+        if (currentContact == null)
+        {
+            Debug.LogWarning("No current contact selected.");
+            return null;
+        }
+
+        int originalId = currentContact.NarrativeNode();
+        int resolvedId = ResolveEntryRedirects(originalId);
+        if (resolvedId != originalId)
+        {
+            currentContact.SetNarrativeNode(resolvedId);
+            currentContact.SetCurrentMessageIndex(0);
+        }
+
+        return GetNarrativeNode(resolvedId);
     }
 
     public NarrativeNode GetCurrentContactNarrativeNode()
@@ -360,6 +495,183 @@ public class MessagesManager : MonoBehaviour
             return _contactsMessages[contactName].Count > 0;
         }
         return false;
+    }
+
+    /// <summary>
+    /// Returns true if the specified contact has at least one received message (Sender.NPC) in their phone history.
+    /// </summary>
+    public bool ContactHasReceivedMessages(string contactName)
+    {
+        if (string.IsNullOrEmpty(contactName)) return false;
+
+        Contact contact = GetContactByName(contactName);
+        string keyName = contact != null ? contact.Name() : contactName;
+
+        if (_contactsMessages.TryGetValue(keyName, out List<Message> messages) && messages != null)
+        {
+            for (int i = 0; i < messages.Count; i++)
+            {
+                if (messages[i] != null && messages[i].Sender() == Sender.NPC)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Returns all active/writable contacts sorted by most recent message date.
+    /// Filters contacts that already have received messages (or any message history if onlyWithReceivedMessages is false).
+    /// </summary>
+    public List<Contact> GetWritableContacts(bool onlyWithReceivedMessages = true)
+    {
+        SortContacts();
+        List<Contact> writable = new List<Contact>();
+
+        for (int i = 0; i < _contacts.Count; i++)
+        {
+            Contact contact = _contacts[i];
+            if (contact == null) continue;
+
+            bool isValid = onlyWithReceivedMessages
+                ? ContactHasReceivedMessages(contact.Name())
+                : ContactHasMessages(contact.Name());
+
+            if (isValid)
+            {
+                writable.Add(contact);
+            }
+        }
+
+        return writable;
+    }
+
+    /// <summary>
+    /// Generates a coherent Date timestamp strictly >= the latest recorded phone message so SortContacts()
+    /// places the updated conversation at the top of the list.
+    /// </summary>
+    public Date GenerateNextMessageTimestamp()
+    {
+        int currentDay = DayManager.Instance != null ? Mathf.Max(1, DayManager.Instance.GetCurrentDay()) : 1;
+        Date candidate = new Date
+        {
+            year = 2026,
+            month = 10,
+            day = currentDay,
+            hour = 12,
+            minute = 0
+        };
+
+        for (int i = 0; i < _contacts.Count; i++)
+        {
+            Contact c = _contacts[i];
+            if (c != null && c.LastMessageDate().CompareTo(candidate) >= 0)
+            {
+                candidate = c.LastMessageDate();
+            }
+        }
+
+        candidate.minute += 1;
+        if (candidate.minute >= 60)
+        {
+            candidate.minute = 0;
+            candidate.hour += 1;
+            if (candidate.hour >= 24)
+            {
+                candidate.hour = 0;
+                candidate.day += 1;
+            }
+        }
+
+        return candidate;
+    }
+
+    /// <summary>
+    /// Opens the Messaging screen on the specified contact's conversation, loading its historical messages
+    /// and restoring any pending narrative dialogue or decision UI.
+    /// </summary>
+    public void OpenContactConversation(string contactName)
+    {
+        if (string.IsNullOrEmpty(contactName)) return;
+
+        Contact contact = GetContactByName(contactName);
+        string resolvedName = contact != null ? contact.Name() : contactName;
+
+        SetCurrentContact(resolvedName);
+
+        PhoneStateMachine stateMachine = GetPhoneStateMachine();
+        if (stateMachine != null)
+        {
+            stateMachine.ChangeState((int)PhoneState.MESSAGING);
+            stateMachine.SetBackButtonState((int)PhoneState.CONTACTS);
+        }
+
+        if (_messagesUI == null)
+        {
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
+        }
+
+        if (_messagesUI != null)
+        {
+            _messagesUI.SetContactName(resolvedName);
+            _messagesUI.CreateMessages();
+        }
+
+        NarrativeNode currentNode = GetCurrentContactNarrativeNode();
+        if (_optionsChanger == null)
+        {
+            _optionsChanger = GetComponent<OptionsChanger>();
+        }
+
+        if (_optionsChanger != null)
+        {
+            _optionsChanger.SetCurrentNode(currentNode);
+        }
+
+        if (contact != null && contact.HasNewMessages())
+        {
+            stateMachine?.ShowDialogueTab();
+        }
+        else if (currentNode != null && currentNode.DialogueType() == DialogueType.PHONE && currentNode.HasOptions())
+        {
+            _optionsChanger?.ActiveDecisionsPanel(true);
+            stateMachine?.ShowDecisionsTab();
+        }
+    }
+
+    /// <summary>
+    /// Sends an image message from the Player to the specified contact and redirects the phone UI to that conversation.
+    /// </summary>
+    public void SendImageMessageToContactAndOpenChat(string contactName, string imageKey, Sprite sprite = null, string caption = "")
+    {
+        if (string.IsNullOrEmpty(contactName) || string.IsNullOrEmpty(imageKey))
+        {
+            Debug.LogWarning("[MessagesManager] Cannot send image message: invalid contact name or image key.");
+            return;
+        }
+
+        if (sprite != null)
+        {
+            MessagesUI.RegisterSpriteInCache(imageKey, sprite);
+        }
+
+        // 1. Open the contact conversation loading its previous history
+        OpenContactConversation(contactName);
+
+        // 2. Build and inject the player's new image message
+        string playerName = GameManager.Instance != null ? (GameManager.Instance.GetPlayerName() ?? "") : "";
+        Date timestamp = GenerateNextMessageTimestamp();
+        Message imageMessage = new Message(
+            caption ?? "",
+            Sender.Player,
+            playerName,
+            timestamp,
+            imageKey,
+            MessageType.IMAGE);
+
+        SendMessageToCurrentContact(imageMessage);
     }
 
     /// <summary>
@@ -390,7 +702,7 @@ public class MessagesManager : MonoBehaviour
 
         if (_messagesUI == null)
         {
-            _messagesUI = GetComponent<MessagesUI>() ?? FindFirstObjectByType<MessagesUI>(FindObjectsInactive.Include);
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
         }
 
         _messagesUI?.AddMessage(message);
@@ -412,7 +724,25 @@ public class MessagesManager : MonoBehaviour
     /// <returns></returns>
     public PhoneStateMachine GetPhoneStateMachine()
     {
+        if (_phoneStateMachine == null)
+        {
+            _phoneStateMachine = FindAnyObjectByType<PhoneStateMachine>(FindObjectsInactive.Include);
+        }
         return _phoneStateMachine;
+    }
+
+    /// <summary>
+    /// Returns the GalleryManager component in the phone interface.
+    /// </summary>
+    public GalleryManager GetGalleryManager()
+    {
+        if (_galleryManager == null)
+        {
+            _galleryManager = GalleryManager.Instance != null
+                ? GalleryManager.Instance
+                : FindAnyObjectByType<GalleryManager>(FindObjectsInactive.Include);
+        }
+        return _galleryManager;
     }
 
     /// <summary>

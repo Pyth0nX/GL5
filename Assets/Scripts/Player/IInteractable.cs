@@ -40,6 +40,16 @@ public abstract class IInteractable : MonoBehaviour
     public Color AvailableColor { get => _availableColor; set => _availableColor = value; }
     public Color NotAvailableColor { get => _notAvailableColor; set => _notAvailableColor = value; }
 
+    /// <summary>
+    /// Enables or disables interaction availability dynamically (e.g. from ReputationWorldTrigger or EventBus)
+    /// and updates the hovered outline color immediately.
+    /// </summary>
+    public virtual void SetCanInteract(bool canInteract)
+    {
+        _canInteract = canInteract;
+        UpdateHoveredOutlineColor();
+    }
+
     protected virtual void Awake()
     {
         DisableLegacyOutlines();

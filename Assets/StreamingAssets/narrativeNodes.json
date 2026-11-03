@@ -15,7 +15,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 28
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Hi, do i know you?",
@@ -27,7 +30,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "No you don't know me, yet ;) Saw you on that forum about the 'Lost Cause' book.",
@@ -39,7 +45,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Here is the special edition cover:",
@@ -53,7 +62,8 @@
                         "minute": 32
                     },
                     "_imagePath": "Images/LostCause.png",
-                    "_messageType": 1
+                    "_messageType": 1,
+                    "_conditions": []
                 },
                 {
                     "_content": "Ohhh that's cool!! Have you read it yourself? It's a great book.",
@@ -65,7 +75,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "WAIT. Don't tell me you actually liked that ending?",
@@ -77,7 +90,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "EXCUSE ME?? It was PERFECT",
@@ -89,7 +105,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 35
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "The main character ignored EVERY warning sign",
@@ -101,7 +120,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 36
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "THATS WHAT MADE ITS SOOO GOOD",
@@ -113,7 +135,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 37
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Okay you are actually funny",
@@ -125,7 +150,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 38
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I have to go, im gonna be late for class",
@@ -137,14 +165,23 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 39
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day1_Convo1_End"
+            "_eventOnEnd": "Day1_Convo1_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 1,
@@ -161,7 +198,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Ohhh that's cool!! Have you read it yourself? It's a great book.",
@@ -173,7 +213,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "WAIT. Don't tell me you actually liked that ending?",
@@ -185,7 +228,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "EXCUSE ME?? It was PERFECT",
@@ -197,7 +243,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 35
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "The main character ignored EVERY warning sign",
@@ -209,7 +258,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 36
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "THATS WHAT MADE ITS SOOO GOOD",
@@ -221,7 +273,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 37
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Okay you are actually funny",
@@ -233,7 +288,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 38
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I have to go, im gonna be late for class",
@@ -245,14 +303,23 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 39
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day1_Convo1_End"
+            "_eventOnEnd": "Day1_Convo1_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 2,
@@ -269,10 +336,13 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
-                    "_content": "Did you see what she posted yesterday? What a loser",
+                    "_content": "Did you seriously wear that on the first day?",
                     "_sender": 1,
                     "_speakerName": "Sophie",
                     "_timestamp": {
@@ -281,10 +351,28 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
-                    "_content": "Imagine actually being that embarrassing",
+                    "_content": "Good morning to you to.",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 1,
+                        "month": 10,
+                        "year": 2026,
+                        "hour": 8,
+                        "minute": 30
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "Someone's in a mood.",
                     "_sender": 1,
                     "_speakerName": "Emma",
                     "_timestamp": {
@@ -293,14 +381,23 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 3,
@@ -317,7 +414,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Last time i checked the booknerds dont talk, move yourself nerd.",
@@ -329,14 +429,23 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": "Day1_LockerEncounterEnd"
+            "_eventOnEnd": "Day1_LockerEncounterEnd",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 4,
@@ -353,14 +462,23 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": "Day1_LockerEncounterEnd"
+            "_eventOnEnd": "Day1_LockerEncounterEnd",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 5,
@@ -377,7 +495,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "You don't say",
@@ -389,7 +510,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "What's up? Anything you want to talk about?",
@@ -401,14 +525,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 6,
@@ -428,11 +561,21 @@
                                 "year": 2026,
                                 "hour": 15,
                                 "minute": 32
-                            }
+                            },
+                            "_imagePath": "",
+                            "_messageType": 0,
+                            "_conditions": []
                         }
                     ],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 },
                 {
                     "text": "Tell about the bullies",
@@ -448,18 +591,35 @@
                                 "year": 2026,
                                 "hour": 15,
                                 "minute": 32
-                            }
+                            },
+                            "_imagePath": "",
+                            "_messageType": 0,
+                            "_conditions": []
                         }
                     ],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 }
             ],
+            "_dialogues": [],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": true,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 7,
@@ -476,7 +636,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Probably Lost Cause, but you knew that already hahah",
@@ -488,7 +651,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Should maybe have guessed that yeah haha",
@@ -500,7 +666,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "What about you?",
@@ -512,7 +681,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Mine is the same as yours!!",
@@ -524,7 +696,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "No wayyyy, never met someone with the same taste as me",
@@ -536,7 +711,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 35
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "We should read the next book together when it comes out!",
@@ -548,7 +726,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 36
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "YES, id love that!",
@@ -560,7 +741,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 37
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Its a date ;)",
@@ -572,7 +756,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 38
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHAH, shut up",
@@ -584,14 +771,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 39
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day1_NightConvo_End"
+            "_eventOnEnd": "Day1_NightConvo_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 8,
@@ -608,7 +804,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "They just constantly make fun of me. I can't even walk into class without them saying something...",
@@ -620,7 +819,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Have you told anyone about it?",
@@ -632,7 +834,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Not really, it's not like anyone would care either way",
@@ -644,7 +849,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Hey, don't say that. I'm here for you.",
@@ -656,7 +864,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Thanks i guess, im just tired of it",
@@ -668,7 +879,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 35
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Atleast we have eachother!If you ever need someone to talk to you can always reach out to me",
@@ -680,7 +894,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 36
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Thanks, I appreciate it :) Im gonna go to bed now, seeya",
@@ -692,18 +909,28 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 37
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day1_NightConvo_End"
+            "_eventOnEnd": "Day1_NightConvo_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 9,
             "_nextNode": -1,
+            "_options": [],
             "_dialogues": [
                 {
                     "_content": "GOOOOOD MORNING",
@@ -715,7 +942,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "its wayyyy too early for this HAHAHAH",
@@ -727,7 +957,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "someone's grumpy today -.-",
@@ -739,7 +972,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "i literally just woke up..",
@@ -751,7 +987,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Have fun at school nerd",
@@ -763,7 +1002,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
@@ -771,7 +1013,12 @@
             "_dialogueType": 1,
             "_hasOptions": false,
             "_eventOnEnd": "Day2_Convo1_End",
-            "_options": []
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 10,
@@ -788,7 +1035,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 28
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Did you see her post yesterday? She's actually so embarrassing.",
@@ -800,7 +1050,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 29
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I wonder if she even has any friends.",
@@ -812,7 +1065,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "*Luna tries to walk past them, but Emma steps in front of her.*",
@@ -824,7 +1080,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "What's the rush? Don't wanna talk to us?",
@@ -836,14 +1095,23 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 11,
@@ -854,14 +1122,28 @@
                     "nextNode": 12,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 },
                 {
                     "text": "Ignore them and walk away.",
                     "nextNode": 13,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 }
             ],
             "_dialogues": [],
@@ -869,7 +1151,13 @@
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": true,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 12,
@@ -886,7 +1174,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Awww, is someone getting upset?",
@@ -898,7 +1189,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHA she's gonna cry.",
@@ -910,7 +1204,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Whatever...",
@@ -922,7 +1219,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "*Luna walks past them and enters the classroom.*",
@@ -934,14 +1234,23 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": "Day2_ClassroomEncounterEnd"
+            "_eventOnEnd": "Day2_ClassroomEncounterEnd",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 13,
@@ -958,7 +1267,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Helloooo? I'm talking to you.",
@@ -970,7 +1282,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "She's probably too scared to answer.",
@@ -982,7 +1297,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "*Emma pushes Luna and her books drop on the floor.*",
@@ -994,7 +1312,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Awwww did you trip? I'm SOOOOOOO sorry.... Hahahha",
@@ -1006,7 +1327,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "*Luna continues walking and enters the classroom.*",
@@ -1018,14 +1342,23 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 35
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": "Day2_ClassroomEncounterEnd"
+            "_eventOnEnd": "Day2_ClassroomEncounterEnd",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 14,
@@ -1042,7 +1375,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Oh god, not you again",
@@ -1054,7 +1390,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "WOW okay rude",
@@ -1066,7 +1405,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHA im kidding",
@@ -1078,7 +1420,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Anyways, how was school?",
@@ -1090,7 +1435,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Horrible as usual",
@@ -1102,7 +1450,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 35
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Those girls again?",
@@ -1114,7 +1465,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 36
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Yeah...",
@@ -1126,7 +1480,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 37
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "You know you deserve better than that right?",
@@ -1138,7 +1495,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 38
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Thanks :)",
@@ -1150,7 +1510,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 39
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Ofc!! You're actually really fun to talk to",
@@ -1162,7 +1525,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 40
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHA you too",
@@ -1174,7 +1540,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 41
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Can I ask you something?",
@@ -1186,7 +1555,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 42
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Sure?",
@@ -1198,7 +1570,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 43
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "What school do you go to? Maybe we live close to each other HAHAHA",
@@ -1210,14 +1585,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 44
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 15,
@@ -1228,14 +1612,28 @@
                     "nextNode": 16,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 },
                 {
                     "text": "Why do you wanna know?",
                     "nextNode": 17,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 }
             ],
             "_dialogues": [],
@@ -1243,7 +1641,13 @@
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": true,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 16,
@@ -1260,7 +1664,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 45
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "WAIT REALLY???",
@@ -1272,7 +1679,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 46
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "WHAT HAHAHA",
@@ -1284,7 +1694,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 47
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I think I know someone who goes there",
@@ -1296,7 +1709,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 48
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "NO WAY WHO?",
@@ -1308,7 +1724,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 49
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Can't remember their name rn HAHAHA",
@@ -1320,7 +1739,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 50
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Ohhh okay",
@@ -1332,14 +1754,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 51
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "ToldSchoolName"
+            "_eventOnEnd": "ToldSchoolName",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 17,
@@ -1356,7 +1787,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 45
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHA just curious, maybe we live close to each other",
@@ -1368,7 +1802,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 46
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I'd rather not say yet",
@@ -1380,7 +1817,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 47
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Ohhh okay, that's fair",
@@ -1392,7 +1832,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 48
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Sorry if that was weird",
@@ -1404,7 +1847,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 49
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHA you're good",
@@ -1416,14 +1862,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 50
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "RefusedSchoolName"
+            "_eventOnEnd": "RefusedSchoolName",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 18,
@@ -1434,14 +1889,28 @@
                     "nextNode": 19,
                     "messagesToSend": [],
                     "eventToPublish": "SentFlirtyPhoto",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 },
                 {
                     "text": "Send a photo",
                     "nextNode": 20,
                     "messagesToSend": [],
                     "eventToPublish": "SentNormalPhoto",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 }
             ],
             "_dialogues": [],
@@ -1449,7 +1918,13 @@
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": true,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 19,
@@ -1466,7 +1941,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 55
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Daaaaaamn, you are beautiful!",
@@ -1478,7 +1956,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 56
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "stooooop.. Ur making me blush",
@@ -1490,7 +1971,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 57
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "awwwww i got you to smile!!",
@@ -1502,7 +1986,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 58
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "[Image Saved]",
@@ -1514,14 +2001,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 59
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day2_End"
+            "_eventOnEnd": "Day2_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 20,
@@ -1538,7 +2034,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 55
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "YOU'RE SO PRETTY",
@@ -1550,7 +2049,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 56
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Thank youuuu",
@@ -1562,7 +2064,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 57
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "See?? Nothing to be nervous about",
@@ -1574,7 +2079,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 58
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "hahah i guess so",
@@ -1586,7 +2094,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 59
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "*Stranger sends one back, but it is fake.*",
@@ -1598,7 +2109,10 @@
                         "year": 2026,
                         "hour": 16,
                         "minute": 0
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "[Image Saved]",
@@ -1610,7 +2124,10 @@
                         "year": 2026,
                         "hour": 16,
                         "minute": 1
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Why did you save that??",
@@ -1622,7 +2139,10 @@
                         "year": 2026,
                         "hour": 16,
                         "minute": 2
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Just wanted to keep it so i can always remind myself of your beautiful face",
@@ -1634,14 +2154,23 @@
                         "year": 2026,
                         "hour": 16,
                         "minute": 3
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day2_End"
+            "_eventOnEnd": "Day2_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 21,
@@ -1658,7 +2187,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "good morninggg",
@@ -1670,7 +2202,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Sleep well?",
@@ -1682,7 +2217,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Yeahhh, what about you?",
@@ -1694,7 +2232,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Pretty good, was thinking about you ;)",
@@ -1706,7 +2247,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHA stooooop",
@@ -1718,7 +2262,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 35
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Anyways, excited for school?",
@@ -1730,7 +2277,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 36
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Not really...",
@@ -1742,7 +2292,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 37
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Those girls again?",
@@ -1754,7 +2307,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 38
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Yeah, I just wish they'd leave me alone.",
@@ -1766,7 +2322,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 39
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Awww, don't worry. I'm sure today will be interesting ;)",
@@ -1778,7 +2337,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 40
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "What do you mean?",
@@ -1790,7 +2352,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 41
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Nothingggg HAHAHA",
@@ -1802,7 +2367,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 42
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "You're so weird",
@@ -1814,7 +2382,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 43
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "You love it",
@@ -1826,7 +2397,10 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 44
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Whateverrrr",
@@ -1838,14 +2412,23 @@
                         "year": 2026,
                         "hour": 7,
                         "minute": 45
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day3_Convo1_End"
+            "_eventOnEnd": "Day3_Convo1_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 22,
@@ -1862,7 +2445,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I TOLD YOU SHE WOULD",
@@ -1874,7 +2460,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Show me the other messages!!",
@@ -1886,7 +2475,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Wait wait, look at this one",
@@ -1898,7 +2490,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Stooooop, you're making me blush",
@@ -1910,7 +2505,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Wait...",
@@ -1922,7 +2520,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 35
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "What...?",
@@ -1934,7 +2535,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 36
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Ohhhh look who it is!!",
@@ -1946,7 +2550,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 37
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHAHA speak of the devil",
@@ -1958,7 +2565,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 38
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "How... how do you have those messages?",
@@ -1970,7 +2580,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 39
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "What messages? ;)",
@@ -1982,7 +2595,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 40
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Those are MY messages...",
@@ -1994,7 +2610,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 41
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Awwww, don't tell me you haven't figured it out yet?",
@@ -2006,7 +2625,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 42
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "No...",
@@ -2018,7 +2640,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 43
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "That was YOU?!",
@@ -2030,7 +2655,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 44
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "SURPRISEEEE",
@@ -2042,7 +2670,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 45
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHAHA you should've seen your face",
@@ -2054,7 +2685,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 46
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "But... why?",
@@ -2066,7 +2700,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 47
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Because you're so easy to mess with HAHAHA",
@@ -2078,7 +2715,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 48
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I thought...",
@@ -2090,7 +2730,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 49
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "You thought WHAT? That someone actually wanted to be friends with you?",
@@ -2102,7 +2745,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 50
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "And the BEST part was when you started flirting with me HAHAHA",
@@ -2114,7 +2760,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 51
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "WAIT SHOW ME THE PICTURE AGAIN",
@@ -2126,7 +2775,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 52
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Look at this, she actually thought I liked her",
@@ -2138,7 +2790,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 53
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Please... delete that.",
@@ -2150,7 +2805,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 54
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Awwww, are you embarrassed?",
@@ -2162,7 +2820,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 55
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Awwww, she's gonna cry again.",
@@ -2174,14 +2835,23 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 56
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": "Day3_School_End"
+            "_eventOnEnd": "Day3_School_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 23,
@@ -2198,7 +2868,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I TOLD YOU SHE WOULD",
@@ -2210,7 +2883,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Show me the other messages!!",
@@ -2222,7 +2898,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 32
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Wait wait, look at this one",
@@ -2234,7 +2913,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 33
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Stooooop, you're making me blush",
@@ -2246,7 +2928,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 34
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Wait...",
@@ -2258,7 +2943,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 35
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "What...?",
@@ -2270,7 +2958,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 36
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Ohhhh look who it is!!",
@@ -2282,7 +2973,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 37
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHAHA speak of the devil",
@@ -2294,7 +2988,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 38
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "How... how do you have those messages?",
@@ -2306,7 +3003,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 39
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "What messages? ;)",
@@ -2318,7 +3018,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 40
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Those are MY messages...",
@@ -2330,7 +3033,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 41
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Awwww, don't tell me you haven't figured it out yet?",
@@ -2342,7 +3048,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 42
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "No...",
@@ -2354,7 +3063,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 43
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "That was YOU?!",
@@ -2366,7 +3078,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 44
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "SURPRISEEEE",
@@ -2378,7 +3093,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 45
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHAHA you should've seen your face",
@@ -2390,7 +3108,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 46
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "But... why?",
@@ -2402,7 +3123,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 47
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Because you're so easy to mess with HAHAHA",
@@ -2414,7 +3138,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 48
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I thought...",
@@ -2426,7 +3153,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 49
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "You thought WHAT? That someone actually wanted to be friends with you?",
@@ -2438,7 +3168,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 50
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "And you even sent me a picture of yourself HAHAHA",
@@ -2450,7 +3183,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 51
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "You actually trusted a random person on the internet?",
@@ -2462,7 +3198,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 52
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I thought we were friends...",
@@ -2474,7 +3213,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 53
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Well, you thought wrong.",
@@ -2486,7 +3228,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 54
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "You said you cared about me...",
@@ -2498,7 +3243,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 55
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "HAHAHAHA AND YOU BELIEVED ME?",
@@ -2510,7 +3258,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 56
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I told you things I haven't told anyone...",
@@ -2522,7 +3273,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 57
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Yeah, I know. You really don't have any friends, do you?",
@@ -2534,7 +3288,10 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 58
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "Awwww, she's gonna cry again.",
@@ -2546,14 +3303,23 @@
                         "year": 2026,
                         "hour": 8,
                         "minute": 59
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": "Day3_School_End"
+            "_eventOnEnd": "Day3_School_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 24,
@@ -2570,14 +3336,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day3_Unknown_End"
+            "_eventOnEnd": "Day3_Unknown_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 25,
@@ -2594,14 +3369,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 1,
             "_hasOptions": false,
-            "_eventOnEnd": "Day3_EmmaText_End"
+            "_eventOnEnd": "Day3_EmmaText_End",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 26,
@@ -2612,14 +3396,28 @@
                     "nextNode": 27,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 },
                 {
                     "text": "Confront Emma",
                     "nextNode": 28,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 }
             ],
             "_dialogues": [
@@ -2633,14 +3431,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": false,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": true,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 27,
@@ -2657,7 +3464,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "I'm so sorry this is happening, Luna. We will help address this situation immediately. You are not alone.",
@@ -2669,14 +3479,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": "Game_Completed"
+            "_eventOnEnd": "Game_Completed",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 28,
@@ -2693,7 +3512,10 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 },
                 {
                     "_content": "You seriously believed that someone wanted to be your friend? Pathetic.",
@@ -2705,14 +3527,23 @@
                         "year": 2026,
                         "hour": 15,
                         "minute": 31
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": "Game_Completed"
+            "_eventOnEnd": "Game_Completed",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 29,
@@ -2722,20 +3553,30 @@
                 {
                     "_content": "Stay away, you freak!",
                     "_sender": 1,
+                    "_speakerName": "",
                     "_timestamp": {
                         "day": 3,
                         "month": 10,
                         "year": 2026,
                         "hour": 15,
                         "minute": 30
-                    }
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
                 }
             ],
             "_isEndNode": true,
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": false,
-            "_eventOnEnd": "Bob_Convo_Ended"
+            "_eventOnEnd": "Bob_Convo_Ended",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         },
         {
             "_id": 101,
@@ -2746,14 +3587,28 @@
                     "nextNode": 3,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 },
                 {
                     "text": "Go quietly and sit down",
                     "nextNode": 4,
                     "messagesToSend": [],
                     "eventToPublish": "",
-                    "eventDataType": 0
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
                 }
             ],
             "_dialogues": [],
@@ -2761,7 +3616,411 @@
             "_loopNode": -1,
             "_dialogueType": 0,
             "_hasOptions": true,
-            "_eventOnEnd": ""
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
+        },
+        {
+            "_id": 32,
+            "_nextNode": -1,
+            "_options": [],
+            "_dialogues": [
+                {
+                    "_content": "Have you downloaded Connect yet?",
+                    "_sender": 1,
+                    "_speakerName": "Student 1",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "Yeah! It's so much better than the other apps.",
+                    "_sender": 1,
+                    "_speakerName": "Student 2",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "You can post pictures, follow people, message anyone and join communities.",
+                    "_sender": 1,
+                    "_speakerName": "Student 1",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "What's Connect?",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "You seriously haven't heard of it? Everyone's using it.",
+                    "_sender": 1,
+                    "_speakerName": "Student 2",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "",
+                    "_sender": 1,
+                    "_speakerName": "Student 2",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "ConnectApp_Default",
+                    "_messageType": 1,
+                    "_conditions": []
+                },
+                {
+                    "_content": "Look, you can make your own profile and find people with the same interests.",
+                    "_sender": 1,
+                    "_speakerName": "Student 1",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                }
+            ],
+            "_isEndNode": false,
+            "_loopNode": -1,
+            "_dialogueType": 0,
+            "_hasOptions": true,
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
+        },
+        {
+            "_id": 33,
+            "_nextNode": 34,
+            "_options": [],
+            "_dialogues": [
+                {
+                    "_content": "Hey! Saw your comment about Lost Cause.",
+                    "_sender": 1,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "Oh,hi!",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "Finally someone who understands how good that book is.",
+                    "_sender": 1,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "RIGHT?? Nobody I know has even read it.",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "The ending was actually insanee",
+                    "_sender": 1,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "Dont even get me started",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                }
+            ],
+            "_isEndNode": false,
+            "_loopNode": -1,
+            "_dialogueType": 1,
+            "_hasOptions": false,
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
+        },
+        {
+            "_id": 34,
+            "_nextNode": -1,
+            "_options": [
+                {
+                    "text": "Keep talking about the books",
+                    "nextNode": 35,
+                    "messagesToSend": [
+                        {
+                            "_content": "I'd rather just talk about the books for now.",
+                            "_sender": 0,
+                            "_speakerName": "",
+                            "_timestamp": {
+                                "day": 0,
+                                "month": 0,
+                                "year": 0,
+                                "hour": 0,
+                                "minute": 0
+                            },
+                            "_imagePath": "",
+                            "_messageType": 0,
+                            "_conditions": []
+                        }
+                    ],
+                    "eventToPublish": "",
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
+                },
+                {
+                    "text": "",
+                    "nextNode": 0,
+                    "messagesToSend": [],
+                    "eventToPublish": "",
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
+                },
+                {
+                    "text": "",
+                    "nextNode": 0,
+                    "messagesToSend": [],
+                    "eventToPublish": "",
+                    "eventDataType": 0,
+                    "eventDataRawValue": "",
+                    "reputationOperation": 0,
+                    "reputationAmount": 0,
+                    "conditions": [],
+                    "unavailableBehavior": 0,
+                    "lockedText": "",
+                    "conditionalNextNodes": []
+                }
+            ],
+            "_dialogues": [
+                {
+                    "_content": "Hey! Saw your comment about Lost Cause.",
+                    "_sender": 1,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "Oh,hi!",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "Finally someone who understands how good that book is.",
+                    "_sender": 1,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "RIGHT?? Nobody I know has even read it.",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "The ending was actually insanee",
+                    "_sender": 1,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                },
+                {
+                    "_content": "Dont even get me started",
+                    "_sender": 0,
+                    "_speakerName": "",
+                    "_timestamp": {
+                        "day": 0,
+                        "month": 0,
+                        "year": 0,
+                        "hour": 0,
+                        "minute": 0
+                    },
+                    "_imagePath": "",
+                    "_messageType": 0,
+                    "_conditions": []
+                }
+            ],
+            "_isEndNode": false,
+            "_loopNode": -1,
+            "_dialogueType": 1,
+            "_hasOptions": true,
+            "_eventOnEnd": "",
+            "_eventDataType": 0,
+            "_eventDataRawValue": "",
+            "_reputationOperationOnEnd": 0,
+            "_reputationAmountOnEnd": 0,
+            "_entryBranches": [],
+            "_conditionalNextNodes": []
         }
     ]
 }
