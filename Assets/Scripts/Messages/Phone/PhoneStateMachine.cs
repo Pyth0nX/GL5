@@ -10,7 +10,11 @@ public enum PhoneState
     MESSAGING,  //1
     CONTACTS,   //2
     GALLERY,    //3
-    EMAIL,      //4
+    SETTINGS,   //4
+    APP_STORE,   //5
+    CONNECT,   //6
+    CALLS,   //7
+    QUIT   //8
 }
 
 /// <summary>
@@ -40,7 +44,10 @@ public class PhoneStateMachine : MonoBehaviour
     private GameObject _quickGalleryButton;
 
     [SerializeField]
-    private GameObject _dialogueTab;
+    private GameObject _dialogueTab; 
+
+    [SerializeField]
+    private GameObject _quitTab;
 
     [Header("App Managers (Optional - Auto-Detected)")]
     [SerializeField]
@@ -168,7 +175,8 @@ public class PhoneStateMachine : MonoBehaviour
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(false);
                 break;
-            case PhoneState.EMAIL:
+            case PhoneState.QUIT:
+                _quitTab?.SetActive(false);
                 break;
         }
 
@@ -195,7 +203,8 @@ public class PhoneStateMachine : MonoBehaviour
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(true);
                 break;
-            case PhoneState.EMAIL:
+            case PhoneState.QUIT:
+                _quitTab?.SetActive(true);
                 break;
         }
 

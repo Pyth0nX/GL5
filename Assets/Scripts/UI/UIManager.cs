@@ -11,6 +11,7 @@ public enum UIState
     MAP,
     MENU,
     CONVERSATION,
+    MAIN_MENU,
     NONE
 
 }
@@ -25,6 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup _interactionCanvasGroup;
     [SerializeField] private TMP_Text _interactionText;
     [SerializeField] private GameObject _map;
+    [SerializeField] private GameObject _mainMenuUI;
 
     [Header("Messages Animations")]
     [SerializeField] private float _appearTime = 0.3f;
@@ -38,7 +40,7 @@ public class UIManager : MonoBehaviour
     private Tween _blurTween;
     private Tween _delayTween;
 
-    private UIState _currentState = UIState.DEFAULT;
+    private UIState _currentState = UIState.MAIN_MENU;
 
     private void Awake()
     {
@@ -206,6 +208,11 @@ public class UIManager : MonoBehaviour
                     _pauseMenuPanel.SetActive(false);
                 }
                 break;
+            case UIState.MAIN_MENU:
+                {
+                    _mainMenuUI.SetActive(false);
+                }
+                break;
         }
     }
 
@@ -249,6 +256,13 @@ public class UIManager : MonoBehaviour
             case UIState.MENU:
                 {
                     _pauseMenuPanel.SetActive(true);
+                    InputManager.Instance.DisableInteract();
+                    InputManager.Instance.DisablePhone();
+                }
+                break;
+            case UIState.MAIN_MENU:
+                {
+                    _mainMenuUI.SetActive(true);
                     InputManager.Instance.DisableInteract();
                     InputManager.Instance.DisablePhone();
                 }

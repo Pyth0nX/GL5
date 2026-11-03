@@ -85,7 +85,6 @@ public class GameManager : MonoBehaviour
     /// <param name="mode"></param>
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        //EventBus.Instance.Publish("FadeIn");
         if (scene.name.Equals("MainMenu", System.StringComparison.OrdinalIgnoreCase))
         {
             _hasEnteredHomeFirstTime = false;
@@ -100,10 +99,16 @@ public class GameManager : MonoBehaviour
                 reputationManager.ResetReputation();
             }
 
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ChangeState((int)UIState.MAIN_MENU);
+            }
+
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.ChangeMusic("Menu");
             }
+
         }
         else if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) ||
                  scene.name.Equals("School", System.StringComparison.OrdinalIgnoreCase))
@@ -111,6 +116,11 @@ public class GameManager : MonoBehaviour
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.ChangeMusic("Game");
+            }
+
+            if(UIManager.Instance != null)
+            {
+                UIManager.Instance.ChangeState((int)UIState.DEFAULT);
             }
 
             if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) && !_hasEnteredHomeFirstTime)
