@@ -18,7 +18,7 @@ public enum ComparisonOperator
 public enum ConditionTargetType
 {
     ReputationValue = 0, // Evaluates the numeric Reputation / Safety value
-    ReputationTier = 1,  // Evaluates the current qualitative category (Low_Unsafe, Neutral, High_Safe)
+    ReputationTier = 1,  // Evaluates the current qualitative category (VeryLow, Low, Neutral, High, VeryHigh)
     DecisionVariable = 2 // Evaluates an integer variable by name in DecisionDataManager
 }
 

@@ -2838,6 +2838,7 @@ GameObject:
   - component: {fileID: 3794216744192540514}
   - component: {fileID: 4303179562341716626}
   - component: {fileID: 5193821500654603052}
+  - component: {fileID: 7800000000000000001}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -2945,7 +2946,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3794216744192540514}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3443642572922151907}
+        m_TargetAssemblyTypeName: PhoneStateMachine, Assembly-CSharp
+        m_MethodName: ChangeState
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7800000000000000001}
+        m_TargetAssemblyTypeName: UIEventPublisher, Assembly-CSharp
+        m_MethodName: PublishConfiguredEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5193821500654603052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3888,8 +3913,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8800000000000000022}
-  - {fileID: 8800000000000000062}
   - {fileID: 8800000000000000102}
+  - {fileID: 8800000000000000062}
   - {fileID: 8800000000000000202}
   - {fileID: 8800000000000000302}
   m_Father: {fileID: 3447065273658801340}
@@ -7306,3 +7331,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+
+--- !u!114 &7800000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4922818097115496652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3b9065fb1bde004fb0e363b28f00576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIEventPublisher
+  _currentEventToPublish: OpenSettings
+  _eventChangers: []

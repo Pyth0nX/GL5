@@ -9,9 +9,16 @@ public class GameManager : MonoBehaviour
     private string _playerName;
     private bool _hasEnteredHomeFirstTime = false;
 
+    public bool HasEnteredHomeFirstTime => _hasEnteredHomeFirstTime;
+
+    public void SetHasEnteredHomeFirstTime(bool hasEntered)
+    {
+        _hasEnteredHomeFirstTime = hasEntered;
+    }
+
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -20,7 +27,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -74,8 +80,16 @@ public class GameManager : MonoBehaviour
 
     public void ChangeScene(string sceneName)
     {
-        if(SceneManager.GetActiveScene().name != sceneName) SceneManager.LoadScene(sceneName);
-        //EventBus.Instance.Publish("FadeOut");
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName != sceneName)
+        {
+            if (SaveManager.HasInstance)
+            {
+                SaveManager.Instance.NotifyBeforeSceneTransition(currentSceneName, sceneName);
+            }
+
+            SceneManager.LoadScene(sceneName);
+        }
     }
 
     /// <summary>
@@ -93,10 +107,25 @@ public class GameManager : MonoBehaviour
                 DayManager.Instance.ResetDay();
             }
 
+            if (DecisionDataManager.Instance != null)
+            {
+                DecisionDataManager.Instance.ResetVariables();
+            }
+
             var reputationManager = FindAnyObjectByType<ReputationManager>(FindObjectsInactive.Include);
             if (reputationManager != null)
             {
                 reputationManager.ResetReputation();
+            }
+
+            if (MessagesManager.Instance != null)
+            {
+                MessagesManager.Instance.ResetToInitialState();
+            }
+
+            if (ObjectivesManager.Instance != null)
+            {
+                ObjectivesManager.Instance.ResetObjectives();
             }
 
             if (UIManager.Instance != null)
@@ -108,7 +137,6 @@ public class GameManager : MonoBehaviour
             {
                 AudioManager.Instance.ChangeMusic("Menu");
             }
-
         }
         else if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) ||
                  scene.name.Equals("School", System.StringComparison.OrdinalIgnoreCase))
@@ -118,12 +146,13 @@ public class GameManager : MonoBehaviour
                 AudioManager.Instance.ChangeMusic("Game");
             }
 
-            if(UIManager.Instance != null)
+            if (UIManager.Instance != null)
             {
                 UIManager.Instance.ChangeState((int)UIState.DEFAULT);
             }
 
-            if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) && !_hasEnteredHomeFirstTime)
+            bool isLoadingSave = SaveManager.HasInstance && SaveManager.Instance.IsLoadingSavedGame;
+            if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) && !_hasEnteredHomeFirstTime && !isLoadingSave)
             {
                 _hasEnteredHomeFirstTime = true;
                 StartCoroutine(AdvanceDayNextFrame());

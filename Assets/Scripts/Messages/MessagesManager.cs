@@ -121,7 +121,7 @@ public class MessagesManager : MonoBehaviour
         string path = System.IO.Path.Combine(Application.streamingAssetsPath, narrativeNodesFilePath);
         string json = JsonUtility.ToJson(wrapper, true);
         System.IO.File.WriteAllText(path, json);
-        Debug.Log($"[MessagesManager] Guardados {_inspectorNarrativeNodes.Count} nodos narrativos en '{path}'.");
+        Debug.Log($"[MessagesManager] Saved {_inspectorNarrativeNodes.Count} narrative nodes to '{path}'.");
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -801,4 +801,140 @@ public class MessagesManager : MonoBehaviour
             }
         }
     }
+
+    #region Save & Load Integration
+
+    /// <summary>
+    /// Resets all contacts, active narrative nodes, and chat histories back to their initial JSON state.
+    /// </summary>
+    public void ResetToInitialState()
+    {
+        _currentContact = null;
+        _contactsMessages.Clear();
+        CreateContacts();
+        CreateMessages();
+        SortContacts();
+
+        if (_optionsChanger == null)
+        {
+            _optionsChanger = GetComponent<OptionsChanger>();
+        }
+        if (_optionsChanger != null && _optionsChanger.IsDecisionsPanelActive())
+        {
+            _optionsChanger.ActiveDecisionsPanel(false);
+        }
+
+        if (_messagesUI == null)
+        {
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
+        }
+        _messagesUI?.RefreshContacts();
+    }
+
+    /// <summary>
+    /// Exports every contact's current narrative node ID, progress index, unread state, and chat history.
+    /// </summary>
+    public List<ContactNarrativeSaveData> ExportContactsSaveData()
+    {
+        List<ContactNarrativeSaveData> savedList = new List<ContactNarrativeSaveData>();
+        if (_contacts == null) return savedList;
+
+        for (int i = 0; i < _contacts.Count; i++)
+        {
+            Contact contact = _contacts[i];
+            if (contact == null || string.IsNullOrEmpty(contact.Name())) continue;
+
+            List<Message> historyCopy = new List<Message>();
+            if (_contactsMessages.TryGetValue(contact.Name(), out List<Message> history) && history != null)
+            {
+                historyCopy.AddRange(history);
+            }
+
+            savedList.Add(new ContactNarrativeSaveData
+            {
+                contactName = contact.Name(),
+                currentNarrativeNodeId = contact.NarrativeNode(),
+                currentMessageIndex = contact.CurrentMessageIndex(),
+                hasNewMessages = contact.HasNewMessages(),
+                lastMessageDate = contact.LastMessageDate(),
+                contactImagePath = contact.ImagePath(),
+                chatHistory = historyCopy
+            });
+        }
+
+        return savedList;
+    }
+
+    /// <summary>
+    /// Restores contacts' narrative node IDs, message indices, unread flags, and phone chat histories from saved data.
+    /// </summary>
+    public void RestoreContactsSaveData(List<ContactNarrativeSaveData> savedContacts)
+    {
+        _currentContact = null;
+        _contactsMessages.Clear();
+        CreateContacts();
+        CreateMessages();
+
+        if (savedContacts != null)
+        {
+            for (int i = 0; i < savedContacts.Count; i++)
+            {
+                ContactNarrativeSaveData entry = savedContacts[i];
+                if (entry == null || string.IsNullOrEmpty(entry.contactName)) continue;
+
+                Contact contact = GetContactByName(entry.contactName);
+                if (contact == null)
+                {
+                    contact = new Contact();
+                    contact.SetName(entry.contactName);
+                    contact.SetImagePath(!string.IsNullOrEmpty(entry.contactImagePath)
+                        ? entry.contactImagePath
+                        : "Assets/Sprites/UnknownProfile.png");
+                    _contacts.Add(contact);
+                }
+                else if (!string.IsNullOrEmpty(entry.contactImagePath))
+                {
+                    contact.SetImagePath(entry.contactImagePath);
+                }
+
+                contact.SetNarrativeNode(entry.currentNarrativeNodeId);
+                contact.SetCurrentMessageIndex(entry.currentMessageIndex);
+                contact.SetHasNewMessages(entry.hasNewMessages);
+                contact.SetLastMessageDate(entry.lastMessageDate);
+
+                if (entry.chatHistory != null)
+                {
+                    _contactsMessages[contact.Name()] = new List<Message>(entry.chatHistory);
+
+                    for (int m = 0; m < entry.chatHistory.Count; m++)
+                    {
+                        Message msg = entry.chatHistory[m];
+                        if (msg != null && msg.HasImage() && !string.IsNullOrEmpty(msg.ImagePath()))
+                        {
+                            GetGalleryManager()?.NotifyChatImageReceived(msg.ImagePath());
+                        }
+                    }
+                }
+            }
+        }
+
+        SortContacts();
+
+        if (_optionsChanger == null)
+        {
+            _optionsChanger = GetComponent<OptionsChanger>();
+        }
+        if (_optionsChanger != null && _optionsChanger.IsDecisionsPanelActive())
+        {
+            _optionsChanger.ActiveDecisionsPanel(false);
+        }
+
+        if (_messagesUI == null)
+        {
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
+        }
+        _messagesUI?.RefreshContacts();
+    }
+
+    #endregion
 }

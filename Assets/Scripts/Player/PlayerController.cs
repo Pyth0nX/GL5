@@ -45,9 +45,15 @@ public class PlayerController : MonoBehaviour
         _currentXRotation = 0f;
         GameManager.Instance.SetPlayerName(_playerName);
 
+        if (SettingsManager.Instance != null)
+        {
+            _mouseSensitivity = SettingsManager.Instance.CameraSensitivity;
+        }
+
         if (EventBus.Instance != null)
         {
             EventBus.Instance.Subscribe("Conversation_Ended", OnConversationEnded);
+            EventBus.Instance.Subscribe<float>(SettingsManager.EventCameraSensitivityChanged, SetMouseSensitivity);
         }
     }
 
@@ -56,6 +62,7 @@ public class PlayerController : MonoBehaviour
         if (EventBus.Instance != null)
         {
             EventBus.Instance.Unsubscribe("Conversation_Ended", OnConversationEnded);
+            EventBus.Instance.Unsubscribe<float>(SettingsManager.EventCameraSensitivityChanged, SetMouseSensitivity);
         }
     }
 
@@ -346,5 +353,10 @@ public class PlayerController : MonoBehaviour
             break;
         }
         return null;
+    }
+
+    public void SetMouseSensitivity(float sensitivity)
+    {
+        _mouseSensitivity = sensitivity;
     }
 }

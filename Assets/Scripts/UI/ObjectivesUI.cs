@@ -36,7 +36,7 @@ public class ObjectivesUI : MonoBehaviour
 
     private void UpdateUI(Objective currentObj, int progress)
     {
-        if (!currentObj.IsActive())
+        if (currentObj == null || !currentObj.IsActive())
         {
             if (_panel != null) _panel.SetActive(false);
             if (_objectiveText != null) _objectiveText.text = "";

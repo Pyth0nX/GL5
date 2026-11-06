@@ -48,6 +48,14 @@ public class DayManager : MonoBehaviour
         _currentDay = 0;
     }
 
+    /// <summary>
+    /// Directly sets the current day when restoring a saved game without re-triggering day start events.
+    /// </summary>
+    public void SetCurrentDay(int day)
+    {
+        _currentDay = Mathf.Max(0, day);
+    }
+
     private void OnNextDay()
     {
         _currentDay++;

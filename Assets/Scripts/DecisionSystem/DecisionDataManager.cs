@@ -165,4 +165,93 @@ public class DecisionDataManager : MonoBehaviour
             OnVariableChanged?.Invoke(variable.name, variable.value);
         }
     }
+
+    #region Save & Load Integration
+
+    /// <summary>
+    /// Clears all runtime decision variables (used when starting a New Game).
+    /// </summary>
+    public void ResetVariables()
+    {
+        _decisionData.Clear();
+    }
+
+    /// <summary>
+    /// Exports all registered runtime decision variables into a JSON-serializable list.
+    /// </summary>
+    public List<DecisionVariableSaveData> ExportVariables()
+    {
+        List<DecisionVariableSaveData> exported = new List<DecisionVariableSaveData>();
+
+        foreach (var kvp in _decisionData)
+        {
+            DataType type = kvp.Key;
+            List<DecisionVariable> list = kvp.Value;
+            if (list == null) continue;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                DecisionVariable variable = list[i];
+                if (string.IsNullOrEmpty(variable.name) || variable.value == null) continue;
+
+                string serializedValue = type switch
+                {
+                    DataType.Float => Convert.ToSingle(variable.value, System.Globalization.CultureInfo.InvariantCulture)
+                        .ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    _ => variable.value.ToString()
+                };
+
+                exported.Add(new DecisionVariableSaveData
+                {
+                    name = variable.name,
+                    dataType = type,
+                    serializedValue = serializedValue,
+                    description = variable.description ?? string.Empty
+                });
+            }
+        }
+
+        return exported;
+    }
+
+    /// <summary>
+    /// Restores runtime decision variables from saved data.
+    /// </summary>
+    public void RestoreVariables(List<DecisionVariableSaveData> savedVariables)
+    {
+        _decisionData.Clear();
+        if (savedVariables == null) return;
+
+        for (int i = 0; i < savedVariables.Count; i++)
+        {
+            DecisionVariableSaveData entry = savedVariables[i];
+            if (string.IsNullOrEmpty(entry.name)) continue;
+
+            object parsedValue = null;
+            switch (entry.dataType)
+            {
+                case DataType.Integer:
+                    if (int.TryParse(entry.serializedValue, out int intVal)) parsedValue = intVal;
+                    break;
+                case DataType.Float:
+                    if (float.TryParse(entry.serializedValue, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float floatVal))
+                        parsedValue = floatVal;
+                    break;
+                case DataType.Boolean:
+                    if (bool.TryParse(entry.serializedValue, out bool boolVal)) parsedValue = boolVal;
+                    break;
+                case DataType.String:
+                case DataType.Custom:
+                    parsedValue = entry.serializedValue ?? string.Empty;
+                    break;
+            }
+
+            if (parsedValue != null)
+            {
+                AddVariable(entry.dataType, new DecisionVariable(entry.name, parsedValue, entry.description));
+            }
+        }
+    }
+
+    #endregion
 }

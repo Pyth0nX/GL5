@@ -175,6 +175,12 @@ public class PhoneStateMachine : MonoBehaviour
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(false);
                 break;
+            case PhoneState.SETTINGS:
+                if (EventBus.Instance != null)
+                {
+                    EventBus.Instance.Publish("CloseSettings");
+                }
+                break;
             case PhoneState.QUIT:
                 _quitTab?.SetActive(false);
                 break;
@@ -202,6 +208,12 @@ public class PhoneStateMachine : MonoBehaviour
                 break;
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(true);
+                break;
+            case PhoneState.SETTINGS:
+                if (EventBus.Instance != null)
+                {
+                    EventBus.Instance.Publish("OpenSettings");
+                }
                 break;
             case PhoneState.QUIT:
                 _quitTab?.SetActive(true);

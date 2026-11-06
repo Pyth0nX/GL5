@@ -3,14 +3,17 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// Qualitative categories for protagonist Reputation / Safety.
+/// Qualitative categories for protagonist Reputation / Safety across five progressive levels
+/// (two negative, one neutral, and two positive).
 /// </summary>
 [Serializable]
 public enum ReputationTier
 {
-    Low_Unsafe = 0, // Low / Unsafe: higher vulnerability in bullying situations
-    Neutral = 1,    // Neutral: intermediate / initial state
-    High_Safe = 2   // High / Safe: strong support network and higher confidence
+    VeryLow = 0,  // Very Low / Critical: severe vulnerability and intense anxiety
+    Low = 1,      // Low / Unsafe: elevated vulnerability in bullying situations
+    Neutral = 2,  // Neutral: balanced intermediate / initial state
+    High = 3,     // High / Safe: supportive environment and growing confidence
+    VeryHigh = 4  // Very High / Secure: strong support network and high confidence
 }
 
 /// <summary>
@@ -29,7 +32,7 @@ public enum ReputationOperation
 /// <summary>
 /// Global manager for the protagonist's "Reputation / Safety" metric.
 /// Automatically synchronizes its state with DecisionDataManager and EventBus,
-/// and raises C# events and UnityEvents to decouple UI and world systems.
+/// and raises C# events and UnityEvents to decouple UI, post-processing, and world systems.
 /// </summary>
 public class ReputationManager : MonoBehaviour
 {
@@ -37,9 +40,12 @@ public class ReputationManager : MonoBehaviour
 
     // Standard events published on EventBus
     public const string EventReputationChanged = "Reputation_Changed";
+    public const string EventTierChanged = "Reputation_Tier_Changed";
+    public const string EventTierVeryLow = "Reputation_Tier_VeryLow";
     public const string EventTierLow = "Reputation_Tier_Low";
     public const string EventTierNeutral = "Reputation_Tier_Neutral";
     public const string EventTierHigh = "Reputation_Tier_High";
+    public const string EventTierVeryHigh = "Reputation_Tier_VeryHigh";
 
     private static ReputationManager _instance;
     private static bool _applicationIsQuitting = false;
@@ -72,12 +78,18 @@ public class ReputationManager : MonoBehaviour
     [Tooltip("Initial value when starting a new game.")]
     [SerializeField] private int _initialReputation = 50;
 
-    [Header("Categorical Thresholds (Tiers)")]
-    [Tooltip("Values less than or equal to this threshold are classified as Low_Unsafe.")]
-    [SerializeField] private int _lowTierMaxThreshold = 33;
+    [Header("Categorical Thresholds (5 Tiers)")]
+    [Tooltip("Values less than or equal to this threshold are classified as VeryLow.")]
+    [SerializeField] private int _veryLowTierMaxThreshold = 20;
 
-    [Tooltip("Values greater than or equal to this threshold are classified as High_Safe.")]
-    [SerializeField] private int _highTierMinThreshold = 67;
+    [Tooltip("Values above VeryLow and less than or equal to this threshold are classified as Low.")]
+    [SerializeField] private int _lowTierMaxThreshold = 40;
+
+    [Tooltip("Values greater than or equal to this threshold (and below VeryHigh) are classified as High.")]
+    [SerializeField] private int _highTierMinThreshold = 60;
+
+    [Tooltip("Values greater than or equal to this threshold are classified as VeryHigh.")]
+    [SerializeField] private int _veryHighTierMinThreshold = 80;
 
     [Header("Runtime State (Debug)")]
     [Tooltip("Current runtime value.")]
@@ -97,7 +109,7 @@ public class ReputationManager : MonoBehaviour
     [Tooltip("Fired when the reputation value changes (sends the normalized 0 to 1 value for UI bars).")]
     [SerializeField] private UnityEvent<float> _onReputationNormalizedChangedEvent = new UnityEvent<float>();
 
-    [Tooltip("Fired only when the player crosses into a new tier (Low_Unsafe, Neutral, High_Safe).")]
+    [Tooltip("Fired only when the player crosses into a new tier (VeryLow, Low, Neutral, High, VeryHigh).")]
     [SerializeField] private UnityEvent<ReputationTier> _onReputationTierChangedEvent = new UnityEvent<ReputationTier>();
 
     #region C# Events
@@ -114,7 +126,7 @@ public class ReputationManager : MonoBehaviour
     public event Action<int, int> OnReputationUpdated;
 
     /// <summary>
-    /// C# event invoked when the categorical tier changes (Low_Unsafe, Neutral, High_Safe).
+    /// C# event invoked when the categorical tier changes (VeryLow, Low, Neutral, High, VeryHigh).
     /// </summary>
     public event Action<ReputationTier> OnReputationTierChanged;
     #endregion
@@ -124,8 +136,10 @@ public class ReputationManager : MonoBehaviour
     public int MinReputation => _minReputation;
     public int MaxReputation => _maxReputation;
     public int InitialReputation => _initialReputation;
+    public int VeryLowTierMaxThreshold => _veryLowTierMaxThreshold;
     public int LowTierMaxThreshold => _lowTierMaxThreshold;
     public int HighTierMinThreshold => _highTierMinThreshold;
+    public int VeryHighTierMinThreshold => _veryHighTierMinThreshold;
     public ReputationTier CurrentTier => _currentTier;
 
     /// <summary>
@@ -164,9 +178,10 @@ public class ReputationManager : MonoBehaviour
 
     private void Start()
     {
-        // Emit initial state to UI listeners subscribed via Inspector
+        // Emit initial state to UI and visual listeners subscribed via Inspector
         _onReputationChangedEvent?.Invoke(_currentReputation);
         _onReputationNormalizedChangedEvent?.Invoke(NormalizedReputation);
+        _onReputationTierChangedEvent?.Invoke(_currentTier);
     }
 
     private void OnValidate()
@@ -189,8 +204,10 @@ public class ReputationManager : MonoBehaviour
         }
 
         _initialReputation = Mathf.Clamp(_initialReputation, _minReputation, _maxReputation);
-        _lowTierMaxThreshold = Mathf.Clamp(_lowTierMaxThreshold, _minReputation, _maxReputation);
+        _veryLowTierMaxThreshold = Mathf.Clamp(_veryLowTierMaxThreshold, _minReputation, _maxReputation);
+        _lowTierMaxThreshold = Mathf.Clamp(_lowTierMaxThreshold, _veryLowTierMaxThreshold, _maxReputation);
         _highTierMinThreshold = Mathf.Clamp(_highTierMinThreshold, _lowTierMaxThreshold, _maxReputation);
+        _veryHighTierMinThreshold = Mathf.Clamp(_veryHighTierMinThreshold, _highTierMinThreshold, _maxReputation);
 
         if (string.IsNullOrWhiteSpace(_decisionVariableName))
         {
@@ -199,17 +216,25 @@ public class ReputationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Evaluates which categorical tier a given numerical value belongs to.
+    /// Evaluates which categorical tier (VeryLow, Low, Neutral, High, VeryHigh) a given numerical value belongs to.
     /// </summary>
     public ReputationTier EvaluateTierForValue(int value)
     {
+        if (value <= _veryLowTierMaxThreshold)
+        {
+            return ReputationTier.VeryLow;
+        }
         if (value <= _lowTierMaxThreshold)
         {
-            return ReputationTier.Low_Unsafe;
+            return ReputationTier.Low;
+        }
+        if (value >= _veryHighTierMinThreshold)
+        {
+            return ReputationTier.VeryHigh;
         }
         if (value >= _highTierMinThreshold)
         {
-            return ReputationTier.High_Safe;
+            return ReputationTier.High;
         }
         return ReputationTier.Neutral;
     }
@@ -293,17 +318,7 @@ public class ReputationManager : MonoBehaviour
             Debug.Log($"[ReputationManager] Safety tier changed: {previousTier} -> {_currentTier}");
             OnReputationTierChanged?.Invoke(_currentTier);
             _onReputationTierChangedEvent?.Invoke(_currentTier);
-
-            if (EventBus.Instance != null)
-            {
-                string tierEvent = _currentTier switch
-                {
-                    ReputationTier.Low_Unsafe => EventTierLow,
-                    ReputationTier.High_Safe => EventTierHigh,
-                    _ => EventTierNeutral
-                };
-                EventBus.Instance.Publish(tierEvent);
-            }
+            PublishTierEventsToEventBus(_currentTier);
         }
     }
 
@@ -313,6 +328,64 @@ public class ReputationManager : MonoBehaviour
     public void ResetReputation()
     {
         SetReputation(_initialReputation);
+        SyncDecisionVariable();
+    }
+
+    /// <summary>
+    /// Restores Reputation / Safety from a saved game and refreshes all UI and DecisionDataManager listeners.
+    /// </summary>
+    public void RestoreReputation(int savedValue)
+    {
+        int clampedValue = Mathf.Clamp(savedValue, _minReputation, _maxReputation);
+        int previousValue = _currentReputation;
+        ReputationTier previousTier = _currentTier;
+
+        _currentReputation = clampedValue;
+        _currentTier = EvaluateTierForValue(_currentReputation);
+        SyncDecisionVariable();
+
+        OnReputationChanged?.Invoke(_currentReputation);
+        if (previousValue != _currentReputation)
+        {
+            OnReputationUpdated?.Invoke(previousValue, _currentReputation);
+        }
+
+        _onReputationChangedEvent?.Invoke(_currentReputation);
+        _onReputationNormalizedChangedEvent?.Invoke(NormalizedReputation);
+
+        if (_currentTier != previousTier)
+        {
+            OnReputationTierChanged?.Invoke(_currentTier);
+            _onReputationTierChangedEvent?.Invoke(_currentTier);
+            PublishTierEventsToEventBus(_currentTier);
+        }
+
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Publish(EventReputationChanged);
+            EventBus.Instance.Publish<int>(EventReputationChanged, _currentReputation);
+        }
+    }
+
+    private void PublishTierEventsToEventBus(ReputationTier tier)
+    {
+        if (EventBus.Instance == null)
+        {
+            return;
+        }
+
+        EventBus.Instance.Publish(EventTierChanged);
+        EventBus.Instance.Publish<ReputationTier>(EventTierChanged, tier);
+
+        string tierEvent = tier switch
+        {
+            ReputationTier.VeryLow => EventTierVeryLow,
+            ReputationTier.Low => EventTierLow,
+            ReputationTier.High => EventTierHigh,
+            ReputationTier.VeryHigh => EventTierVeryHigh,
+            _ => EventTierNeutral
+        };
+        EventBus.Instance.Publish(tierEvent);
     }
 
     private void SyncDecisionVariable()
@@ -332,6 +405,21 @@ public class ReputationManager : MonoBehaviour
 
     [ContextMenu("Debug: -10 Reputation")]
     private void DebugSubtractTen() => SubtractReputation(10);
+
+    [ContextMenu("Debug: Set Tier VeryLow")]
+    private void DebugSetVeryLow() => SetReputation(_minReputation);
+
+    [ContextMenu("Debug: Set Tier Low")]
+    private void DebugSetLow() => SetReputation((_veryLowTierMaxThreshold + _lowTierMaxThreshold + 1) / 2);
+
+    [ContextMenu("Debug: Set Tier Neutral")]
+    private void DebugSetNeutral() => SetReputation((_lowTierMaxThreshold + _highTierMinThreshold) / 2);
+
+    [ContextMenu("Debug: Set Tier High")]
+    private void DebugSetHigh() => SetReputation((_highTierMinThreshold + _veryHighTierMinThreshold) / 2);
+
+    [ContextMenu("Debug: Set Tier VeryHigh")]
+    private void DebugSetVeryHigh() => SetReputation(_maxReputation);
 
     [ContextMenu("Debug: Reset Reputation")]
     private void DebugReset() => ResetReputation();

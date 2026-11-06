@@ -26,6 +26,8 @@ public class Objective
 
     public bool Activate() { return isActive = true; }
 
+    public void SetActiveState(bool active) { isActive = active; }
+
     public int Id() { return id; }
     public int NextObjective() { return nextObjectiveId; }
     public int TargetCount() { return targetCount; }

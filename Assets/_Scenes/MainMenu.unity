@@ -119,11 +119,65 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &4960270 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7300000000000000006, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3b9065fb1bde004fb0e363b28f00576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIEventPublisher
 --- !u!1 &50986639 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9191732648007864028, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
   m_PrefabInstance: {fileID: 1466581391}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &119550969 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6398016243119492603, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &119550974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119550969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.1
+  _pressedScaleMultiplier: 0.96
+  _scaleDuration: 0.12
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &441089817 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6506868847471398616, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
@@ -146,6 +200,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!1 &636589225 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6338574590628956858, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &636589231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636589225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.1
+  _pressedScaleMultiplier: 0.96
+  _scaleDuration: 0.12
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1136071913 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9200000000000000035, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1136071919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136071913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.1
+  _pressedScaleMultiplier: 0.96
+  _scaleDuration: 0.12
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!224 &1179847054 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6918199436730628650, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
@@ -278,6 +418,49 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &1331435482 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9200000000000000008, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1331435488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331435482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.1
+  _pressedScaleMultiplier: 0.96
+  _scaleDuration: 0.12
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!224 &1357350364 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5148701327535590678, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
@@ -296,6 +479,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 61300179070458699, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 350168362828224204, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_Color.a
       value: 0
@@ -367,6 +554,22 @@ PrefabInstance:
     - target: {fileID: 794863095295352579, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230363999448791434, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230363999448791434, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230363999448791434, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230363999448791434, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: PhoneStateMachine, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1442814335649166766, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -536,10 +739,58 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5817304824239860517, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817304824239860578, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6135341423552489403, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1935351097}
+      objectReference: {fileID: 1510555512}
+    - target: {fileID: 6135341423552489403, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300000000000000005, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300000000000000005, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4960270}
+    - target: {fileID: 7300000000000000005, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PublishConfiguredEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300000000000000005, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIEventPublisher, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300000000000000005, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: OpenSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300000000000000010, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_isOrthographic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300000000000000010, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300000000000000010, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_ActiveFontFeatures.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489625254134524891, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7535685800332758466, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: _mainMenuUI
       value: 
@@ -564,6 +815,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8551332589406626568, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9030196130029607267, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: _simulateInEditor
       value: 0
@@ -571,7 +826,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3825829562933517116, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1799827438}
+    - targetCorrespondingSourceObject: {fileID: 6398016243119492603, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 119550974}
+    - targetCorrespondingSourceObject: {fileID: 6338574590628956858, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 636589231}
+    - targetCorrespondingSourceObject: {fileID: 9200000000000000008, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1331435488}
+    - targetCorrespondingSourceObject: {fileID: 9200000000000000035, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1136071919}
+    - targetCorrespondingSourceObject: {fileID: 9200000000000000062, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2000106284}
+    - targetCorrespondingSourceObject: {fileID: 9200000000000000089, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1782460411}
   m_SourcePrefab: {fileID: 100100000, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
 --- !u!114 &1466581392 stripped
 MonoBehaviour:
@@ -610,6 +886,103 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8551332589406626568, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
   m_PrefabInstance: {fileID: 1466581391}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1510555512 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9200000000000000000, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510555507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e6c15a38d4b42e7b1f05c8a2d4e7962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveSlotsPanelUI
+--- !u!1 &1782460406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9200000000000000089, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1782460411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782460406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.1
+  _pressedScaleMultiplier: 0.96
+  _scaleDuration: 0.12
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1799827433 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3825829562933517116, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1799827438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799827433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.1
+  _pressedScaleMultiplier: 0.96
+  _scaleDuration: 0.12
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1935351096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -710,6 +1083,10 @@ PrefabInstance:
       propertyPath: contactListContainer
       value: 
       objectReference: {fileID: 1357350364}
+    - target: {fileID: 1917118084068037857, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
+      propertyPath: _initialReputation
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4398672150626424371, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
       propertyPath: _inspectorNarrativeNodes.Array.size
       value: 31
@@ -7028,7 +7405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4398672150626424371, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
       propertyPath: _inspectorNarrativeNodes.Array.data[0]._options.Array.data[0].conditions.Array.data[0].targetTier
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4398672150626424371, guid: 5988493fe5441904b9c668d6bff4eb52, type: 3}
       propertyPath: _inspectorNarrativeNodes.Array.data[0]._options.Array.data[0].conditions.Array.data[0].targetType
@@ -7103,6 +7480,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a46e515e580f4429479523f0b49960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+--- !u!1 &2000106278 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9200000000000000062, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+  m_PrefabInstance: {fileID: 1466581391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2000106284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000106278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.1
+  _pressedScaleMultiplier: 0.96
+  _scaleDuration: 0.12
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2021745716
 GameObject:
   m_ObjectHideFlags: 0

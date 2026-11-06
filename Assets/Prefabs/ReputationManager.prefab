@@ -48,10 +48,12 @@ MonoBehaviour:
   _minReputation: 0
   _maxReputation: 100
   _initialReputation: 50
-  _lowTierMaxThreshold: 33
-  _highTierMinThreshold: 67
+  _veryLowTierMaxThreshold: 20
+  _lowTierMaxThreshold: 40
+  _highTierMinThreshold: 60
+  _veryHighTierMinThreshold: 80
   _currentReputation: 50
-  _currentTier: 1
+  _currentTier: 2
   _decisionVariableName: Reputation
   _onReputationChangedEvent:
     m_PersistentCalls:

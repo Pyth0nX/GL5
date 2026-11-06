@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.Rendering;
@@ -13,7 +14,6 @@ public enum UIState
     CONVERSATION,
     MAIN_MENU,
     NONE
-
 }
 
 public class UIManager : MonoBehaviour
@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
     private Tween _blurTween;
     private Tween _delayTween;
 
-    private UIState _currentState = UIState.MAIN_MENU;
+    private UIState _currentState = UIState.NONE;
 
     private void Awake()
     {
@@ -48,6 +48,7 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            ResolveMainMenuReference();
         }
         else
         {
@@ -57,6 +58,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        ResolveMainMenuReference();
+
         if (_pauseMenuPanel != null)
         {
             _pauseMenuPanel.SetActive(false);
@@ -67,26 +70,67 @@ public class UIManager : MonoBehaviour
             _interactionCanvasGroup.alpha = 0f;
         }
 
-        EventBus.Instance.Subscribe("OpenMap", ShowMap);
-        EventBus.Instance.Subscribe("CloseMap", HideMap);
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Subscribe("OpenMap", ShowMap);
+            EventBus.Instance.Subscribe("CloseMap", HideMap);
+        }
 
+        SyncInitialSceneState();
     }
 
     private void OnDisable()
     {
-        EventBus.Instance.Unsubscribe("OpenMap", ShowMap);
-        EventBus.Instance.Unsubscribe("CloseMap", HideMap);
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Unsubscribe("OpenMap", ShowMap);
+            EventBus.Instance.Unsubscribe("CloseMap", HideMap);
+        }
     }
 
     private void Update()
     {
-        if(InputManager.Instance.MenuWasTapped())
+        if (InputManager.Instance != null && InputManager.Instance.MenuWasTapped())
         {
             TogglePause();
         }
     }
 
+    private void ResolveMainMenuReference()
+    {
+        if (_mainMenuUI != null) return;
+
+        Transform[] children = GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            if (children[i] != null && string.Equals(children[i].name, "MainMenuUI", System.StringComparison.OrdinalIgnoreCase))
+            {
+                _mainMenuUI = children[i].gameObject;
+                break;
+            }
+        }
+    }
+
+    private void SyncInitialSceneState()
+    {
+        // SceneManager.sceneLoaded does not fire for the initial startup scene unless already transitioned
+        if (_currentState != UIState.NONE) return;
+
+        string activeScene = SceneManager.GetActiveScene().name;
+        bool isMainMenu = string.Equals(activeScene, "MainMenu", System.StringComparison.OrdinalIgnoreCase);
+
+        if (_mainMenuUI != null)
+        {
+            _mainMenuUI.SetActive(isMainMenu);
+        }
+
+        ChangeState(isMainMenu ? (int)UIState.MAIN_MENU : (int)UIState.DEFAULT);
+    }
+
     public UIState GetCurrentState() => _currentState;
+
+    public GameObject GetPauseMenuPanel() => _pauseMenuPanel;
+    public GameObject GetMainMenuUI() => _mainMenuUI;
 
     public void TogglePause()
     {
@@ -159,20 +203,28 @@ public class UIManager : MonoBehaviour
         ChangeState(0);
     }
 
-
     public void ChangeState(int newState) 
     {
-        if ((UIState)newState == _currentState) return;
+        ResolveMainMenuReference();
+
+        UIState targetState = (UIState)newState;
+        if (targetState == _currentState)
+        {
+            // Ensure visual panel visibility stays strictly synced even on redundant state calls
+            if (_mainMenuUI != null)
+            {
+                _mainMenuUI.SetActive(targetState == UIState.MAIN_MENU);
+            }
+            return;
+        }
 
         Debug.Log("[UIManager] Previous:" + _currentState);
         ExitCurrentState();
-        _currentState = (UIState)newState;
+        _currentState = targetState;
         Debug.Log("[UIManager] Current:" + _currentState);
         EnterNewState();
         HideMessage();
     }
-
-
 
     private void ExitCurrentState()
     {
@@ -180,37 +232,41 @@ public class UIManager : MonoBehaviour
         {
             case UIState.DEFAULT:
                 {
-                    InputManager.Instance.DisableMovementMap();
-                    InputManager.Instance.DisableInteract();
+                    if (InputManager.Instance != null)
+                    {
+                        InputManager.Instance.DisableMovementMap();
+                        InputManager.Instance.DisableInteract();
+                    }
                     UnlockMouse();
                 }
                 break;
             case UIState.PHONE:
                 {
-                    _phone.SetActive(false);
+                    if (_phone != null) _phone.SetActive(false);
                     EnableBlur(false);
-                    EventBus.Instance.Publish("Phone_Closed",0);
+                    if (EventBus.Instance != null) EventBus.Instance.Publish("Phone_Closed", 0);
                 }
                 break;
             case UIState.MAP:
                 {
-                    _map.SetActive(false);
+                    if (_map != null) _map.SetActive(false);
                 }
                 break;
             case UIState.CONVERSATION:
                 {
-                    EventBus.Instance.Publish("Conversation_Ended");
+                    if (EventBus.Instance != null) EventBus.Instance.Publish("Conversation_Ended");
                 }
                 break;
             case UIState.MENU:
                 {
                     Time.timeScale = 1f;
-                    _pauseMenuPanel.SetActive(false);
+                    if (_pauseMenuPanel != null) _pauseMenuPanel.SetActive(false);
+                    if (EventBus.Instance != null) EventBus.Instance.Publish("PauseMenu_Closed");
                 }
                 break;
             case UIState.MAIN_MENU:
                 {
-                    _mainMenuUI.SetActive(false);
+                    if (_mainMenuUI != null) _mainMenuUI.SetActive(false);
                 }
                 break;
         }
@@ -218,63 +274,93 @@ public class UIManager : MonoBehaviour
 
     private void EnterNewState()
     {
+        // Guarantee MainMenuUI is always hidden in every non-MAIN_MENU state
+        if (_currentState != UIState.MAIN_MENU && _mainMenuUI != null && _mainMenuUI.activeSelf)
+        {
+            _mainMenuUI.SetActive(false);
+        }
+
         switch (_currentState)
         {
             case UIState.DEFAULT:
                 {
-                    InputManager.Instance.EnableMovementMap();
-                    InputManager.Instance.EnablePhone();
-                    InputManager.Instance.EnableMenuAction();
-                    InputManager.Instance.EnableInteract();
+                    if (InputManager.Instance != null)
+                    {
+                        InputManager.Instance.EnableMovementMap();
+                        InputManager.Instance.EnablePhone();
+                        InputManager.Instance.EnableMenuAction();
+                        InputManager.Instance.EnableInteract();
+                    }
                     LockMouse();
                 }
                 break;
             case UIState.PHONE:
                 {
-                    EventBus.Instance.Publish("Phone_Opened");
-                    _phone.SetActive(true);
+                    if (EventBus.Instance != null) EventBus.Instance.Publish("Phone_Opened");
+                    if (_phone != null) _phone.SetActive(true);
                     EnableBlur(true);
-                    InputManager.Instance.DisableInteract();
-                    InputManager.Instance.DisableMenuAction();
+                    if (InputManager.Instance != null)
+                    {
+                        InputManager.Instance.DisableInteract();
+                        InputManager.Instance.DisableMenuAction();
+                    }
+                    UnlockMouse();
                 }
                 break;
             case UIState.MAP:
                 {
-                    _map.SetActive(true);
-                    InputManager.Instance.DisableInteract();
-                    InputManager.Instance.DisablePhone();
+                    if (_map != null) _map.SetActive(true);
+                    if (InputManager.Instance != null)
+                    {
+                        InputManager.Instance.DisableInteract();
+                        InputManager.Instance.DisablePhone();
+                    }
+                    UnlockMouse();
                 }
                 break;
             case UIState.CONVERSATION:
                 {
                     Debug.Log("[UIManager] Conversation");
-                    EventBus.Instance.Publish("Conversation_Started");
-                    InputManager.Instance.DisableInteract();
-                    InputManager.Instance.DisablePhone();
+                    if (EventBus.Instance != null) EventBus.Instance.Publish("Conversation_Started");
+                    if (InputManager.Instance != null)
+                    {
+                        InputManager.Instance.DisableInteract();
+                        InputManager.Instance.DisablePhone();
+                    }
+                    UnlockMouse();
                 }
                 break;
             case UIState.MENU:
                 {
-                    _pauseMenuPanel.SetActive(true);
-                    InputManager.Instance.DisableInteract();
-                    InputManager.Instance.DisablePhone();
+                    if (_pauseMenuPanel != null) _pauseMenuPanel.SetActive(true);
+                    if (InputManager.Instance != null)
+                    {
+                        InputManager.Instance.DisableInteract();
+                        InputManager.Instance.DisablePhone();
+                    }
+                    UnlockMouse();
                 }
                 break;
             case UIState.MAIN_MENU:
                 {
-                    _mainMenuUI.SetActive(true);
-                    InputManager.Instance.DisableInteract();
-                    InputManager.Instance.DisablePhone();
+                    if (_mainMenuUI != null) _mainMenuUI.SetActive(true);
+                    if (InputManager.Instance != null)
+                    {
+                        InputManager.Instance.DisableMovementMap();
+                        InputManager.Instance.DisableInteract();
+                        InputManager.Instance.DisablePhone();
+                        InputManager.Instance.DisableMenuAction();
+                    }
+                    UnlockMouse();
                 }
                 break;
         }
-
     }
-
 
     private void EnableBlur(bool enable)
     {
-        if (_blurVolume == null) {
+        if (_blurVolume == null)
+        {
             Debug.LogWarning("UIManager: _blurVolume not assigned");
             return;
         }

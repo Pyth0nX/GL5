@@ -176,6 +176,8 @@ public class GalleryManager : MonoBehaviour
     private bool _uiListenersBound = false;
     private Coroutine _deferredLayoutCoroutine;
     private float _lastKnownViewportWidth = -1f;
+    private float _defaultScrollTopOffset = -52f;
+    private bool _hasRecordedDefaultScrollOffset = false;
 
     public bool IsQuickSelectMode => _isQuickSelectMode;
     public string QuickSelectTargetContact => _quickSelectTargetContact;
@@ -192,6 +194,7 @@ public class GalleryManager : MonoBehaviour
         SyncZoomPresetIndexFromColumns(_currentColumns);
 
         ResolveMissingReferences();
+        RecordDefaultScrollTopOffset();
         EnsureGridComponents();
         BindUIButtons();
         InitializePhotoCollection();
@@ -214,6 +217,7 @@ public class GalleryManager : MonoBehaviour
         }
 
         ResolveMissingReferences();
+        RecordDefaultScrollTopOffset();
         EnsureGridComponents();
         BindUIButtons();
         InitializePhotoCollection();
@@ -374,6 +378,27 @@ public class GalleryManager : MonoBehaviour
         if (_shareButtonLabel == null && _sharePhotoButton != null)
         {
             _shareButtonLabel = _sharePhotoButton.GetComponentInChildren<TMP_Text>(true);
+        }
+
+        if (_quickSelectBanner == null)
+        {
+            Transform bannerTrans = transform.Find("GalleryContainer/QuickSelectBanner") ?? transform.Find("QuickSelectBanner");
+            if (bannerTrans != null)
+            {
+                _quickSelectBanner = bannerTrans.gameObject;
+            }
+        }
+
+        if (_quickSelectBanner != null)
+        {
+            if (_quickSelectBannerText == null)
+            {
+                _quickSelectBannerText = _quickSelectBanner.GetComponentInChildren<TMP_Text>(true);
+            }
+            if (_cancelQuickSelectButton == null)
+            {
+                _cancelQuickSelectButton = _quickSelectBanner.GetComponentInChildren<Button>(true);
+            }
         }
 
         if (_shareButtonLabel != null)
@@ -1283,17 +1308,94 @@ public class GalleryManager : MonoBehaviour
         }
     }
 
-    private void UpdateQuickSelectBanner()
+    private void RecordDefaultScrollTopOffset()
     {
-        if (_quickSelectBanner != null)
+        if (_hasRecordedDefaultScrollOffset) return;
+        if (_galleryScrollRect == null)
         {
-            _quickSelectBanner.SetActive(_isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact));
+            ResolveMissingReferences();
         }
 
-        if (_quickSelectBannerText != null && _isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact))
+        if (_galleryScrollRect != null)
+        {
+            RectTransform scrollTransform = _galleryScrollRect.transform as RectTransform;
+            if (scrollTransform != null)
+            {
+                float offset = scrollTransform.offsetMax.y;
+                _defaultScrollTopOffset = (offset > -70f) ? offset : -52f;
+                _hasRecordedDefaultScrollOffset = true;
+            }
+        }
+    }
+
+    private void AdjustScrollViewLayoutForBanner(bool isBannerActive)
+    {
+        RecordDefaultScrollTopOffset();
+
+        if (_galleryScrollRect == null) return;
+        RectTransform scrollTransform = _galleryScrollRect.transform as RectTransform;
+        if (scrollTransform == null) return;
+
+        // Ensure QuickSelectBanner is rendered above GalleryScrollView but below modal dialogues
+        if (_quickSelectBanner != null)
+        {
+            int scrollIndex = scrollTransform.GetSiblingIndex();
+            int bannerIndex = _quickSelectBanner.transform.GetSiblingIndex();
+            if (bannerIndex < scrollIndex)
+            {
+                _quickSelectBanner.transform.SetSiblingIndex(scrollIndex + 1);
+            }
+        }
+
+        if (_previewPanel != null)
+        {
+            _previewPanel.transform.SetAsLastSibling();
+        }
+        if (_contactSelectorPanel != null)
+        {
+            _contactSelectorPanel.transform.SetAsLastSibling();
+        }
+
+        float bannerHeight = 40f;
+        if (_quickSelectBanner != null)
+        {
+            RectTransform bannerRect = _quickSelectBanner.transform as RectTransform;
+            if (bannerRect != null && bannerRect.rect.height > 1f)
+            {
+                bannerHeight = bannerRect.rect.height;
+            }
+        }
+
+        // When banner is active: offset gallery downwards so photos begin cleanly below the banner
+        float targetTopOffset = isBannerActive
+            ? _defaultScrollTopOffset - bannerHeight
+            : _defaultScrollTopOffset;
+
+        Vector2 offsetMax = scrollTransform.offsetMax;
+        if (Mathf.Abs(offsetMax.y - targetTopOffset) > 0.1f)
+        {
+            offsetMax.y = targetTopOffset;
+            scrollTransform.offsetMax = offsetMax;
+
+            _galleryScrollRect.verticalNormalizedPosition = 1f;
+        }
+    }
+
+    private void UpdateQuickSelectBanner()
+    {
+        bool showBanner = _isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact);
+
+        if (_quickSelectBanner != null)
+        {
+            _quickSelectBanner.SetActive(showBanner);
+        }
+
+        if (_quickSelectBannerText != null && showBanner)
         {
             _quickSelectBannerText.text = $"Send photo to {_quickSelectTargetContact}";
         }
+
+        AdjustScrollViewLayoutForBanner(showBanner);
     }
 
     /// <summary>
@@ -1391,6 +1493,53 @@ public class GalleryManager : MonoBehaviour
     private void AddPhotoFromPathEvent(string imagePath)
     {
         if (RegisterImagePathIfMissing(imagePath) && isActiveAndEnabled)
+        {
+            RefreshGallery();
+        }
+    }
+
+    /// <summary>
+    /// Exports the keys/paths of all unlocked photos in the Gallery for save persistence.
+    /// </summary>
+    public List<string> ExportUnlockedPhotoPaths()
+    {
+        InitializePhotoCollection();
+        List<string> unlocked = new List<string>();
+
+        for (int i = 0; i < _photos.Count; i++)
+        {
+            GalleryPhotoData photo = _photos[i];
+            if (photo != null && photo.IsUnlocked)
+            {
+                string key = !string.IsNullOrEmpty(photo.ImagePath) ? photo.ImagePath : photo.Id;
+                if (!string.IsNullOrEmpty(key) && !unlocked.Contains(key))
+                {
+                    unlocked.Add(key);
+                }
+            }
+        }
+
+        return unlocked;
+    }
+
+    /// <summary>
+    /// Restores unlocked Gallery photos from a saved game.
+    /// </summary>
+    public void RestoreUnlockedPhotos(List<string> unlockedPaths)
+    {
+        InitializePhotoCollection();
+        if (unlockedPaths == null) return;
+
+        for (int i = 0; i < unlockedPaths.Count; i++)
+        {
+            string pathOrId = unlockedPaths[i];
+            if (string.IsNullOrEmpty(pathOrId)) continue;
+
+            UnlockPhotoByIdOrPath(pathOrId);
+            RegisterImagePathIfMissing(pathOrId);
+        }
+
+        if (isActiveAndEnabled)
         {
             RefreshGallery();
         }
