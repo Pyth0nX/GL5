@@ -1,136 +1,47 @@
 {
-    "objectives": [
-        {
-            "id": 0,
-            "description": "Check your phone notifications.",
-            "targetCount": 1,
-            "eventToListen": "Day1_Convo1_End",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 1,
-            "description": "Go to school.",
-            "targetCount": 1,
-            "eventToListen": "Day1_GoToSchool",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 2,
-            "nextObjectiveId": 3,
-            "description": "Get your books from your locker.",
-            "targetCount": 1,
-            "eventToListen": "Day1_LockerEncounterEnd",
-            "eventOnComplete": ""
-            
-        },
-        {
-            "id": 3,
-            "nextObjectiveId": 4,
-            "description": "Go to class.",
-            "targetCount": 1,
-            "eventToListen": "Attend_Classes",
-            "eventOnComplete": "",
-            "isActive": false,
-            "eventToActivate":"Class_Started"
-            
-        },
-        {
-            "id": 4,
-            "description": "Comeback home.",
-            "targetCount": 1,
-            "eventToListen": "Day1_ComebackHome",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 5,
-            "description": "Check your phone.",
-            "targetCount": 1,
-            "eventToListen": "Day1_NightConvo_End",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 6,
-            "description": "Go to sleep.",
-            "targetCount": 1,
-            "eventToListen": "Day1_End",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 7,
-            "description": "Check your phone notifications.",
-            "targetCount": 1,
-            "eventToListen": "Day2_Convo1_End",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 8,
-            "description": "Talk to Emma.",
-            "targetCount": 1,
-            "eventToListen": "Day2_ClassroomEncounterEnd",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 9,
-            "description": "Go home and rest.",
-            "targetCount": 1,
-            "eventToListen": "Day2_End",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 10,
-            "description": "Check your phone notifications.",
-            "targetCount": 1,
-            "eventToListen": "Day3_Convo1_End",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 11,
-            "description": "Get ready for school (Bookshelf, Laptop, Bag).",
-            "targetCount": 3,
-            "eventToListen": "Day3_PrepItem",
-            "eventOnComplete": "Day3_ReadyToLeave"
-        },
-        {
-            "id": 12,
-            "description": "Leave your bedroom.",
-            "targetCount": 1,
-            "eventToListen": "Day3_GoToSchool",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 13,
-            "description": "Go to class.",
-            "targetCount": 1,
-            "eventToListen": "Day3_School_End",
-            "eventOnComplete": "Day3_RunAway"
-        },
-        {
-            "id":14,
-            "description": "Get away from Emma and Sophie!",
-            "targetCount": 1,
-            "eventToListen": "Day3_ArrivedHome",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 15,
-            "description": "Check your phone notifications.",
-            "targetCount": 1,
-            "eventToListen": "Day3_Unknown_End",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 16,
-            "description": "Check your phone notifications.",
-            "targetCount": 1,
-            "eventToListen": "Day3_EmmaText_End",
-            "eventOnComplete": ""
-        },
-        {
-            "id": 17,
-            "description": "Make a decision.",
-            "targetCount": 1,
-            "eventToListen": "Game_Completed",
-            "eventOnComplete": ""
-        }
-    ]
+  "objectives": [
+    { "id": 0, "nextObjectiveId": 2, "description": "Explore around.", "targetCount": 1, "eventToListen": "D1_ExploreTimerComplete", "eventOnComplete": "" },
+    { "id": 1, "description": "Read Alex's first message.", "targetCount": 1, "eventToListen": "D1_AlexIntro_End", "eventOnComplete": "" },
+    { "id": 2, "description": "Go to school.", "targetCount": 1, "eventToListen": "Day1_GoToSchool", "eventOnComplete": "" },
+    { "id": 3, "description": "Deal with Emma and Sophie.", "targetCount": 1, "eventToListen": "SchoolEncounterComplete", "eventOnComplete": "" },
+    { "id": 4, "description": "Sit at your desk and attend class.", "targetCount": 1, "eventToListen": "SchoolClassFinished", "eventOnComplete": "" },
+    { "id": 5, "nextObjectiveId": 37, "description": "Go home.", "targetCount": 1, "eventToListen": "D1_StudentConnectOverheard", "eventOnComplete": "" },
+    { "id": 6, "description": "Read Alex's message and reply to Jamie.", "targetCount": 1, "eventToListen": "D1_Evening_End", "eventOnComplete": "" },
+    { "id": 7, "description": "Go to sleep.", "targetCount": 1, "eventToListen": "StoryDaySleep", "eventOnComplete": "" },
+    { "id": 8, "description": "Check Alex's morning message.", "targetCount": 1, "eventToListen": "D2_Morning_End", "eventOnComplete": "" },
+    { "id": 9, "description": "Go to school.", "targetCount": 1, "eventToListen": "Day1_GoToSchool", "eventOnComplete": "" },
+    { "id": 10, "description": "Get past Emma and Sophie.", "targetCount": 1, "eventToListen": "SchoolEncounterComplete", "eventOnComplete": "" },
+    { "id": 11, "description": "Sit at your desk and attend class.", "targetCount": 1, "eventToListen": "SchoolClassFinished", "eventOnComplete": "" },
+    { "id": 12, "description": "Go home.", "targetCount": 1, "eventToListen": "Day1_ComebackHome", "eventOnComplete": "" },
+    { "id": 13, "description": "Decide what to post and handle the reaction.", "targetCount": 1, "eventToListen": "D2_Jamie_End", "eventOnComplete": "" },
+    { "id": 14, "description": "Read Noah's message request.", "targetCount": 1, "eventToListen": "D2_NoahTeaser_End", "eventOnComplete": "" },
+    { "id": 15, "description": "Go to sleep.", "targetCount": 1, "eventToListen": "StoryDaySleep", "eventOnComplete": "" },
+    { "id": 16, "description": "Talk to Noah before school.", "targetCount": 1, "eventToListen": "D3_Morning_End", "eventOnComplete": "" },
+    { "id": 17, "description": "Go to school.", "targetCount": 1, "eventToListen": "Day1_GoToSchool", "eventOnComplete": "" },
+    { "id": 18, "description": "Get through the school confrontation.", "targetCount": 1, "eventToListen": "SchoolEncounterComplete", "eventOnComplete": "" },
+    { "id": 19, "nextObjectiveId": 41, "description": "Sit at your desk and attend class.", "targetCount": 1, "eventToListen": "SchoolClassFinished", "eventOnComplete": "" },
+    { "id": 20, "description": "Go home.", "targetCount": 1, "eventToListen": "Day1_ComebackHome", "eventOnComplete": "" },
+    { "id": 21, "description": "Handle Noah's picture request and the repost.", "targetCount": 1, "eventToListen": "D3_Noah_End", "eventOnComplete": "" },
+    { "id": 22, "description": "Go to sleep.", "targetCount": 1, "eventToListen": "StoryDaySleep", "eventOnComplete": "" },
+    { "id": 23, "description": "Read the unknown account's message.", "targetCount": 1, "eventToListen": "D4_Morning_End", "eventOnComplete": "" },
+    { "id": 24, "description": "Go to school.", "targetCount": 1, "eventToListen": "Day1_GoToSchool", "eventOnComplete": "" },
+    { "id": 25, "description": "Face Emma and Sophie.", "targetCount": 1, "eventToListen": "SchoolEncounterComplete", "eventOnComplete": "" },
+    { "id": 26, "nextObjectiveId": 42, "description": "Sit at your desk and attend class.", "targetCount": 1, "eventToListen": "SchoolClassFinished", "eventOnComplete": "" },
+    { "id": 27, "description": "Go home.", "targetCount": 1, "eventToListen": "Day1_ComebackHome", "eventOnComplete": "" },
+    { "id": 28, "description": "Protect your routine and review your profile.", "targetCount": 1, "eventToListen": "D4_Unknown_End", "eventOnComplete": "" },
+    { "id": 29, "description": "Read Riley's message.", "targetCount": 1, "eventToListen": "D4_RileyIntro_End", "eventOnComplete": "" },
+    { "id": 30, "description": "Go to sleep.", "targetCount": 1, "eventToListen": "StoryDaySleep", "eventOnComplete": "" },
+    { "id": 31, "description": "Check Riley's morning message.", "targetCount": 1, "eventToListen": "D5_Morning_End", "eventOnComplete": "" },
+    { "id": 32, "description": "Go to school.", "targetCount": 1, "eventToListen": "Day1_GoToSchool", "eventOnComplete": "" },
+    { "id": 33, "description": "Walk past Emma and Sophie.", "targetCount": 1, "eventToListen": "SchoolEncounterComplete", "eventOnComplete": "" },
+    { "id": 34, "description": "Sit at your desk and attend class.", "targetCount": 1, "eventToListen": "SchoolClassFinished", "eventOnComplete": "" },
+    { "id": 35, "description": "Go home.", "targetCount": 1, "eventToListen": "Day1_ComebackHome", "eventOnComplete": "" },
+    { "id": 36, "description": "Decide what Luna does next.", "targetCount": 1, "eventToListen": "Campaign_Completed", "eventOnComplete": "" },
+    { "id": 37, "nextObjectiveId": 39, "description": "Find out more.", "targetCount": 1, "eventToListen": "D1_StudentConnectConversationComplete", "eventOnComplete": "" },
+    { "id": 38, "nextObjectiveId": 6, "description": "Go home.", "targetCount": 1, "eventToListen": "Day1_ComebackHome", "eventOnComplete": "" },
+    { "id": 39, "nextObjectiveId": 40, "description": "Curiosity killed the cat: Download Connect from the App Store.", "targetCount": 1, "eventToListen": "D1_ConnectDownloaded", "eventOnComplete": "" },
+    { "id": 40, "nextObjectiveId": 38, "description": "Create your Connect profile.", "targetCount": 1, "eventToListen": "D1_Profile_End", "eventOnComplete": "" },
+    { "id": 41, "nextObjectiveId": 20, "description": "Read Noah's lunchtime message.", "targetCount": 1, "eventToListen": "D3_Lunch_End", "eventOnComplete": "" },
+    { "id": 42, "nextObjectiveId": 27, "description": "Read the unknown account's message.", "targetCount": 1, "eventToListen": "D4_ClassMessage_End", "eventOnComplete": "" }
+  ]
 }

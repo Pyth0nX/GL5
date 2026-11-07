@@ -9,17 +9,21 @@ public class DialogueButton : MonoBehaviour
     private float _timer = 0f;
     private Image _image;
     private TextMeshProUGUI _textMesh;
+    private bool _narrationDialogueActive;
 
-    void Awake()
+    private void Awake()
     {
         _button = GetComponent<Button>();
         _image = GetComponent<Image>();
         _textMesh = GetComponentInChildren<TextMeshProUGUI>();
-        
-        _button.onClick.AddListener(OnDialogueButtonPressed);
+
+        if (_button != null)
+        {
+            _button.onClick.AddListener(OnDialogueButtonPressed);
+        }
     }
 
-    void Update()
+    private void Update()
     {
         UpdateButtonVisibility();
     }
@@ -36,11 +40,18 @@ public class DialogueButton : MonoBehaviour
         if (MessagesManager.Instance == null)
             return;
 
+        if (_narrationDialogueActive)
+        {
+            SetVisualsActive(false);
+            _timer = 0f;
+            return;
+        }
+
         Contact currentContact = MessagesManager.Instance.GetCurrentContact();
         if (currentContact == null)
         {
             SetVisualsActive(false);
-            _button.gameObject.SetActive(false);
+            if (_button != null) _button.gameObject.SetActive(false);
             return;
         }
 
@@ -60,15 +71,23 @@ public class DialogueButton : MonoBehaviour
                 List<Message> activeDialogues = currentNode.GetActiveDialogues();
                 if (currentContact.CurrentMessageIndex() < activeDialogues.Count)
                 {
-                    // We keep the GameObject active so Update() continues running
-                    _button.gameObject.SetActive(true);
-                    
+                    // Keep the GameObject active so Update() continues running
+                    if (_button != null) _button.gameObject.SetActive(true);
+
                     Message nextMsg = activeDialogues[currentContact.CurrentMessageIndex()];
+                    if (MessagesManager.IsNarration(nextMsg))
+                    {
+                        SetVisualsActive(false);
+                        _timer = 0f;
+                        ShowNarration(currentContact, nextMsg);
+                        return;
+                    }
+
                     if (nextMsg.Sender() == Sender.NPC)
                     {
                         // It's the NPC's turn. Hide the button visually and wait 1 second.
                         SetVisualsActive(false);
-                        
+
                         _timer += Time.deltaTime;
                         if (_timer >= 1f)
                         {
@@ -92,20 +111,48 @@ public class DialogueButton : MonoBehaviour
             else
             {
                 SetVisualsActive(false);
-                _button.gameObject.SetActive(false);
+                if (_button != null) _button.gameObject.SetActive(false);
                 currentContact.SetHasNewMessages(false);
             }
         }
         else
         {
             SetVisualsActive(false);
-            _button.gameObject.SetActive(false);
+            if (_button != null) _button.gameObject.SetActive(false);
         }
+    }
+
+    private void ShowNarration(Contact currentContact, Message narration)
+    {
+        if (DialogueManager.Instance == null)
+        {
+            Debug.LogWarning("[DialogueButton] Cannot show narration because DialogueManager is unavailable.");
+            return;
+        }
+
+        _narrationDialogueActive = true;
+        bool opened = DialogueManager.Instance.ShowNarration(
+            narration.Content(),
+            () =>
+            {
+                _narrationDialogueActive = false;
+                _timer = 0f;
+            });
+
+        if (!opened)
+        {
+            _narrationDialogueActive = false;
+            return;
+        }
+
+        // Narration is consumed by the dialogue window, not the phone history.
+        // Advancing here lets the normal Update flow continue with any line that follows.
+        currentContact.SetCurrentMessageIndex(currentContact.CurrentMessageIndex() + 1);
     }
 
     private void OnDialogueButtonPressed()
     {
-        if (_button.interactable)
+        if (_button != null && _button.interactable)
         {
             SendNextMessage();
         }
@@ -137,9 +184,9 @@ public class DialogueButton : MonoBehaviour
     private void CompleteCurrentNode(Contact currentContact, NarrativeNode currentNode)
     {
         currentContact.SetHasNewMessages(false);
-        _button.gameObject.SetActive(false);
+        if (_button != null) _button.gameObject.SetActive(false);
         SetVisualsActive(false);
-        
+
         if (!currentNode.HasOptions())
         {
             currentNode.ApplyEndReputationImpact();
@@ -148,13 +195,18 @@ public class DialogueButton : MonoBehaviour
             {
                 EventBus.Instance.Publish(currentNode.EventOnEnd());
             }
-            
+
             int nextNodeId = currentNode.ResolveNextNode();
             nextNodeId = MessagesManager.Instance.ResolveEntryRedirects(nextNodeId);
 
             currentContact.SetNarrativeNode(nextNodeId);
             currentContact.SetCurrentMessageIndex(0);
-            
+
+            if (nextNodeId < 0)
+            {
+                return;
+            }
+
             NarrativeNode next = MessagesManager.Instance.GetCurrentContactNarrativeNode();
             if (next != null)
             {
@@ -162,22 +214,22 @@ public class DialogueButton : MonoBehaviour
                 {
                     currentContact.SetHasNewMessages(true);
                     gameObject.SetActive(true);
-                    MessagesManager.Instance.GetPhoneStateMachine().ShowDialogueTab();
+                    MessagesManager.Instance.GetPhoneStateMachine()?.ShowDialogueTab();
                 }
                 else if (next.HasOptions())
                 {
-                    MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(next);
-                    MessagesManager.Instance.GetOptionsChanger().ActiveDecisionsPanel(true);
-                    MessagesManager.Instance.GetPhoneStateMachine().ShowDecisionsTab();
+                    MessagesManager.Instance.GetOptionsChanger()?.SetCurrentNode(next);
+                    MessagesManager.Instance.GetOptionsChanger()?.ActiveDecisionsPanel(true);
+                    MessagesManager.Instance.GetPhoneStateMachine()?.ShowDecisionsTab();
                 }
             }
         }
         else
         {
             // Show options panel
-            MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(currentNode);
-            MessagesManager.Instance.GetOptionsChanger().ActiveDecisionsPanel(true);
-            MessagesManager.Instance.GetPhoneStateMachine().ShowDecisionsTab();
+            MessagesManager.Instance.GetOptionsChanger()?.SetCurrentNode(currentNode);
+            MessagesManager.Instance.GetOptionsChanger()?.ActiveDecisionsPanel(true);
+            MessagesManager.Instance.GetPhoneStateMachine()?.ShowDecisionsTab();
         }
     }
 }

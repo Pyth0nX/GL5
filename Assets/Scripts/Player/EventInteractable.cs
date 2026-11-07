@@ -9,7 +9,6 @@ public enum EventDataType
     INT,
     FLOAT,
     BOOL
-
 }
 
 [System.Serializable]
@@ -46,7 +45,6 @@ public class EventPayload
     }
 }
 
-
 public class EventInteractable : IInteractable
 {
     [Tooltip("The names of the events to publish when this object is interacted with.")]
@@ -66,32 +64,48 @@ public class EventInteractable : IInteractable
     [Tooltip("Events to publish if interacted when disabled.")]
     [SerializeField] private List<EventPayload> _disabledEventsToPublish = new List<EventPayload>();
 
-
-
     protected override void Start()
     {
         base.Start();
 
-        if (_enableEvents != null)
+        if (EventBus.Instance != null)
         {
-            foreach (var ev in _enableEvents)
+            if (_enableEvents != null)
             {
-                if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, EnableInteraction);
+                foreach (var ev in _enableEvents)
+                {
+                    if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, EnableInteraction);
+                }
+            }
+
+            if (_disableEvents != null)
+            {
+                foreach (var ev in _disableEvents)
+                {
+                    if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, DisableInteraction);
+                }
             }
         }
-        
-        if (_disableEvents != null)
+
+        // Authoritative fallback: if this interactable publishes the event currently required
+        // by the active objective, ensure it is enabled regardless of scene initialization order.
+        if (ObjectivesManager.Instance != null)
         {
-            foreach (var ev in _disableEvents)
-            {
-                if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, DisableInteraction);
-            }
+            ObjectivesManager.Instance.OnObjectiveUpdated += SyncWithCurrentObjective;
+            SyncWithCurrentObjective(
+                ObjectivesManager.Instance.GetCurrentObjective(),
+                ObjectivesManager.Instance.GetCurrentProgress());
         }
     }
 
     private void OnDestroy()
     {
         SetOutlineActive(false);
+
+        if (ObjectivesManager.Instance != null)
+        {
+            ObjectivesManager.Instance.OnObjectiveUpdated -= SyncWithCurrentObjective;
+        }
 
         if (EventBus.Instance != null)
         {
@@ -102,13 +116,37 @@ public class EventInteractable : IInteractable
                     if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Unsubscribe(ev, EnableInteraction);
                 }
             }
-            
+
             if (_disableEvents != null)
             {
                 foreach (var ev in _disableEvents)
                 {
                     if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Unsubscribe(ev, DisableInteraction);
                 }
+            }
+        }
+    }
+
+    private void SyncWithCurrentObjective(Objective objective, int currentProgress)
+    {
+        if (objective == null || _eventsToPublish == null) return;
+
+        string requiredEvent = objective.EventToListen();
+        if (string.IsNullOrEmpty(requiredEvent)) return;
+
+        bool isHomeGoToSchoolObjective =
+            requiredEvent == "Day1_GoToSchool" &&
+            string.Equals(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, "Home", StringComparison.OrdinalIgnoreCase);
+
+        foreach (EventPayload payload in _eventsToPublish)
+        {
+            if (payload == null) continue;
+
+            if (payload.EventName() == requiredEvent ||
+                (isHomeGoToSchoolObjective && payload.EventName() == "OpenMap"))
+            {
+                EnableInteraction();
+                return;
             }
         }
     }
@@ -127,15 +165,16 @@ public class EventInteractable : IInteractable
 
     public override void Interact()
     {
-        
         if (!_canInteract)
         {
             PublishEventList(_disabledEventsToPublish);
 
-            // Show Not Available message in dark red for 2 seconds
             if (UIManager.Instance != null)
             {
-                UIManager.Instance.ShowTemporaryMessage(_notAvailableMessage, Color.darkRed, 2f);
+                UIManager.Instance.ShowTemporaryMessage(
+                    _notAvailableMessage,
+                    UIManager.UnavailableInteractionColor,
+                    2f);
             }
 
             if (_instantAction) Invoke(nameof(RevertPlayerState), 0.1f);
@@ -143,7 +182,6 @@ public class EventInteractable : IInteractable
         }
 
         PublishEventList(_eventsToPublish);
-
 
         if (_instantAction)
         {

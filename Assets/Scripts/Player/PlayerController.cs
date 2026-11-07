@@ -1,4 +1,4 @@
-using UnityEditor;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Vertical Clamp Limits: 0° = Look down, 90° = Look up!")]
     [Range(0f, 90f)]
     [SerializeField] private float _verticalClamp = 80f;
-    
+
     private IInteractable _currentHoveredInteractable;
     private InteractableOutline _currentHoveredStandaloneOutline;
     private bool _isShowingHoverMessage;
@@ -43,7 +43,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _currentXRotation = 0f;
-        GameManager.Instance.SetPlayerName(_playerName);
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetPlayerName(_playerName);
+        }
 
         if (SettingsManager.Instance != null)
         {
@@ -76,16 +79,22 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen)
+        {
+            ClearHoveredInteractable();
+            return;
+        }
+
         LookAround();
 
         CheckInteractableHover();
 
-        if (InputManager.Instance.InteractWasPressed())
+        if (InputManager.Instance != null && InputManager.Instance.InteractWasPressed())
         {
             TryInteract();
         }
 
-        if (InputManager.Instance.PhoneWasPressed())
+        if (InputManager.Instance != null && InputManager.Instance.PhoneWasPressed())
         {
             HandlePhone();
         }
@@ -141,13 +150,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void MovePlayer()
+    private void MovePlayer()
     {
+        if (DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen)
+        {
+            if (_rigidbody != null)
+            {
+                _rigidbody.linearVelocity = new Vector3(0f, _rigidbody.linearVelocity.y, 0f);
+            }
+            return;
+        }
+
+        if (InputManager.Instance == null) return;
+
         Vector2 direction = InputManager.Instance.GetPlayerMovement();
-        
+
         Vector3 moveDirection = transform.right * direction.x + transform.forward * direction.y;
         moveDirection.y = 0f;
-        
+
         if (moveDirection.magnitude > 1f)
         {
             moveDirection.Normalize();
@@ -161,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
     private void LookAround()
     {
-        if (InputManager.Instance.PlayerLooked())
+        if (InputManager.Instance != null && InputManager.Instance.PlayerLooked())
         {
             Vector2 lookVec = InputManager.Instance.GetPlayerLook();
             Quaternion yRotation = Quaternion.Euler(0f, lookVec.x * _mouseSensitivity, 0f);
@@ -174,9 +194,69 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public IEnumerator FocusViewOn(Vector3 worldTarget, float duration)
+    {
+        if (_playerCamera == null) yield break;
+
+        Vector3 flatDirection = worldTarget - transform.position;
+        flatDirection.y = 0f;
+
+        Quaternion startBodyRotation = _rigidbody != null ? _rigidbody.rotation : transform.rotation;
+        Quaternion targetBodyRotation = flatDirection.sqrMagnitude > 0.0001f
+            ? Quaternion.LookRotation(flatDirection.normalized, Vector3.up)
+            : startBodyRotation;
+
+        Vector3 cameraToTarget = worldTarget - _playerCamera.transform.position;
+        float horizontalDistance = new Vector2(cameraToTarget.x, cameraToTarget.z).magnitude;
+        float targetPitch = -Mathf.Atan2(cameraToTarget.y, Mathf.Max(0.001f, horizontalDistance)) * Mathf.Rad2Deg;
+        targetPitch = Mathf.Clamp(targetPitch, -_verticalClamp, _verticalClamp);
+        float startPitch = _currentXRotation;
+
+        if (_rigidbody != null)
+        {
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
+
+        if (duration <= 0f)
+        {
+            ApplyViewRotation(targetBodyRotation, targetPitch);
+            yield break;
+        }
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float progress = Mathf.Clamp01(elapsed / duration);
+            float easedProgress = Mathf.SmoothStep(0f, 1f, progress);
+
+            Quaternion bodyRotation = Quaternion.Slerp(startBodyRotation, targetBodyRotation, easedProgress);
+            float cameraPitch = Mathf.Lerp(startPitch, targetPitch, easedProgress);
+            ApplyViewRotation(bodyRotation, cameraPitch);
+            yield return null;
+        }
+
+        ApplyViewRotation(targetBodyRotation, targetPitch);
+    }
+
+    private void ApplyViewRotation(Quaternion bodyRotation, float cameraPitch)
+    {
+        if (_rigidbody != null)
+        {
+            _rigidbody.rotation = bodyRotation;
+        }
+        else
+        {
+            transform.rotation = bodyRotation;
+        }
+
+        _currentXRotation = cameraPitch;
+        _playerCamera.transform.localRotation = Quaternion.Euler(_currentXRotation, 0f, 0f);
+    }
+
     private void CheckInteractableHover()
     {
-        // Safety recovery: If UI returned to DEFAULT mode, ensure player state is back to Idle
+        // Safety recovery: if UI returned to DEFAULT mode, ensure player state is back to Idle
         if (_playerStateMachine != null && _playerStateMachine.GetCurrentState() == PlayerState.Interacting)
         {
             if (UIManager.Instance != null && UIManager.Instance.GetCurrentState() == UIState.DEFAULT)
@@ -185,7 +265,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Don't detect or highlight interactables when the player is not in Idle state (phone, conversation, interacting, etc.)
+        // Don't detect or highlight interactables when the player is not in Idle state
         if (_playerStateMachine != null && _playerStateMachine.GetCurrentState() != PlayerState.Idle)
         {
             ClearHoveredInteractable();
@@ -196,7 +276,6 @@ public class PlayerController : MonoBehaviour
 
         if (interactable != null)
         {
-            // Clear any standalone outline we were hovering
             if (_currentHoveredStandaloneOutline != null)
             {
                 _currentHoveredStandaloneOutline.SetOutlineActive(false);
@@ -213,13 +292,16 @@ public class PlayerController : MonoBehaviour
                 _currentHoveredInteractable = interactable;
                 _isShowingHoverMessage = true;
 
-                // Turn ON outline on the interactable
                 _currentHoveredInteractable.SetOutlineActive(true);
 
                 if (UIManager.Instance != null)
                 {
-                    string messageToShow = (interactable.CanInteract()) ? interactable.InteractionMessage() : interactable.NotAvailableMessage();
-                    Color messageColor = (interactable.CanInteract()) ? Color.white : Color.darkRed;
+                    string messageToShow = interactable.CanInteract()
+                        ? interactable.InteractionMessage()
+                        : interactable.NotAvailableMessage();
+                    Color messageColor = interactable.CanInteract()
+                        ? Color.white
+                        : UIManager.UnavailableInteractionColor;
                     UIManager.Instance.ShowMessage(messageToShow, messageColor);
                 }
             }
@@ -230,7 +312,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // If no IInteractable in sight, check if looking at a standalone object with InteractableOutline
             InteractableOutline standaloneOutline = GetStandaloneOutlineInSight();
 
             if (standaloneOutline != null)
@@ -293,7 +374,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // Situation 3: Press E and nothing in front
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.ShowTemporaryMessage("Nothing to interact", new Color(0.3f, 0.3f, 0.3f), 2f);
@@ -314,13 +394,16 @@ public class PlayerController : MonoBehaviour
             GameObject hitObject = hit.collider.gameObject;
 
             if (hitObject == gameObject || hitObject.transform.root == transform.root) continue;
-            if (hit.collider.isTrigger) continue;
 
+            // Allow interactables that use a trigger volume as their targeting area,
+            // while ignoring non-interactable trigger volumes so they don't block the ray.
             IInteractable interactable = hitObject.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
                 return interactable;
             }
+
+            if (hit.collider.isTrigger) continue;
 
             // Hit an obstacle/wall that is not an interactable; stop ray
             break;
@@ -349,7 +432,6 @@ public class PlayerController : MonoBehaviour
                 return outline;
             }
 
-            // Hit an obstacle/wall that has no outline; stop ray
             break;
         }
         return null;

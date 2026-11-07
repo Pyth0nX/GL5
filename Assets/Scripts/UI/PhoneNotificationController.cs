@@ -17,7 +17,8 @@ public enum PhoneApp
     Notes,
     Calendar,
     Bank,
-    Social
+    Social,
+    Connect
 }
 
 [Serializable]
@@ -125,7 +126,8 @@ public class PhoneNotificationController : MonoBehaviour
     [Header("App Configurations (Scalability)")]
     [SerializeField] private List<AppNotificationConfig> _appConfigs = new List<AppNotificationConfig>
     {
-        new AppNotificationConfig { App = PhoneApp.Messages, DisplayName = "Messages" }
+        new AppNotificationConfig { App = PhoneApp.Messages, DisplayName = "Messages" },
+        new AppNotificationConfig { App = PhoneApp.Connect, DisplayName = "Connect" }
     };
 
     private readonly Queue<NotificationData> _notificationQueue = new Queue<NotificationData>();
@@ -454,21 +456,46 @@ public class PhoneNotificationController : MonoBehaviour
 
     private string GetAppDisplayName(PhoneApp app)
     {
+        if (_appConfigs == null) return app.ToString();
         var config = _appConfigs.Find(c => c.App == app);
-        return config != null ? config.DisplayName : app.ToString();
+        return config != null && !string.IsNullOrWhiteSpace(config.DisplayName)
+            ? config.DisplayName
+            : app.ToString();
     }
 
     private Sprite GetDefaultAppIcon(PhoneApp app)
     {
-        var config = _appConfigs.Find(c => c.App == app);
-        return config?.AppIcon;
+        var config = _appConfigs != null ? _appConfigs.Find(c => c.App == app) : null;
+        if (config != null && config.AppIcon != null)
+        {
+            return config.AppIcon;
+        }
+
+        if (app == PhoneApp.Connect)
+        {
+            return MessagesUI.LoadSprite("_PhoneUIImages/ConenctSocialMedia.png");
+        }
+
+        return null;
     }
 
     private Sprite GetDefaultAppIconByName(string appName)
     {
-        if (_appConfigs == null) return null;
-        var config = _appConfigs.Find(c => string.Equals(c.DisplayName, appName, StringComparison.OrdinalIgnoreCase)
-                                        || c.App.ToString().Equals(appName, StringComparison.OrdinalIgnoreCase));
-        return config?.AppIcon;
+        if (_appConfigs != null)
+        {
+            var config = _appConfigs.Find(c => string.Equals(c.DisplayName, appName, StringComparison.OrdinalIgnoreCase)
+                                            || c.App.ToString().Equals(appName, StringComparison.OrdinalIgnoreCase));
+            if (config != null && config.AppIcon != null)
+            {
+                return config.AppIcon;
+            }
+        }
+
+        if (string.Equals(appName, "Connect", StringComparison.OrdinalIgnoreCase))
+        {
+            return MessagesUI.LoadSprite("_PhoneUIImages/ConenctSocialMedia.png");
+        }
+
+        return null;
     }
 }

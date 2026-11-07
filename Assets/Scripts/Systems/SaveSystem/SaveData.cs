@@ -145,6 +145,9 @@ public class GameSaveData
     [Tooltip("Current numeric Reputation / Safety value of the protagonist.")]
     public int reputationValue;
 
+    [Tooltip("Cumulative narrative risk score tracked across Choices 1-13 for Day 5 ending resolution.")]
+    public int narrativeRiskScore = 0;
+
     [Header("Narrative & Objective Progression")]
     [Tooltip("Current in-game day tracked by DayManager.")]
     public int currentDay = 1;
@@ -157,6 +160,16 @@ public class GameSaveData
 
     [Tooltip("Whether the current objective is visible/active in the HUD.")]
     public bool isCurrentObjectiveActive = true;
+
+    [Header("Connect App Progression")]
+    [Tooltip("Whether Connect is unlocked for download in the App Store.")]
+    public bool connectDownloadAvailable = false;
+
+    [Tooltip("Whether Connect has been installed on Luna's phone.")]
+    public bool connectInstalled = false;
+
+    [Tooltip("Whether Luna has completed her Connect profile setup.")]
+    public bool connectProfileCreated = false;
 
     [Tooltip("Serializable list mapping each contact to their current narrative node ID and chat history.")]
     public List<ContactNarrativeSaveData> contactNarrativeProgress = new List<ContactNarrativeSaveData>();

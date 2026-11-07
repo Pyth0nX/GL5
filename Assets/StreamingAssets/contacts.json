@@ -1,88 +1,15 @@
 {
-    "contacts": [
-        {
-            "_contactName": "Unknown Number",
-            "_contactImagePath": "Assets/Sprites/UnknownProfile.png",
-            "_currentNarrative": -1,
-            "_lastMessageDate": {
-                "day": 1,
-                "month": 10,
-                "year": 2026,
-                "hour": 7,
-                "minute": 30
-            },
-            "_hasNewMessages": true,
-            "_currentMessageIndex": 0
-        },
-        {
-            "_contactName": "Emma",
-            "_contactImagePath": "Assets/Sprites/EmmaProfile.png",
-            "_currentNarrative": 2,
-            "_lastMessageDate": {
-                "day": 1,
-                "month": 10,
-                "year": 2026,
-                "hour": 8,
-                "minute": 30
-            },
-            "_hasNewMessages": false,
-            "_currentMessageIndex": 0
-        },
-        {
-            "_contactName": "Teacher",
-            "_contactImagePath": "Assets/Sprites/TeacherProfile.png",
-            "_currentNarrative": -1,
-            "_lastMessageDate": {
-                "day": 1,
-                "month": 10,
-                "year": 2026,
-                "hour": 8,
-                "minute": 30
-            },
-            "_hasNewMessages": false,
-            "_currentMessageIndex": 0
-        },
-        {
-            "_contactName": "Mom",
-            "_contactImagePath": "Assets/Sprites/MomProfile.png",
-            "_currentNarrative": -1,
-            "_lastMessageDate": {
-                "day": 1,
-                "month": 10,
-                "year": 2026,
-                "hour": 7,
-                "minute": 0
-            },
-            "_hasNewMessages": false,
-            "_currentMessageIndex": 0
-        },
-        {
-            "_contactName": "Mark (History Group)",
-            "_contactImagePath": "Assets/Sprites/MarkProfile.png",
-            "_currentNarrative": -1,
-            "_lastMessageDate": {
-                "day": 1,
-                "month": 10,
-                "year": 2026,
-                "hour": 7,
-                "minute": 0
-            },
-            "_hasNewMessages": false,
-            "_currentMessageIndex": 0
-        },
-        {
-            "_contactName": "Bob",
-            "_contactImagePath": "Assets/Sprites/MarkProfile.png",
-            "_currentNarrative": 29,
-            "_lastMessageDate": {
-                "day": 1,
-                "month": 10,
-                "year": 2026,
-                "hour": 7,
-                "minute": 0
-            },
-            "_hasNewMessages": false,
-            "_currentMessageIndex": 0
-        }
-    ]
+  "contacts": [
+    { "_contactName": "Mom", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 30, "month": 9, "year": 2026, "hour": 20, "minute": 5 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Dad", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 30, "month": 9, "year": 2026, "hour": 19, "minute": 0 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Maya", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 30, "month": 9, "year": 2026, "hour": 22, "minute": 10 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Student Group", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 1, "month": 10, "year": 2026, "hour": 13, "minute": 0 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Connect", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 1, "month": 10, "year": 2026, "hour": 7, "minute": 0 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Alex", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 1, "month": 10, "year": 2026, "hour": 7, "minute": 30 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Emma", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 1, "month": 10, "year": 2026, "hour": 8, "minute": 30 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Jamie", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 2, "month": 10, "year": 2026, "hour": 16, "minute": 0 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Noah", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 2, "month": 10, "year": 2026, "hour": 22, "minute": 10 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Unknown", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 4, "month": 10, "year": 2026, "hour": 7, "minute": 5 }, "_hasNewMessages": false, "_currentMessageIndex": 0 },
+    { "_contactName": "Riley", "_contactImagePath": "", "_currentNarrative": -1, "_lastMessageDate": { "day": 4, "month": 10, "year": 2026, "hour": 20, "minute": 0 }, "_hasNewMessages": false, "_currentMessageIndex": 0 }
+  ]
 }

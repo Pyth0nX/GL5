@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,6 +21,10 @@ public class MessagesUI : MonoBehaviour
     [SerializeField] private Color playerMessageColor;
     [SerializeField] private Color NPCMessageColor;
 
+    [Header("Message Images")]
+    [SerializeField] private Sprite lunaFlirtSelfie;
+    [SerializeField] private Sprite lunaNormalSelfie;
+
     [Header("Scroll")]
     [SerializeField] private ScrollRect messagesScrollRect;
 
@@ -34,6 +39,9 @@ public class MessagesUI : MonoBehaviour
     [SerializeField] private float npcTypingDuration = 2.0f;
     [SerializeField] private float npcDotInterval = 0.35f;
     [SerializeField] private float playerTypewriterSpeed = 0.03f;
+
+    private const string LunaFlirtSelfieToken = "[Luna sends a flirty selfie.]";
+    private const string LunaNormalSelfieToken = "[Luna sends a normal selfie.]";
 
     private readonly Queue<Message> _pendingMessages = new Queue<Message>();
     private Coroutine _processQueueCoroutine;
@@ -52,12 +60,12 @@ public class MessagesUI : MonoBehaviour
         EnsureQuickGalleryButton();
     }
 
-    void Start()
+    private void Start()
     {
         EnsureScrollRect();
         EnsureContactNameHeader();
         EnsureQuickGalleryButton();
-        CreateContacts(); 
+        CreateContacts();
     }
 
     private void OnDisable()
@@ -280,7 +288,7 @@ public class MessagesUI : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No messages found for the current contact.");
+            Debug.LogWarning("[MessagesUI] No messages found for the current contact.");
         }
     }
 
@@ -298,7 +306,7 @@ public class MessagesUI : MonoBehaviour
     /// <summary>
     /// Add a newly sent message to the conversation with typing animations and autoscroll.
     /// </summary>
-    public void AddMessage(Message message) 
+    public void AddMessage(Message message)
     {
         _pendingMessages.Enqueue(message);
         if (_processQueueCoroutine == null && gameObject.activeInHierarchy)
@@ -330,16 +338,38 @@ public class MessagesUI : MonoBehaviour
         _processQueueCoroutine = null;
     }
 
+    private bool TryGetSelfieTokenSprite(Message message, out Sprite sprite)
+    {
+        sprite = null;
+        if (message == null) return false;
+
+        string content = message.Content();
+        if (string.Equals(content, LunaFlirtSelfieToken, StringComparison.Ordinal))
+        {
+            sprite = lunaFlirtSelfie != null ? lunaFlirtSelfie : LoadSprite("SiD/Luna/LunaFlirtSelfie1.png");
+            return sprite != null;
+        }
+
+        if (string.Equals(content, LunaNormalSelfieToken, StringComparison.Ordinal))
+        {
+            sprite = lunaNormalSelfie != null ? lunaNormalSelfie : LoadSprite("SiD/Luna/LunaNormalSelfie1.png");
+            return sprite != null;
+        }
+
+        return false;
+    }
+
     private void InstantiateHistoricalMessage(Message message, float availableWidth)
     {
-        if (message.HasImage())
+        bool isSelfieToken = TryGetSelfieTokenSprite(message, out Sprite tokenSprite);
+        if (message.HasImage() || isSelfieToken)
         {
             GameObject prefabToUse = (imageMessagePrefab != null) ? imageMessagePrefab : messagePrefab;
             GameObject messageGO = Instantiate(prefabToUse, messagesContainer);
             CleanUpConflictingComponents(messageGO);
 
-            Sprite sprite = LoadSprite(message.ImagePath());
-            ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: true);
+            Sprite sprite = isSelfieToken ? tokenSprite : LoadSprite(message.ImagePath());
+            ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: true, ignoreCaption: isSelfieToken);
         }
         else
         {
@@ -359,19 +389,20 @@ public class MessagesUI : MonoBehaviour
     private IEnumerator AnimateMessage(Message message)
     {
         float availableWidth = GetAvailableWidth();
+        bool isSelfieToken = TryGetSelfieTokenSprite(message, out Sprite tokenSprite);
 
-        if (message.HasImage())
+        if (message.HasImage() || isSelfieToken)
         {
             GameObject prefabToUse = (imageMessagePrefab != null) ? imageMessagePrefab : messagePrefab;
             GameObject messageGO = Instantiate(prefabToUse, messagesContainer);
             CleanUpConflictingComponents(messageGO);
 
-            Sprite sprite = LoadSprite(message.ImagePath());
+            Sprite sprite = isSelfieToken ? tokenSprite : LoadSprite(message.ImagePath());
 
             if (message.Sender() == Sender.NPC)
             {
                 // 1. Create the image message upfront with photo HIDDEN and bubble in compact typing size (48x28)
-                ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: false);
+                ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: false, ignoreCaption: isSelfieToken);
                 RefreshLayoutAndScroll();
 
                 TextMeshProUGUI tempText = messageGO.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -398,7 +429,7 @@ public class MessagesUI : MonoBehaviour
                     yield return null;
                 }
 
-                // 2. Typing animation finished: FIRST ACTIVATE THE IMAGE (SetActive(true) and alpha = 1)
+                // 2. Typing animation finished: activate the image first
                 Image photoImage = null;
                 Image[] allImages = messageGO.GetComponentsInChildren<Image>(true);
                 foreach (var img in allImages)
@@ -416,14 +447,14 @@ public class MessagesUI : MonoBehaviour
                     if (cg != null) cg.alpha = 1f;
                 }
 
-                // 3. RESIZE BUBBLE RESPECT TO IMAGE SIZE AFTER ACTIVATING IT
-                ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: true);
+                // 3. Resize bubble to image dimensions after activating it
+                ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: true, ignoreCaption: isSelfieToken);
                 RefreshLayoutAndScroll();
             }
             else
             {
                 // Player sent image: immediately visible on the right
-                ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: true);
+                ApplyImageMessageDimensions(messageGO, message, sprite, availableWidth, showPhoto: true, ignoreCaption: isSelfieToken);
                 RefreshLayoutAndScroll();
                 yield return new WaitForSeconds(0.1f);
             }
@@ -438,8 +469,7 @@ public class MessagesUI : MonoBehaviour
 
             if (message.Sender() == Sender.NPC)
             {
-                // NPC typing animation:
-                // Display '.' -> '..' -> '...' for 2 seconds before showing the full message.
+                // NPC typing animation: display '.' -> '..' -> '...' before showing the full message
                 ApplyMessageDimensions(messageGO, "...", message.Sender(), availableWidth);
                 if (messageText != null)
                 {
@@ -464,7 +494,7 @@ public class MessagesUI : MonoBehaviour
                     if (dotTimer >= npcDotInterval)
                     {
                         dotTimer = 0f;
-                        dotCount = (dotCount % 3) + 1; // 1 -> 2 -> 3 -> 1 ...
+                        dotCount = (dotCount % 3) + 1;
                         if (messageText != null)
                         {
                             messageText.text = new string('.', dotCount);
@@ -484,8 +514,7 @@ public class MessagesUI : MonoBehaviour
             }
             else
             {
-                // Player message:
-                // Typewriter effect letter by letter. Skip to full text if 'E' (_pInteractAction) is pressed.
+                // Player message: typewriter effect letter by letter
                 ApplyMessageDimensions(messageGO, fullContent, message.Sender(), availableWidth);
                 RefreshLayoutAndScroll();
 
@@ -531,7 +560,6 @@ public class MessagesUI : MonoBehaviour
     {
         if (messageGO == null) return;
 
-        // Message bubbles occupy a dynamic width up to 80% maximum of available width
         float maxBubbleWidth = availableWidth * 0.8f;
         float horizontalMargin = 10f;
         float verticalMargin = 8f;
@@ -550,12 +578,10 @@ public class MessagesUI : MonoBehaviour
             messageText.textWrappingMode = TextWrappingModes.Normal;
             Vector2 textSize = messageText.GetPreferredValues(textForMeasurement, maxTextWidth, 0f);
 
-            // Add a small 2px buffer to avoid accidental wrapping due to subpixel glyph rounding
             float desiredTextWidth = Mathf.Min(textSize.x + 2f, maxTextWidth);
             bubbleWidth = Mathf.Clamp(desiredTextWidth + (horizontalMargin * 2f), minBubbleWidth, maxBubbleWidth);
             textHeight = Mathf.Max(18f, textSize.y);
 
-            // Anchor text to fill bubble with margins
             RectTransform textRect = messageText.rectTransform;
             textRect.anchorMin = Vector2.zero;
             textRect.anchorMax = Vector2.one;
@@ -566,9 +592,6 @@ public class MessagesUI : MonoBehaviour
 
         float bubbleHeight = Mathf.Max(28f, textHeight + (verticalMargin * 2f));
 
-        // Position bubble inside the row:
-        // Player has xOffset = availableWidth - bubbleWidth (pinned right, >= 20% empty on left).
-        // NPC has xOffset = 0 (pinned left, >= 20% empty on right).
         if (image != null)
         {
             RectTransform bubbleRect = image.rectTransform;
@@ -591,7 +614,6 @@ public class MessagesUI : MonoBehaviour
             }
         }
 
-        // Configure message row size and layout element for VerticalLayoutGroup
         if (messageRect != null)
         {
             messageRect.anchorMin = new Vector2(0f, 1f);
@@ -614,7 +636,13 @@ public class MessagesUI : MonoBehaviour
         rowLayout.flexibleHeight = 0f;
     }
 
-    private void ApplyImageMessageDimensions(GameObject messageGO, Message message, Sprite sprite, float availableWidth, bool showPhoto = true)
+    private void ApplyImageMessageDimensions(
+        GameObject messageGO,
+        Message message,
+        Sprite sprite,
+        float availableWidth,
+        bool showPhoto = true,
+        bool ignoreCaption = false)
     {
         if (messageGO == null) return;
 
@@ -667,13 +695,12 @@ public class MessagesUI : MonoBehaviour
             photoImage.color = Color.white;
             photoImage.raycastTarget = true;
 
-            // Apply visibility: hide with SetActive(false) and alpha = 0, or show with SetActive(true) and alpha = 1
             photoImage.gameObject.SetActive(showPhoto);
             photoCg.alpha = showPhoto ? 1f : 0f;
         }
 
         TextMeshProUGUI captionText = messageGO.GetComponentInChildren<TextMeshProUGUI>(true);
-        string caption = message.Content();
+        string caption = ignoreCaption ? string.Empty : message.Content();
         bool hasCaption = !string.IsNullOrEmpty(caption);
 
         // 2. Compute dimensions
@@ -682,7 +709,6 @@ public class MessagesUI : MonoBehaviour
 
         if (showPhoto)
         {
-            // Sized to the actual image + caption
             float photoWidth = maxBubbleWidth - (padding * 2f);
             float photoHeight = photoWidth;
 
@@ -706,7 +732,6 @@ public class MessagesUI : MonoBehaviour
             bubbleWidth = Mathf.Clamp(photoWidth + (padding * 2f), minBubbleWidth, maxBubbleWidth);
             bubbleHeight = photoHeight + (padding * 2f);
 
-            // Configure Photo RectTransform
             if (photoImage != null)
             {
                 RectTransform photoRect = photoImage.rectTransform;
@@ -717,7 +742,6 @@ public class MessagesUI : MonoBehaviour
                 photoRect.sizeDelta = new Vector2(photoWidth, photoHeight);
             }
 
-            // Configure Caption
             if (captionText != null)
             {
                 if (hasCaption)
@@ -747,7 +771,6 @@ public class MessagesUI : MonoBehaviour
         }
         else
         {
-            // Typing state: compact bubble sized for typing dots ("...")
             bubbleWidth = 48f;
             bubbleHeight = 28f;
 
@@ -860,7 +883,6 @@ public class MessagesUI : MonoBehaviour
 
             if (!System.IO.File.Exists(fullPath))
             {
-                // StreamingAssets
                 string saPath = System.IO.Path.Combine(Application.streamingAssetsPath, path);
                 if (System.IO.File.Exists(saPath))
                 {
@@ -868,7 +890,6 @@ public class MessagesUI : MonoBehaviour
                 }
                 else
                 {
-                    // StreamingAssets/Images subfolder fallback
                     string saImgPath = System.IO.Path.Combine(Application.streamingAssetsPath, "Images", path);
                     if (System.IO.File.Exists(saImgPath))
                     {
@@ -876,7 +897,6 @@ public class MessagesUI : MonoBehaviour
                     }
                     else
                     {
-                        // Project root relative
                         string projPath = System.IO.Path.Combine(Application.dataPath, "..", path);
                         if (System.IO.File.Exists(projPath))
                         {
@@ -884,7 +904,6 @@ public class MessagesUI : MonoBehaviour
                         }
                         else
                         {
-                            // Assets relative
                             string inDataPath = System.IO.Path.Combine(Application.dataPath, path);
                             if (System.IO.File.Exists(inDataPath))
                             {
@@ -907,7 +926,7 @@ public class MessagesUI : MonoBehaviour
                         loadedSprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
                     }
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     Debug.LogError($"[MessagesUI] Error loading image from '{fullPath}': {ex.Message}");
                 }

@@ -5,12 +5,9 @@ using System.IO;
 
 public class DataLoader
 {
-
     /// <summary>
-    /// Load the complete list of contacts from a JSON file
+    /// Load the complete list of contacts from a JSON file.
     /// </summary>
-    /// <param name="fileName"></param>
-    /// <returns></returns>
     public static List<Contact> LoadContacts(string fileName)
     {
         string path = Path.Combine(Application.streamingAssetsPath, fileName);
@@ -58,7 +55,51 @@ public class DataLoader
 
         string json = File.ReadAllText(path);
         NarrativeNodeListWrapper wrapper = JsonUtility.FromJson<NarrativeNodeListWrapper>(json);
-        return wrapper != null ? wrapper.narrativeNodes : new List<NarrativeNode>();
+        List<NarrativeNode> nodes = wrapper != null && wrapper.narrativeNodes != null
+            ? wrapper.narrativeNodes
+            : new List<NarrativeNode>();
+
+        EnsureChoiceReputationLinks(nodes);
+        return nodes;
+    }
+
+    /// <summary>
+    /// Automatically links narrative Choice*_Safe and Choice*_Risky options with ReputationManager
+    /// when no explicit reputationOperation was serialized in JSON, avoiding double-counting.
+    /// </summary>
+    private static void EnsureChoiceReputationLinks(List<NarrativeNode> nodes)
+    {
+        if (nodes == null) return;
+
+        const int defaultChoiceReputationDelta = 6;
+
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            NarrativeNode node = nodes[i];
+            if (node == null || node.Options() == null) continue;
+
+            Option[] options = node.Options();
+            for (int j = 0; j < options.Length; j++)
+            {
+                Option opt = options[j];
+                if (opt == null || opt.reputationOperation != ReputationOperation.None) continue;
+                if (string.IsNullOrEmpty(opt.eventToPublish)) continue;
+
+                if (opt.eventToPublish.StartsWith("Choice", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    if (opt.eventToPublish.EndsWith("_Safe", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        opt.reputationOperation = ReputationOperation.Add;
+                        opt.reputationAmount = defaultChoiceReputationDelta;
+                    }
+                    else if (opt.eventToPublish.EndsWith("_Risky", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        opt.reputationOperation = ReputationOperation.Subtract;
+                        opt.reputationAmount = defaultChoiceReputationDelta;
+                    }
+                }
+            }
+        }
     }
 
     public static List<Objective> LoadObjectives(string fileName)

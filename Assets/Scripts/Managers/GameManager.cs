@@ -29,16 +29,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        EventBus.Instance.Subscribe<string>("ChangeScene", ChangeScene);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Subscribe<string>("ChangeScene", ChangeScene);
+        }
     }
 
     private void OnDestroy()
@@ -60,21 +56,18 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the player name
+    /// Returns the player name.
     /// </summary>
-    /// <returns></returns>
     public string GetPlayerName()
     {
         return _playerName;
     }
 
     /// <summary>
-    /// Set the player name as the given one , only in case is different from the current one
+    /// Sets the player name if different from the current value.
     /// </summary>
-    /// <param name="name"></param>
     public void SetPlayerName(string name)
     {
-        // Only reasigns the value if it's a different name
         if (_playerName != name) _playerName = name;
     }
 
@@ -93,15 +86,15 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Method that sets what to do when a scene is loaded. The params are mandatory even if they are not used
+    /// Coordinates music, UI state, and Day 1 / Debug start initialization when a scene finishes loading.
     /// </summary>
-    /// <param name="scene"></param>
-    /// <param name="mode"></param>
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name.Equals("MainMenu", System.StringComparison.OrdinalIgnoreCase))
         {
             _hasEnteredHomeFirstTime = false;
+            DayManager.ClearQueuedTestStart();
+
             if (DayManager.Instance != null)
             {
                 DayManager.Instance.ResetDay();
@@ -130,6 +123,7 @@ public class GameManager : MonoBehaviour
 
             if (UIManager.Instance != null)
             {
+                UIManager.Instance.ResetConnectState();
                 UIManager.Instance.ChangeState((int)UIState.MAIN_MENU);
             }
 
@@ -152,11 +146,29 @@ public class GameManager : MonoBehaviour
             }
 
             bool isLoadingSave = SaveManager.HasInstance && SaveManager.Instance.IsLoadingSavedGame;
-            if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) && !_hasEnteredHomeFirstTime && !isLoadingSave)
+            if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) && !isLoadingSave)
             {
-                _hasEnteredHomeFirstTime = true;
-                StartCoroutine(AdvanceDayNextFrame());
+                if (DayManager.HasQueuedDebugStart)
+                {
+                    _hasEnteredHomeFirstTime = true;
+                    StartCoroutine(ApplyDebugStartNextFrame());
+                }
+                else if (!_hasEnteredHomeFirstTime)
+                {
+                    _hasEnteredHomeFirstTime = true;
+                    StartCoroutine(AdvanceDayNextFrame());
+                }
             }
+        }
+    }
+
+    private IEnumerator ApplyDebugStartNextFrame()
+    {
+        // Wait one frame so scene objects (Bed, HomeDoor, EventNodeUpdater) complete Start() subscriptions
+        yield return null;
+        if (DayManager.Instance != null)
+        {
+            DayManager.Instance.ApplyQueuedDebugStart();
         }
     }
 

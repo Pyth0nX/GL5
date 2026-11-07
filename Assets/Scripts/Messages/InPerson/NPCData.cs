@@ -3,7 +3,10 @@ using UnityEngine;
 public class NPCData : IInteractable
 {
     [SerializeField]
-    private string _characterName; // Name of the character (this need to be exactly the same as stated in the JSON)
+    private string _characterName; // Name of the character (must match contacts.json)
+
+    [Tooltip("Optional ambient line shown without entering the story conversation system.")]
+    [SerializeField, TextArea] private string _standaloneDialogue;
 
     [Header("Conditions")]
 
@@ -17,24 +20,49 @@ public class NPCData : IInteractable
     {
         base.Start();
 
-        if (_enableEvents != null)
+        if (EventBus.Instance != null)
         {
-            foreach (var ev in _enableEvents)
+            if (_enableEvents != null)
             {
-                if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, EnableInteraction);
+                foreach (var ev in _enableEvents)
+                {
+                    if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, EnableInteraction);
+                }
+            }
+
+            if (_disableEvents != null)
+            {
+                foreach (var ev in _disableEvents)
+                {
+                    if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, DisableInteraction);
+                }
             }
         }
 
-        if (_disableEvents != null)
+        if (string.IsNullOrEmpty(_interactMessage))
         {
-            foreach (var ev in _disableEvents)
-            {
-                if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, DisableInteraction);
-            }
+            _interactMessage = "Talk to " + _characterName;
         }
 
-        _interactMessage = "Talk to " + _characterName;
-        _notAvailableMessage = "Can't talk now";
+        if (string.IsNullOrEmpty(_notAvailableMessage))
+        {
+            _notAvailableMessage = "Can't talk now";
+        }
+
+        if (string.IsNullOrWhiteSpace(_standaloneDialogue) &&
+            _disableEvents != null &&
+            _disableEvents.Contains("SchoolEncounterComplete") &&
+            ObjectivesManager.Instance != null &&
+            ObjectivesManager.Instance.GetCurrentObjective() != null)
+        {
+            bool awaitingSchoolEncounter =
+                ObjectivesManager.Instance.GetCurrentObjective().EventToListen() == "SchoolEncounterComplete";
+            if (!awaitingSchoolEncounter)
+            {
+                _canInteract = false;
+                UpdateHoveredOutlineColor();
+            }
+        }
     }
 
     private void OnDestroy()
@@ -50,7 +78,7 @@ public class NPCData : IInteractable
                     if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Unsubscribe(ev, EnableInteraction);
                 }
             }
-            
+
             if (_disableEvents != null)
             {
                 foreach (var ev in _disableEvents)
@@ -77,12 +105,15 @@ public class NPCData : IInteractable
     {
         if (!_canInteract)
         {
-            Debug.Log("[NPC]: Interacted failed");
+            Debug.Log("[NPC]: Interaction unavailable");
             if (UIManager.Instance != null)
             {
-                UIManager.Instance.ShowTemporaryMessage(_notAvailableMessage, Color.darkRed, 2f);
+                UIManager.Instance.ShowTemporaryMessage(
+                    _notAvailableMessage,
+                    UIManager.UnavailableInteractionColor,
+                    2f);
             }
-            // Revert player state just in case it got stuck
+
             PlayerStateMachine playerState = FindAnyObjectByType<PlayerStateMachine>();
             if (playerState != null && playerState.GetCurrentState() == PlayerState.Interacting)
             {
@@ -93,7 +124,43 @@ public class NPCData : IInteractable
 
         Debug.Log("[NPC]: Interacted");
 
+        if (!string.IsNullOrWhiteSpace(_standaloneDialogue))
+        {
+            // Ambient NPCs must not replace the active narrative contact.
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ChangeState((int)UIState.NONE);
+            }
+
+            bool opened = DialogueManager.Instance != null &&
+                          DialogueManager.Instance.ShowStandaloneLine(
+                              _characterName,
+                              _standaloneDialogue,
+                              EndStandaloneInteraction);
+
+            if (!opened)
+            {
+                EndStandaloneInteraction();
+            }
+
+            return;
+        }
+
         MessagesManager.Instance.SetCurrentContact(_characterName);
         UIManager.Instance.ChangeState(4);
+    }
+
+    private void EndStandaloneInteraction()
+    {
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ChangeState((int)UIState.DEFAULT);
+        }
+
+        PlayerStateMachine playerState = FindAnyObjectByType<PlayerStateMachine>();
+        if (playerState != null)
+        {
+            playerState.ChangeState(PlayerState.Idle);
+        }
     }
 }

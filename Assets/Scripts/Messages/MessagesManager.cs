@@ -1,13 +1,18 @@
-using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Name = System.String;
 
+public enum MessagingChannel
+{
+    Phone,
+    Connect
+}
+
 /// <summary>
-/// Holds the list of contacts and their messages, and manages the current contact being interacted with.
+/// Holds the list of contacts and their messages across both Phone SMS and Connect channels,
+/// and manages the current contact being interacted with.
 /// </summary>
 public class MessagesManager : MonoBehaviour
 {
@@ -24,7 +29,12 @@ public class MessagesManager : MonoBehaviour
     private GalleryManager _galleryManager; // Reference to the GalleryManager component for bidirectional photo sharing
 
     [SerializeField]
-    private Dictionary<Name, List<Message>> _contactsMessages = new(); // Dictionary of List of messages for each contact, keyed by contact name
+    private Dictionary<Name, List<Message>> _contactsMessages = new(); // Dictionary of SMS messages keyed by contact name
+
+    [SerializeField]
+    private Dictionary<Name, List<Message>> _connectMessages = new(); // Dictionary of Connect social messages keyed by contact name
+
+    private MessagingChannel _currentMessagingChannel = MessagingChannel.Phone;
 
     [SerializeField]
     private List<Contact> _contacts = new(); // List of all contacts in the game
@@ -42,7 +52,7 @@ public class MessagesManager : MonoBehaviour
 
     [SerializeField]
     private string narrativeNodesFilePath = "narrativeNodes.json";
-    
+
     [SerializeField]
     private string phoneMessagesFilePath = "messages.json";
 
@@ -124,40 +134,105 @@ public class MessagesManager : MonoBehaviour
         Debug.Log($"[MessagesManager] Saved {_inspectorNarrativeNodes.Count} narrative nodes to '{path}'.");
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Gets the MessagesUI component attached to the same GameObject as this script
         _messagesUI = GetComponent<MessagesUI>();
-
-        // Gets the PhoneStateMachine component attached to the same GameObject as this script
         _phoneStateMachine = FindAnyObjectByType<PhoneStateMachine>(FindObjectsInactive.Include);
-
-        // Gets the OptionsChanger component attached to the same GameObject as this script
         _optionsChanger = GetComponent<OptionsChanger>();
-
-        // Gets the GalleryManager component in the phone hierarchy (including inactive tabs)
         _galleryManager = FindAnyObjectByType<GalleryManager>(FindObjectsInactive.Include);
+
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Subscribe("Campaign_Completed", OnNarrativeCompleted);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Unsubscribe("Campaign_Completed", OnNarrativeCompleted);
+        }
+    }
+
+    private void OnNarrativeCompleted()
+    {
+        PhoneNotificationController.Instance?.ShowNotification(
+            PhoneApp.Connect,
+            "Be You Safely - Story Complete",
+            null,
+            5f);
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowTemporaryMessage(
+                "You reached the end of Luna's five-day story.",
+                new Color(1f, 0.92f, 0.35f),
+                8f);
+        }
+
+        DialogueManager.Instance?.ShowNarration(
+            "End of Luna's 5-Day Story. You have completed the Be You Safely campaign.");
     }
 
     /// <summary>
-    /// Returns the list of all contacts in the game.
+    /// Returns the contacts belonging to the active messaging channel, sorted by most recent message timestamp.
     /// </summary>
-    /// <returns></returns>
     public List<Contact> GetContacts()
     {
-        // Sort the contacts list so it is always in order of the last message date
         SortContacts();
 
-        // Return a new list of contacts from the dictionary values
-        List<Contact> contactsList = new List<Contact>(_contacts);
+        // Both apps share the visual contact list widget while keeping separate channels and histories
+        List<Contact> contactsList = _contacts
+            .Where(contact => contact != null && GetChannelForContact(contact.Name()) == _currentMessagingChannel)
+            .ToList();
         return contactsList;
+    }
+
+    public void SetMessagingChannel(MessagingChannel channel)
+    {
+        _currentMessagingChannel = channel;
+        _currentContact = null;
+        if (_messagesUI == null)
+        {
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
+        }
+        _messagesUI?.RefreshContacts();
+    }
+
+    public MessagingChannel GetMessagingChannel()
+    {
+        return _currentMessagingChannel;
+    }
+
+    public static MessagingChannel GetChannelForContact(string contactName)
+    {
+        if (string.Equals(contactName, "Mom", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(contactName, "Dad", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(contactName, "Maya", StringComparison.OrdinalIgnoreCase))
+        {
+            return MessagingChannel.Phone;
+        }
+
+        return MessagingChannel.Connect;
+    }
+
+    public static bool IsNarration(Message message)
+    {
+        return message != null &&
+               string.Equals(message.SpeakerName(), "Narration", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private Dictionary<Name, List<Message>> GetMessageStore(string contactName)
+    {
+        return GetChannelForContact(contactName) == MessagingChannel.Phone
+            ? _contactsMessages
+            : _connectMessages;
     }
 
     /// <summary>
     /// Sets the current contact that the user is interacting with.
     /// </summary>
-    /// <param name="contactName"></param>
     public void SetCurrentContact(string contactName)
     {
         _currentContact = contactName;
@@ -166,7 +241,6 @@ public class MessagesManager : MonoBehaviour
     /// <summary>
     /// Returns the current contact that the user is interacting with.
     /// </summary>
-    /// <returns></returns>
     public Contact GetCurrentContact()
     {
         return GetContactByName(_currentContact);
@@ -176,11 +250,11 @@ public class MessagesManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(contactName)) return null;
 
-        var found = _contacts.Find(contact => string.Equals(contact.Name(), contactName, StringComparison.OrdinalIgnoreCase));
+        var found = _contacts.Find(contact => contact != null && string.Equals(contact.Name(), contactName, StringComparison.OrdinalIgnoreCase));
         if (found == null)
         {
             string normalized = contactName.Replace(" ", "").ToLower().Replace("unkown", "unknown");
-            found = _contacts.Find(contact => contact.Name().Replace(" ", "").ToLower().Replace("unkown", "unknown") == normalized);
+            found = _contacts.Find(contact => contact != null && contact.Name().Replace(" ", "").ToLower().Replace("unkown", "unknown") == normalized);
         }
         return found;
     }
@@ -191,9 +265,8 @@ public class MessagesManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the current contact that the user is interacting with.
+    /// Returns the message history for the currently selected contact.
     /// </summary>
-    /// <returns></returns>
     public List<Message> GetCurrentContactMessages()
     {
         if (string.IsNullOrEmpty(_currentContact)) return new List<Message>();
@@ -201,11 +274,12 @@ public class MessagesManager : MonoBehaviour
         Contact currentContact = GetContactByName(_currentContact);
         if (currentContact != null)
         {
-            if (!_contactsMessages.ContainsKey(currentContact.Name()))
+            Dictionary<Name, List<Message>> messageStore = GetMessageStore(currentContact.Name());
+            if (!messageStore.ContainsKey(currentContact.Name()))
             {
-                _contactsMessages[currentContact.Name()] = new List<Message>();
+                messageStore[currentContact.Name()] = new List<Message>();
             }
-            return _contactsMessages[currentContact.Name()];
+            return messageStore[currentContact.Name()];
         }
         return new List<Message>();
     }
@@ -220,7 +294,8 @@ public class MessagesManager : MonoBehaviour
         Contact contact = GetContactByName(contactName);
         string keyName = contact != null ? contact.Name() : contactName;
 
-        if (_contactsMessages.TryGetValue(keyName, out List<Message> messages) && messages != null)
+        Dictionary<Name, List<Message>> messageStore = GetMessageStore(keyName);
+        if (messageStore.TryGetValue(keyName, out List<Message> messages) && messages != null)
         {
             return messages;
         }
@@ -230,7 +305,7 @@ public class MessagesManager : MonoBehaviour
 
     /// <summary>
     /// Adds a message directly to a contact's history, updating timestamp and sorting contacts.
-    /// Also updates the active chat UI if this contact is currently open.
+    /// Also updates the active chat UI if this contact is currently open in the matching channel.
     /// </summary>
     public void AddMessageToContact(string contactName, Message message)
     {
@@ -239,12 +314,13 @@ public class MessagesManager : MonoBehaviour
         Contact contact = GetContactByName(contactName);
         string keyName = contact != null ? contact.Name() : contactName;
 
-        if (!_contactsMessages.ContainsKey(keyName))
+        Dictionary<Name, List<Message>> messageStore = GetMessageStore(keyName);
+        if (!messageStore.ContainsKey(keyName))
         {
-            _contactsMessages[keyName] = new List<Message>();
+            messageStore[keyName] = new List<Message>();
         }
 
-        _contactsMessages[keyName].Add(message);
+        messageStore[keyName].Add(message);
 
         if (contact != null)
         {
@@ -263,8 +339,11 @@ public class MessagesManager : MonoBehaviour
             _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
         }
 
-        // If this contact is currently open on screen in MessagesUI, show it live
-        if (_currentContact != null && string.Equals(_currentContact, keyName, StringComparison.OrdinalIgnoreCase) && _messagesUI != null)
+        // If this contact is currently open on screen in MessagesUI on the active channel, show it live
+        if (_currentContact != null &&
+            string.Equals(_currentContact, keyName, StringComparison.OrdinalIgnoreCase) &&
+            GetChannelForContact(keyName) == _currentMessagingChannel &&
+            _messagesUI != null)
         {
             _messagesUI.AddMessage(message);
         }
@@ -273,7 +352,7 @@ public class MessagesManager : MonoBehaviour
     /// <summary>
     /// Advances a contact's narrative node as a result of a game event.
     /// If the new node belongs to a mobile conversation and starts with an NPC message,
-    /// directly adds messages up to the first player message and fires a phone notification.
+    /// directly adds messages up to the first player message or narration boundary and fires a phone notification.
     /// </summary>
     public void AdvanceContactNarrativeNodeByEvent(string contactName, int newNarrativeNodeId)
     {
@@ -285,7 +364,7 @@ public class MessagesManager : MonoBehaviour
             contact.SetName(contactName);
             contact.SetImagePath("Assets/Sprites/UnknownProfile.png");
             _contacts.Add(contact);
-            _contactsMessages[contact.Name()] = new List<Message>();
+            GetMessageStore(contact.Name())[contact.Name()] = new List<Message>();
         }
 
         int resolvedNodeId = ResolveEntryRedirects(newNarrativeNodeId);
@@ -300,7 +379,6 @@ public class MessagesManager : MonoBehaviour
             return;
         }
 
-        // Check if the new narrative node belongs to a mobile phone conversation
         bool isPhoneConversation = newNode.DialogueType() == DialogueType.PHONE;
         if (!isPhoneConversation && (string.Equals(contact.Name(), "Unknown Number", StringComparison.OrdinalIgnoreCase) ||
                                      string.Equals(contact.Name(), "Unkown Number", StringComparison.OrdinalIgnoreCase)))
@@ -320,7 +398,7 @@ public class MessagesManager : MonoBehaviour
                 for (int i = 0; i < dialogues.Count; i++)
                 {
                     Message msg = dialogues[i];
-                    if (msg.Sender() == Sender.NPC)
+                    if (msg.Sender() == Sender.NPC && !IsNarration(msg))
                     {
                         if (firstNpcMessage == null)
                         {
@@ -332,7 +410,7 @@ public class MessagesManager : MonoBehaviour
                     }
                     else
                     {
-                        // Stop at the first player message
+                        // Player messages and narration lines are interactive boundaries
                         nextIndex = i;
                         break;
                     }
@@ -340,34 +418,38 @@ public class MessagesManager : MonoBehaviour
 
                 contact.SetCurrentMessageIndex(nextIndex);
 
-                // If there are remaining dialogues (player's turn) or options, mark has new messages
-                bool hasMore = (nextIndex < dialogues.Count) || newNode.HasOptions();
+                // Keep the conversation pending even when all NPC lines were preloaded into history so
+                // opening the contact allows DialogueButton to complete the node and publish EventOnEnd.
+                bool hasMore = addedCount > 0 || (nextIndex < dialogues.Count) || newNode.HasOptions();
                 contact.SetHasNewMessages(hasMore);
 
                 SortContacts();
 
-                // Trigger Phone Notification
+                PhoneApp notificationApp = GetChannelForContact(contact.Name()) == MessagingChannel.Connect
+                    ? PhoneApp.Connect
+                    : PhoneApp.Messages;
+
                 if (addedCount == 1 && firstNpcMessage != null)
                 {
-                    string rawSenderName = !string.IsNullOrEmpty(firstNpcMessage.SpeakerName()) 
-                        ? firstNpcMessage.SpeakerName() 
+                    string rawSenderName = !string.IsNullOrEmpty(firstNpcMessage.SpeakerName())
+                        ? firstNpcMessage.SpeakerName()
                         : (!string.IsNullOrEmpty(contact.Name()) ? contact.Name() : contactName);
 
                     string formattedContactName = FormatContactNameForNotification(rawSenderName);
                     string notificationBody = $"{formattedContactName}: {firstNpcMessage.Content()}";
 
-                    PhoneNotificationController.Instance?.ShowNotification(PhoneApp.Messages, notificationBody);
+                    PhoneNotificationController.Instance?.ShowNotification(notificationApp, notificationBody);
                 }
                 else if (addedCount > 1)
                 {
-                    PhoneNotificationController.Instance?.ShowNotification(PhoneApp.Messages, "New unread messages");
+                    PhoneNotificationController.Instance?.ShowNotification(notificationApp, "New unread messages");
                 }
             }
             else
             {
-                // First message is player or no dialogues
+                // First message is player, narration, or empty dialogue list with options
                 contact.SetCurrentMessageIndex(0);
-                contact.SetHasNewMessages(dialogues != null && dialogues.Count > 0);
+                contact.SetHasNewMessages((dialogues != null && dialogues.Count > 0) || newNode.HasOptions());
             }
         }
         else
@@ -378,20 +460,140 @@ public class MessagesManager : MonoBehaviour
 
         SortContacts();
 
-        // Refresh contact list in MessagesUI so new/updated contact appears immediately
         if (_messagesUI == null)
         {
             _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
         }
         _messagesUI?.RefreshContacts();
 
-        Debug.Log($"[MessagesManager] Successfully advanced contact '{contactName}' to node {newNarrativeNodeId} by event.");
+        Debug.Log($"[MessagesManager] Successfully advanced contact '{contactName}' to node {resolvedNodeId} by event.");
     }
 
     /// <summary>
-    /// Formats a contact or speaker name for single-message notifications:
-    /// Maximum 10 characters. If greater than 10 characters, truncates to 9 characters and appends '-'.
+    /// Moves a contact to a completed narrative node without adding messages, unread badges, or notifications.
+    /// Used by the debug day-skipper so the following day starts from the same functional state as a played day.
     /// </summary>
+    public void SetContactNarrativeStateSilently(string contactName, int narrativeNodeId)
+    {
+        Contact contact = GetContactByName(contactName);
+        if (contact == null)
+        {
+            contact = new Contact();
+            contact.SetName(contactName);
+            contact.SetImagePath("Assets/Sprites/UnknownProfile.png");
+            _contacts.Add(contact);
+            GetMessageStore(contact.Name())[contact.Name()] = new List<Message>();
+        }
+
+        contact.SetNarrativeNode(narrativeNodeId);
+
+        NarrativeNode node = GetNarrativeNode(narrativeNodeId);
+        int completedMessageIndex = node?.GetActiveDialogues()?.Count ?? 0;
+        contact.SetCurrentMessageIndex(completedMessageIndex);
+        contact.SetHasNewMessages(false);
+
+        SortContacts();
+
+        if (_messagesUI == null)
+        {
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
+        }
+
+        _messagesUI?.RefreshContacts();
+        Debug.Log($"[MessagesManager] Silently set '{contactName}' to completed node {narrativeNodeId}.");
+    }
+
+    /// <summary>
+    /// Clears only the Connect/social histories before rebuilding a debug day-skip snapshot.
+    /// The original SMS conversations with Mom, Dad, and Maya are preserved.
+    /// </summary>
+    public void BeginTestSkipHistoryRebuild()
+    {
+        _connectMessages.Clear();
+
+        foreach (Contact contact in _contacts)
+        {
+            if (contact == null || GetChannelForContact(contact.Name()) != MessagingChannel.Connect) continue;
+
+            _connectMessages[contact.Name()] = new List<Message>();
+            contact.SetLastMessageDate(default);
+            contact.SetHasNewMessages(false);
+            contact.SetCurrentMessageIndex(0);
+        }
+    }
+
+    /// <summary>
+    /// Adds completed phone dialogue to a contact without animations, notifications, or narrative events.
+    /// Narration and in-person nodes are excluded because they are never chat bubbles during normal play.
+    /// </summary>
+    public void AppendTestSkipHistory(string contactName, int storyDay, params int[] narrativeNodeIds)
+    {
+        if (string.IsNullOrWhiteSpace(contactName) || narrativeNodeIds == null) return;
+
+        Contact contact = GetContactByName(contactName);
+        if (contact == null)
+        {
+            contact = new Contact();
+            contact.SetName(contactName);
+            contact.SetImagePath("Assets/Sprites/UnknownProfile.png");
+            _contacts.Add(contact);
+        }
+
+        Dictionary<Name, List<Message>> messageStore = GetMessageStore(contact.Name());
+        if (!messageStore.TryGetValue(contact.Name(), out List<Message> history))
+        {
+            history = new List<Message>();
+            messageStore[contact.Name()] = history;
+        }
+
+        foreach (int nodeId in narrativeNodeIds)
+        {
+            NarrativeNode node = GetNarrativeNode(nodeId);
+            if (node == null || node.DialogueType() != DialogueType.PHONE) continue;
+
+            foreach (Message sourceMessage in node.GetActiveDialogues())
+            {
+                if (sourceMessage == null || IsNarration(sourceMessage)) continue;
+
+                int messageNumber = history.Count;
+                Date timestamp = new()
+                {
+                    day = Mathf.Clamp(storyDay, 1, 31),
+                    month = 10,
+                    year = 2026,
+                    hour = 8 + Mathf.Min(14, messageNumber / 6),
+                    minute = (messageNumber * 7) % 60
+                };
+
+                Message historicalMessage = new(
+                    sourceMessage.Content(),
+                    sourceMessage.Sender(),
+                    sourceMessage.SpeakerName(),
+                    timestamp,
+                    sourceMessage.ImagePath(),
+                    sourceMessage.Type());
+
+                history.Add(historicalMessage);
+                contact.SetLastMessageDate(timestamp);
+            }
+        }
+
+        contact.SetHasNewMessages(false);
+    }
+
+    public void CompleteTestSkipHistoryRebuild()
+    {
+        SortContacts();
+
+        if (_messagesUI == null)
+        {
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
+        }
+
+        _messagesUI?.RefreshContacts();
+        Debug.Log("[MessagesManager] Rebuilt completed chat history for debug day skip.");
+    }
+
     private string FormatContactNameForNotification(string name)
     {
         if (string.IsNullOrEmpty(name)) return "Unknown";
@@ -490,15 +692,18 @@ public class MessagesManager : MonoBehaviour
 
     public bool ContactHasMessages(string contactName)
     {
-        if (_contactsMessages.ContainsKey(contactName))
+        if (string.IsNullOrEmpty(contactName)) return false;
+
+        Dictionary<Name, List<Message>> messageStore = GetMessageStore(contactName);
+        if (messageStore.TryGetValue(contactName, out List<Message> messages) && messages != null)
         {
-            return _contactsMessages[contactName].Count > 0;
+            return messages.Count > 0;
         }
         return false;
     }
 
     /// <summary>
-    /// Returns true if the specified contact has at least one received message (Sender.NPC) in their phone history.
+    /// Returns true if the specified contact has at least one received message (Sender.NPC) in their channel history.
     /// </summary>
     public bool ContactHasReceivedMessages(string contactName)
     {
@@ -507,7 +712,8 @@ public class MessagesManager : MonoBehaviour
         Contact contact = GetContactByName(contactName);
         string keyName = contact != null ? contact.Name() : contactName;
 
-        if (_contactsMessages.TryGetValue(keyName, out List<Message> messages) && messages != null)
+        Dictionary<Name, List<Message>> messageStore = GetMessageStore(keyName);
+        if (messageStore.TryGetValue(keyName, out List<Message> messages) && messages != null)
         {
             for (int i = 0; i < messages.Count; i++)
             {
@@ -523,17 +729,23 @@ public class MessagesManager : MonoBehaviour
 
     /// <summary>
     /// Returns all active/writable contacts sorted by most recent message date.
-    /// Filters contacts that already have received messages (or any message history if onlyWithReceivedMessages is false).
+    /// Connect contacts are included only once Connect is installed.
     /// </summary>
     public List<Contact> GetWritableContacts(bool onlyWithReceivedMessages = true)
     {
         SortContacts();
         List<Contact> writable = new List<Contact>();
+        bool connectAvailable = UIManager.Instance == null || UIManager.Instance.IsConnectInstalled;
 
         for (int i = 0; i < _contacts.Count; i++)
         {
             Contact contact = _contacts[i];
             if (contact == null) continue;
+
+            if (GetChannelForContact(contact.Name()) == MessagingChannel.Connect && !connectAvailable)
+            {
+                continue;
+            }
 
             bool isValid = onlyWithReceivedMessages
                 ? ContactHasReceivedMessages(contact.Name())
@@ -589,8 +801,8 @@ public class MessagesManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Opens the Messaging screen on the specified contact's conversation, loading its historical messages
-    /// and restoring any pending narrative dialogue or decision UI.
+    /// Opens the Messaging screen on the specified contact's conversation, switching to its channel,
+    /// loading its historical messages, and restoring any pending narrative dialogue or decision UI.
     /// </summary>
     public void OpenContactConversation(string contactName)
     {
@@ -599,6 +811,7 @@ public class MessagesManager : MonoBehaviour
         Contact contact = GetContactByName(contactName);
         string resolvedName = contact != null ? contact.Name() : contactName;
 
+        _currentMessagingChannel = GetChannelForContact(resolvedName);
         SetCurrentContact(resolvedName);
 
         PhoneStateMachine stateMachine = GetPhoneStateMachine();
@@ -615,6 +828,7 @@ public class MessagesManager : MonoBehaviour
 
         if (_messagesUI != null)
         {
+            _messagesUI.RefreshContacts();
             _messagesUI.SetContactName(resolvedName);
             _messagesUI.CreateMessages();
         }
@@ -657,10 +871,8 @@ public class MessagesManager : MonoBehaviour
             MessagesUI.RegisterSpriteInCache(imageKey, sprite);
         }
 
-        // 1. Open the contact conversation loading its previous history
         OpenContactConversation(contactName);
 
-        // 2. Build and inject the player's new image message
         string playerName = GameManager.Instance != null ? (GameManager.Instance.GetPlayerName() ?? "") : "";
         Date timestamp = GenerateNextMessageTimestamp();
         Message imageMessage = new Message(
@@ -675,9 +887,8 @@ public class MessagesManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Update the message list of the current contact with a new message
+    /// Updates the message list of the current contact with a new message.
     /// </summary>
-    /// <param name="message"></param>
     public void SendMessageToCurrentContact(Message message)
     {
         if (string.IsNullOrEmpty(_currentContact) || message == null)
@@ -689,11 +900,12 @@ public class MessagesManager : MonoBehaviour
         Contact contact = GetContactByName(_currentContact);
         string keyName = contact != null ? contact.Name() : _currentContact;
 
-        if (!_contactsMessages.ContainsKey(keyName))
+        Dictionary<Name, List<Message>> messageStore = GetMessageStore(keyName);
+        if (!messageStore.ContainsKey(keyName))
         {
-            _contactsMessages[keyName] = new List<Message>();
+            messageStore[keyName] = new List<Message>();
         }
-        _contactsMessages[keyName].Add(message);
+        messageStore[keyName].Add(message);
 
         if (contact != null)
         {
@@ -714,14 +926,10 @@ public class MessagesManager : MonoBehaviour
     /// Sorts the contacts list based on the last message date, with the most recent messages appearing first.
     /// </summary>
     private void SortContacts()
-    { 
+    {
         _contacts = _contacts.OrderByDescending(val => val.LastMessageDate()).ToList();
     }
 
-    /// <summary>
-    /// Returns the PhoneStateMachine component attached to the same GameObject as this script.
-    /// </summary>
-    /// <returns></returns>
     public PhoneStateMachine GetPhoneStateMachine()
     {
         if (_phoneStateMachine == null)
@@ -731,9 +939,6 @@ public class MessagesManager : MonoBehaviour
         return _phoneStateMachine;
     }
 
-    /// <summary>
-    /// Returns the GalleryManager component in the phone interface.
-    /// </summary>
     public GalleryManager GetGalleryManager()
     {
         if (_galleryManager == null)
@@ -745,27 +950,27 @@ public class MessagesManager : MonoBehaviour
         return _galleryManager;
     }
 
-    /// <summary>
-    /// Returns the MessagesUI component attached to the same GameObject as this script.
-    /// </summary>
-    /// <returns></returns>
     public MessagesUI GetMessagesUI()
     {
+        if (_messagesUI == null)
+        {
+            _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
+        }
         return _messagesUI;
     }
 
     public OptionsChanger GetOptionsChanger()
     {
+        if (_optionsChanger == null)
+        {
+            _optionsChanger = GetComponent<OptionsChanger>();
+        }
         return _optionsChanger;
     }
 
-    /// <summary>
-    /// Creates the contacts by loading them from the specified JSON file and adding them to the contacts dictionary.
-    /// </summary>
     private void CreateContacts()
     {
-        // read the contacts info from the JSON
-        _contacts = DataLoader.LoadContacts(contactsFilePath);
+        _contacts = DataLoader.LoadContacts(contactsFilePath) ?? new List<Contact>();
     }
 
     private void CreateMessages()
@@ -776,12 +981,15 @@ public class MessagesManager : MonoBehaviour
         {
             foreach (ContactPhoneMessages contactMessages in contactPhoneMessages)
             {
-                _contactsMessages[contactMessages.ContactName()] = contactMessages.Messages() ?? new List<Message>();
+                if (contactMessages == null || string.IsNullOrEmpty(contactMessages.ContactName())) continue;
+
+                Dictionary<Name, List<Message>> messageStore = GetMessageStore(contactMessages.ContactName());
+                messageStore[contactMessages.ContactName()] = contactMessages.Messages() ?? new List<Message>();
                 if (contactMessages.Messages() != null && contactMessages.Messages().Count > 0)
                 {
                     Message lastMsg = contactMessages.Messages()[contactMessages.Messages().Count - 1];
                     Contact contact = GetContactByName(contactMessages.ContactName());
-                    if (contact != null)
+                    if (contact != null && lastMsg != null)
                     {
                         contact.SetLastMessageDate(lastMsg.Timestamp());
                     }
@@ -789,14 +997,17 @@ public class MessagesManager : MonoBehaviour
             }
         }
 
-        // Ensure every contact in _contacts has an entry in _contactsMessages
+        // Ensure every contact in _contacts has an initialized entry in its channel message store
         if (_contacts != null)
         {
             foreach (Contact contact in _contacts)
             {
-                if (!_contactsMessages.ContainsKey(contact.Name()))
+                if (contact == null || string.IsNullOrEmpty(contact.Name())) continue;
+
+                Dictionary<Name, List<Message>> messageStore = GetMessageStore(contact.Name());
+                if (!messageStore.ContainsKey(contact.Name()))
                 {
-                    _contactsMessages[contact.Name()] = new List<Message>();
+                    messageStore[contact.Name()] = new List<Message>();
                 }
             }
         }
@@ -805,12 +1016,14 @@ public class MessagesManager : MonoBehaviour
     #region Save & Load Integration
 
     /// <summary>
-    /// Resets all contacts, active narrative nodes, and chat histories back to their initial JSON state.
+    /// Resets all contacts, active narrative nodes, and chat histories across both Phone and Connect back to JSON defaults.
     /// </summary>
     public void ResetToInitialState()
     {
         _currentContact = null;
+        _currentMessagingChannel = MessagingChannel.Phone;
         _contactsMessages.Clear();
+        _connectMessages.Clear();
         CreateContacts();
         CreateMessages();
         SortContacts();
@@ -832,7 +1045,7 @@ public class MessagesManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Exports every contact's current narrative node ID, progress index, unread state, and chat history.
+    /// Exports every contact's current narrative node ID, progress index, unread state, and chat history across both channels.
     /// </summary>
     public List<ContactNarrativeSaveData> ExportContactsSaveData()
     {
@@ -845,7 +1058,8 @@ public class MessagesManager : MonoBehaviour
             if (contact == null || string.IsNullOrEmpty(contact.Name())) continue;
 
             List<Message> historyCopy = new List<Message>();
-            if (_contactsMessages.TryGetValue(contact.Name(), out List<Message> history) && history != null)
+            Dictionary<Name, List<Message>> messageStore = GetMessageStore(contact.Name());
+            if (messageStore.TryGetValue(contact.Name(), out List<Message> history) && history != null)
             {
                 historyCopy.AddRange(history);
             }
@@ -866,12 +1080,14 @@ public class MessagesManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Restores contacts' narrative node IDs, message indices, unread flags, and phone chat histories from saved data.
+    /// Restores contacts' narrative node IDs, message indices, unread flags, and chat histories across both channels.
     /// </summary>
     public void RestoreContactsSaveData(List<ContactNarrativeSaveData> savedContacts)
     {
         _currentContact = null;
+        _currentMessagingChannel = MessagingChannel.Phone;
         _contactsMessages.Clear();
+        _connectMessages.Clear();
         CreateContacts();
         CreateMessages();
 
@@ -904,7 +1120,8 @@ public class MessagesManager : MonoBehaviour
 
                 if (entry.chatHistory != null)
                 {
-                    _contactsMessages[contact.Name()] = new List<Message>(entry.chatHistory);
+                    Dictionary<Name, List<Message>> messageStore = GetMessageStore(contact.Name());
+                    messageStore[contact.Name()] = new List<Message>(entry.chatHistory);
 
                     for (int m = 0; m < entry.chatHistory.Count; m++)
                     {

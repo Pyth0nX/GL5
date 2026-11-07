@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -9,10 +11,18 @@ public class ObjectivesManager : MonoBehaviour
 
     [SerializeField] private string _objectivesFileName = "objectives.json";
 
+    [Header("Day 1 - Scene 1")]
+    [Tooltip("How long Luna can explore her bedroom before the objective changes to Go to school.")]
+    [SerializeField, Min(0f)] private float _day1BedroomExploreDuration = 30f;
+
+    private const int Day1BedroomExploreObjectiveId = 0;
+    private const string Day1BedroomExploreCompleteEvent = "D1_ExploreTimerComplete";
+
     [SerializeField]
     private Dictionary<int, Objective> _objectives = new Dictionary<int, Objective>();
     private Objective _currentObjective;
     private int _currentProgress = 0;
+    private Coroutine _day1BedroomExploreTimer;
 
     /// <summary>
     /// Triggered when the current objective changes or its progress updates.
@@ -71,6 +81,15 @@ public class ObjectivesManager : MonoBehaviour
     {
         return _currentObjective;
     }
+
+    public Objective GetObjectiveById(int objectiveId)
+    {
+        if (_objectives != null && _objectives.TryGetValue(objectiveId, out Objective objective))
+        {
+            return objective;
+        }
+        return null;
+    }
     
     public int GetCurrentProgress()
     {
@@ -112,8 +131,19 @@ public class ObjectivesManager : MonoBehaviour
         return desc;
     }
 
+    private void StopTimedObjective()
+    {
+        if (_day1BedroomExploreTimer != null)
+        {
+            StopCoroutine(_day1BedroomExploreTimer);
+            _day1BedroomExploreTimer = null;
+        }
+    }
+
     private void UnsubscribeFromCurrentObjective()
     {
+        StopTimedObjective();
+
         if (_currentObjective == null || EventBus.Instance == null)
         {
             return;
@@ -194,6 +224,7 @@ public class ObjectivesManager : MonoBehaviour
         }
 
         OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
+        UpdateTimedObjective();
     }
 
     private void SubscribeToCurrentObjective()
@@ -211,9 +242,62 @@ public class ObjectivesManager : MonoBehaviour
         {
             EventBus.Instance.Subscribe(_currentObjective.EventToActivate(), OnObjectiveActivated);
         }
-
             
         OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
+        UpdateTimedObjective();
+    }
+
+    private void UpdateTimedObjective()
+    {
+        StopTimedObjective();
+
+        if (_currentObjective != null && _currentObjective.Id() == Day1BedroomExploreObjectiveId)
+        {
+            _day1BedroomExploreTimer = StartCoroutine(Day1BedroomExploreRoutine());
+        }
+    }
+
+    private IEnumerator Day1BedroomExploreRoutine()
+    {
+        // Give scene Start methods one frame before checking transition and scene state
+        yield return null;
+
+        float elapsed = 0f;
+        while (elapsed < _day1BedroomExploreDuration)
+        {
+            bool inHomeScene = string.Equals(SceneManager.GetActiveScene().name, "Home", StringComparison.OrdinalIgnoreCase);
+            bool transitioning = TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning;
+
+            if (inHomeScene && !transitioning)
+            {
+                elapsed += Time.deltaTime;
+            }
+
+            yield return null;
+        }
+
+        _day1BedroomExploreTimer = null;
+
+        if (_currentObjective != null &&
+            _currentObjective.Id() == Day1BedroomExploreObjectiveId &&
+            EventBus.Instance != null)
+        {
+            EventBus.Instance.Publish(Day1BedroomExploreCompleteEvent);
+        }
+    }
+
+    /// <summary>
+    /// Completes the Day 1 bedroom exploration timer immediately (used for debug/testing).
+    /// </summary>
+    public void CompleteDay1ExploreTimerImmediately()
+    {
+        if (_currentObjective != null &&
+            _currentObjective.Id() == Day1BedroomExploreObjectiveId &&
+            EventBus.Instance != null)
+        {
+            StopTimedObjective();
+            EventBus.Instance.Publish(Day1BedroomExploreCompleteEvent);
+        }
     }
 
     private void OnObjectiveProgressed()
@@ -251,6 +335,7 @@ public class ObjectivesManager : MonoBehaviour
             else
             {
                 _currentObjective = null;
+                _currentProgress = 0;
                 OnObjectiveUpdated?.Invoke(null, 0);
             }
         }

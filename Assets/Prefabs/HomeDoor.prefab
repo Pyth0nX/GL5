@@ -140,17 +140,19 @@ MonoBehaviour:
     _intValue: 0
     _floatValue: 0
     _boolValue: 0
-  - _eventName: Day1_GoToSchool
-    _dataType: 0
-    _stringValue: 
-    _intValue: 0
-    _floatValue: 0
-    _boolValue: 0
   _instantAction: 1
   _enableEvents:
-  - Day1_Convo1_End
-  - Day2_Convo1_End
-  _disableEvents: []
+  - D1_ExploreTimerComplete
+  - D2_Morning_End
+  - D3_Morning_End
+  - D4_Morning_End
+  - D5_Morning_End
+  _disableEvents:
+  - Start_Day1
+  - Start_Day2
+  - Start_Day3
+  - Start_Day4
+  - Start_Day5
   _disabledEventsToPublish: []
 --- !u!114 &8793818882028157772
 MonoBehaviour:

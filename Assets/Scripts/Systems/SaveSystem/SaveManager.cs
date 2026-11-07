@@ -158,6 +158,23 @@ public class SaveManager : MonoBehaviour
     #region Public Save & Load API
 
     /// <summary>
+    /// Detaches any active save slot so debug/testing jumps do not overwrite user save files.
+    /// </summary>
+    public void DetachActiveSlotForDebugSession()
+    {
+        if (_deferredAutoSaveCoroutine != null)
+        {
+            StopCoroutine(_deferredAutoSaveCoroutine);
+            _deferredAutoSaveCoroutine = null;
+        }
+
+        _activeSlotIndex = -1;
+        _isLoadingSavedGame = false;
+        _pendingLoadData = null;
+        _pendingInitialNewGameSave = false;
+    }
+
+    /// <summary>
     /// Saves the complete runtime game state into the specified slot index as JSON on disk.
     /// </summary>
     /// <param name="slotIndex">Zero-based slot index (e.g. 0, 1, 2).</param>
@@ -524,6 +541,14 @@ public class SaveManager : MonoBehaviour
             ? Mathf.Max(1, DayManager.Instance.GetCurrentDay())
             : 1;
 
+        int narrativeRisk = DayManager.Instance != null
+            ? DayManager.Instance.NarrativeRiskScore
+            : 0;
+
+        bool connectDownload = UIManager.Instance != null && UIManager.Instance.IsConnectDownloadAvailable;
+        bool connectInstalled = UIManager.Instance != null && UIManager.Instance.IsConnectInstalled;
+        bool connectProfile = UIManager.Instance != null && UIManager.Instance.IsConnectProfileCreated;
+
         List<ContactNarrativeSaveData> contactsProgress = MessagesManager.Instance != null
             ? MessagesManager.Instance.ExportContactsSaveData()
             : new List<ContactNarrativeSaveData>();
@@ -553,10 +578,14 @@ public class SaveManager : MonoBehaviour
             playerPosition = new SerializableVector3(playerPos),
             playerRotationY = playerRotY,
             reputationValue = currentRep,
+            narrativeRiskScore = narrativeRisk,
             currentDay = currentDay,
             currentObjectiveId = objectiveId,
             currentObjectiveProgress = objectiveProgress,
             isCurrentObjectiveActive = isObjectiveActive,
+            connectDownloadAvailable = connectDownload,
+            connectInstalled = connectInstalled,
+            connectProfileCreated = connectProfile,
             contactNarrativeProgress = contactsProgress,
             decisionVariables = decisionVars,
             unlockedGalleryPhotos = unlockedPhotos,
@@ -566,6 +595,8 @@ public class SaveManager : MonoBehaviour
 
     private void RestorePersistentManagersState(GameSaveData saveData)
     {
+        DayManager.ClearQueuedTestStart();
+
         if (GameManager.Instance != null)
         {
             // Prevent GameManager from firing initial Day 1 advancement when loading into Home
@@ -575,6 +606,7 @@ public class SaveManager : MonoBehaviour
         if (DayManager.Instance != null)
         {
             DayManager.Instance.SetCurrentDay(Mathf.Max(1, saveData.currentDay));
+            DayManager.Instance.SetNarrativeRiskScore(saveData.narrativeRiskScore);
         }
 
         if (DecisionDataManager.Instance != null)
@@ -587,6 +619,8 @@ public class SaveManager : MonoBehaviour
         {
             reputationManager.RestoreReputation(saveData.reputationValue);
         }
+
+        ApplySavedConnectState(saveData);
 
         if (MessagesManager.Instance != null)
         {
@@ -610,8 +644,27 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    private static void ApplySavedConnectState(GameSaveData saveData)
+    {
+        if (UIManager.Instance == null || saveData == null) return;
+
+        if (saveData.currentDay >= 2 && !saveData.connectInstalled)
+        {
+            UIManager.Instance.RestoreConnectState(true, true, true);
+        }
+        else
+        {
+            UIManager.Instance.RestoreConnectState(
+                saveData.connectDownloadAvailable,
+                saveData.connectInstalled,
+                saveData.connectProfileCreated);
+        }
+    }
+
     private void ResetAllRuntimeSystemsForNewGame()
     {
+        DayManager.ClearQueuedTestStart();
+
         if (GameManager.Instance != null)
         {
             GameManager.Instance.SetHasEnteredHomeFirstTime(false);
@@ -631,6 +684,11 @@ public class SaveManager : MonoBehaviour
         if (reputationManager != null)
         {
             reputationManager.ResetReputation();
+        }
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ResetConnectState();
         }
 
         if (MessagesManager.Instance != null)
@@ -654,6 +712,7 @@ public class SaveManager : MonoBehaviour
             ApplyPlayerSpawnTransform(saveData);
         }
 
+        ApplySavedConnectState(saveData);
         RestoreSceneInteractables(SceneManager.GetActiveScene(), saveData.sceneInteractables);
 
         // Re-broadcast objective and reputation states so newly initialized HUD elements update

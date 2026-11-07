@@ -145,13 +145,7 @@ MonoBehaviour:
     _intValue: 0
     _floatValue: 0
     _boolValue: 0
-  - _eventName: Day1_End
-    _dataType: 0
-    _stringValue: 
-    _intValue: 0
-    _floatValue: 0
-    _boolValue: 0
-  - _eventName: Day2_End
+  - _eventName: StoryDaySleep
     _dataType: 0
     _stringValue: 
     _intValue: 0
@@ -159,12 +153,16 @@ MonoBehaviour:
     _boolValue: 0
   _instantAction: 1
   _enableEvents:
-  - Day1_NightConvo_End
-  - Day2_End
+  - D1_Evening_End
+  - D2_NoahTeaser_End
+  - D3_Noah_End
+  - D4_RileyIntro_End
   _disableEvents:
   - Start_Day1
   - Start_Day2
   - Start_Day3
+  - Start_Day4
+  - Start_Day5
   _disabledEventsToPublish: []
 --- !u!114 &5729827464833882921
 MonoBehaviour:

@@ -118,7 +118,7 @@ public class OptionsChanger : MonoBehaviour
     }
 
     /// <summary>
-    /// Update the buttons texts with the current node info, filtering/locking options by Reputation conditions,
+    /// Updates the buttons texts with the current node info, filtering/locking options by Reputation conditions,
     /// and adapting layout for 1, 2, 3, or 4 visible options.
     /// </summary>
     private void UpdateButtonsTexts()
@@ -175,7 +175,7 @@ public class OptionsChanger : MonoBehaviour
                         helper.SetOptionIndex(entry.realOptionIndex);
                     }
 
-                    var textComponent = btn.GetComponentInChildren<TextMeshProUGUI>();
+                    var textComponent = btn.GetComponentInChildren<TextMeshProUGUI>(true);
                     if (textComponent != null)
                     {
                         string displayText = (!entry.isUnlocked && !string.IsNullOrEmpty(entry.option.lockedText))
@@ -215,12 +215,6 @@ public class OptionsChanger : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void ChangeOptions(int selectedOptionId)
     {
         if (_currentNode == null || !_currentNode.HasOptions() ||
@@ -235,21 +229,25 @@ public class OptionsChanger : MonoBehaviour
             return;
         }
 
-        if (DialogueManager.Instance != null)
+        Contact contact = MessagesManager.Instance != null ? MessagesManager.Instance.GetCurrentContact() : null;
+        if (contact == null)
         {
-            DialogueManager.Instance.SetHasActiveDecision(false);
+            Debug.LogWarning("[OptionsChanger] No contact is selected.");
+            return;
         }
 
-        // 1. Apply the Reputation/Safety impact first so subsequent branches reflect the updated state
+        // Hide the choice overlay before starting the selected branch and restore click-to-advance
+        ActiveDecisionsPanel(false);
+
+        // 1. Apply the Reputation/Safety impact first so subsequent branches and anxiety VFX reflect the updated state
         selectedOption.ApplyReputationImpact();
 
-        // 2. Publish optional event on the EventBus
+        // 2. Publish optional event on the EventBus (e.g., Choice1_Safe / Choice1_Neutral / Choice1_Risky)
         PublishOptionEvent(selectedOption);
 
         DialogueType lastType = _currentNode.DialogueType();
-        Contact contact = MessagesManager.Instance.GetCurrentContact();
 
-        // 3. Resolve the next node by evaluating conditional reputation branches (both on the option and upon entering the target node)
+        // 3. Resolve the next node by evaluating conditional reputation branches
         int targetNodeId = selectedOption.ResolveNextNode();
         targetNodeId = MessagesManager.Instance.ResolveEntryRedirects(targetNodeId);
 
@@ -257,12 +255,6 @@ public class OptionsChanger : MonoBehaviour
         contact.SetCurrentMessageIndex(0);
 
         _currentNode = MessagesManager.Instance.GetCurrentContactNarrativeNode();
-
-        // If the new node doesn't have options, close the decisions panel
-        if (_currentNode == null || !_currentNode.HasOptions())
-        {
-            _decisionsPanel.SetActive(false);
-        }
 
         if (lastType == DialogueType.PHONE)
         {
@@ -279,7 +271,12 @@ public class OptionsChanger : MonoBehaviour
                 if (_currentNode.GetActiveDialogues().Count > 0)
                 {
                     contact.SetHasNewMessages(true);
-                    MessagesManager.Instance.GetPhoneStateMachine().ShowDialogueTab();
+                    MessagesManager.Instance.GetPhoneStateMachine()?.ShowDialogueTab();
+                }
+                else if (_currentNode.HasOptions())
+                {
+                    ActiveDecisionsPanel(true);
+                    MessagesManager.Instance.GetPhoneStateMachine()?.ShowDecisionsTab();
                 }
             }
         }
@@ -289,11 +286,6 @@ public class OptionsChanger : MonoBehaviour
             {
                 DialogueManager.Instance.StartDialogue();
             }
-        }
-
-        if (_currentNode != null && _currentNode.HasOptions())
-        {
-            UpdateButtonsTexts();
         }
     }
 
@@ -338,11 +330,21 @@ public class OptionsChanger : MonoBehaviour
 
     public void ActiveDecisionsPanel(bool isActive)
     {
-        _decisionsPanel.SetActive(isActive);
+        if (_decisionsPanel != null)
+        {
+            _decisionsPanel.SetActive(isActive);
+            if (isActive)
+            {
+                _decisionsPanel.transform.SetAsLastSibling();
+            }
+        }
+
         if (DialogueManager.Instance != null)
         {
             DialogueManager.Instance.SetHasActiveDecision(isActive);
+            DialogueManager.Instance.SetChoiceMode(isActive);
         }
+
         if (isActive && _currentNode != null && _currentNode.HasOptions())
         {
             UpdateButtonsTexts();

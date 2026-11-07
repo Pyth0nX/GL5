@@ -412,9 +412,22 @@ public class UIHoverFeedback : MonoBehaviour,
                 : _initialScale;
         }
 
-        if (_targetGraphic != null && _hasCapturedInitialState)
+        if (_enableColorTint && _targetGraphic != null && _hasCapturedInitialState)
         {
-            _targetGraphic.color = (highlighted && _enableColorTint) ? _hoverTintColor : _initialColor;
+            _targetGraphic.color = highlighted ? _hoverTintColor : _initialColor;
+        }
+    }
+
+    /// <summary>
+    /// Updates the resting color used by hover tint transitions without overwriting custom toggle colors when idle.
+    /// </summary>
+    public void SetBaseColor(Color color)
+    {
+        CaptureInitialState();
+        _initialColor = color;
+        if (_targetGraphic != null && !(_isHovered && _enableColorTint))
+        {
+            _targetGraphic.color = color;
         }
     }
 
@@ -530,7 +543,7 @@ public class UIHoverFeedback : MonoBehaviour,
             _borderContainer.gameObject.SetActive(false);
         }
 
-        if (_targetGraphic != null && _hasCapturedInitialState)
+        if (_enableColorTint && _targetGraphic != null && _hasCapturedInitialState)
         {
             _targetGraphic.color = _initialColor;
         }
