@@ -135,7 +135,8 @@ public class UIManager : MonoBehaviour
     {
         RefreshDayTracker();
 
-        if (DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen)
+        if ((DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen) ||
+            (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning))
         {
             return;
         }
@@ -201,6 +202,11 @@ public class UIManager : MonoBehaviour
 
     public void TogglePause()
     {
+        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        {
+            return;
+        }
+
         if (_currentState == UIState.DEFAULT) ChangeState(3);
         else if (_currentState == UIState.MENU) ChangeState(0);
     }
@@ -820,9 +826,9 @@ public class UIManager : MonoBehaviour
         }
 
         Contact connectContact = messages.GetContactByName("Connect");
-        if (connectContact == null || connectContact.NarrativeNode() < 1000 || connectContact.NarrativeNode() > 1003)
+        if (connectContact == null || connectContact.NarrativeNode() < 0 || connectContact.NarrativeNode() > 3)
         {
-            messages.AdvanceContactNarrativeNodeByEvent("Connect", 1000);
+            messages.AdvanceContactNarrativeNodeByEvent("Connect", 0);
         }
 
         messages.SetCurrentContact("Connect");

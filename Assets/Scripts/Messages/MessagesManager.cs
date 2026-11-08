@@ -556,14 +556,16 @@ public class MessagesManager : MonoBehaviour
                 if (sourceMessage == null || IsNarration(sourceMessage)) continue;
 
                 int messageNumber = history.Count;
-                Date timestamp = new()
-                {
-                    day = Mathf.Clamp(storyDay, 1, 31),
-                    month = 10,
-                    year = 2026,
-                    hour = 8 + Mathf.Min(14, messageNumber / 6),
-                    minute = (messageNumber * 7) % 60
-                };
+                Date timestamp = sourceMessage.Timestamp().year != 0
+                    ? sourceMessage.Timestamp()
+                    : new()
+                    {
+                        day = Mathf.Clamp(storyDay, 1, 31),
+                        month = 10,
+                        year = 2026,
+                        hour = 8 + Mathf.Min(14, messageNumber / 6),
+                        minute = (messageNumber * 7) % 60
+                    };
 
                 Message historicalMessage = new(
                     sourceMessage.Content(),
@@ -779,7 +781,7 @@ public class MessagesManager : MonoBehaviour
         for (int i = 0; i < _contacts.Count; i++)
         {
             Contact c = _contacts[i];
-            if (c != null && c.LastMessageDate().CompareTo(candidate) >= 0)
+            if (c != null && c.LastMessageDate().year == 2026 && c.LastMessageDate().day <= currentDay && c.LastMessageDate().CompareTo(candidate) >= 0)
             {
                 candidate = c.LastMessageDate();
             }

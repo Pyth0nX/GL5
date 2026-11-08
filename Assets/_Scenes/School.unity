@@ -132925,8 +132925,8 @@ MonoBehaviour:
   _outlines: []
   _overhearTrigger: {fileID: 1573611887}
   _contactName: Student Group
-  _overheardNodeId: 2800
-  _followUpNodeId: 2801
+  _overheardNodeId: 74
+  _followUpNodeId: 75
   _focusTarget: {fileID: 0}
   _focusTurnDuration: 0.65
   _focusHeightOffset: 0.5

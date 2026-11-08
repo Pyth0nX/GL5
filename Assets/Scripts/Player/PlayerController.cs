@@ -79,7 +79,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen)
+        if ((DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen) ||
+            (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning))
         {
             ClearHoveredInteractable();
             return;
@@ -102,11 +103,21 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        {
+            return;
+        }
+
         MovePlayer();
     }
 
     private void HandlePhone()
     {
+        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        {
+            return;
+        }
+
         _playerStateMachine.SetPhoneOpen(!_playerStateMachine.IsPhoneOpen());
         if (_playerStateMachine.IsPhoneOpen())
         {

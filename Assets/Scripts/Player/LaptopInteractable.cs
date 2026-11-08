@@ -187,10 +187,10 @@ public class LaptopInteractable : IInteractable
                     new[] { "Choice1_Neutral", "Choice2_Neutral" },
                     new[]
                     {
-                        new ContactState("Student Group", 2801),
-                        new ContactState("Connect", 1002),
-                        new ContactState("Emma", 1100),
-                        new ContactState("Alex", 1200)
+                        new ContactState("Student Group", 75),
+                        new ContactState("Connect", 2),
+                        new ContactState("Emma", 8),
+                        new ContactState("Alex", 9)
                     });
                 return true;
 
@@ -201,10 +201,10 @@ public class LaptopInteractable : IInteractable
                     new[] { "Choice3_Neutral", "Choice4_Neutral", "Choice5_Neutral" },
                     new[]
                     {
-                        new ContactState("Alex", 1300),
-                        new ContactState("Emma", 1402),
-                        new ContactState("Jamie", 1512),
-                        new ContactState("Noah", 1600)
+                        new ContactState("Alex", 15),
+                        new ContactState("Emma", 18),
+                        new ContactState("Jamie", 26),
+                        new ContactState("Noah", 28)
                     });
                 return true;
 
@@ -215,9 +215,9 @@ public class LaptopInteractable : IInteractable
                     new[] { "Choice6_Neutral", "Choice7_Neutral", "Choice8_Neutral" },
                     new[]
                     {
-                        new ContactState("Emma", 1800),
-                        new ContactState("Noah", 1912),
-                        new ContactState("Unknown", 1950)
+                        new ContactState("Emma", 30),
+                        new ContactState("Noah", 42),
+                        new ContactState("Unknown", 44)
                     });
                 return true;
 
@@ -228,9 +228,9 @@ public class LaptopInteractable : IInteractable
                     new[] { "Choice9_Neutral", "Choice10_Neutral" },
                     new[]
                     {
-                        new ContactState("Emma", 2100),
-                        new ContactState("Unknown", 2212),
-                        new ContactState("Riley", 2300)
+                        new ContactState("Emma", 46),
+                        new ContactState("Unknown", 54),
+                        new ContactState("Riley", 56)
                     });
                 return true;
 

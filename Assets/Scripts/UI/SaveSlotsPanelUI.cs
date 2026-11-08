@@ -90,6 +90,10 @@ public class SaveSlotsPanelUI : MonoBehaviour
     /// </summary>
     public void OpenPanel()
     {
+        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        {
+            return;
+        }
         EnsureInitialized();
         _isPanelOpen = true;
 

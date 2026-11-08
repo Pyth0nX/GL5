@@ -246,6 +246,10 @@ public class SettingsPanelUI : MonoBehaviour
     /// </summary>
     public void OpenFromCurrentContext()
     {
+        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        {
+            return;
+        }
         Debug.Log("[SettingsPanelUI] OpenFromCurrentContext invoked.");
 
         if (UIManager.Instance != null)
@@ -301,6 +305,10 @@ public class SettingsPanelUI : MonoBehaviour
 
     public void OpenPanel(SettingsSource source)
     {
+        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        {
+            return;
+        }
         _openedFrom = source;
         RefreshUIFromSettings();
 

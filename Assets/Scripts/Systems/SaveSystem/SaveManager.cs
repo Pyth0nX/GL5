@@ -664,6 +664,7 @@ public class SaveManager : MonoBehaviour
     private void ResetAllRuntimeSystemsForNewGame()
     {
         DayManager.ClearQueuedTestStart();
+        TransitionManager.Instance?.ResetCutsceneState();
 
         if (GameManager.Instance != null)
         {

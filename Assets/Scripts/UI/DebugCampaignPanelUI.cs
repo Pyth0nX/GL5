@@ -150,6 +150,15 @@ public class DebugCampaignPanelUI : MonoBehaviour
 
     private void Update()
     {
+        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        {
+            if (IsOpen)
+            {
+                ClosePanel();
+            }
+            return;
+        }
+
         if (!_isSubscribed)
         {
             TrySubscribeEventBus();
@@ -255,6 +264,10 @@ public class DebugCampaignPanelUI : MonoBehaviour
 
     public void OpenPanel(DebugOpenSource source)
     {
+        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        {
+            return;
+        }
         BuildModalIfNeeded();
         if (_debugPanelRoot == null) return;
 

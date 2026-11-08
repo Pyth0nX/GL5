@@ -6,8 +6,8 @@ public class StudentGroupConnectEncounter : IInteractable
     [Header("Encounter")]
     [SerializeField] private BoxCollider _overhearTrigger;
     [SerializeField] private string _contactName = "Student Group";
-    [SerializeField] private int _overheardNodeId = 2800;
-    [SerializeField] private int _followUpNodeId = 2801;
+    [SerializeField] private int _overheardNodeId = 74;
+    [SerializeField] private int _followUpNodeId = 75;
 
     [Header("Automatic Camera Focus")]
     [Tooltip("Optional explicit focus point. When empty, the midpoint of the student children is used.")]

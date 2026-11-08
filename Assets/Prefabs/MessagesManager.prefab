@@ -156,125 +156,125 @@ MonoBehaviour:
     requiredDay: 1
     contactUpdates:
     - contactName: Connect
-      newNarrativeNodeId: 1000
+      newNarrativeNodeId: 0
       conditions: []
   - triggerEventName: Day1_GoToSchool
     requiredDay: 1
     contactUpdates:
     - contactName: Emma
-      newNarrativeNodeId: 1100
+      newNarrativeNodeId: 8
       conditions: []
   - triggerEventName: Day1_ComebackHome
     requiredDay: 1
     contactUpdates:
     - contactName: Alex
-      newNarrativeNodeId: 1200
+      newNarrativeNodeId: 9
       conditions: []
   - triggerEventName: D1_AlexEveningComplete
     requiredDay: 1
     contactUpdates:
     - contactName: Jamie
-      newNarrativeNodeId: 1220
+      newNarrativeNodeId: 14
       conditions: []
   - triggerEventName: Start_Day2
     requiredDay: 2
     contactUpdates:
     - contactName: Alex
-      newNarrativeNodeId: 1300
+      newNarrativeNodeId: 15
       conditions: []
   - triggerEventName: Day1_GoToSchool
     requiredDay: 2
     contactUpdates:
     - contactName: Emma
-      newNarrativeNodeId: 1400
+      newNarrativeNodeId: 16
       conditions: []
   - triggerEventName: Day1_ComebackHome
     requiredDay: 2
     contactUpdates:
     - contactName: Jamie
-      newNarrativeNodeId: 1500
+      newNarrativeNodeId: 20
       conditions: []
   - triggerEventName: D2_Jamie_End
     requiredDay: 2
     contactUpdates:
     - contactName: Noah
-      newNarrativeNodeId: 1600
+      newNarrativeNodeId: 28
       conditions: []
   - triggerEventName: Start_Day3
     requiredDay: 3
     contactUpdates:
     - contactName: Noah
-      newNarrativeNodeId: 1700
+      newNarrativeNodeId: 29
       conditions: []
   - triggerEventName: Day1_GoToSchool
     requiredDay: 3
     contactUpdates:
     - contactName: Emma
-      newNarrativeNodeId: 1800
+      newNarrativeNodeId: 30
       conditions: []
   - triggerEventName: SchoolClassFinished
     requiredDay: 3
     contactUpdates:
     - contactName: Noah
-      newNarrativeNodeId: 1850
+      newNarrativeNodeId: 31
       conditions: []
   - triggerEventName: Day1_ComebackHome
     requiredDay: 3
     contactUpdates:
     - contactName: Noah
-      newNarrativeNodeId: 1900
+      newNarrativeNodeId: 32
       conditions: []
   - triggerEventName: D3_NoahPhoto_End
     requiredDay: 3
     contactUpdates:
     - contactName: Unknown
-      newNarrativeNodeId: 1950
+      newNarrativeNodeId: 44
       conditions: []
   - triggerEventName: Start_Day4
     requiredDay: 4
     contactUpdates:
     - contactName: Unknown
-      newNarrativeNodeId: 2000
+      newNarrativeNodeId: 45
       conditions: []
   - triggerEventName: Day1_GoToSchool
     requiredDay: 4
     contactUpdates:
     - contactName: Emma
-      newNarrativeNodeId: 2100
+      newNarrativeNodeId: 46
       conditions: []
   - triggerEventName: SchoolClassFinished
     requiredDay: 4
     contactUpdates:
     - contactName: Unknown
-      newNarrativeNodeId: 2150
+      newNarrativeNodeId: 47
       conditions: []
   - triggerEventName: Day1_ComebackHome
     requiredDay: 4
     contactUpdates:
     - contactName: Unknown
-      newNarrativeNodeId: 2200
+      newNarrativeNodeId: 48
       conditions: []
   - triggerEventName: D4_Unknown_End
     requiredDay: 4
     contactUpdates:
     - contactName: Riley
-      newNarrativeNodeId: 2300
+      newNarrativeNodeId: 56
       conditions: []
   - triggerEventName: Start_Day5
     requiredDay: 5
     contactUpdates:
     - contactName: Riley
-      newNarrativeNodeId: 2400
+      newNarrativeNodeId: 57
       conditions: []
   - triggerEventName: Day1_GoToSchool
     requiredDay: 5
     contactUpdates:
     - contactName: Emma
-      newNarrativeNodeId: 2500
+      newNarrativeNodeId: 58
       conditions: []
   - triggerEventName: Day1_ComebackHome
     requiredDay: 5
     contactUpdates:
     - contactName: Riley
-      newNarrativeNodeId: 2600
+      newNarrativeNodeId: 59
       conditions: []

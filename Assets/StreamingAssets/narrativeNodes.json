@@ -1,7 +1,7 @@
 {
   "narrativeNodes": [
     {
-      "_id": 1000,
+      "_id": 0,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -11,13 +11,20 @@
         {
           "_content": "Welcome to Connect. Create your profile to continue.",
           "_sender": 1,
-          "_speakerName": "Connect"
+          "_speakerName": "Connect",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 13,
+            "minute": 5
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Use a username and avatar only.",
-          "nextNode": 1001,
+          "nextNode": 1,
           "messagesToSend": [],
           "eventToPublish": "Choice1_Safe",
           "reputationOperation": 1,
@@ -25,7 +32,7 @@
         },
         {
           "text": "Neutral: Add a first name and selfie.",
-          "nextNode": 1002,
+          "nextNode": 2,
           "messagesToSend": [],
           "eventToPublish": "Choice1_Neutral",
           "reputationOperation": 0,
@@ -33,7 +40,7 @@
         },
         {
           "text": "Risky: Add full name, school and photo.",
-          "nextNode": 1003,
+          "nextNode": 3,
           "messagesToSend": [],
           "eventToPublish": "Choice1_Risky",
           "reputationOperation": 2,
@@ -42,7 +49,7 @@
       ]
     },
     {
-      "_id": 1001,
+      "_id": 1,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -53,12 +60,19 @@
         {
           "_content": "Profile created with a username and avatar. No identifying details are public.",
           "_sender": 1,
-          "_speakerName": "Connect"
+          "_speakerName": "Connect",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 13,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 1002,
+      "_id": 2,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -69,12 +83,19 @@
         {
           "_content": "Profile created with Luna's first name and a personal picture.",
           "_sender": 1,
-          "_speakerName": "Connect"
+          "_speakerName": "Connect",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 13,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 1003,
+      "_id": 3,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -85,12 +106,19 @@
         {
           "_content": "Profile created. Luna's full name, school and personal picture are public.",
           "_sender": 1,
-          "_speakerName": "Connect"
+          "_speakerName": "Connect",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 13,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 1010,
+      "_id": 4,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -100,33 +128,68 @@
         {
           "_content": "Hey! Saw your comment about Lost Cause.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 30
+          }
         },
         {
           "_content": "Finally someone who understands how good that book is.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 31
+          }
         },
         {
           "_content": "The ending was actually insane.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 32
+          }
         },
         {
           "_content": "You know, you're actually really fun to talk to. Tell me about yourself?",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 34
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Keep the conversation about books.",
-          "nextNode": 1011,
+          "nextNode": 5,
           "messagesToSend": [
             {
               "_content": "I'd rather just talk about the books for now.",
               "_sender": 0,
-              "_speakerName": "Luna"
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 16,
+                "minute": 35
+              }
             }
           ],
           "eventToPublish": "Choice2_Safe",
@@ -135,12 +198,19 @@
         },
         {
           "text": "Neutral: Share hobbies and interests.",
-          "nextNode": 1012,
+          "nextNode": 6,
           "messagesToSend": [
             {
               "_content": "I'm pretty much just a book nerd haha.",
               "_sender": 0,
-              "_speakerName": "Luna"
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 16,
+                "minute": 35
+              }
             }
           ],
           "eventToPublish": "Choice2_Neutral",
@@ -149,12 +219,19 @@
         },
         {
           "text": "Risky: Share school, routine and location.",
-          "nextNode": 1013,
+          "nextNode": 7,
           "messagesToSend": [
             {
               "_content": "I go to Rainfall School and live nearby. I walk there every day.",
               "_sender": 0,
-              "_speakerName": "Luna"
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 16,
+                "minute": 35
+              }
             }
           ],
           "eventToPublish": "Choice2_Risky",
@@ -164,7 +241,7 @@
       ]
     },
     {
-      "_id": 1011,
+      "_id": 5,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -175,17 +252,31 @@
         {
           "_content": "Fair enough. Lost Cause theories it is.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 36
+          }
         },
         {
           "_content": "We should definitely talk more.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 37
+          }
         }
       ]
     },
     {
-      "_id": 1012,
+      "_id": 6,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -196,17 +287,31 @@
         {
           "_content": "Same. Books, games and music are basically my entire personality.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 36
+          }
         },
         {
           "_content": "We should definitely talk more.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 37
+          }
         }
       ]
     },
     {
-      "_id": 1013,
+      "_id": 7,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -217,17 +322,31 @@
         {
           "_content": "Rainfall School? Maybe we live close to each other haha.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 36
+          }
         },
         {
           "_content": "We should definitely talk more.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 37
+          }
         }
       ]
     },
     {
-      "_id": 1100,
+      "_id": 8,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": false,
@@ -263,7 +382,7 @@
       ]
     },
     {
-      "_id": 1200,
+      "_id": 9,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -273,48 +392,104 @@
         {
           "_content": "Hey! Saw your comment about Lost Cause.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 30
+          }
         },
         {
           "_content": "Oh, hi!",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 31
+          }
         },
         {
           "_content": "Finally someone who understands how good that book is.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 31
+          }
         },
         {
           "_content": "RIGHT?? Nobody I know has even read it.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 32
+          }
         },
         {
           "_content": "The ending was actually insane.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 32
+          }
         },
         {
           "_content": "Don't even get me started.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 33
+          }
         },
         {
           "_content": "So what about you? Tell me about yourself.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 34
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Keep it about the books.",
-          "nextNode": 1201,
+          "nextNode": 10,
           "messagesToSend": [
             {
               "_content": "I'd rather just talk about the books for now.",
               "_sender": 0,
-              "_speakerName": "Luna"
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 16,
+                "minute": 35
+              }
             }
           ],
           "eventToPublish": "Choice2_Safe",
@@ -323,12 +498,19 @@
         },
         {
           "text": "Neutral: Say you're a book nerd.",
-          "nextNode": 1202,
+          "nextNode": 11,
           "messagesToSend": [
             {
               "_content": "I'm pretty much just a book nerd haha.",
               "_sender": 0,
-              "_speakerName": "Luna"
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 16,
+                "minute": 35
+              }
             }
           ],
           "eventToPublish": "Choice2_Neutral",
@@ -337,12 +519,19 @@
         },
         {
           "text": "Risky: Share school, routine and location.",
-          "nextNode": 1203,
+          "nextNode": 12,
           "messagesToSend": [
             {
               "_content": "I go to Rainfall School and live nearby. I walk there every day, so my routine is pretty predictable.",
               "_sender": 0,
-              "_speakerName": "Luna"
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 16,
+                "minute": 35
+              }
             }
           ],
           "eventToPublish": "Choice2_Risky",
@@ -352,8 +541,8 @@
       ]
     },
     {
-      "_id": 1201,
-      "_nextNode": 1210,
+      "_id": 10,
+      "_nextNode": 13,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -363,18 +552,32 @@
         {
           "_content": "Fair enough. Lost Cause theories it is.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 36
+          }
         },
         {
           "_content": "Okay, then who do you think the masked character really is?",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 37
+          }
         }
       ]
     },
     {
-      "_id": 1202,
-      "_nextNode": 1210,
+      "_id": 11,
+      "_nextNode": 13,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -384,23 +587,44 @@
         {
           "_content": "Same. Books, games and music are basically my entire personality.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 36
+          }
         },
         {
           "_content": "What do you usually do after school?",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 37
+          }
         },
         {
           "_content": "Mostly read, play games and waste too much time online.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 38
+          }
         }
       ]
     },
     {
-      "_id": 1203,
-      "_nextNode": 1210,
+      "_id": 12,
+      "_nextNode": 13,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -410,22 +634,43 @@
         {
           "_content": "Rainfall School? Maybe we live close to each other haha.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 36
+          }
         },
         {
           "_content": "What time do you usually leave, and do you always walk home?",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 37
+          }
         },
         {
           "_content": "Usually at the same time every day. I pretty much take the same route too.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 38
+          }
         }
       ]
     },
     {
-      "_id": 1210,
+      "_id": 13,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -436,27 +681,55 @@
         {
           "_content": "You know, you're actually really fun to talk to.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 40
+          }
         },
         {
           "_content": "HAHAHA, thanks. You're not that bad either.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 41
+          }
         },
         {
           "_content": "We should definitely talk more.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 42
+          }
         },
         {
           "_content": "Luna smiles at her phone. For once, she feels like she has found someone who shares her interests.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 43
+          }
         }
       ]
     },
     {
-      "_id": 1220,
+      "_id": 14,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -467,17 +740,31 @@
         {
           "_content": "Heyyy! I saw you joined the Lost Cause community. You seem cool!",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 21,
+            "minute": 30
+          }
         },
         {
           "_content": "Hi! Thanks haha.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 21,
+            "minute": 32
+          }
         }
       ]
     },
     {
-      "_id": 1300,
+      "_id": 15,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -488,32 +775,67 @@
         {
           "_content": "GOOOOOD MORNING.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 15
+          }
         },
         {
           "_content": "It's wayyyy too early for this HAHAHA.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 16
+          }
         },
         {
           "_content": "Someone's grumpy today.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 16
+          }
         },
         {
           "_content": "I literally just woke up.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 17
+          }
         },
         {
           "_content": "Have fun at school, nerd.",
           "_sender": 1,
-          "_speakerName": "Alex"
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 18
+          }
         }
       ]
     },
     {
-      "_id": 1400,
+      "_id": 16,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": true,
@@ -544,7 +866,7 @@
       "_options": [
         {
           "text": "Safe: Could you just leave me alone?",
-          "nextNode": 1401,
+          "nextNode": 17,
           "messagesToSend": [],
           "eventToPublish": "Choice3_Safe",
           "reputationOperation": 1,
@@ -552,7 +874,7 @@
         },
         {
           "text": "Neutral: Ignore them and quietly get your books.",
-          "nextNode": 1402,
+          "nextNode": 18,
           "messagesToSend": [],
           "eventToPublish": "Choice3_Neutral",
           "reputationOperation": 0,
@@ -560,7 +882,7 @@
         },
         {
           "text": "Risky: At least I don't spend all day obsessing over other people.",
-          "nextNode": 1403,
+          "nextNode": 19,
           "messagesToSend": [],
           "eventToPublish": "Choice3_Risky",
           "reputationOperation": 2,
@@ -569,7 +891,7 @@
       ]
     },
     {
-      "_id": 1401,
+      "_id": 17,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": false,
@@ -600,7 +922,7 @@
       ]
     },
     {
-      "_id": 1402,
+      "_id": 18,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": false,
@@ -631,7 +953,7 @@
       ]
     },
     {
-      "_id": 1403,
+      "_id": 19,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": false,
@@ -662,7 +984,7 @@
       ]
     },
     {
-      "_id": 1500,
+      "_id": 20,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -672,28 +994,56 @@
         {
           "_content": "HEYYYYY.",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 0
+          }
         },
         {
           "_content": "I noticed you don't post much. You should! Your profile is cute.",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 1
+          }
         },
         {
           "_content": "Girl, you need to get out there. People need to know you exist.",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 2
+          }
         },
         {
           "_content": "You should post something. I'll even share it!",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 3
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Post about a favourite book.",
-          "nextNode": 1501,
+          "nextNode": 21,
           "messagesToSend": [],
           "eventToPublish": "Choice4_Safe",
           "reputationOperation": 1,
@@ -701,7 +1051,7 @@
         },
         {
           "text": "Neutral: Post a selfie without details.",
-          "nextNode": 1502,
+          "nextNode": 22,
           "messagesToSend": [],
           "eventToPublish": "Choice4_Neutral",
           "reputationOperation": 0,
@@ -709,7 +1059,7 @@
         },
         {
           "text": "Risky: Show uniform and location.",
-          "nextNode": 1503,
+          "nextNode": 23,
           "messagesToSend": [],
           "eventToPublish": "Choice4_Risky",
           "reputationOperation": 2,
@@ -718,8 +1068,8 @@
       ]
     },
     {
-      "_id": 1501,
-      "_nextNode": 1510,
+      "_id": 21,
+      "_nextNode": 24,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -729,18 +1079,32 @@
         {
           "_content": "[Luna posts a picture of her favourite book.]",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 5
+          }
         },
         {
           "_content": "A little boring, but I'll share it anyway!",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 1502,
-      "_nextNode": 1510,
+      "_id": 22,
+      "_nextNode": 24,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -750,18 +1114,32 @@
         {
           "_content": "[Luna posts a selfie without identifying information.]",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 5
+          }
         },
         {
           "_content": "You look amazing! Sharing it now.",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 1503,
-      "_nextNode": 1510,
+      "_id": 23,
+      "_nextNode": 24,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -771,17 +1149,31 @@
         {
           "_content": "[Luna posts a selfie with her school uniform and location visible.]",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 5
+          }
         },
         {
           "_content": "This is perfect. Everyone will see it!",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 1510,
+      "_id": 24,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -791,23 +1183,44 @@
         {
           "_content": "[A screenshot of Luna's post appears with the caption: Imagine actually thinking this looks good.]",
           "_sender": 1,
-          "_speakerName": "Connect"
+          "_speakerName": "Connect",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 30
+          }
         },
         {
           "_content": "Emma and Sophie have liked and commented on it.",
           "_sender": 1,
-          "_speakerName": "Connect"
+          "_speakerName": "Connect",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 31
+          }
         },
         {
           "_content": "You've got to be kidding me...",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 32
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Save evidence, report it and seek help.",
-          "nextNode": 1511,
+          "nextNode": 25,
           "messagesToSend": [],
           "eventToPublish": "Choice5_Safe",
           "reputationOperation": 1,
@@ -815,7 +1228,7 @@
         },
         {
           "text": "Neutral: Delete the original and log off.",
-          "nextNode": 1512,
+          "nextNode": 26,
           "messagesToSend": [],
           "eventToPublish": "Choice5_Neutral",
           "reputationOperation": 0,
@@ -823,7 +1236,7 @@
         },
         {
           "text": "Risky: Comment back and argue.",
-          "nextNode": 1513,
+          "nextNode": 27,
           "messagesToSend": [],
           "eventToPublish": "Choice5_Risky",
           "reputationOperation": 2,
@@ -832,7 +1245,7 @@
       ]
     },
     {
-      "_id": 1511,
+      "_id": 25,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -843,17 +1256,31 @@
         {
           "_content": "Luna saves screenshots and reports the post.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 35
+          }
         },
         {
           "_content": "OMG I saw what happened. Maybe you should post something better.",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 37
+          }
         }
       ]
     },
     {
-      "_id": 1512,
+      "_id": 26,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -864,17 +1291,31 @@
         {
           "_content": "Luna deletes her original post, but the screenshot remains online.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 35
+          }
         },
         {
           "_content": "OMG I saw what happened. Maybe you should post something better.",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 37
+          }
         }
       ]
     },
     {
-      "_id": 1513,
+      "_id": 27,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -885,17 +1326,31 @@
         {
           "_content": "The argument attracts more attention and more people begin commenting.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 35
+          }
         },
         {
           "_content": "OMG I saw what happened. Maybe you should post something better.",
           "_sender": 1,
-          "_speakerName": "Jamie"
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 37
+          }
         }
       ]
     },
     {
-      "_id": 1600,
+      "_id": 28,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -906,12 +1361,19 @@
         {
           "_content": "Hey, I saw your profile. You seem interesting.",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 21,
+            "minute": 15
+          }
         }
       ]
     },
     {
-      "_id": 1700,
+      "_id": 29,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -922,42 +1384,91 @@
         {
           "_content": "Morning :)",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 20
+          }
         },
         {
           "_content": "Hey.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 21
+          }
         },
         {
           "_content": "How are you?",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 22
+          }
         },
         {
           "_content": "Pretty tired. School is exhausting.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 23
+          }
         },
         {
           "_content": "I get that. You can always talk to me.",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 24
+          }
         },
         {
           "_content": "Noah is friendly and seems genuinely interested in Luna.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 25
+          }
         },
         {
           "_content": "They begin talking about music, hobbies and everyday life.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 26
+          }
         }
       ]
     },
     {
-      "_id": 1800,
+      "_id": 30,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": false,
@@ -998,7 +1509,7 @@
       ]
     },
     {
-      "_id": 1850,
+      "_id": 31,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1009,17 +1520,31 @@
         {
           "_content": "You okay? You seemed quiet yesterday.",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 12,
+            "minute": 45
+          }
         },
         {
           "_content": "During lunch, Luna checks her phone and is surprised that Noah remembers.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 12,
+            "minute": 46
+          }
         }
       ]
     },
     {
-      "_id": 1900,
+      "_id": 32,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -1029,23 +1554,44 @@
         {
           "_content": "Can I ask you something?",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 15
+          }
         },
         {
           "_content": "Sure?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 16
+          }
         },
         {
           "_content": "How old are you?",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 16
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: I'd rather not share personal information.",
-          "nextNode": 1901,
+          "nextNode": 33,
           "messagesToSend": [],
           "eventToPublish": "Choice6_Safe",
           "reputationOperation": 1,
@@ -1053,7 +1599,7 @@
         },
         {
           "text": "Neutral: Why do you ask?",
-          "nextNode": 1902,
+          "nextNode": 34,
           "messagesToSend": [],
           "eventToPublish": "Choice6_Neutral",
           "reputationOperation": 0,
@@ -1061,7 +1607,7 @@
         },
         {
           "text": "Risky: Tell Noah her age and other personal details.",
-          "nextNode": 1903,
+          "nextNode": 35,
           "messagesToSend": [],
           "eventToPublish": "Choice6_Risky",
           "reputationOperation": 2,
@@ -1070,8 +1616,8 @@
       ]
     },
     {
-      "_id": 1901,
-      "_nextNode": 1904,
+      "_id": 33,
+      "_nextNode": 36,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1081,23 +1627,44 @@
         {
           "_content": "I'd rather not share personal information.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 18
+          }
         },
         {
           "_content": "Okay, I understand.",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 19
+          }
         },
         {
           "_content": "Although Noah accepts her answer, he soon returns to asking personal questions.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 20
+          }
         }
       ]
     },
     {
-      "_id": 1902,
-      "_nextNode": 1904,
+      "_id": 34,
+      "_nextNode": 36,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1107,18 +1674,32 @@
         {
           "_content": "Why do you ask?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 18
+          }
         },
         {
           "_content": "Just curious. What do you like doing?",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 19
+          }
         }
       ]
     },
     {
-      "_id": 1903,
-      "_nextNode": 1904,
+      "_id": 35,
+      "_nextNode": 36,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1128,22 +1709,43 @@
         {
           "_content": "Luna tells Noah her age and shares other details about her personal life.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 18
+          }
         },
         {
           "_content": "Cool, we're around the same age.",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 19
+          }
         },
         {
           "_content": "Now that he knows Luna's age, Noah continues asking about her personal life.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 20
+          }
         }
       ]
     },
     {
-      "_id": 1904,
+      "_id": 36,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -1153,23 +1755,44 @@
         {
           "_content": "Do you have a picture of yourself?",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 25
+          }
         },
         {
           "_content": "Why?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 26
+          }
         },
         {
           "_content": "I just want to know who I'm talking to. I'll send one too.",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 26
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Refuse, block and report Noah.",
-          "nextNode": 1905,
+          "nextNode": 37,
           "messagesToSend": [],
           "eventToPublish": "Choice7_Safe",
           "reputationOperation": 1,
@@ -1177,7 +1800,7 @@
         },
         {
           "text": "Neutral: Send a normal selfie.",
-          "nextNode": 1906,
+          "nextNode": 38,
           "messagesToSend": [],
           "eventToPublish": "Choice7_Neutral",
           "reputationOperation": 0,
@@ -1185,7 +1808,7 @@
         },
         {
           "text": "Risky: Send a flirty or revealing selfie.",
-          "nextNode": 1907,
+          "nextNode": 39,
           "messagesToSend": [],
           "eventToPublish": "Choice7_Risky",
           "reputationOperation": 2,
@@ -1194,7 +1817,7 @@
       ]
     },
     {
-      "_id": 1905,
+      "_id": 37,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1205,18 +1828,32 @@
         {
           "_content": "Luna refuses, blocks Noah and reports the account. She does not send a picture.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 28
+          }
         },
         {
           "_content": "Noah cannot continue contacting her through that account.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 29
+          }
         }
       ]
     },
     {
-      "_id": 1906,
-      "_nextNode": 1910,
+      "_id": 38,
+      "_nextNode": 40,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1226,23 +1863,44 @@
         {
           "_content": "Luna sends a normal selfie.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 28
+          }
         },
         {
           "_content": "Cute :)",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 29
+          }
         },
         {
           "_content": "Noah does not send a picture back.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 30
+          }
         }
       ]
     },
     {
-      "_id": 1907,
-      "_nextNode": 1910,
+      "_id": 39,
+      "_nextNode": 40,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1252,22 +1910,43 @@
         {
           "_content": "Luna sends a flirty selfie.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 28
+          }
         },
         {
           "_content": "Wow, you're really pretty.",
           "_sender": 1,
-          "_speakerName": "Noah"
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 29
+          }
         },
         {
           "_content": "He continues complimenting her before suddenly stopping his replies.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 30
+          }
         }
       ]
     },
     {
-      "_id": 1910,
+      "_id": 40,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -1277,38 +1956,80 @@
         {
           "_content": "Later that evening, Luna receives a notification.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 0
+          }
         },
         {
           "_content": "Look who I found.",
           "_sender": 1,
-          "_speakerName": "Post"
+          "_speakerName": "Post",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 1
+          }
         },
         {
           "_content": "Someone has posted her picture on another account without her permission. Luna recognises it immediately.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 1
+          }
         },
         {
           "_content": "WHAT??",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 2
+          }
         },
         {
           "_content": "Did you post this?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 2
+          }
         },
         {
           "_content": "Noah does not answer.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 3
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Save evidence, report, block and tell a trusted adult.",
-          "nextNode": 1911,
+          "nextNode": 41,
           "messagesToSend": [],
           "eventToPublish": "Choice8_Safe",
           "reputationOperation": 1,
@@ -1316,7 +2037,7 @@
         },
         {
           "text": "Neutral: Block Noah and close the app without telling anyone.",
-          "nextNode": 1912,
+          "nextNode": 42,
           "messagesToSend": [],
           "eventToPublish": "Choice8_Neutral",
           "reputationOperation": 0,
@@ -1324,7 +2045,7 @@
         },
         {
           "text": "Risky: Ignore the post and hope it disappears.",
-          "nextNode": 1913,
+          "nextNode": 43,
           "messagesToSend": [],
           "eventToPublish": "Choice8_Risky",
           "reputationOperation": 2,
@@ -1333,7 +2054,7 @@
       ]
     },
     {
-      "_id": 1911,
+      "_id": 41,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1344,17 +2065,31 @@
         {
           "_content": "Luna saves the evidence, reports the post, blocks Noah and tells a trusted adult.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 5
+          }
         },
         {
           "_content": "She begins taking steps to get help.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 1912,
+      "_id": 42,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1365,17 +2100,31 @@
         {
           "_content": "Luna blocks Noah and closes the app without telling anyone.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 5
+          }
         },
         {
           "_content": "She avoids further contact but is left dealing with the situation alone.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 1913,
+      "_id": 43,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1386,17 +2135,31 @@
         {
           "_content": "Luna ignores the post and hopes it disappears.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 5
+          }
         },
         {
           "_content": "The post remains online and Luna does not know who has seen it.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 1950,
+      "_id": 44,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1407,17 +2170,31 @@
         {
           "_content": "Hey Luna. I think I've seen you around.",
           "_sender": 1,
-          "_speakerName": "Unknown"
+          "_speakerName": "Unknown",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 22,
+            "minute": 15
+          }
         },
         {
           "_content": "Before going to sleep, Luna realises the message request came from an unfamiliar account.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 22,
+            "minute": 16
+          }
         }
       ]
     },
     {
-      "_id": 2000,
+      "_id": 45,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1428,37 +2205,79 @@
         {
           "_content": "You go to Rainfall School, right?",
           "_sender": 1,
-          "_speakerName": "Unknown"
+          "_speakerName": "Unknown",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 10
+          }
         },
         {
           "_content": "Luna wakes up feeling uncomfortable after what happened with Noah. When she checks her phone, Connect is full of notifications about the picture.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 11
+          }
         },
         {
           "_content": "The unknown account has sent another message. Luna freezes when she realises it knows her school.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 11
+          }
         },
         {
           "_content": "Who is this?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 12
+          }
         },
         {
           "_content": "Don't worry, I just know some people there.",
           "_sender": 1,
-          "_speakerName": "Unknown"
+          "_speakerName": "Unknown",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 13
+          }
         },
         {
           "_content": "The account has very little information and no profile picture.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 14
+          }
         }
       ]
     },
     {
-      "_id": 2100,
+      "_id": 46,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": false,
@@ -1489,7 +2308,7 @@
       ]
     },
     {
-      "_id": 2150,
+      "_id": 47,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1500,17 +2319,31 @@
         {
           "_content": "Saw you walking home yesterday.",
           "_sender": 1,
-          "_speakerName": "Unknown"
+          "_speakerName": "Unknown",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 11,
+            "minute": 30
+          }
         },
         {
           "_content": "During class, Luna sees the notification and becomes uncomfortable.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 11,
+            "minute": 31
+          }
         }
       ]
     },
     {
-      "_id": 2200,
+      "_id": 48,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -1520,23 +2353,44 @@
         {
           "_content": "You take the same route every day?",
           "_sender": 1,
-          "_speakerName": "Unknown"
+          "_speakerName": "Unknown",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 0
+          }
         },
         {
           "_content": "Why are you asking?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 1
+          }
         },
         {
           "_content": "Just curious. I think I've seen you.",
           "_sender": 1,
-          "_speakerName": "Unknown"
+          "_speakerName": "Unknown",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 2
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Block, report and tell someone about the messages.",
-          "nextNode": 2201,
+          "nextNode": 49,
           "messagesToSend": [],
           "eventToPublish": "Choice9_Safe",
           "reputationOperation": 1,
@@ -1544,7 +2398,7 @@
         },
         {
           "text": "Neutral: Ask how the account knows before deciding what to do.",
-          "nextNode": 2202,
+          "nextNode": 50,
           "messagesToSend": [],
           "eventToPublish": "Choice9_Neutral",
           "reputationOperation": 0,
@@ -1552,7 +2406,7 @@
         },
         {
           "text": "Risky: Share where she walks and when she gets home.",
-          "nextNode": 2203,
+          "nextNode": 51,
           "messagesToSend": [],
           "eventToPublish": "Choice9_Risky",
           "reputationOperation": 2,
@@ -1561,8 +2415,8 @@
       ]
     },
     {
-      "_id": 2201,
-      "_nextNode": 2210,
+      "_id": 49,
+      "_nextNode": 52,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1572,18 +2426,32 @@
         {
           "_content": "Luna saves the messages as evidence, blocks and reports the account, and tells someone about what happened.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 5
+          }
         },
         {
           "_content": "The conversation stops.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 2202,
-      "_nextNode": 2210,
+      "_id": 50,
+      "_nextNode": 52,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1593,18 +2461,32 @@
         {
           "_content": "Luna asks how the account knows her before deciding what to do.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 5
+          }
         },
         {
           "_content": "The account claims it has seen her around school and continues asking questions.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 2203,
-      "_nextNode": 2210,
+      "_id": 51,
+      "_nextNode": 52,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1614,17 +2496,31 @@
         {
           "_content": "Luna reveals where she usually walks and when she gets home.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 5
+          }
         },
         {
           "_content": "The account now knows more about Luna's routine.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 2210,
+      "_id": 52,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -1634,28 +2530,56 @@
         {
           "_content": "Luna opens Connect and notices how much information her profile contains. She begins looking through her old posts.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 30
+          }
         },
         {
           "_content": "Some posts reveal details about her school, neighbourhood and daily activities.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 31
+          }
         },
         {
           "_content": "Wait... I've actually posted all of this?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 32
+          }
         },
         {
           "_content": "She realises someone could use that information to figure out where she spends her time.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 33
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Go private, remove identifying information and review location permissions.",
-          "nextNode": 2211,
+          "nextNode": 53,
           "messagesToSend": [],
           "eventToPublish": "Choice10_Safe",
           "reputationOperation": 1,
@@ -1663,7 +2587,7 @@
         },
         {
           "text": "Neutral: Delete a few posts that reveal personal information.",
-          "nextNode": 2212,
+          "nextNode": 54,
           "messagesToSend": [],
           "eventToPublish": "Choice10_Neutral",
           "reputationOperation": 0,
@@ -1671,7 +2595,7 @@
         },
         {
           "text": "Risky: Leave everything public.",
-          "nextNode": 2213,
+          "nextNode": 55,
           "messagesToSend": [],
           "eventToPublish": "Choice10_Risky",
           "reputationOperation": 2,
@@ -1680,7 +2604,7 @@
       ]
     },
     {
-      "_id": 2211,
+      "_id": 53,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1691,17 +2615,31 @@
         {
           "_content": "Luna makes her account private, removes identifying information and reviews location permissions.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 35
+          }
         },
         {
           "_content": "She reduces the information strangers can access.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 36
+          }
         }
       ]
     },
     {
-      "_id": 2212,
+      "_id": 54,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1712,12 +2650,19 @@
         {
           "_content": "Luna deletes a few posts that reveal personal information, but some information remains visible.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 35
+          }
         }
       ]
     },
     {
-      "_id": 2213,
+      "_id": 55,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1728,17 +2673,31 @@
         {
           "_content": "Luna leaves everything public because she does not think anyone would use it against her.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 35
+          }
         },
         {
           "_content": "Her account continues to expose personal details.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 36
+          }
         }
       ]
     },
     {
-      "_id": 2300,
+      "_id": 56,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1749,37 +2708,79 @@
         {
           "_content": "Hey, I saw some of the stuff happening on Connect. Are you okay?",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 45
+          }
         },
         {
           "_content": "I don't even know anymore.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 46
+          }
         },
         {
           "_content": "That sounds rough. Do you want to talk?",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 47
+          }
         },
         {
           "_content": "Luna hesitates but decides to reply.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 48
+          }
         },
         {
           "_content": "I think you should be careful about what people post. Not everything online is what it seems.",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 49
+          }
         },
         {
           "_content": "Luna decides to talk more with Riley tomorrow.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 50
+          }
         }
       ]
     },
     {
-      "_id": 2400,
+      "_id": 57,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -1790,37 +2791,79 @@
         {
           "_content": "Good morning! How are you feeling today?",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 20
+          }
         },
         {
           "_content": "Honestly? Not great.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 21
+          }
         },
         {
           "_content": "I understand. I've seen what's been happening, and I wanted to check on you.",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 22
+          }
         },
         {
           "_content": "Everything has just gotten so complicated.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 23
+          }
         },
         {
           "_content": "Sometimes you just need someone to listen.",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 24
+          }
         },
         {
           "_content": "Riley seems understanding and gives Luna space to explain what has happened.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 25
+          }
         }
       ]
     },
     {
-      "_id": 2500,
+      "_id": 58,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": false,
@@ -1856,7 +2899,7 @@
       ]
     },
     {
-      "_id": 2600,
+      "_id": 59,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -1866,53 +2909,116 @@
         {
           "_content": "Can I tell you something?",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 0
+          }
         },
         {
           "_content": "After school, Luna opens Connect.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 1
+          }
         },
         {
           "_content": "Sure?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 1
+          }
         },
         {
           "_content": "I've been seeing a lot of posts about you. Some people are saying you sent those pictures to everyone.",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 2
+          }
         },
         {
           "_content": "WHAT? I didn't!",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 3
+          }
         },
         {
           "_content": "I know. But people are sharing things without checking if they're true.",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 3
+          }
         },
         {
           "_content": "Riley sends Luna a screenshot of a post discussing the situation.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 4
+          }
         },
         {
           "_content": "Apparently Luna sends pictures to random people online.",
           "_sender": 1,
-          "_speakerName": "Post"
+          "_speakerName": "Post",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 5
+          }
         },
         {
           "_content": "Luna feels sick reading it.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Save evidence, report the misinformation and speak to someone she trusts.",
-          "nextNode": 2601,
+          "nextNode": 60,
           "messagesToSend": [],
           "eventToPublish": "Choice11_Safe",
           "reputationOperation": 1,
@@ -1920,7 +3026,7 @@
         },
         {
           "text": "Neutral: Ignore the post and stop checking the comments.",
-          "nextNode": 2602,
+          "nextNode": 61,
           "messagesToSend": [],
           "eventToPublish": "Choice11_Neutral",
           "reputationOperation": 0,
@@ -1928,7 +3034,7 @@
         },
         {
           "text": "Risky: Publicly confront everyone sharing the post.",
-          "nextNode": 2603,
+          "nextNode": 62,
           "messagesToSend": [],
           "eventToPublish": "Choice11_Risky",
           "reputationOperation": 2,
@@ -1937,8 +3043,8 @@
       ]
     },
     {
-      "_id": 2601,
-      "_nextNode": 2610,
+      "_id": 60,
+      "_nextNode": 63,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1948,13 +3054,20 @@
         {
           "_content": "Luna saves evidence, reports the misinformation and begins preparing to ask someone she trusts for help.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 8
+          }
         }
       ]
     },
     {
-      "_id": 2602,
-      "_nextNode": 2610,
+      "_id": 61,
+      "_nextNode": 63,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1964,13 +3077,20 @@
         {
           "_content": "Luna stops checking the comments, but she does not address the misinformation.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 8
+          }
         }
       ]
     },
     {
-      "_id": 2603,
-      "_nextNode": 2610,
+      "_id": 62,
+      "_nextNode": 63,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -1980,12 +3100,19 @@
         {
           "_content": "Luna publicly confronts everyone sharing the post. More people join the argument and the post receives additional attention.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 8
+          }
         }
       ]
     },
     {
-      "_id": 2610,
+      "_id": 63,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -1995,43 +3122,92 @@
         {
           "_content": "You know, I think I can help you.",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 15
+          }
         },
         {
           "_content": "How?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 16
+          }
         },
         {
           "_content": "I know someone who can get those posts removed.",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 16
+          }
         },
         {
           "_content": "Really?",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 17
+          }
         },
         {
           "_content": "Yeah. But I need you to send me the screenshots and some information about your account.",
           "_sender": 1,
-          "_speakerName": "Riley"
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 18
+          }
         },
         {
           "_content": "Luna pauses. Something about the request feels familiar.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 19
+          }
         },
         {
           "_content": "She remembers how Alex asked about her school, how Jamie encouraged her to post, how Noah asked for pictures and how the unknown account knew where she went.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 20
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Refuse to share more information and seek help from a trusted adult.",
-          "nextNode": 2611,
+          "nextNode": 64,
           "messagesToSend": [],
           "eventToPublish": "Choice12_Safe",
           "reputationOperation": 1,
@@ -2039,7 +3215,7 @@
         },
         {
           "text": "Neutral: Ask exactly who will receive the information and why.",
-          "nextNode": 2612,
+          "nextNode": 65,
           "messagesToSend": [],
           "eventToPublish": "Choice12_Neutral",
           "reputationOperation": 0,
@@ -2047,7 +3223,7 @@
         },
         {
           "text": "Risky: Send the screenshots and account details without checking.",
-          "nextNode": 2613,
+          "nextNode": 66,
           "messagesToSend": [],
           "eventToPublish": "Choice12_Risky",
           "reputationOperation": 2,
@@ -2056,8 +3232,8 @@
       ]
     },
     {
-      "_id": 2611,
-      "_nextNode": 2620,
+      "_id": 64,
+      "_nextNode": 67,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -2067,18 +3243,32 @@
         {
           "_content": "Luna refuses to share more information. Riley accepts the decision or stops responding.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 22
+          }
         },
         {
           "_content": "Luna decides she needs help from someone she knows offline.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 23
+          }
         }
       ]
     },
     {
-      "_id": 2612,
-      "_nextNode": 2620,
+      "_id": 65,
+      "_nextNode": 67,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -2088,18 +3278,32 @@
         {
           "_content": "Luna asks Riley to explain exactly who will receive the information and why.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 22
+          }
         },
         {
           "_content": "Riley explains the situation, but Luna still needs to decide whether the information is safe to share.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 23
+          }
         }
       ]
     },
     {
-      "_id": 2613,
-      "_nextNode": 2620,
+      "_id": 66,
+      "_nextNode": 67,
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
@@ -2109,17 +3313,31 @@
         {
           "_content": "Luna sends the screenshots and account details without checking.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 22
+          }
         },
         {
           "_content": "She has no control over where the information might end up.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 23
+          }
         }
       ]
     },
     {
-      "_id": 2620,
+      "_id": 67,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -2129,33 +3347,68 @@
         {
           "_content": "Luna sits in her bedroom with her phone in her hands and scrolls through the messages from the past five days.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 0
+          }
         },
         {
           "_content": "She remembers how excited she was when she first downloaded Connect. At first, it was a place to talk about books and meet people with similar interests.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 1
+          }
         },
         {
           "_content": "Now she has experienced bullying, manipulation, unwanted attention and the consequences of sharing personal information.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 2
+          }
         },
         {
           "_content": "Her previous decisions have shaped which evidence she saved, which accounts she blocked and whether she has someone she trusts to support her.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 3
+          }
         },
         {
           "_content": "Luna opens her messages and decides what to do next.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 4
+          }
         }
       ],
       "_options": [
         {
           "text": "Safe: Reach out, preserve evidence, report harmful accounts and secure her privacy.",
-          "nextNode": 2621,
+          "nextNode": 68,
           "messagesToSend": [],
           "eventToPublish": "Choice13_Safe",
           "reputationOperation": 1,
@@ -2163,7 +3416,7 @@
         },
         {
           "text": "Neutral: Take a break and avoid strangers, but keep everything to herself.",
-          "nextNode": 2622,
+          "nextNode": 69,
           "messagesToSend": [],
           "eventToPublish": "Choice13_Neutral",
           "reputationOperation": 0,
@@ -2171,7 +3424,7 @@
         },
         {
           "text": "Risky: Continue using Connect normally and hope it goes away.",
-          "nextNode": 2623,
+          "nextNode": 70,
           "messagesToSend": [],
           "eventToPublish": "Choice13_Risky",
           "reputationOperation": 2,
@@ -2180,7 +3433,7 @@
       ]
     },
     {
-      "_id": 2621,
+      "_id": 68,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -2191,12 +3444,19 @@
         {
           "_content": "Luna chooses to reach out to a trusted adult, preserve evidence, report harmful accounts and take control of her online privacy.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 2622,
+      "_id": 69,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -2207,12 +3467,19 @@
         {
           "_content": "Luna takes a break from Connect and avoids interacting with strangers, but keeps everything to herself.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 2623,
+      "_id": 70,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -2223,12 +3490,19 @@
         {
           "_content": "Luna continues using Connect as normal and hopes the situation eventually goes away.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 6
+          }
         }
       ]
     },
     {
-      "_id": 2700,
+      "_id": 71,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -2239,47 +3513,103 @@
         {
           "_content": "GOOD ENDING",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 30
+          }
         },
         {
           "_content": "Luna decides to speak to someone she trusts. She shows them the messages, screenshots and posts.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 31
+          }
         },
         {
           "_content": "Together, they report the harmful content and take steps to protect her accounts.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 32
+          }
         },
         {
           "_content": "The situation does not magically disappear, but Luna understands that she does not have to deal with everything alone.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 33
+          }
         },
         {
           "_content": "She opens Connect one final time and reviews her privacy settings.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 34
+          }
         },
         {
           "_content": "I guess I have to be more careful about what I share.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 35
+          }
         },
         {
           "_content": "Luna closes her laptop.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 36
+          }
         },
         {
           "_content": "FADE OUT.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 37
+          }
         }
       ]
     },
     {
-      "_id": 2701,
+      "_id": 72,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -2290,37 +3620,79 @@
         {
           "_content": "NEUTRAL ENDING",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 30
+          }
         },
         {
           "_content": "Luna decides to take a break from Connect. She blocks some accounts and deletes a few posts, but never tells anyone what happened.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 31
+          }
         },
         {
           "_content": "The situation becomes quieter, but she is still unsure about what information is out there.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 32
+          }
         },
         {
           "_content": "She puts her phone away.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 33
+          }
         },
         {
           "_content": "Maybe it'll all just go away.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 34
+          }
         },
         {
           "_content": "FADE OUT.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 35
+          }
         }
       ]
     },
     {
-      "_id": 2702,
+      "_id": 73,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": false,
@@ -2331,52 +3703,115 @@
         {
           "_content": "BAD ENDING",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 30
+          }
         },
         {
           "_content": "Luna continues using Connect without addressing what has happened.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 31
+          }
         },
         {
           "_content": "More people share the posts, and strangers continue contacting her.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 32
+          }
         },
         {
           "_content": "She becomes increasingly isolated and stops talking about what is happening at school and online.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 33
+          }
         },
         {
           "_content": "Her phone keeps buzzing.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 34
+          }
         },
         {
           "_content": "SFX: BZZZZ. BZZZZ. BZZZZ.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 35
+          }
         },
         {
           "_content": "Luna turns it face down.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 36
+          }
         },
         {
           "_content": "I wish I had never downloaded this.",
           "_sender": 0,
-          "_speakerName": "Luna"
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 37
+          }
         },
         {
           "_content": "FADE OUT.",
           "_sender": 1,
-          "_speakerName": "Narration"
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 38
+          }
         }
       ]
     },
     {
-      "_id": 2800,
+      "_id": 74,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": false,
@@ -2407,7 +3842,7 @@
       ]
     },
     {
-      "_id": 2801,
+      "_id": 75,
       "_nextNode": -1,
       "_dialogueType": 0,
       "_hasOptions": false,

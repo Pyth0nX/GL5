@@ -218,6 +218,10 @@ public class DayManager : MonoBehaviour
 
         ResetDay();
         _currentDay = clampedDay;
+        if (clampedDay == 1)
+        {
+            TransitionManager.Instance?.ResetCutsceneState();
+        }
 
         if (DecisionDataManager.Instance != null)
         {
@@ -334,22 +338,22 @@ public class DayManager : MonoBehaviour
         if (targetDay > 1)
         {
             MessagesManager.Instance.AppendTestSkipHistory(
-                "Connect", 1, 1000, RouteNode(route, 1001, 1002, 1003));
+                "Connect", 1, 0, RouteNode(route, 1, 2, 3));
             MessagesManager.Instance.AppendTestSkipHistory(
-                "Alex", 1, 1200, RouteNode(route, 1201, 1202, 1203), 1210);
-            MessagesManager.Instance.AppendTestSkipHistory("Jamie", 1, 1220);
+                "Alex", 1, 9, RouteNode(route, 10, 11, 12), 13);
+            MessagesManager.Instance.AppendTestSkipHistory("Jamie", 1, 14);
         }
 
         if (targetDay > 2)
         {
-            MessagesManager.Instance.AppendTestSkipHistory("Alex", 2, 1300);
+            MessagesManager.Instance.AppendTestSkipHistory("Alex", 2, 15);
             MessagesManager.Instance.AppendTestSkipHistory(
                 "Jamie", 2,
-                1500,
-                RouteNode(route, 1501, 1502, 1503),
-                1510,
-                RouteNode(route, 1511, 1512, 1513));
-            MessagesManager.Instance.AppendTestSkipHistory("Noah", 2, 1600);
+                20,
+                RouteNode(route, 21, 22, 23),
+                24,
+                RouteNode(route, 25, 26, 27));
+            MessagesManager.Instance.AppendTestSkipHistory("Noah", 2, 28);
         }
 
         if (targetDay > 3)
@@ -357,33 +361,33 @@ public class DayManager : MonoBehaviour
             if (route == TestRoute.Safe)
             {
                 MessagesManager.Instance.AppendTestSkipHistory(
-                    "Noah", 3, 1700, 1850, 1900, 1901, 1904, 1905);
+                    "Noah", 3, 29, 31, 32, 33, 36, 37);
             }
             else if (route == TestRoute.Neutral)
             {
                 MessagesManager.Instance.AppendTestSkipHistory(
-                    "Noah", 3, 1700, 1850, 1900, 1902, 1904, 1906, 1910, 1912);
+                    "Noah", 3, 29, 31, 32, 34, 36, 38, 40, 42);
             }
             else
             {
                 MessagesManager.Instance.AppendTestSkipHistory(
-                    "Noah", 3, 1700, 1850, 1900, 1903, 1904, 1907, 1910, 1913);
+                    "Noah", 3, 29, 31, 32, 35, 36, 39, 40, 43);
             }
 
-            MessagesManager.Instance.AppendTestSkipHistory("Unknown", 3, 1950);
+            MessagesManager.Instance.AppendTestSkipHistory("Unknown", 3, 44);
         }
 
         if (targetDay > 4)
         {
             MessagesManager.Instance.AppendTestSkipHistory(
                 "Unknown", 4,
-                2000,
-                2150,
-                2200,
-                RouteNode(route, 2201, 2202, 2203),
-                2210,
-                RouteNode(route, 2211, 2212, 2213));
-            MessagesManager.Instance.AppendTestSkipHistory("Riley", 4, 2300);
+                45,
+                47,
+                48,
+                RouteNode(route, 49, 50, 51),
+                52,
+                RouteNode(route, 53, 54, 55));
+            MessagesManager.Instance.AppendTestSkipHistory("Riley", 4, 56);
         }
 
         MessagesManager.Instance.CompleteTestSkipHistoryRebuild();
@@ -406,30 +410,30 @@ public class DayManager : MonoBehaviour
         switch (day)
         {
             case 1:
-                SetContactState("Student Group", 2801);
-                SetContactState("Connect", RouteNode(route, 1001, 1002, 1003));
-                SetContactState("Emma", 1100);
-                SetContactState("Alex", 1210);
-                SetContactState("Jamie", 1220);
+                SetContactState("Student Group", 75);
+                SetContactState("Connect", RouteNode(route, 1, 2, 3));
+                SetContactState("Emma", 8);
+                SetContactState("Alex", 13);
+                SetContactState("Jamie", 14);
                 break;
 
             case 2:
-                SetContactState("Alex", 1300);
-                SetContactState("Emma", RouteNode(route, 1401, 1402, 1403));
-                SetContactState("Jamie", RouteNode(route, 1511, 1512, 1513));
-                SetContactState("Noah", 1600);
+                SetContactState("Alex", 15);
+                SetContactState("Emma", RouteNode(route, 17, 18, 19));
+                SetContactState("Jamie", RouteNode(route, 25, 26, 27));
+                SetContactState("Noah", 28);
                 break;
 
             case 3:
-                SetContactState("Emma", 1800);
-                SetContactState("Noah", RouteNode(route, 1905, 1912, 1913));
-                SetContactState("Unknown", 1950);
+                SetContactState("Emma", 30);
+                SetContactState("Noah", RouteNode(route, 37, 42, 43));
+                SetContactState("Unknown", 44);
                 break;
 
             case 4:
-                SetContactState("Emma", 2100);
-                SetContactState("Unknown", RouteNode(route, 2211, 2212, 2213));
-                SetContactState("Riley", 2300);
+                SetContactState("Emma", 46);
+                SetContactState("Unknown", RouteNode(route, 53, 54, 55));
+                SetContactState("Riley", 56);
                 break;
         }
     }
@@ -476,7 +480,7 @@ public class DayManager : MonoBehaviour
         yield return null;
 
         int finalScore = _riskScore + finalDecisionModifier;
-        int endingNode = finalScore <= -4 ? 2700 : finalScore >= 5 ? 2702 : 2701;
+        int endingNode = finalScore <= -4 ? 71 : finalScore >= 5 ? 73 : 72;
 
         Debug.Log($"[DayManager] Resolving campaign ending with score {finalScore}; node {endingNode}.");
         MessagesManager.Instance?.AdvanceContactNarrativeNodeByEvent("Riley", endingNode);
