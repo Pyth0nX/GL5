@@ -135,49 +135,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9191732648007864028, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
   m_PrefabInstance: {fileID: 1466581391}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &119550969 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6398016243119492603, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-  m_PrefabInstance: {fileID: 1466581391}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &119550974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 119550969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
-  _overrideGlobalSettings: 0
-  _enableScale: 1
-  _hoverScaleMultiplier: 1.1
-  _pressedScaleMultiplier: 0.96
-  _scaleDuration: 0.12
-  _targetScaleTransform: {fileID: 0}
-  _enableBorder: 0
-  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
-  _borderThickness: 3
-  _borderPadding: 0
-  _borderStyle: 0
-  _cornerBracketRatio: 0.28
-  _borderFadeDuration: 0.08
-  _enableColorTint: 0
-  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
-  _colorFadeDuration: 0.1
-  _targetGraphic: {fileID: 0}
-  _enableHoverSound: 0
-  _hoverSoundClip: {fileID: 0}
-  _audioSource: {fileID: 0}
-  _onHoverEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  _onHoverExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &441089817 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6506868847471398616, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
@@ -479,6 +436,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 750000000000202, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -120
+      objectReference: {fileID: 0}
     - target: {fileID: 61300179070458699, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -631,9 +592,17 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 3390619690613712133, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4168856769120692112, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207123577159116740, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4493231244334116007, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_Name
@@ -755,6 +724,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 7300000000000000002, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7300000000000000005, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
@@ -786,6 +759,10 @@ PrefabInstance:
     - target: {fileID: 7300000000000000010, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_ActiveFontFeatures.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7375431181398905059, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -240
       objectReference: {fileID: 0}
     - target: {fileID: 7489625254134524891, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       propertyPath: m_IsActive
@@ -824,15 +801,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6398016243119492603, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3825829562933517116, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1799827438}
-    - targetCorrespondingSourceObject: {fileID: 6398016243119492603, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 119550974}
     - targetCorrespondingSourceObject: {fileID: 6338574590628956858, guid: 4e3d7205fab95874082e652058cdc102, type: 3}
       insertIndex: -1
       addedObject: {fileID: 636589231}

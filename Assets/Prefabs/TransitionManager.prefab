@@ -101,12 +101,12 @@ MonoBehaviour:
   _textDisplayDuration: 2
   _textFadeOutDuration: 0.5
   _scene1OpeningFrames:
-  - {fileID: 8961046758033588176, guid: 6327416288f87394f818465db4f6b39d, type: 3}
-  - {fileID: -2958872766370934721, guid: 3c9fbf9afd4ca90479b2d1faadf8c18b, type: 3}
-  - {fileID: 5308451747233082714, guid: 0756bf261a938bd4987bb4141a042466, type: 3}
-  - {fileID: 1505775242267135727, guid: 55ad6d14098e8e4449a6798854a79b78, type: 3}
-  - {fileID: -7239393328269180115, guid: ad82e49d22bb2f841bb6d9fa6998958b, type: 3}
-  - {fileID: 3625106821771087868, guid: 926ed0951ac9b8b43b742b9c1d5b4058, type: 3}
+  - {fileID: 8961046758033588176, guid: 1fe18560c995cf84b851aafbcf147a87, type: 3}
+  - {fileID: -2958872766370934721, guid: 9b67057ed7e3a614f86828f7dcf421d8, type: 3}
+  - {fileID: 5308451747233082714, guid: 639abd7043779a64b98dc79363a3b347, type: 3}
+  - {fileID: 1505775242267135727, guid: 773bf0936cb7bea4ca3d3be08145d1ce, type: 3}
+  - {fileID: -7239393328269180115, guid: 664438b32eb3a8147af89066d6b77616, type: 3}
+  - {fileID: 3625106821771087868, guid: 16a75225acda6a340a668b562c6d1891, type: 3}
   _scene1OpeningFrameDurations:
   - 5
   - 5
