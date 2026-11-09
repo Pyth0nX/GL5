@@ -99,6 +99,7 @@ public class UIManager : MonoBehaviour
 
         if (_pauseMenuPanel != null)
         {
+            EnsurePauseMenuHoverFeedback();
             _pauseMenuPanel.SetActive(false);
         }
 
@@ -627,7 +628,11 @@ public class UIManager : MonoBehaviour
                 break;
             case UIState.MENU:
                 {
-                    if (_pauseMenuPanel != null) _pauseMenuPanel.SetActive(true);
+                    if (_pauseMenuPanel != null)
+                    {
+                        EnsurePauseMenuHoverFeedback();
+                        _pauseMenuPanel.SetActive(true);
+                    }
                     if (InputManager.Instance != null)
                     {
                         InputManager.Instance.DisableInteract();
@@ -697,12 +702,27 @@ public class UIManager : MonoBehaviour
         UpdatePhoneAppLayout();
     }
 
+    private void EnsurePauseMenuHoverFeedback()
+    {
+        if (_pauseMenuPanel == null) return;
+
+        Button[] buttons = _pauseMenuPanel.GetComponentsInChildren<Button>(true);
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            Button btn = buttons[i];
+            if (btn != null && btn.GetComponent<UIHoverFeedback>() == null)
+            {
+                btn.gameObject.AddComponent<UIHoverFeedback>();
+            }
+        }
+    }
+
     private void ConfigureAppStoreButton(Transform buttonPanel)
     {
         Button appStoreButton = buttonPanel.Find("AppStore")?.GetComponent<Button>();
         if (appStoreButton == null)
         {
-            Button template = _connectAppButton != null ? _connectAppButton : _settingsAppButton;
+            Button template = _settingsAppButton != null ? _settingsAppButton : _connectAppButton;
             if (template == null)
             {
                 Debug.LogWarning("[UIManager] Phone app button template was not found; App Store button cannot be created.");
@@ -725,13 +745,25 @@ public class UIManager : MonoBehaviour
         appStoreButton.onClick.AddListener(OpenAppStoreMonologue);
         _appStoreButton = appStoreButton;
 
-        Sprite icon = _appStoreIcon != null ? _appStoreIcon : MessagesUI.LoadSprite("_PhoneUIImages/AppStore.png");
+        Sprite icon = _appStoreIcon;
+        if (icon == null) icon = Resources.Load<Sprite>("_PhoneUIImages/AppStore");
+        if (icon == null) icon = Resources.Load<Sprite>("AppStore");
+        if (icon == null) icon = MessagesUI.LoadSprite("_PhoneUIImages/AppStore.png");
+        if (icon == null) icon = MessagesUI.LoadSprite("AppStore.png");
+
         Image appStoreImage = appStoreButton.GetComponent<Image>();
-        if (appStoreImage != null && icon != null)
+        if (appStoreImage != null)
         {
-            appStoreImage.sprite = icon;
-            appStoreImage.preserveAspect = true;
-            appStoreButton.targetGraphic = appStoreImage;
+            if (icon != null)
+            {
+                appStoreImage.sprite = icon;
+                appStoreImage.preserveAspect = true;
+                appStoreButton.targetGraphic = appStoreImage;
+            }
+            else
+            {
+                Debug.LogWarning("[UIManager] App Store icon was not found!");
+            }
         }
     }
 
@@ -759,7 +791,12 @@ public class UIManager : MonoBehaviour
         {
             Sprite icon = _connectAppIcon != null
                 ? _connectAppIcon
-                : (connectImage.sprite != null ? connectImage.sprite : MessagesUI.LoadSprite("_PhoneUIImages/ConenctSocialMedia.png"));
+                : (connectImage.sprite != null ? connectImage.sprite : null);
+
+            if (icon == null) icon = Resources.Load<Sprite>("_PhoneUIImages/ConenctSocialMedia");
+            if (icon == null) icon = Resources.Load<Sprite>("ConenctSocialMedia");
+            if (icon == null) icon = MessagesUI.LoadSprite("_PhoneUIImages/ConenctSocialMedia.png");
+            if (icon == null) icon = MessagesUI.LoadSprite("ConenctSocialMedia.png");
 
             if (icon != null)
             {

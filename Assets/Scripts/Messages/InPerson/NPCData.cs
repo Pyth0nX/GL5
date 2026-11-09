@@ -16,6 +16,101 @@ public class NPCData : IInteractable
     [Tooltip("Optional: Events that disable this NPC.")]
     [SerializeField] private System.Collections.Generic.List<string> _disableEvents;
 
+    [Header("Class Transition Loops")]
+    [Tooltip("Starting narrative node for the before-class dialogue loop (-1 if unused).")]
+    [SerializeField] private int _beforeClassNodeId = -1;
+
+    [Tooltip("Starting narrative node for the after-class dialogue loop (-1 if unused).")]
+    [SerializeField] private int _afterClassNodeId = -1;
+
+    private static bool _isClassFinishedToday = false;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        AutoConfigureClassroomNPC();
+    }
+
+    private void AutoConfigureClassroomNPC()
+    {
+        string objName = gameObject.name.Trim();
+        if (objName == "NPC (5)" || objName == "NPC(5)")
+        {
+            if (string.IsNullOrEmpty(_characterName) || _characterName == "Classmate") _characterName = "Leo";
+            _standaloneDialogue = "";
+            if (_beforeClassNodeId < 0) _beforeClassNodeId = 100;
+            if (_afterClassNodeId < 0) _afterClassNodeId = 103;
+        }
+        else if (objName == "NPC (6)" || objName == "NPC(6)")
+        {
+            if (string.IsNullOrEmpty(_characterName) || _characterName == "Classmate") _characterName = "Chloe";
+            _standaloneDialogue = "";
+            if (_beforeClassNodeId < 0) _beforeClassNodeId = 110;
+            if (_afterClassNodeId < 0) _afterClassNodeId = 113;
+        }
+        else if (objName == "NPC (8)" || objName == "NPC(8)")
+        {
+            if (string.IsNullOrEmpty(_characterName) || _characterName == "Classmate") _characterName = "Liam";
+            _standaloneDialogue = "";
+            if (_beforeClassNodeId < 0) _beforeClassNodeId = 120;
+            if (_afterClassNodeId < 0) _afterClassNodeId = 123;
+        }
+        else if (objName == "NPC (9)" || objName == "NPC(9)")
+        {
+            if (string.IsNullOrEmpty(_characterName) || _characterName == "Classmate") _characterName = "Mia";
+            _standaloneDialogue = "";
+            if (_beforeClassNodeId < 0) _beforeClassNodeId = 130;
+            if (_afterClassNodeId < 0) _afterClassNodeId = 133;
+        }
+        else if (objName == "NPC (10)" || objName == "NPC(10)")
+        {
+            if (string.IsNullOrEmpty(_characterName) || _characterName == "Classmate") _characterName = "Ethan";
+            _standaloneDialogue = "";
+            if (_beforeClassNodeId < 0) _beforeClassNodeId = 140;
+            if (_afterClassNodeId < 0) _afterClassNodeId = 143;
+        }
+        else if (objName == "Teacher")
+        {
+            if (string.IsNullOrEmpty(_characterName)) _characterName = "Mr. Henderson";
+            _standaloneDialogue = "";
+            if (_beforeClassNodeId < 0) _beforeClassNodeId = 150;
+            if (_afterClassNodeId < 0) _afterClassNodeId = 153;
+        }
+    }
+
+    public static bool IsSchoolClassFinished()
+    {
+        if (_isClassFinishedToday) return true;
+
+        if (ObjectivesManager.Instance != null && ObjectivesManager.Instance.GetCurrentObjective() != null)
+        {
+            string ev = ObjectivesManager.Instance.GetCurrentObjective().EventToListen();
+            if (ev == "SchoolClassFinished" || ev == "SchoolEncounterComplete")
+            {
+                return false;
+            }
+        }
+        return _isClassFinishedToday;
+    }
+
+    private void OnSchoolClassFinished()
+    {
+        _isClassFinishedToday = true;
+        if (!string.IsNullOrEmpty(_characterName) && _afterClassNodeId >= 0 && MessagesManager.Instance != null)
+        {
+            MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent(_characterName, _afterClassNodeId);
+        }
+    }
+
+    private void OnDayReset()
+    {
+        _isClassFinishedToday = false;
+        if (!string.IsNullOrEmpty(_characterName) && _beforeClassNodeId >= 0 && MessagesManager.Instance != null)
+        {
+            MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent(_characterName, _beforeClassNodeId);
+        }
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -35,6 +130,41 @@ public class NPCData : IInteractable
                 foreach (var ev in _disableEvents)
                 {
                     if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Subscribe(ev, DisableInteraction);
+                }
+            }
+
+            EventBus.Instance.Subscribe("SchoolClassFinished", OnSchoolClassFinished);
+            EventBus.Instance.Subscribe("NextDay", OnDayReset);
+            EventBus.Instance.Subscribe("Day1_GoToSchool", OnDayReset);
+            EventBus.Instance.Subscribe("Start_Day1", OnDayReset);
+            EventBus.Instance.Subscribe("Start_Day2", OnDayReset);
+            EventBus.Instance.Subscribe("Start_Day3", OnDayReset);
+            EventBus.Instance.Subscribe("Start_Day4", OnDayReset);
+            EventBus.Instance.Subscribe("Start_Day5", OnDayReset);
+        }
+
+        if (!string.IsNullOrEmpty(_characterName) && _beforeClassNodeId >= 0 && MessagesManager.Instance != null)
+        {
+            bool classDone = IsSchoolClassFinished();
+            int targetNode = classDone && _afterClassNodeId >= 0 ? _afterClassNodeId : _beforeClassNodeId;
+            Contact contact = MessagesManager.Instance.GetContactByName(_characterName);
+            if (contact != null)
+            {
+                int curr = contact.NarrativeNode();
+                if (curr < 0)
+                {
+                    contact.SetNarrativeNode(targetNode);
+                    contact.SetCurrentMessageIndex(0);
+                }
+                else if (classDone && _afterClassNodeId >= 0 && (curr < _afterClassNodeId || curr >= _afterClassNodeId + 10))
+                {
+                    contact.SetNarrativeNode(targetNode);
+                    contact.SetCurrentMessageIndex(0);
+                }
+                else if (!classDone && _beforeClassNodeId >= 0 && (curr < _beforeClassNodeId || curr >= _beforeClassNodeId + 10))
+                {
+                    contact.SetNarrativeNode(targetNode);
+                    contact.SetCurrentMessageIndex(0);
                 }
             }
         }
@@ -86,6 +216,14 @@ public class NPCData : IInteractable
                     if (!string.IsNullOrEmpty(ev)) EventBus.Instance.Unsubscribe(ev, DisableInteraction);
                 }
             }
+            EventBus.Instance.Unsubscribe("SchoolClassFinished", OnSchoolClassFinished);
+            EventBus.Instance.Unsubscribe("NextDay", OnDayReset);
+            EventBus.Instance.Unsubscribe("Day1_GoToSchool", OnDayReset);
+            EventBus.Instance.Unsubscribe("Start_Day1", OnDayReset);
+            EventBus.Instance.Unsubscribe("Start_Day2", OnDayReset);
+            EventBus.Instance.Unsubscribe("Start_Day3", OnDayReset);
+            EventBus.Instance.Unsubscribe("Start_Day4", OnDayReset);
+            EventBus.Instance.Unsubscribe("Start_Day5", OnDayReset);
         }
     }
 
@@ -144,6 +282,29 @@ public class NPCData : IInteractable
             }
 
             return;
+        }
+
+        if (MessagesManager.Instance != null)
+        {
+            Contact contact = MessagesManager.Instance.GetContactByName(_characterName);
+            if (contact != null && contact.NarrativeNode() < 0)
+            {
+                Debug.Log($"[NPC]: Interaction unavailable - '{_characterName}' has no active narrative node.");
+                if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.ShowTemporaryMessage(
+                        _notAvailableMessage,
+                        UIManager.UnavailableInteractionColor,
+                        2f);
+                }
+
+                PlayerStateMachine playerState = FindAnyObjectByType<PlayerStateMachine>();
+                if (playerState != null && playerState.GetCurrentState() == PlayerState.Interacting)
+                {
+                    playerState.ChangeState(PlayerState.Idle);
+                }
+                return;
+            }
         }
 
         MessagesManager.Instance.SetCurrentContact(_characterName);

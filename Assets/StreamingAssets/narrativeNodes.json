@@ -6,6 +6,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -54,6 +55,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_Profile_End",
       "_options": [],
       "_dialogues": [
@@ -77,6 +79,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_Profile_End",
       "_options": [],
       "_dialogues": [
@@ -100,6 +103,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_Profile_End",
       "_options": [],
       "_dialogues": [
@@ -123,6 +127,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -246,6 +251,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_AlexIntro_End",
       "_options": [],
       "_dialogues": [
@@ -281,6 +287,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_AlexIntro_End",
       "_options": [],
       "_dialogues": [
@@ -316,6 +323,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_AlexIntro_End",
       "_options": [],
       "_dialogues": [
@@ -351,6 +359,7 @@
       "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "SchoolEncounterComplete",
       "_options": [],
       "_dialogues": [
@@ -387,6 +396,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -546,6 +556,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -581,6 +592,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -628,6 +640,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -675,6 +688,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_AlexEveningComplete",
       "_options": [],
       "_dialogues": [
@@ -734,6 +748,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_Evening_End",
       "_options": [],
       "_dialogues": [
@@ -769,6 +784,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D2_Morning_End",
       "_options": [],
       "_dialogues": [
@@ -840,6 +856,7 @@
       "_dialogueType": 0,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -896,6 +913,7 @@
       "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "SchoolEncounterComplete",
       "_options": [],
       "_dialogues": [
@@ -927,6 +945,7 @@
       "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "SchoolEncounterComplete",
       "_options": [],
       "_dialogues": [
@@ -958,6 +977,7 @@
       "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "SchoolEncounterComplete",
       "_options": [],
       "_dialogues": [
@@ -989,6 +1009,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -1073,6 +1094,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -1108,6 +1130,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -1143,6 +1166,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -1178,6 +1202,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -1250,6 +1275,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D2_Jamie_End",
       "_options": [],
       "_dialogues": [
@@ -1285,6 +1311,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D2_Jamie_End",
       "_options": [],
       "_dialogues": [
@@ -1320,6 +1347,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D2_Jamie_End",
       "_options": [],
       "_dialogues": [
@@ -1355,6 +1383,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D2_NoahTeaser_End",
       "_options": [],
       "_dialogues": [
@@ -1378,6 +1407,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D3_Morning_End",
       "_options": [],
       "_dialogues": [
@@ -1473,6 +1503,7 @@
       "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "SchoolEncounterComplete",
       "_options": [],
       "_dialogues": [
@@ -1514,6 +1545,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D3_Lunch_End",
       "_options": [],
       "_dialogues": [
@@ -1549,6 +1581,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -1621,6 +1654,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -1668,6 +1702,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -1703,6 +1738,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -1750,6 +1786,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -1822,6 +1859,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D3_NoahPhoto_End",
       "_options": [],
       "_dialogues": [
@@ -1857,6 +1895,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -1904,6 +1943,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -1951,6 +1991,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -2059,6 +2100,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D3_NoahPhoto_End",
       "_options": [],
       "_dialogues": [
@@ -2094,6 +2136,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D3_NoahPhoto_End",
       "_options": [],
       "_dialogues": [
@@ -2129,6 +2172,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D3_NoahPhoto_End",
       "_options": [],
       "_dialogues": [
@@ -2164,6 +2208,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D3_Noah_End",
       "_options": [],
       "_dialogues": [
@@ -2199,6 +2244,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D4_Morning_End",
       "_options": [],
       "_dialogues": [
@@ -2282,6 +2328,7 @@
       "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "SchoolEncounterComplete",
       "_options": [],
       "_dialogues": [
@@ -2313,6 +2360,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D4_ClassMessage_End",
       "_options": [],
       "_dialogues": [
@@ -2348,6 +2396,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -2420,6 +2469,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -2455,6 +2505,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -2490,6 +2541,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -2525,6 +2577,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -2609,6 +2662,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D4_Unknown_End",
       "_options": [],
       "_dialogues": [
@@ -2644,6 +2698,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D4_Unknown_End",
       "_options": [],
       "_dialogues": [
@@ -2667,6 +2722,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D4_Unknown_End",
       "_options": [],
       "_dialogues": [
@@ -2702,6 +2758,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D4_RileyIntro_End",
       "_options": [],
       "_dialogues": [
@@ -2785,6 +2842,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D5_Morning_End",
       "_options": [],
       "_dialogues": [
@@ -2868,6 +2926,7 @@
       "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "SchoolEncounterComplete",
       "_options": [],
       "_dialogues": [
@@ -2904,6 +2963,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -3048,6 +3108,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -3071,6 +3132,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -3094,6 +3156,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -3117,6 +3180,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -3237,6 +3301,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -3272,6 +3337,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -3307,6 +3373,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_options": [],
       "_dialogues": [
@@ -3342,6 +3409,7 @@
       "_dialogueType": 1,
       "_hasOptions": true,
       "_isEndNode": false,
+      "_loop": false,
       "_eventOnEnd": "",
       "_dialogues": [
         {
@@ -3438,6 +3506,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "ResolveEnding_Safe",
       "_options": [],
       "_dialogues": [
@@ -3461,6 +3530,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "ResolveEnding_Neutral",
       "_options": [],
       "_dialogues": [
@@ -3484,6 +3554,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "ResolveEnding_Risky",
       "_options": [],
       "_dialogues": [
@@ -3507,6 +3578,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "Campaign_Completed",
       "_options": [],
       "_dialogues": [
@@ -3614,6 +3686,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "Campaign_Completed",
       "_options": [],
       "_dialogues": [
@@ -3697,6 +3770,7 @@
       "_dialogueType": 1,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "Campaign_Completed",
       "_options": [],
       "_dialogues": [
@@ -3816,6 +3890,7 @@
       "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_StudentConnectOverheard",
       "_options": [],
       "_dialogues": [
@@ -3847,6 +3922,7 @@
       "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
+      "_loop": false,
       "_eventOnEnd": "D1_StudentConnectConversationComplete",
       "_options": [],
       "_dialogues": [
@@ -3869,6 +3945,618 @@
           "_content": "Look, you can make your own profile and find people with the same interests.",
           "_sender": 1,
           "_speakerName": "Student 1"
+        }
+      ]
+    },
+    {
+      "_id": 100,
+      "_nextNode": 101,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna! Did you manage to finish reading chapter four? I barely slept trying to summarize it.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ]
+    },
+    {
+      "_id": 101,
+      "_nextNode": 102,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I really hope we don't have a pop quiz today. My brain is completely fried already.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ]
+    },
+    {
+      "_id": 102,
+      "_nextNode": 100,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "You should probably head over to your desk before the bell rings, Luna.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ]
+    },
+    {
+      "_id": 103,
+      "_nextNode": 104,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Phew, that lecture was intense! At least the pop quiz wasn't as brutal as I feared.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ]
+    },
+    {
+      "_id": 104,
+      "_nextNode": 105,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I need to double-check my notes when I get home. Let me know if you want to compare answers later.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ]
+    },
+    {
+      "_id": 105,
+      "_nextNode": 103,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Finally done for the day! See you tomorrow, Luna.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ]
+    },
+    {
+      "_id": 110,
+      "_nextNode": 111,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Morning Luna! Did you do anything fun yesterday, or was it just homework all night?",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ]
+    },
+    {
+      "_id": 111,
+      "_nextNode": 112,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I love your jacket today, by the way! It looks really nice on you.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ]
+    },
+    {
+      "_id": 112,
+      "_nextNode": 110,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hurry and take your seat before Mr. Henderson notices we're all chatting!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ]
+    },
+    {
+      "_id": 113,
+      "_nextNode": 114,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Class dragged on forever! Are you heading straight home or hanging around the plaza?",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ]
+    },
+    {
+      "_id": 114,
+      "_nextNode": 115,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I think a bunch of us might grab smoothies later. Catch you around, Luna!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ]
+    },
+    {
+      "_id": 115,
+      "_nextNode": 113,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Don't forget we have that group project coming up soon. Have a great afternoon, Luna!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ]
+    },
+    {
+      "_id": 120,
+      "_nextNode": 121,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna... Man, track practice this morning completely wiped me out.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ]
+    },
+    {
+      "_id": 121,
+      "_nextNode": 122,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "If I start dozing off during the lecture, do me a favor and tap my shoulder, okay?",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ]
+    },
+    {
+      "_id": 122,
+      "_nextNode": 120,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Class is starting any minute now. Let's get to our seats.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ]
+    },
+    {
+      "_id": 123,
+      "_nextNode": 124,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "We survived! I definitely need an energy drink or an afternoon nap right about now.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ]
+    },
+    {
+      "_id": 124,
+      "_nextNode": 125,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Gotta get ready for afternoon drills. Catch you later, Luna!",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ]
+    },
+    {
+      "_id": 125,
+      "_nextNode": 123,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Enjoy the rest of your day, Luna. Don't stress too much over homework.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ]
+    },
+    {
+      "_id": 130,
+      "_nextNode": 131,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hi Luna! I was just doodling in the margins of my notebook while waiting for the bell.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ]
+    },
+    {
+      "_id": 131,
+      "_nextNode": 132,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I'm working on a new character design in my sketchbook. I'll show you once it's finished!",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ]
+    },
+    {
+      "_id": 132,
+      "_nextNode": 130,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "We'd better put our art stuff away. The teacher is about to start.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ]
+    },
+    {
+      "_id": 133,
+      "_nextNode": 134,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "That history lecture actually inspired a new drawing idea for my portfolio!",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ]
+    },
+    {
+      "_id": 134,
+      "_nextNode": 135,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I'll probably spend the whole evening working on some new digital art.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ]
+    },
+    {
+      "_id": 135,
+      "_nextNode": 133,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Take care, Luna! See you in class tomorrow.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ]
+    },
+    {
+      "_id": 140,
+      "_nextNode": 141,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna! Did you see the new update that dropped last night? The graphics patch is insane.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ]
+    },
+    {
+      "_id": 141,
+      "_nextNode": 142,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I brought my tablet today to test out a new coding plugin during study hall.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ]
+    },
+    {
+      "_id": 142,
+      "_nextNode": 140,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "The bell is about to ring, Luna. Best get to your desk before roll call.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ]
+    },
+    {
+      "_id": 143,
+      "_nextNode": 144,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Finally out of class! Time to head home and grind some ranks on my PC.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ]
+    },
+    {
+      "_id": 144,
+      "_nextNode": 145,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "If you get stuck on the science worksheet, just let me know and we can compare answers.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ]
+    },
+    {
+      "_id": 145,
+      "_nextNode": 143,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Later, Luna! Have a good rest of your day.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ]
+    },
+    {
+      "_id": 150,
+      "_nextNode": 151,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Good morning, Luna. Please make sure your desk is clear and you have your materials ready.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ]
+    },
+    {
+      "_id": 151,
+      "_nextNode": 152,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "We have quite a lot of material to cover today, so I expect everyone's full attention.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ]
+    },
+    {
+      "_id": 152,
+      "_nextNode": 150,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Take your seat at your desk, Luna. Class will begin shortly.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ]
+    },
+    {
+      "_id": 153,
+      "_nextNode": 154,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Class is dismissed for today. Please review chapters four and five before tomorrow's discussion.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ]
+    },
+    {
+      "_id": 154,
+      "_nextNode": 155,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Remember that safe online habits apply to school forums as well. Be mindful of what you share.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ]
+    },
+    {
+      "_id": 155,
+      "_nextNode": 153,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Have a productive afternoon, Luna. Don't leave your assignments until the last minute.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
         }
       ]
     }

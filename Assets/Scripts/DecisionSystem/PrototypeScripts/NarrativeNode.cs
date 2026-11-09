@@ -56,6 +56,10 @@ public class NarrativeNode
     [SerializeField]
     private bool _isEndNode = false; // Whether this node is an end node or not (end of the current state)
 
+    [Tooltip("If true, finishing the interaction with this node will return to this node (or _loopNode), allowing NPCs to repeat default phrases.")]
+    [SerializeField]
+    private bool _loop = false; // Whether this node loops back upon finishing
+
     [SerializeField]
     private int _loopNode = -1; // The node to loop back to, if none it's -1
 
@@ -148,7 +152,21 @@ public class NarrativeNode
     
     public bool IsEndNode() { return _isEndNode; }
     
+    public bool Loop() { return _loop || _loopNode >= 0; }
+
+    public bool IsLoop() { return _loop || _loopNode >= 0; }
+
     public int LoopNode() { return _loopNode; }
+
+    /// <summary>
+    /// Returns the target node ID to loop back to. Prefers _loopNode if specified; otherwise uses _nextNode if set, or defaults to this node's own ID.
+    /// </summary>
+    public int GetLoopTargetNodeId()
+    {
+        if (_loopNode >= 0) return _loopNode;
+        if (_nextNode >= 0) return _nextNode;
+        return _id;
+    }
     
     public DialogueType DialogueType() { return _dialogueType; }
 
@@ -226,6 +244,16 @@ public class NarrativeNode
     #endregion
 
     #region Setters & Helpers
+    public void SetLoop(bool value)
+    {
+        _loop = value;
+    }
+
+    public void SetLoopNode(int node)
+    {
+        _loopNode = node;
+    }
+
     public void AddDialogue(Message message)
     {
         if (_dialogues == null) _dialogues = new List<Message>();

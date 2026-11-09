@@ -700,6 +700,8 @@ MonoBehaviour:
   _interactionText: {fileID: 4064945058791552581}
   _map: {fileID: 7973820636746429435}
   _mainMenuUI: {fileID: 8551332589406626568}
+  _appStoreIcon: {fileID: 6151192678529927951, guid: 3e3fc275682005344a673d90a28e0171, type: 3}
+  _connectAppIcon: {fileID: -6157953474893157701, guid: 549d039bca3477e41adf3b47fcb82cbd, type: 3}
   _appearTime: 0.3
   _disappearTime: 0.5
   _blurVolume: {fileID: 2539277527935811279}

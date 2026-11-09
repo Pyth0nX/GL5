@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 8875403021184177750}
   - component: {fileID: 8210950111627816093}
   - component: {fileID: 2677745599037562810}
+  - component: {fileID: 750000000000201}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -513,6 +514,7 @@ GameObject:
   - component: {fileID: 3351264123102698724}
   - component: {fileID: 353961311710519323}
   - component: {fileID: 3902123190246891842}
+  - component: {fileID: 750000000000202}
   m_Layer: 5
   m_Name: MainMenuButton
   m_TagString: Untagged
@@ -727,6 +729,7 @@ GameObject:
   - component: {fileID: 7100000000000000004}
   - component: {fileID: 7100000000000000005}
   - component: {fileID: 7100000000000000006}
+  - component: {fileID: 750000000000203}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -1322,3 +1325,117 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &750000000000201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921413261362316555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.08
+  _pressedScaleMultiplier: 0.95
+  _scaleDuration: 0.1
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &750000000000202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5086156806677308201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.08
+  _pressedScaleMultiplier: 0.95
+  _scaleDuration: 0.1
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &750000000000203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7100000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19120f4c454d4cb19400188de6348696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverFeedback
+  _overrideGlobalSettings: 0
+  _enableScale: 1
+  _hoverScaleMultiplier: 1.08
+  _pressedScaleMultiplier: 0.95
+  _scaleDuration: 0.1
+  _targetScaleTransform: {fileID: 0}
+  _enableBorder: 0
+  _borderColor: {r: 0.25, g: 0.85, b: 1, a: 1}
+  _borderThickness: 3
+  _borderPadding: 0
+  _borderStyle: 0
+  _cornerBracketRatio: 0.28
+  _borderFadeDuration: 0.08
+  _enableColorTint: 0
+  _hoverTintColor: {r: 1.15, g: 1.15, b: 1.15, a: 1}
+  _colorFadeDuration: 0.1
+  _targetGraphic: {fileID: 0}
+  _enableHoverSound: 0
+  _hoverSoundClip: {fileID: 0}
+  _audioSource: {fileID: 0}
+  _onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []

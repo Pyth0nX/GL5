@@ -159,7 +159,7 @@ public class MessagesManager : MonoBehaviour
     {
         PhoneNotificationController.Instance?.ShowNotification(
             PhoneApp.Connect,
-            "Be You Safely - Story Complete",
+            "Before You Send - Story Complete",
             null,
             5f);
 
@@ -172,7 +172,7 @@ public class MessagesManager : MonoBehaviour
         }
 
         DialogueManager.Instance?.ShowNarration(
-            "End of Luna's 5-Day Story. You have completed the Be You Safely campaign.");
+            "End of Luna's 5-Day Story. You have completed the Before You Send campaign.");
     }
 
     /// <summary>

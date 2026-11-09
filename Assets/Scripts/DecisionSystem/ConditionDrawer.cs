@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -90,3 +91,4 @@ public class ConditionDrawer : PropertyDrawer
         return (EditorGUIUtility.singleLineHeight * lines) + (VerticalSpacing * (lines + 1)) + 2f;
     }
 }
+#endif

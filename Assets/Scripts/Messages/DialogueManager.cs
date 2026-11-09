@@ -317,7 +317,8 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        bool reachedEndNode = _isEndNode;
+        bool isLoopNode = currentNode.IsLoop();
+        bool reachedEndNode = _isEndNode || isLoopNode;
         _currentDialogueIndex = 0;
         _currentDialogues = null;
 
@@ -352,12 +353,26 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        // If this node is configured as a loop (e.g. default recurring NPC phrase), reset back to the loop target
+        // node so subsequent interactions replay the dialogue identically.
+        if (isLoopNode)
+        {
+            int loopTargetId = currentNode.GetLoopTargetNodeId();
+            loopTargetId = MessagesManager.Instance.ResolveEntryRedirects(loopTargetId);
+            currentContact.SetNarrativeNode(loopTargetId);
+            currentContact.SetCurrentMessageIndex(0);
+            _isEndNode = false;
+            return;
+        }
+
         // 3. Resolve the next node by evaluating conditional reputation branches
         int nextNodeId = currentNode.ResolveNextNode();
         if (nextNodeId < 0)
         {
             if (reachedEndNode)
             {
+                currentContact.SetNarrativeNode(-1);
+                currentContact.SetCurrentMessageIndex(0);
                 _isEndNode = false;
                 return;
             }
@@ -368,6 +383,7 @@ public class DialogueManager : MonoBehaviour
 
         nextNodeId = MessagesManager.Instance.ResolveEntryRedirects(nextNodeId);
         currentContact.SetNarrativeNode(nextNodeId);
+        currentContact.SetCurrentMessageIndex(0);
 
         if (reachedEndNode)
         {

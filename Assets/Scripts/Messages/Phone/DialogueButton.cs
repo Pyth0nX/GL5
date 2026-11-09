@@ -196,7 +196,7 @@ public class DialogueButton : MonoBehaviour
                 EventBus.Instance.Publish(currentNode.EventOnEnd());
             }
 
-            int nextNodeId = currentNode.ResolveNextNode();
+            int nextNodeId = currentNode.IsLoop() ? currentNode.GetLoopTargetNodeId() : currentNode.ResolveNextNode();
             nextNodeId = MessagesManager.Instance.ResolveEntryRedirects(nextNodeId);
 
             currentContact.SetNarrativeNode(nextNodeId);
