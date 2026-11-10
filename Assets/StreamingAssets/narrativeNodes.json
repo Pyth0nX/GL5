@@ -25,7 +25,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Use a username and avatar only.",
+          "text": "Use a username and avatar only.",
           "nextNode": 1,
           "messagesToSend": [],
           "eventToPublish": "Choice1_Safe",
@@ -33,7 +33,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Add a first name and selfie.",
+          "text": "Add a first name and selfie.",
           "nextNode": 2,
           "messagesToSend": [],
           "eventToPublish": "Choice1_Neutral",
@@ -41,7 +41,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Add full name, school and photo.",
+          "text": "Add full name, school and photo.",
           "nextNode": 3,
           "messagesToSend": [],
           "eventToPublish": "Choice1_Risky",
@@ -186,7 +186,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Keep the conversation about books.",
+          "text": "Keep the conversation about books.",
           "nextNode": 5,
           "messagesToSend": [
             {
@@ -495,7 +495,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Keep it about the books.",
+          "text": "Keep it about the books.",
           "nextNode": 10,
           "messagesToSend": [
             {
@@ -516,7 +516,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Say you're a book nerd.",
+          "text": "Say you're a book nerd.",
           "nextNode": 11,
           "messagesToSend": [
             {
@@ -537,7 +537,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Share school, routine and location.",
+          "text": "Share school, routine and location.",
           "nextNode": 12,
           "messagesToSend": [
             {
@@ -898,7 +898,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Could you just leave me alone?",
+          "text": "Could you just leave me alone?",
           "nextNode": 17,
           "messagesToSend": [],
           "eventToPublish": "Choice3_Safe",
@@ -906,7 +906,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Ignore them and quietly get your books.",
+          "text": "Ignore them and quietly get your books.",
           "nextNode": 18,
           "messagesToSend": [],
           "eventToPublish": "Choice3_Neutral",
@@ -914,7 +914,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: At least I don't spend all day obsessing over other people.",
+          "text": "At least I don't spend all day obsessing over other people.",
           "nextNode": 19,
           "messagesToSend": [],
           "eventToPublish": "Choice3_Risky",
@@ -1083,7 +1083,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Post about a favourite book.",
+          "text": "Post about a favourite book.",
           "nextNode": 21,
           "messagesToSend": [],
           "eventToPublish": "Choice4_Safe",
@@ -1091,7 +1091,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Post a selfie without details.",
+          "text": "Post a selfie without details.",
           "nextNode": 22,
           "messagesToSend": [],
           "eventToPublish": "Choice4_Neutral",
@@ -1099,7 +1099,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Show uniform and location.",
+          "text": "Show uniform and location.",
           "nextNode": 23,
           "messagesToSend": [],
           "eventToPublish": "Choice4_Risky",
@@ -1268,7 +1268,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Save evidence, report it and seek help.",
+          "text": "Save evidence, report it and seek help.",
           "nextNode": 25,
           "messagesToSend": [],
           "eventToPublish": "Choice5_Safe",
@@ -1276,7 +1276,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Delete the original and log off.",
+          "text": "Delete the original and log off.",
           "nextNode": 26,
           "messagesToSend": [],
           "eventToPublish": "Choice5_Neutral",
@@ -1284,7 +1284,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Comment back and argue.",
+          "text": "Comment back and argue.",
           "nextNode": 27,
           "messagesToSend": [],
           "eventToPublish": "Choice5_Risky",
@@ -1655,7 +1655,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: I'd rather not share personal information.",
+          "text": "I'd rather not share personal information.",
           "nextNode": 33,
           "messagesToSend": [],
           "eventToPublish": "Choice6_Safe",
@@ -1663,7 +1663,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Why do you ask?",
+          "text": "Why do you ask?",
           "nextNode": 34,
           "messagesToSend": [],
           "eventToPublish": "Choice6_Neutral",
@@ -1671,7 +1671,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Tell Noah her age and other personal details.",
+          "text": "Tell Noah her age and other personal details.",
           "nextNode": 35,
           "messagesToSend": [],
           "eventToPublish": "Choice6_Risky",
@@ -1864,7 +1864,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Refuse, block and report Noah.",
+          "text": "Refuse, block and report Noah.",
           "nextNode": 37,
           "messagesToSend": [],
           "eventToPublish": "Choice7_Safe",
@@ -1872,7 +1872,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Send a normal selfie.",
+          "text": "Send a normal selfie.",
           "nextNode": 38,
           "messagesToSend": [],
           "eventToPublish": "Choice7_Neutral",
@@ -1880,7 +1880,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Send a flirty or revealing selfie.",
+          "text": "Send a flirty or revealing selfie.",
           "nextNode": 39,
           "messagesToSend": [],
           "eventToPublish": "Choice7_Risky",
@@ -2109,7 +2109,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Save evidence, report, block and tell a trusted adult.",
+          "text": "Save evidence, report, block and tell a trusted adult.",
           "nextNode": 41,
           "messagesToSend": [],
           "eventToPublish": "Choice8_Safe",
@@ -2117,7 +2117,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Block Noah and close the app without telling anyone.",
+          "text": "Block Noah and close the app without telling anyone.",
           "nextNode": 42,
           "messagesToSend": [],
           "eventToPublish": "Choice8_Neutral",
@@ -2125,7 +2125,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Ignore the post and hope it disappears.",
+          "text": "Ignore the post and hope it disappears.",
           "nextNode": 43,
           "messagesToSend": [],
           "eventToPublish": "Choice8_Risky",
@@ -2486,7 +2486,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Block, report and tell someone about the messages.",
+          "text": "Block, report and tell someone about the messages.",
           "nextNode": 49,
           "messagesToSend": [],
           "eventToPublish": "Choice9_Safe",
@@ -2494,7 +2494,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Ask how the account knows before deciding what to do.",
+          "text": "Ask how the account knows before deciding what to do.",
           "nextNode": 50,
           "messagesToSend": [],
           "eventToPublish": "Choice9_Neutral",
@@ -2502,7 +2502,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Share where she walks and when she gets home.",
+          "text": "Share where she walks and when she gets home.",
           "nextNode": 51,
           "messagesToSend": [],
           "eventToPublish": "Choice9_Risky",
@@ -2683,7 +2683,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Go private, remove identifying information and review location permissions.",
+          "text": "Go private, remove identifying information and review location permissions.",
           "nextNode": 53,
           "messagesToSend": [],
           "eventToPublish": "Choice10_Safe",
@@ -2691,7 +2691,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Delete a few posts that reveal personal information.",
+          "text": "Delete a few posts that reveal personal information.",
           "nextNode": 54,
           "messagesToSend": [],
           "eventToPublish": "Choice10_Neutral",
@@ -2699,7 +2699,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Leave everything public.",
+          "text": "Leave everything public.",
           "nextNode": 55,
           "messagesToSend": [],
           "eventToPublish": "Choice10_Risky",
@@ -3136,7 +3136,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Save evidence, report the misinformation and speak to someone she trusts.",
+          "text": "Save evidence, report the misinformation and speak to someone she trusts.",
           "nextNode": 60,
           "messagesToSend": [],
           "eventToPublish": "Choice11_Safe",
@@ -3144,7 +3144,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Ignore the post and stop checking the comments.",
+          "text": "Ignore the post and stop checking the comments.",
           "nextNode": 61,
           "messagesToSend": [],
           "eventToPublish": "Choice11_Neutral",
@@ -3152,7 +3152,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Publicly confront everyone sharing the post.",
+          "text": "Publicly confront everyone sharing the post.",
           "nextNode": 62,
           "messagesToSend": [],
           "eventToPublish": "Choice11_Risky",
@@ -3333,7 +3333,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Refuse to share more information and seek help from a trusted adult.",
+          "text": "Refuse to share more information and seek help from a trusted adult.",
           "nextNode": 64,
           "messagesToSend": [],
           "eventToPublish": "Choice12_Safe",
@@ -3341,7 +3341,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Ask exactly who will receive the information and why.",
+          "text": "Ask exactly who will receive the information and why.",
           "nextNode": 65,
           "messagesToSend": [],
           "eventToPublish": "Choice12_Neutral",
@@ -3349,7 +3349,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Send the screenshots and account details without checking.",
+          "text": "Send the screenshots and account details without checking.",
           "nextNode": 66,
           "messagesToSend": [],
           "eventToPublish": "Choice12_Risky",
@@ -3542,7 +3542,7 @@
       ],
       "_options": [
         {
-          "text": "Safe: Reach out, preserve evidence, report harmful accounts and secure her privacy.",
+          "text": "Reach out, preserve evidence, report harmful accounts and secure her privacy.",
           "nextNode": 68,
           "messagesToSend": [],
           "eventToPublish": "Choice13_Safe",
@@ -3550,7 +3550,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Take a break and avoid strangers, but keep everything to herself.",
+          "text": "Take a break and avoid strangers, but keep everything to herself.",
           "nextNode": 69,
           "messagesToSend": [],
           "eventToPublish": "Choice13_Neutral",
@@ -3558,7 +3558,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Continue using Connect normally and hope it goes away.",
+          "text": "Continue using Connect normally and hope it goes away.",
           "nextNode": 70,
           "messagesToSend": [],
           "eventToPublish": "Choice13_Risky",
