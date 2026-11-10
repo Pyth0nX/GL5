@@ -48,9 +48,6958 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MessagesManager
   _contactsMessages: []
+  _connectMessages: []
   _contacts: []
   _narrativeNodes: []
-  _inspectorNarrativeNodes: []
+  _inspectorNarrativeNodes:
+  - _id: 0
+    _nextNode: -1
+    _options:
+    - text: Use a username and avatar only.
+      nextNode: 1
+      messagesToSend: []
+      eventToPublish: Choice1_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Add a first name and selfie.
+      nextNode: 2
+      messagesToSend: []
+      eventToPublish: Choice1_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Add full name, school and photo.
+      nextNode: 3
+      messagesToSend: []
+      eventToPublish: Choice1_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Welcome to Connect. Create your profile to continue.
+      _sender: 1
+      _speakerName: Connect
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 13
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 1
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Profile created with a username and avatar. No identifying details are public.
+      _sender: 1
+      _speakerName: Connect
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 13
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D1_Profile_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 2
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Profile created with Luna's first name and a personal picture.
+      _sender: 1
+      _speakerName: Connect
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 13
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D1_Profile_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 3
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Profile created. Luna's full name, school and personal picture are public.
+      _sender: 1
+      _speakerName: Connect
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 13
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D1_Profile_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 4
+    _nextNode: -1
+    _options:
+    - text: Keep the conversation about books.
+      nextNode: 5
+      messagesToSend:
+      - _content: I'd rather just talk about the books for now.
+        _sender: 0
+        _speakerName: Luna
+        _timestamp:
+          day: 1
+          month: 10
+          year: 2026
+          hour: 16
+          minute: 35
+        _imagePath: 
+        _messageType: 0
+        _conditions: []
+      eventToPublish: Choice2_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Share hobbies and interests.
+      nextNode: 6
+      messagesToSend:
+      - _content: I'm pretty much just a book nerd haha.
+        _sender: 0
+        _speakerName: Luna
+        _timestamp:
+          day: 1
+          month: 10
+          year: 2026
+          hour: 16
+          minute: 35
+        _imagePath: 
+        _messageType: 0
+        _conditions: []
+      eventToPublish: Choice2_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Share school, routine and location.
+      nextNode: 7
+      messagesToSend:
+      - _content: I go to Rainfall School and live nearby. I walk there every day.
+        _sender: 0
+        _speakerName: Luna
+        _timestamp:
+          day: 1
+          month: 10
+          year: 2026
+          hour: 16
+          minute: 35
+        _imagePath: 
+        _messageType: 0
+        _conditions: []
+      eventToPublish: Choice2_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Hey! Saw your comment about Lost Cause.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Finally someone who understands how good that book is.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 31
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The ending was actually insane.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 32
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: You know, you're actually really fun to talk to. Tell me about yourself?
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 34
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 5
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Fair enough. Lost Cause theories it is.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: We should definitely talk more.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D1_AlexIntro_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 6
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Same. Books, games and music are basically my entire personality.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: We should definitely talk more.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D1_AlexIntro_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 7
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Rainfall School? Maybe we live close to each other haha.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: We should definitely talk more.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D1_AlexIntro_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 8
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Well, look who finally showed up.
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Did you seriously wear that on the first day?
+      _sender: 1
+      _speakerName: Sophie
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Good morning to you too.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Someone's in a mood.
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna gets her books and walks toward class.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: SchoolEncounterComplete
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 9
+    _nextNode: -1
+    _options:
+    - text: Keep it about the books.
+      nextNode: 10
+      messagesToSend:
+      - _content: I'd rather just talk about the books for now.
+        _sender: 0
+        _speakerName: Luna
+        _timestamp:
+          day: 1
+          month: 10
+          year: 2026
+          hour: 16
+          minute: 35
+        _imagePath: 
+        _messageType: 0
+        _conditions: []
+      eventToPublish: Choice2_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Say you're a book nerd.
+      nextNode: 11
+      messagesToSend:
+      - _content: I'm pretty much just a book nerd haha.
+        _sender: 0
+        _speakerName: Luna
+        _timestamp:
+          day: 1
+          month: 10
+          year: 2026
+          hour: 16
+          minute: 35
+        _imagePath: 
+        _messageType: 0
+        _conditions: []
+      eventToPublish: Choice2_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Share school, routine and location.
+      nextNode: 12
+      messagesToSend:
+      - _content: I go to Rainfall School and live nearby. I walk there every day, so my routine is pretty predictable.
+        _sender: 0
+        _speakerName: Luna
+        _timestamp:
+          day: 1
+          month: 10
+          year: 2026
+          hour: 16
+          minute: 35
+        _imagePath: 
+        _messageType: 0
+        _conditions: []
+      eventToPublish: Choice2_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Hey! Saw your comment about Lost Cause.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Oh, hi!
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 31
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Finally someone who understands how good that book is.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 31
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: RIGHT?? Nobody I know has even read it.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 32
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The ending was actually insane.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 32
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Don't even get me started.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 33
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: So what about you? Tell me about yourself.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 34
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 10
+    _nextNode: 13
+    _options: []
+    _dialogues:
+    - _content: Fair enough. Lost Cause theories it is.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Okay, then who do you think the masked character really is?
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 11
+    _nextNode: 13
+    _options: []
+    _dialogues:
+    - _content: Same. Books, games and music are basically my entire personality.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: What do you usually do after school?
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Mostly read, play games and waste too much time online.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 38
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 12
+    _nextNode: 13
+    _options: []
+    _dialogues:
+    - _content: Rainfall School? Maybe we live close to each other haha.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: What time do you usually leave, and do you always walk home?
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Usually at the same time every day. I pretty much take the same route too.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 38
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 13
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: You know, you're actually really fun to talk to.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 40
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: HAHAHA, thanks. You're not that bad either.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 41
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: We should definitely talk more.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 42
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna smiles at her phone. For once, she feels like she has found someone who shares her interests.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 43
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D1_AlexEveningComplete
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 14
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Heyyy! I saw you joined the Lost Cause community. You seem cool!
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 21
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Hi! Thanks haha.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 1
+        month: 10
+        year: 2026
+        hour: 21
+        minute: 32
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D1_Evening_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 15
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: GOOOOOD MORNING.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 15
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: It's wayyyy too early for this HAHAHA.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 16
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Someone's grumpy today.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 16
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I literally just woke up.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 17
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Have fun at school, nerd.
+      _sender: 1
+      _speakerName: Alex
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 18
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D2_Morning_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 16
+    _nextNode: -1
+    _options:
+    - text: Could you just leave me alone?
+      nextNode: 17
+      messagesToSend: []
+      eventToPublish: Choice3_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Ignore them and quietly get your books.
+      nextNode: 18
+      messagesToSend: []
+      eventToPublish: Choice3_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: At least I don't spend all day obsessing over other people.
+      nextNode: 19
+      messagesToSend: []
+      eventToPublish: Choice3_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Oh, look. It's our favourite little bookworm.
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Did you see what she posted yesterday?
+      _sender: 1
+      _speakerName: Sophie
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Imagine actually being that embarrassing.
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Do you even have friends?
+      _sender: 1
+      _speakerName: Sophie
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 17
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Could you just leave me alone?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Aw, did we hurt your feelings?
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Relax. We're just joking.
+      _sender: 1
+      _speakerName: Sophie
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The girls keep laughing and whispering as Luna gets her books and enters the classroom.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: SchoolEncounterComplete
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 18
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna ignores them and quietly gets her books.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: See? She can't even answer.
+      _sender: 1
+      _speakerName: Sophie
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: So embarrassing.
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Their whispering follows Luna as she enters the classroom.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: SchoolEncounterComplete
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 19
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: At least I don't spend all day obsessing over other people.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Wow. Touchy.
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Looks like we hit a nerve.
+      _sender: 1
+      _speakerName: Sophie
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: They keep taunting her, but Luna takes her books and enters the classroom.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: SchoolEncounterComplete
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 20
+    _nextNode: -1
+    _options:
+    - text: Post about a favourite book.
+      nextNode: 21
+      messagesToSend: []
+      eventToPublish: Choice4_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Post a selfie without details.
+      nextNode: 22
+      messagesToSend: []
+      eventToPublish: Choice4_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Show uniform and location.
+      nextNode: 23
+      messagesToSend: []
+      eventToPublish: Choice4_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: HEYYYYY.
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I noticed you don't post much. You should! Your profile is cute.
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 1
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Girl, you need to get out there. People need to know you exist.
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 2
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: You should post something. I'll even share it!
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 3
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 21
+    _nextNode: 24
+    _options: []
+    _dialogues:
+    - _content: '[Luna posts a picture of her favourite book.]'
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: A little boring, but I'll share it anyway!
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 22
+    _nextNode: 24
+    _options: []
+    _dialogues:
+    - _content: '[Luna posts a selfie without identifying information.]'
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: You look amazing! Sharing it now.
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 23
+    _nextNode: 24
+    _options: []
+    _dialogues:
+    - _content: '[Luna posts a selfie with her school uniform and location visible.]'
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: This is perfect. Everyone will see it!
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 24
+    _nextNode: -1
+    _options:
+    - text: Save evidence, report it and seek help.
+      nextNode: 25
+      messagesToSend: []
+      eventToPublish: Choice5_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Delete the original and log off.
+      nextNode: 26
+      messagesToSend: []
+      eventToPublish: Choice5_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Comment back and argue.
+      nextNode: 27
+      messagesToSend: []
+      eventToPublish: Choice5_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: '[A screenshot of Luna''s post appears with the caption: Imagine actually thinking this looks good.]'
+      _sender: 1
+      _speakerName: Connect
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Emma and Sophie have liked and commented on it.
+      _sender: 1
+      _speakerName: Connect
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 31
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: You've got to be kidding me...
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 32
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 25
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna saves screenshots and reports the post.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 35
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: OMG I saw what happened. Maybe you should post something better.
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D2_Jamie_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 26
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna deletes her original post, but the screenshot remains online.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 35
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: OMG I saw what happened. Maybe you should post something better.
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D2_Jamie_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 27
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: The argument attracts more attention and more people begin commenting.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 35
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: OMG I saw what happened. Maybe you should post something better.
+      _sender: 1
+      _speakerName: Jamie
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D2_Jamie_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 28
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Hey, I saw your profile. You seem interesting.
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 2
+        month: 10
+        year: 2026
+        hour: 21
+        minute: 15
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D2_NoahTeaser_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 29
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Morning :)
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 20
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Hey.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 21
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: How are you?
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 22
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Pretty tired. School is exhausting.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 23
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I get that. You can always talk to me.
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 24
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Noah is friendly and seems genuinely interested in Luna.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 25
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: They begin talking about music, hobbies and everyday life.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 26
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D3_Morning_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 30
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna arrives at school. Emma and Sophie are talking about the picture that was shared online.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Did you see how many people commented?
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: HAHAHA, she's actually famous now.
+      _sender: 1
+      _speakerName: Sophie
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Can you stop?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Relax, it's just a joke.
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna walks away.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: SchoolEncounterComplete
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 31
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: You okay? You seemed quiet yesterday.
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 12
+        minute: 45
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: During lunch, Luna checks her phone and is surprised that Noah remembers.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 12
+        minute: 46
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D3_Lunch_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 32
+    _nextNode: -1
+    _options:
+    - text: I'd rather not share personal information.
+      nextNode: 33
+      messagesToSend: []
+      eventToPublish: Choice6_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Why do you ask?
+      nextNode: 34
+      messagesToSend: []
+      eventToPublish: Choice6_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Tell Noah her age and other personal details.
+      nextNode: 35
+      messagesToSend: []
+      eventToPublish: Choice6_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Can I ask you something?
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 15
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Sure?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 16
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: How old are you?
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 16
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 33
+    _nextNode: 36
+    _options: []
+    _dialogues:
+    - _content: I'd rather not share personal information.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 18
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Okay, I understand.
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 19
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Although Noah accepts her answer, he soon returns to asking personal questions.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 20
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 34
+    _nextNode: 36
+    _options: []
+    _dialogues:
+    - _content: Why do you ask?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 18
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Just curious. What do you like doing?
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 19
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 35
+    _nextNode: 36
+    _options: []
+    _dialogues:
+    - _content: Luna tells Noah her age and shares other details about her personal life.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 18
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Cool, we're around the same age.
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 19
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Now that he knows Luna's age, Noah continues asking about her personal life.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 20
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 36
+    _nextNode: -1
+    _options:
+    - text: Refuse, block and report Noah.
+      nextNode: 37
+      messagesToSend: []
+      eventToPublish: Choice7_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Send a normal selfie.
+      nextNode: 38
+      messagesToSend: []
+      eventToPublish: Choice7_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Send a flirty or revealing selfie.
+      nextNode: 39
+      messagesToSend: []
+      eventToPublish: Choice7_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Do you have a picture of yourself?
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 25
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Why?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 26
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I just want to know who I'm talking to. I'll send one too.
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 26
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 37
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna refuses, blocks Noah and reports the account. She does not send a picture.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 28
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Noah cannot continue contacting her through that account.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 29
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D3_NoahPhoto_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 38
+    _nextNode: 40
+    _options: []
+    _dialogues:
+    - _content: Luna sends a normal selfie.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 28
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Cute :)
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 29
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Noah does not send a picture back.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 39
+    _nextNode: 40
+    _options: []
+    _dialogues:
+    - _content: Luna sends a flirty selfie.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 28
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Wow, you're really pretty.
+      _sender: 1
+      _speakerName: Noah
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 29
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: He continues complimenting her before suddenly stopping his replies.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 40
+    _nextNode: -1
+    _options:
+    - text: Save evidence, report, block and tell a trusted adult.
+      nextNode: 41
+      messagesToSend: []
+      eventToPublish: Choice8_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Block Noah and close the app without telling anyone.
+      nextNode: 42
+      messagesToSend: []
+      eventToPublish: Choice8_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Ignore the post and hope it disappears.
+      nextNode: 43
+      messagesToSend: []
+      eventToPublish: Choice8_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Later that evening, Luna receives a notification.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Look who I found.
+      _sender: 1
+      _speakerName: Post
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 1
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Someone has posted her picture on another account without her permission. Luna recognises it immediately.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 1
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: WHAT??
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 2
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Did you post this?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 2
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Noah does not answer.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 3
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 41
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna saves the evidence, reports the post, blocks Noah and tells a trusted adult.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She begins taking steps to get help.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D3_NoahPhoto_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 42
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna blocks Noah and closes the app without telling anyone.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She avoids further contact but is left dealing with the situation alone.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D3_NoahPhoto_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 43
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna ignores the post and hopes it disappears.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The post remains online and Luna does not know who has seen it.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D3_NoahPhoto_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 44
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Hey Luna. I think I've seen you around.
+      _sender: 1
+      _speakerName: Unknown
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 22
+        minute: 15
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Before going to sleep, Luna realises the message request came from an unfamiliar account.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 3
+        month: 10
+        year: 2026
+        hour: 22
+        minute: 16
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D3_Noah_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 45
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: You go to Rainfall School, right?
+      _sender: 1
+      _speakerName: Unknown
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 10
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna wakes up feeling uncomfortable after what happened with Noah. When she checks her phone, Connect is full of notifications about the picture.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 11
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The unknown account has sent another message. Luna freezes when she realises it knows her school.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 11
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Who is this?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 12
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Don't worry, I just know some people there.
+      _sender: 1
+      _speakerName: Unknown
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 13
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The account has very little information and no profile picture.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 14
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D4_Morning_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 46
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna arrives at school. Emma and Sophie are still talking about the picture.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Look who's here.
+      _sender: 1
+      _speakerName: Sophie
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: How's your little internet fame going?
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna ignores them and goes to class.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: SchoolEncounterComplete
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 47
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Saw you walking home yesterday.
+      _sender: 1
+      _speakerName: Unknown
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 11
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: During class, Luna sees the notification and becomes uncomfortable.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 11
+        minute: 31
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D4_ClassMessage_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 48
+    _nextNode: -1
+    _options:
+    - text: Block, report and tell someone about the messages.
+      nextNode: 49
+      messagesToSend: []
+      eventToPublish: Choice9_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Ask how the account knows before deciding what to do.
+      nextNode: 50
+      messagesToSend: []
+      eventToPublish: Choice9_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Share where she walks and when she gets home.
+      nextNode: 51
+      messagesToSend: []
+      eventToPublish: Choice9_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: You take the same route every day?
+      _sender: 1
+      _speakerName: Unknown
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Why are you asking?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 1
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Just curious. I think I've seen you.
+      _sender: 1
+      _speakerName: Unknown
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 2
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 49
+    _nextNode: 52
+    _options: []
+    _dialogues:
+    - _content: Luna saves the messages as evidence, blocks and reports the account, and tells someone about what happened.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The conversation stops.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 50
+    _nextNode: 52
+    _options: []
+    _dialogues:
+    - _content: Luna asks how the account knows her before deciding what to do.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The account claims it has seen her around school and continues asking questions.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 51
+    _nextNode: 52
+    _options: []
+    _dialogues:
+    - _content: Luna reveals where she usually walks and when she gets home.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The account now knows more about Luna's routine.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 52
+    _nextNode: -1
+    _options:
+    - text: Go private, remove identifying information and review location permissions.
+      nextNode: 53
+      messagesToSend: []
+      eventToPublish: Choice10_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Delete a few posts that reveal personal information.
+      nextNode: 54
+      messagesToSend: []
+      eventToPublish: Choice10_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Leave everything public.
+      nextNode: 55
+      messagesToSend: []
+      eventToPublish: Choice10_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Luna opens Connect and notices how much information her profile contains. She begins looking through her old posts.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 18
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Some posts reveal details about her school, neighbourhood and daily activities.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 18
+        minute: 31
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Wait... I've actually posted all of this?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 18
+        minute: 32
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She realises someone could use that information to figure out where she spends her time.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 18
+        minute: 33
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 53
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna makes her account private, removes identifying information and reviews location permissions.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 18
+        minute: 35
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She reduces the information strangers can access.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 18
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D4_Unknown_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 54
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna deletes a few posts that reveal personal information, but some information remains visible.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 18
+        minute: 35
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D4_Unknown_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 55
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna leaves everything public because she does not think anyone would use it against her.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 18
+        minute: 35
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Her account continues to expose personal details.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 18
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D4_Unknown_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 56
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Hey, I saw some of the stuff happening on Connect. Are you okay?
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 45
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I don't even know anymore.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 46
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: That sounds rough. Do you want to talk?
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 47
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna hesitates but decides to reply.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 48
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I think you should be careful about what people post. Not everything online is what it seems.
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 49
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna decides to talk more with Riley tomorrow.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 4
+        month: 10
+        year: 2026
+        hour: 20
+        minute: 50
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D4_RileyIntro_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 57
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Good morning! How are you feeling today?
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 20
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Honestly? Not great.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 21
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I understand. I've seen what's been happening, and I wanted to check on you.
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 22
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Everything has just gotten so complicated.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 23
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Sometimes you just need someone to listen.
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 24
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Riley seems understanding and gives Luna space to explain what has happened.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 7
+        minute: 25
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: D5_Morning_End
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 58
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna arrives at school. Emma and Sophie are standing by the lockers.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Well, well, well. Still using that app?
+      _sender: 1
+      _speakerName: Emma
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I'd delete it if I were you.
+      _sender: 1
+      _speakerName: Sophie
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna walks past them.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: For the first time, she considers telling someone at school what has been happening.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: SchoolEncounterComplete
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 59
+    _nextNode: -1
+    _options:
+    - text: Save evidence, report the misinformation and speak to someone she trusts.
+      nextNode: 60
+      messagesToSend: []
+      eventToPublish: Choice11_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Ignore the post and stop checking the comments.
+      nextNode: 61
+      messagesToSend: []
+      eventToPublish: Choice11_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Publicly confront everyone sharing the post.
+      nextNode: 62
+      messagesToSend: []
+      eventToPublish: Choice11_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Can I tell you something?
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: After school, Luna opens Connect.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 1
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Sure?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 1
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I've been seeing a lot of posts about you. Some people are saying you sent those pictures to everyone.
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 2
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: WHAT? I didn't!
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 3
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I know. But people are sharing things without checking if they're true.
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 3
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Riley sends Luna a screenshot of a post discussing the situation.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 4
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Apparently Luna sends pictures to random people online.
+      _sender: 1
+      _speakerName: Post
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 5
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna feels sick reading it.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 60
+    _nextNode: 63
+    _options: []
+    _dialogues:
+    - _content: Luna saves evidence, reports the misinformation and begins preparing to ask someone she trusts for help.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 8
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 61
+    _nextNode: 63
+    _options: []
+    _dialogues:
+    - _content: Luna stops checking the comments, but she does not address the misinformation.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 8
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 62
+    _nextNode: 63
+    _options: []
+    _dialogues:
+    - _content: Luna publicly confronts everyone sharing the post. More people join the argument and the post receives additional attention.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 8
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 63
+    _nextNode: -1
+    _options:
+    - text: Refuse to share more information and seek help from a trusted adult.
+      nextNode: 64
+      messagesToSend: []
+      eventToPublish: Choice12_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Ask exactly who will receive the information and why.
+      nextNode: 65
+      messagesToSend: []
+      eventToPublish: Choice12_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Send the screenshots and account details without checking.
+      nextNode: 66
+      messagesToSend: []
+      eventToPublish: Choice12_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: You know, I think I can help you.
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 15
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: How?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 16
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I know someone who can get those posts removed.
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 16
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Really?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 17
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Yeah. But I need you to send me the screenshots and some information about your account.
+      _sender: 1
+      _speakerName: Riley
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 18
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna pauses. Something about the request feels familiar.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 19
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She remembers how Alex asked about her school, how Jamie encouraged her to post, how Noah asked for pictures and how the unknown account knew where she went.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 20
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 64
+    _nextNode: 67
+    _options: []
+    _dialogues:
+    - _content: Luna refuses to share more information. Riley accepts the decision or stops responding.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 22
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna decides she needs help from someone she knows offline.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 23
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 65
+    _nextNode: 67
+    _options: []
+    _dialogues:
+    - _content: Luna asks Riley to explain exactly who will receive the information and why.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 22
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Riley explains the situation, but Luna still needs to decide whether the information is safe to share.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 23
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 66
+    _nextNode: 67
+    _options: []
+    _dialogues:
+    - _content: Luna sends the screenshots and account details without checking.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 22
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She has no control over where the information might end up.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 16
+        minute: 23
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 67
+    _nextNode: -1
+    _options:
+    - text: Reach out, preserve evidence, report harmful accounts and secure her privacy.
+      nextNode: 68
+      messagesToSend: []
+      eventToPublish: Choice13_Safe
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 1
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Take a break and avoid strangers, but keep everything to herself.
+      nextNode: 69
+      messagesToSend: []
+      eventToPublish: Choice13_Neutral
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 0
+      reputationAmount: 0
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    - text: Continue using Connect normally and hope it goes away.
+      nextNode: 70
+      messagesToSend: []
+      eventToPublish: Choice13_Risky
+      eventDataType: 0
+      eventDataRawValue: 
+      reputationOperation: 2
+      reputationAmount: 6
+      conditions: []
+      unavailableBehavior: 0
+      lockedText: 
+      conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
+    _dialogues:
+    - _content: Luna sits in her bedroom with her phone in her hands and scrolls through the messages from the past five days.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She remembers how excited she was when she first downloaded Connect. At first, it was a place to talk about books and meet people with similar interests.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 1
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Now she has experienced bullying, manipulation, unwanted attention and the consequences of sharing personal information.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 2
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Her previous decisions have shaped which evidence she saved, which accounts she blocked and whether she has someone she trusts to support her.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 3
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna opens her messages and decides what to do next.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 4
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 0
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 1
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 68
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna chooses to reach out to a trusted adult, preserve evidence, report harmful accounts and take control of her online privacy.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: ResolveEnding_Safe
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 69
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna takes a break from Connect and avoids interacting with strangers, but keeps everything to herself.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: ResolveEnding_Neutral
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 70
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: Luna continues using Connect as normal and hopes the situation eventually goes away.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 6
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: ResolveEnding_Risky
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 71
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: GOOD ENDING
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna decides to speak to someone she trusts. She shows them the messages, screenshots and posts.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 31
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Together, they report the harmful content and take steps to protect her accounts.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 32
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The situation does not magically disappear, but Luna understands that she does not have to deal with everything alone.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 33
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She opens Connect one final time and reviews her privacy settings.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 34
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I guess I have to be more careful about what I share.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 35
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna closes her laptop.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: FADE OUT.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: Campaign_Completed
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 72
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: NEUTRAL ENDING
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna decides to take a break from Connect. She blocks some accounts and deletes a few posts, but never tells anyone what happened.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 31
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: The situation becomes quieter, but she is still unsure about what information is out there.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 32
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She puts her phone away.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 33
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Maybe it'll all just go away.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 34
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: FADE OUT.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 35
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: Campaign_Completed
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 73
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: BAD ENDING
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 30
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna continues using Connect without addressing what has happened.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 31
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: More people share the posts, and strangers continue contacting her.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 32
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: She becomes increasingly isolated and stops talking about what is happening at school and online.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 33
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Her phone keeps buzzing.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 34
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: 'SFX: BZZZZ. BZZZZ. BZZZZ.'
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 35
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Luna turns it face down.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 36
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: I wish I had never downloaded this.
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 37
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: FADE OUT.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 5
+        month: 10
+        year: 2026
+        hour: 19
+        minute: 38
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 1
+    _hasOptions: 0
+    _eventOnEnd: Campaign_Completed
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 74
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: During lunch, Luna notices a group of students talking about a new social media platform called Connect.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Have you downloaded Connect yet?
+      _sender: 1
+      _speakerName: Student 1
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Yeah! It's so much better than the other apps.
+      _sender: 1
+      _speakerName: Student 2
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: You can post pictures, follow people, message anyone and join communities.
+      _sender: 1
+      _speakerName: Student 1
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: D1_StudentConnectOverheard
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 75
+    _nextNode: -1
+    _options: []
+    _dialogues:
+    - _content: What's Connect?
+      _sender: 0
+      _speakerName: Luna
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: You seriously haven't heard of it? Everyone's using it.
+      _sender: 1
+      _speakerName: Student 2
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: One of the students shows Luna the app.
+      _sender: 1
+      _speakerName: Narration
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    - _content: Look, you can make your own profile and find people with the same interests.
+      _sender: 1
+      _speakerName: Student 1
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 0
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: D1_StudentConnectConversationComplete
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 100
+    _nextNode: 101
+    _options: []
+    _dialogues:
+    - _content: Hey Luna! Did you manage to finish reading chapter four? I barely slept trying to summarize it.
+      _sender: 1
+      _speakerName: Leo
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 101
+    _nextNode: 102
+    _options: []
+    _dialogues:
+    - _content: I really hope we don't have a pop quiz today. My brain is completely fried already.
+      _sender: 1
+      _speakerName: Leo
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 102
+    _nextNode: 100
+    _options: []
+    _dialogues:
+    - _content: You should probably head over to your desk before the bell rings, Luna.
+      _sender: 1
+      _speakerName: Leo
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 103
+    _nextNode: 104
+    _options: []
+    _dialogues:
+    - _content: Phew, that lecture was intense! At least the pop quiz wasn't as brutal as I feared.
+      _sender: 1
+      _speakerName: Leo
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 104
+    _nextNode: 105
+    _options: []
+    _dialogues:
+    - _content: I need to double-check my notes when I get home. Let me know if you want to compare answers later.
+      _sender: 1
+      _speakerName: Leo
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 105
+    _nextNode: 103
+    _options: []
+    _dialogues:
+    - _content: Finally done for the day! See you tomorrow, Luna.
+      _sender: 1
+      _speakerName: Leo
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 110
+    _nextNode: 111
+    _options: []
+    _dialogues:
+    - _content: Morning Luna! Did you do anything fun yesterday, or was it just homework all night?
+      _sender: 1
+      _speakerName: Chloe
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 111
+    _nextNode: 112
+    _options: []
+    _dialogues:
+    - _content: I love your jacket today, by the way! It looks really nice on you.
+      _sender: 1
+      _speakerName: Chloe
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 112
+    _nextNode: 110
+    _options: []
+    _dialogues:
+    - _content: Hurry and take your seat before Mr. Henderson notices we're all chatting!
+      _sender: 1
+      _speakerName: Chloe
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 113
+    _nextNode: 114
+    _options: []
+    _dialogues:
+    - _content: Class dragged on forever! Are you heading straight home or hanging around the plaza?
+      _sender: 1
+      _speakerName: Chloe
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 114
+    _nextNode: 115
+    _options: []
+    _dialogues:
+    - _content: I think a bunch of us might grab smoothies later. Catch you around, Luna!
+      _sender: 1
+      _speakerName: Chloe
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 115
+    _nextNode: 113
+    _options: []
+    _dialogues:
+    - _content: Don't forget we have that group project coming up soon. Have a great afternoon, Luna!
+      _sender: 1
+      _speakerName: Chloe
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 120
+    _nextNode: 121
+    _options: []
+    _dialogues:
+    - _content: Hey Luna... Man, track practice this morning completely wiped me out.
+      _sender: 1
+      _speakerName: Liam
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 121
+    _nextNode: 122
+    _options: []
+    _dialogues:
+    - _content: If I start dozing off during the lecture, do me a favor and tap my shoulder, okay?
+      _sender: 1
+      _speakerName: Liam
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 122
+    _nextNode: 120
+    _options: []
+    _dialogues:
+    - _content: Class is starting any minute now. Let's get to our seats.
+      _sender: 1
+      _speakerName: Liam
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 123
+    _nextNode: 124
+    _options: []
+    _dialogues:
+    - _content: We survived! I definitely need an energy drink or an afternoon nap right about now.
+      _sender: 1
+      _speakerName: Liam
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 124
+    _nextNode: 125
+    _options: []
+    _dialogues:
+    - _content: Gotta get ready for afternoon drills. Catch you later, Luna!
+      _sender: 1
+      _speakerName: Liam
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 125
+    _nextNode: 123
+    _options: []
+    _dialogues:
+    - _content: Enjoy the rest of your day, Luna. Don't stress too much over homework.
+      _sender: 1
+      _speakerName: Liam
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 130
+    _nextNode: 131
+    _options: []
+    _dialogues:
+    - _content: Hi Luna! I was just doodling in the margins of my notebook while waiting for the bell.
+      _sender: 1
+      _speakerName: Mia
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 131
+    _nextNode: 132
+    _options: []
+    _dialogues:
+    - _content: I'm working on a new character design in my sketchbook. I'll show you once it's finished!
+      _sender: 1
+      _speakerName: Mia
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 132
+    _nextNode: 130
+    _options: []
+    _dialogues:
+    - _content: We'd better put our art stuff away. The teacher is about to start.
+      _sender: 1
+      _speakerName: Mia
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 133
+    _nextNode: 134
+    _options: []
+    _dialogues:
+    - _content: That history lecture actually inspired a new drawing idea for my portfolio!
+      _sender: 1
+      _speakerName: Mia
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 134
+    _nextNode: 135
+    _options: []
+    _dialogues:
+    - _content: I'll probably spend the whole evening working on some new digital art.
+      _sender: 1
+      _speakerName: Mia
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 135
+    _nextNode: 133
+    _options: []
+    _dialogues:
+    - _content: Take care, Luna! See you in class tomorrow.
+      _sender: 1
+      _speakerName: Mia
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 140
+    _nextNode: 141
+    _options: []
+    _dialogues:
+    - _content: Hey Luna! Did you see the new update that dropped last night? The graphics patch is insane.
+      _sender: 1
+      _speakerName: Ethan
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 141
+    _nextNode: 142
+    _options: []
+    _dialogues:
+    - _content: I brought my tablet today to test out a new coding plugin during study hall.
+      _sender: 1
+      _speakerName: Ethan
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 142
+    _nextNode: 140
+    _options: []
+    _dialogues:
+    - _content: The bell is about to ring, Luna. Best get to your desk before roll call.
+      _sender: 1
+      _speakerName: Ethan
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 143
+    _nextNode: 144
+    _options: []
+    _dialogues:
+    - _content: Finally out of class! Time to head home and grind some ranks on my PC.
+      _sender: 1
+      _speakerName: Ethan
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 144
+    _nextNode: 145
+    _options: []
+    _dialogues:
+    - _content: If you get stuck on the science worksheet, just let me know and we can compare answers.
+      _sender: 1
+      _speakerName: Ethan
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 145
+    _nextNode: 143
+    _options: []
+    _dialogues:
+    - _content: Later, Luna! Have a good rest of your day.
+      _sender: 1
+      _speakerName: Ethan
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 150
+    _nextNode: 151
+    _options: []
+    _dialogues:
+    - _content: Good morning, Luna. Please make sure your desk is clear and you have your materials ready.
+      _sender: 1
+      _speakerName: Mr. Henderson
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 151
+    _nextNode: 152
+    _options: []
+    _dialogues:
+    - _content: We have quite a lot of material to cover today, so I expect everyone's full attention.
+      _sender: 1
+      _speakerName: Mr. Henderson
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 152
+    _nextNode: 150
+    _options: []
+    _dialogues:
+    - _content: Take your seat at your desk, Luna. Class will begin shortly.
+      _sender: 1
+      _speakerName: Mr. Henderson
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 153
+    _nextNode: 154
+    _options: []
+    _dialogues:
+    - _content: Class is dismissed for today. Please review chapters four and five before tomorrow's discussion.
+      _sender: 1
+      _speakerName: Mr. Henderson
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 154
+    _nextNode: 155
+    _options: []
+    _dialogues:
+    - _content: Remember that safe online habits apply to school forums as well. Be mindful of what you share.
+      _sender: 1
+      _speakerName: Mr. Henderson
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
+  - _id: 155
+    _nextNode: 153
+    _options: []
+    _dialogues:
+    - _content: Have a productive afternoon, Luna. Don't leave your assignments until the last minute.
+      _sender: 1
+      _speakerName: Mr. Henderson
+      _timestamp:
+        day: 0
+        month: 0
+        year: 0
+        hour: 0
+        minute: 0
+      _imagePath: 
+      _messageType: 0
+      _conditions: []
+    _isEndNode: 1
+    _loop: 1
+    _loopNode: -1
+    _dialogueType: 0
+    _hasOptions: 0
+    _eventOnEnd: 
+    _eventDataType: 0
+    _eventDataRawValue: 
+    _reputationOperationOnEnd: 0
+    _reputationAmountOnEnd: 0
+    _entryBranches: []
+    _conditionalNextNodes: []
+    _showInScenarioTree: 0
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
   contactsFilePath: contacts.json
   narrativeNodesFilePath: narrativeNodes.json
   phoneMessagesFilePath: messages.json
@@ -110,6 +7059,14 @@ MonoBehaviour:
       unavailableBehavior: 0
       lockedText: 
       conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
     - text: 
       nextNode: 0
       messagesToSend: []
@@ -122,8 +7079,17 @@ MonoBehaviour:
       unavailableBehavior: 0
       lockedText: 
       conditionalNextNodes: []
+      showInScenarioTree: 1
+      _showInScenarioTree: 1
+      scenarioLabel: 
+      _scenarioLabel: 
+      scenarioAnnotation: 
+      _scenarioAnnotation: 
+      scenarioCustomSprite: {fileID: 0}
+      _scenarioCustomSprite: {fileID: 0}
     _dialogues: []
     _isEndNode: 0
+    _loop: 0
     _loopNode: -1
     _dialogueType: 0
     _hasOptions: 0
@@ -134,6 +7100,14 @@ MonoBehaviour:
     _reputationAmountOnEnd: 0
     _entryBranches: []
     _conditionalNextNodes: []
+    _showInScenarioTree: 1
+    showInScenarioTree: 1
+    _scenarioTitle: 
+    scenarioTitle: 
+    _scenarioAnnotation: 
+    scenarioAnnotation: 
+    _scenarioCustomSprite: {fileID: 0}
+    scenarioCustomSprite: {fileID: 0}
   _optionButtons: []
   _row1: {fileID: 0}
   _row2: {fileID: 0}

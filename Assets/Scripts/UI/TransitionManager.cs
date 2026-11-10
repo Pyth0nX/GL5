@@ -903,6 +903,12 @@ public class TransitionManager : MonoBehaviour
         SetTransitionMessage("<b>ZzzZzzzz</b>");
         yield return FadeRoutine(0f, 1f, syncMessageAlpha: true);
 
+        // Reposition player at WakingUp spawner while the screen is completely black
+        if (PlayerSpawnManager.HasInstance)
+        {
+            PlayerSpawnManager.Instance.SpawnPlayerAt(PlayerSpawnManager.SpawnerWakingUp);
+        }
+
         // Advance day while the screen is black so morning messages and door locks initialize cleanly
         if (EventBus.Instance != null)
         {

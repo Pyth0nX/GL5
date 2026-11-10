@@ -207,7 +207,7 @@
           "reputationAmount": 6
         },
         {
-          "text": "Neutral: Share hobbies and interests.",
+          "text": "Share hobbies and interests.",
           "nextNode": 6,
           "messagesToSend": [
             {
@@ -228,7 +228,7 @@
           "reputationAmount": 0
         },
         {
-          "text": "Risky: Share school, routine and location.",
+          "text": "Share school, routine and location.",
           "nextNode": 7,
           "messagesToSend": [
             {

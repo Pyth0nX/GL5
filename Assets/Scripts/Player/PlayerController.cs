@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+
     [Header("Settings")]
     [Tooltip("Player Name")]
     [SerializeField] private string _playerName = "Luna";
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         _playerCamera = GetComponentInChildren<Camera>();
         _playerInput = GetComponent<PlayerInput>();
         _playerStateMachine = GetComponent<PlayerStateMachine>();
@@ -62,6 +65,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+
         if (EventBus.Instance != null)
         {
             EventBus.Instance.Unsubscribe("Conversation_Ended", OnConversationEnded);
@@ -159,6 +167,52 @@ public class PlayerController : MonoBehaviour
             _rigidbody.angularVelocity = Vector3.zero;
         }
         ClearHoveredInteractable();
+    }
+
+    /// <summary>
+    /// Teleports the player to a target position and rotation, immediately resetting velocity,
+    /// vertical camera pitch, and syncing physics transforms.
+    /// </summary>
+    public void Teleport(Vector3 position, Quaternion rotation)
+    {
+        StopMovementImmediately();
+
+        CharacterController characterController = GetComponent<CharacterController>();
+        if (characterController != null)
+        {
+            characterController.enabled = false;
+            transform.SetPositionAndRotation(position, rotation);
+            characterController.enabled = true;
+        }
+        else
+        {
+            transform.SetPositionAndRotation(position, rotation);
+        }
+
+        if (_rigidbody != null)
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
+            _rigidbody.position = position;
+            _rigidbody.rotation = rotation;
+        }
+
+        _currentXRotation = 0f;
+        if (_playerCamera != null)
+        {
+            _playerCamera.transform.localRotation = Quaternion.identity;
+        }
+
+        Physics.SyncTransforms();
+    }
+
+    /// <summary>
+    /// Teleports the player to a target transform's position and rotation.
+    /// </summary>
+    public void Teleport(Transform targetTransform)
+    {
+        if (targetTransform == null) return;
+        Teleport(targetTransform.position, targetTransform.rotation);
     }
 
     private void ClearHoveredInteractable()

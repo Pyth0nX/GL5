@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            _ = PlayerSpawnManager.Instance;
         }
         else
         {
@@ -132,6 +133,11 @@ public class GameManager : MonoBehaviour
         string currentSceneName = SceneManager.GetActiveScene().name;
         if (currentSceneName != sceneName)
         {
+            if (PlayerSpawnManager.HasInstance)
+            {
+                PlayerSpawnManager.Instance.NotifySceneChanging(currentSceneName, sceneName);
+            }
+
             if (SaveManager.HasInstance)
             {
                 SaveManager.Instance.NotifyBeforeSceneTransition(currentSceneName, sceneName);
