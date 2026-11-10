@@ -2,6 +2,7 @@
   "narrativeNodes": [
     {
       "_id": 0,
+      "_showInScenarioTree": true,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -71,7 +72,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 2,
@@ -95,7 +97,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 3,
@@ -119,10 +122,12 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 4,
+      "_showInScenarioTree": true,
       "_nextNode": -1,
       "_dialogueType": 1,
       "_hasOptions": true,
@@ -279,7 +284,8 @@
             "minute": 37
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 6,
@@ -315,7 +321,8 @@
             "minute": 37
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 7,
@@ -351,7 +358,8 @@
             "minute": 37
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 8,
@@ -388,7 +396,8 @@
           "_sender": 1,
           "_speakerName": "Narration"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 9,
@@ -548,7 +557,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 10,
@@ -584,7 +594,8 @@
             "minute": 37
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 11,
@@ -632,7 +643,8 @@
             "minute": 38
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 12,
@@ -680,7 +692,8 @@
             "minute": 38
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 13,
@@ -740,7 +753,8 @@
             "minute": 43
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 14,
@@ -776,7 +790,8 @@
             "minute": 32
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 15,
@@ -848,7 +863,8 @@
             "minute": 18
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 16,
@@ -905,7 +921,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 17,
@@ -937,7 +954,8 @@
           "_sender": 1,
           "_speakerName": "Narration"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 18,
@@ -969,7 +987,8 @@
           "_sender": 1,
           "_speakerName": "Narration"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 19,
@@ -1001,7 +1020,8 @@
           "_sender": 1,
           "_speakerName": "Narration"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 20,
@@ -1086,7 +1106,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 21,
@@ -1122,7 +1143,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 22,
@@ -1158,7 +1180,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 23,
@@ -1194,7 +1217,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 24,
@@ -1267,7 +1291,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 25,
@@ -1303,7 +1328,8 @@
             "minute": 37
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 26,
@@ -1339,7 +1365,8 @@
             "minute": 37
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 27,
@@ -1375,7 +1402,8 @@
             "minute": 37
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 28,
@@ -1399,7 +1427,8 @@
             "minute": 15
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 29,
@@ -1495,7 +1524,8 @@
             "minute": 26
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 30,
@@ -1537,7 +1567,8 @@
           "_sender": 1,
           "_speakerName": "Narration"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 31,
@@ -1573,7 +1604,8 @@
             "minute": 46
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 32,
@@ -1646,7 +1678,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 33,
@@ -1694,7 +1727,8 @@
             "minute": 20
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 34,
@@ -1730,7 +1764,8 @@
             "minute": 19
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 35,
@@ -1778,7 +1813,8 @@
             "minute": 20
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 36,
@@ -1851,7 +1887,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 37,
@@ -1887,7 +1924,8 @@
             "minute": 29
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 38,
@@ -1935,7 +1973,8 @@
             "minute": 30
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 39,
@@ -1983,7 +2022,8 @@
             "minute": 30
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 40,
@@ -2092,7 +2132,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 41,
@@ -2128,7 +2169,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 42,
@@ -2164,7 +2206,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 43,
@@ -2200,7 +2243,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 44,
@@ -2236,7 +2280,8 @@
             "minute": 16
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 45,
@@ -2320,7 +2365,8 @@
             "minute": 14
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 46,
@@ -2352,7 +2398,8 @@
           "_sender": 1,
           "_speakerName": "Narration"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 47,
@@ -2388,7 +2435,8 @@
             "minute": 31
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 48,
@@ -2461,7 +2509,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 49,
@@ -2497,7 +2546,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 50,
@@ -2533,7 +2583,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 51,
@@ -2569,7 +2620,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 52,
@@ -2654,7 +2706,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 53,
@@ -2690,7 +2743,8 @@
             "minute": 36
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 54,
@@ -2714,7 +2768,8 @@
             "minute": 35
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 55,
@@ -2750,7 +2805,8 @@
             "minute": 36
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 56,
@@ -2834,7 +2890,8 @@
             "minute": 50
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 57,
@@ -2918,7 +2975,8 @@
             "minute": 25
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 58,
@@ -2955,7 +3013,8 @@
           "_sender": 1,
           "_speakerName": "Narration"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 59,
@@ -3100,7 +3159,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 60,
@@ -3124,7 +3184,8 @@
             "minute": 8
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 61,
@@ -3148,7 +3209,8 @@
             "minute": 8
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 62,
@@ -3172,7 +3234,8 @@
             "minute": 8
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 63,
@@ -3293,7 +3356,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 64,
@@ -3329,7 +3393,8 @@
             "minute": 23
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 65,
@@ -3365,7 +3430,8 @@
             "minute": 23
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 66,
@@ -3401,7 +3467,8 @@
             "minute": 23
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 67,
@@ -3498,7 +3565,8 @@
           "reputationOperation": 2,
           "reputationAmount": 6
         }
-      ]
+      ],
+      "_showInScenarioTree": true
     },
     {
       "_id": 68,
@@ -3522,7 +3590,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 69,
@@ -3546,7 +3615,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 70,
@@ -3570,7 +3640,8 @@
             "minute": 6
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 71,
@@ -3678,7 +3749,8 @@
             "minute": 37
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 72,
@@ -3762,7 +3834,8 @@
             "minute": 35
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 73,
@@ -3882,7 +3955,8 @@
             "minute": 38
           }
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 74,
@@ -3914,7 +3988,8 @@
           "_sender": 1,
           "_speakerName": "Student 1"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 75,
@@ -3946,7 +4021,8 @@
           "_sender": 1,
           "_speakerName": "Student 1"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 100,
@@ -3963,7 +4039,8 @@
           "_sender": 1,
           "_speakerName": "Leo"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 101,
@@ -3980,7 +4057,8 @@
           "_sender": 1,
           "_speakerName": "Leo"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 102,
@@ -3997,7 +4075,8 @@
           "_sender": 1,
           "_speakerName": "Leo"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 103,
@@ -4014,7 +4093,8 @@
           "_sender": 1,
           "_speakerName": "Leo"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 104,
@@ -4031,7 +4111,8 @@
           "_sender": 1,
           "_speakerName": "Leo"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 105,
@@ -4048,7 +4129,8 @@
           "_sender": 1,
           "_speakerName": "Leo"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 110,
@@ -4065,7 +4147,8 @@
           "_sender": 1,
           "_speakerName": "Chloe"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 111,
@@ -4082,7 +4165,8 @@
           "_sender": 1,
           "_speakerName": "Chloe"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 112,
@@ -4099,7 +4183,8 @@
           "_sender": 1,
           "_speakerName": "Chloe"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 113,
@@ -4116,7 +4201,8 @@
           "_sender": 1,
           "_speakerName": "Chloe"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 114,
@@ -4133,7 +4219,8 @@
           "_sender": 1,
           "_speakerName": "Chloe"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 115,
@@ -4150,7 +4237,8 @@
           "_sender": 1,
           "_speakerName": "Chloe"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 120,
@@ -4167,7 +4255,8 @@
           "_sender": 1,
           "_speakerName": "Liam"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 121,
@@ -4184,7 +4273,8 @@
           "_sender": 1,
           "_speakerName": "Liam"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 122,
@@ -4201,7 +4291,8 @@
           "_sender": 1,
           "_speakerName": "Liam"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 123,
@@ -4218,7 +4309,8 @@
           "_sender": 1,
           "_speakerName": "Liam"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 124,
@@ -4235,7 +4327,8 @@
           "_sender": 1,
           "_speakerName": "Liam"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 125,
@@ -4252,7 +4345,8 @@
           "_sender": 1,
           "_speakerName": "Liam"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 130,
@@ -4269,7 +4363,8 @@
           "_sender": 1,
           "_speakerName": "Mia"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 131,
@@ -4286,7 +4381,8 @@
           "_sender": 1,
           "_speakerName": "Mia"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 132,
@@ -4303,7 +4399,8 @@
           "_sender": 1,
           "_speakerName": "Mia"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 133,
@@ -4320,7 +4417,8 @@
           "_sender": 1,
           "_speakerName": "Mia"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 134,
@@ -4337,7 +4435,8 @@
           "_sender": 1,
           "_speakerName": "Mia"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 135,
@@ -4354,7 +4453,8 @@
           "_sender": 1,
           "_speakerName": "Mia"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 140,
@@ -4371,7 +4471,8 @@
           "_sender": 1,
           "_speakerName": "Ethan"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 141,
@@ -4388,7 +4489,8 @@
           "_sender": 1,
           "_speakerName": "Ethan"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 142,
@@ -4405,7 +4507,8 @@
           "_sender": 1,
           "_speakerName": "Ethan"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 143,
@@ -4422,7 +4525,8 @@
           "_sender": 1,
           "_speakerName": "Ethan"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 144,
@@ -4439,7 +4543,8 @@
           "_sender": 1,
           "_speakerName": "Ethan"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 145,
@@ -4456,7 +4561,8 @@
           "_sender": 1,
           "_speakerName": "Ethan"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 150,
@@ -4473,7 +4579,8 @@
           "_sender": 1,
           "_speakerName": "Mr. Henderson"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 151,
@@ -4490,7 +4597,8 @@
           "_sender": 1,
           "_speakerName": "Mr. Henderson"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 152,
@@ -4507,7 +4615,8 @@
           "_sender": 1,
           "_speakerName": "Mr. Henderson"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 153,
@@ -4524,7 +4633,8 @@
           "_sender": 1,
           "_speakerName": "Mr. Henderson"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 154,
@@ -4541,7 +4651,8 @@
           "_sender": 1,
           "_speakerName": "Mr. Henderson"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     },
     {
       "_id": 155,
@@ -4558,7 +4669,8 @@
           "_sender": 1,
           "_speakerName": "Mr. Henderson"
         }
-      ]
+      ],
+      "_showInScenarioTree": false
     }
   ]
 }

@@ -171,8 +171,14 @@ public class MessagesManager : MonoBehaviour
                 8f);
         }
 
-        DialogueManager.Instance?.ShowNarration(
-            "End of Luna's 5-Day Story. You have completed the Before You Send campaign.");
+
+        bool narrationShown = DialogueManager.Instance != null && DialogueManager.Instance.ShowNarration(
+            "End of Luna's 5-Day Story. You have completed the Before You Send campaign.",
+            () => UIManager.Instance?.ShowScenarioSystem());
+        if (!narrationShown)
+        {
+            UIManager.Instance?.ShowScenarioSystem();
+        }
     }
 
     /// <summary>
@@ -606,6 +612,10 @@ public class MessagesManager : MonoBehaviour
         }
         return trimmed;
     }
+
+    public IReadOnlyDictionary<int, NarrativeNode> GetAllNarrativeNodes() => _narrativeNodes;
+
+    public IReadOnlyList<Contact> GetAllContacts() => _contacts;
 
     public NarrativeNode GetNarrativeNode(int nodeId)
     {

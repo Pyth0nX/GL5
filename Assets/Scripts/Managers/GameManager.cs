@@ -9,11 +9,67 @@ public class GameManager : MonoBehaviour
     private string _playerName;
     private bool _hasEnteredHomeFirstTime = false;
 
+    [Header("Scenario System (Endgame Summary)")]
+    [SerializeField] private ScenarioSystemUI _scenarioSystemPrefab;
+    private ScenarioSystemUI _scenarioSystemInstance;
+
     public bool HasEnteredHomeFirstTime => _hasEnteredHomeFirstTime;
 
     public void SetHasEnteredHomeFirstTime(bool hasEntered)
     {
         _hasEnteredHomeFirstTime = hasEntered;
+    }
+
+    /// <summary>
+    /// Instantiates or activates the ScenarioSystem Canvas when reaching the end of the game.
+    /// Delegates to UIManager if available, or manages its own ScenarioSystemUI instance directly.
+    /// </summary>
+    public void ShowScenarioSystem()
+    {
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowScenarioSystem();
+            return;
+        }
+
+        if (_scenarioSystemInstance == null)
+        {
+            _scenarioSystemInstance = ScenarioSystemUI.Instance != null
+                ? ScenarioSystemUI.Instance
+                : FindAnyObjectByType<ScenarioSystemUI>(FindObjectsInactive.Include);
+        }
+
+        if (_scenarioSystemInstance == null)
+        {
+            ScenarioSystemUI prefab = _scenarioSystemPrefab != null
+                ? _scenarioSystemPrefab
+                : Resources.Load<ScenarioSystemUI>("ScenarioSystem");
+
+            if (prefab != null)
+            {
+                _scenarioSystemInstance = Instantiate(prefab);
+                _scenarioSystemInstance.name = "ScenarioSystem";
+                DontDestroyOnLoad(_scenarioSystemInstance.gameObject);
+            }
+            else
+            {
+                GameObject canvasObj = new GameObject("ScenarioSystem");
+                DontDestroyOnLoad(canvasObj);
+                _scenarioSystemInstance = canvasObj.AddComponent<ScenarioSystemUI>();
+                _scenarioSystemInstance.EnsureHierarchyBuilt();
+            }
+        }
+
+        _scenarioSystemInstance.ShowScenarioTree();
+    }
+
+    public void HideScenarioSystem()
+    {
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.HideScenarioSystem();
+        }
+        _scenarioSystemInstance?.HideScenarioTree();
     }
 
     private void Awake()
@@ -123,6 +179,7 @@ public class GameManager : MonoBehaviour
 
             if (UIManager.Instance != null)
             {
+                UIManager.Instance.HideScenarioSystem();
                 UIManager.Instance.ResetConnectState();
                 UIManager.Instance.ChangeState((int)UIState.MAIN_MENU);
             }
@@ -142,6 +199,7 @@ public class GameManager : MonoBehaviour
 
             if (UIManager.Instance != null)
             {
+                UIManager.Instance.HideScenarioSystem();
                 UIManager.Instance.ChangeState((int)UIState.DEFAULT);
             }
 

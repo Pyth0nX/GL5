@@ -179,6 +179,7 @@ public class DebugCampaignPanelUI : MonoBehaviour
                 return;
             }
 
+
             if (IsOpen && Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 ClosePanel();
@@ -663,7 +664,22 @@ public class DebugCampaignPanelUI : MonoBehaviour
             {
                 int simulatedRep = DayManager.CalculateProfileReputation(_selectedDay, _selectedRoute);
                 ReputationTier tier = EvaluateDefaultTier(simulatedRep);
-                _summaryText.text = $"Day {_selectedDay}  |  {_selectedRoute}  |  Reputation: {simulatedRep} ({tier})";
+
+                int totalPriorChoices = DayManager.GetLastChoiceBeforeDay(_selectedDay);
+                int preservedCount = DayManager.GetPreservedChoicesCountBeforeDay(_selectedDay);
+
+                if (preservedCount > 0 && preservedCount < totalPriorChoices)
+                {
+                    _summaryText.text = $"Day {_selectedDay}  |  {_selectedRoute} ({preservedCount} kept, {totalPriorChoices - preservedCount} filled)  |  Rep: {simulatedRep} ({tier})";
+                }
+                else if (preservedCount >= totalPriorChoices && totalPriorChoices > 0)
+                {
+                    _summaryText.text = $"Day {_selectedDay}  |  All {totalPriorChoices} Decisions Kept  |  Reputation: {simulatedRep} ({tier})";
+                }
+                else
+                {
+                    _summaryText.text = $"Day {_selectedDay}  |  {_selectedRoute}  |  Reputation: {simulatedRep} ({tier})";
+                }
             }
         }
     }

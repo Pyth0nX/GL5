@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if ((DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen) ||
+            (UIManager.Instance != null && UIManager.Instance.IsScenarioSystemOpen) ||
+            (ScenarioSystemUI.Instance != null && ScenarioSystemUI.Instance.IsVisible) ||
             (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning))
         {
             ClearHoveredInteractable();
@@ -103,8 +105,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        if ((DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen) ||
+            (UIManager.Instance != null && UIManager.Instance.IsScenarioSystemOpen) ||
+            (ScenarioSystemUI.Instance != null && ScenarioSystemUI.Instance.IsVisible) ||
+            (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning))
         {
+            if (_rigidbody != null)
+            {
+                _rigidbody.linearVelocity = new Vector3(0f, _rigidbody.linearVelocity.y, 0f);
+            }
             return;
         }
 
@@ -113,7 +122,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandlePhone()
     {
-        if (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+        if ((UIManager.Instance != null && UIManager.Instance.IsScenarioSystemOpen) ||
+            (ScenarioSystemUI.Instance != null && ScenarioSystemUI.Instance.IsVisible) ||
+            (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning))
         {
             return;
         }
@@ -134,6 +145,19 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
+        ClearHoveredInteractable();
+    }
+
+    /// <summary>
+    /// Immediately halts player velocity and clears any active hover outlines or interaction prompts.
+    /// </summary>
+    public void StopMovementImmediately()
+    {
+        if (_rigidbody != null)
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
         ClearHoveredInteractable();
     }
 
@@ -163,7 +187,9 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen)
+        if ((DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen) ||
+            (UIManager.Instance != null && UIManager.Instance.IsScenarioSystemOpen) ||
+            (ScenarioSystemUI.Instance != null && ScenarioSystemUI.Instance.IsVisible))
         {
             if (_rigidbody != null)
             {

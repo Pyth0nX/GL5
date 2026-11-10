@@ -95,8 +95,41 @@ public class NarrativeNode
     [SerializeField]
     private List<ConditionalNodeBranch> _conditionalNextNodes = new List<ConditionalNodeBranch>();
 
+    [Header("Scenario System (Endgame Summary Tree)")]
+    [Tooltip("If true, this narrative decision node is included in the endgame ScenarioSystem summary flowchart.")]
+    [SerializeField]
+    private bool _showInScenarioTree = true;
+    [SerializeField]
+    private bool showInScenarioTree = true;
+
+    [Tooltip("Optional short title displayed for this decision stage in the ScenarioSystem summary flowchart.")]
+    [SerializeField]
+    private string _scenarioTitle = "";
+    [SerializeField]
+    private string scenarioTitle = "";
+
+    [Tooltip("Optional context note displayed when hovering over this node in the ScenarioSystem summary flowchart.")]
+    [SerializeField, TextArea(2, 4)]
+    private string _scenarioAnnotation = "";
+    [SerializeField, TextArea(2, 4)]
+    private string scenarioAnnotation = "";
+
+    [Tooltip("Optional custom sprite for this narrative decision stage in the ScenarioSystem summary flowchart.")]
+    [SerializeField]
+    private Sprite _scenarioCustomSprite;
+    [SerializeField]
+    private Sprite scenarioCustomSprite;
+
     #region Getters
     public int ID() { return _id; }
+
+    public bool ShowInScenarioTree() { return _showInScenarioTree && showInScenarioTree; }
+
+    public string ScenarioTitle() { return !string.IsNullOrWhiteSpace(_scenarioTitle) ? _scenarioTitle : scenarioTitle; }
+
+    public string ScenarioAnnotation() { return !string.IsNullOrWhiteSpace(_scenarioAnnotation) ? _scenarioAnnotation : scenarioAnnotation; }
+
+    public Sprite ScenarioCustomSprite() { return _scenarioCustomSprite != null ? _scenarioCustomSprite : scenarioCustomSprite; }
 
     public string EventOnEnd() { return _eventOnEnd; }
 
@@ -254,6 +287,21 @@ public class NarrativeNode
         _loopNode = node;
     }
 
+    public void SetShowInScenarioTree(bool value)
+    {
+        _showInScenarioTree = value;
+    }
+
+    public void SetScenarioTitle(string title)
+    {
+        _scenarioTitle = title;
+    }
+
+    public void SetScenarioAnnotation(string annotation)
+    {
+        _scenarioAnnotation = annotation;
+    }
+
     public void AddDialogue(Message message)
     {
         if (_dialogues == null) _dialogues = new List<Message>();
@@ -299,6 +347,33 @@ public class Option
     [Header("Reputation / Safety — Conditional Branches")]
     [Tooltip("Optional: Allows choosing this same option to lead to different nodes based on current Reputation. If no branch matches, uses 'nextNode'.")]
     public List<ConditionalNodeBranch> conditionalNextNodes = new List<ConditionalNodeBranch>();
+
+    [Header("Scenario System (Endgame Summary Tree)")]
+    [Tooltip("If true, this option appears as a decision branch node in the endgame ScenarioSystem summary flowchart.")]
+    public bool showInScenarioTree = true;
+    public bool _showInScenarioTree = true;
+
+    [Tooltip("Optional custom short label displayed inside the option node in the ScenarioSystem summary flowchart.")]
+    public string scenarioLabel = "";
+    public string _scenarioLabel = "";
+
+    [Tooltip("Optional custom context note displayed on hover when the player selected this option during their playthrough.")]
+    [TextArea(2, 4)]
+    public string scenarioAnnotation = "";
+    [TextArea(2, 4)]
+    public string _scenarioAnnotation = "";
+
+    [Tooltip("Optional custom sprite for this decision branch node in the endgame ScenarioSystem summary flowchart.")]
+    public Sprite scenarioCustomSprite;
+    public Sprite _scenarioCustomSprite;
+
+    public bool ShowInScenarioTree() => showInScenarioTree && _showInScenarioTree;
+
+    public string GetScenarioLabel() => !string.IsNullOrWhiteSpace(scenarioLabel) ? scenarioLabel : _scenarioLabel;
+
+    public string GetScenarioAnnotation() => !string.IsNullOrWhiteSpace(scenarioAnnotation) ? scenarioAnnotation : _scenarioAnnotation;
+
+    public Sprite GetScenarioCustomSprite() => scenarioCustomSprite != null ? scenarioCustomSprite : _scenarioCustomSprite;
 
     /// <summary>
     /// Checks if all conditions for this option are currently met using ConditionsChecker.

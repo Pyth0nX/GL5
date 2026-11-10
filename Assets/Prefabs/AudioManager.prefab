@@ -51,9 +51,10 @@ MonoBehaviour:
   - key: Menu
     value: {fileID: 8300000, guid: eabf934da789c2949a7431f569132841, type: 3}
   - key: Game
-    value: {fileID: 8300000, guid: 470033169366ebd47b44cdfacf0fb051, type: 3}
+    value: {fileID: 8300000, guid: 69d217efb0615bd4bad9ab4a8d1797ee, type: 3}
   _musicSource: {fileID: 5779690494359536160}
   _sfxSource: {fileID: 2764133648282866502}
+  _voiceSource: {fileID: 0}
 --- !u!82 &5779690494359536160
 AudioSource:
   m_ObjectHideFlags: 0

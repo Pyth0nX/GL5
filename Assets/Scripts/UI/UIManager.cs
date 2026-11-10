@@ -36,6 +36,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite _appStoreIcon;
     [SerializeField] private Sprite _connectAppIcon;
 
+    [Header("Scenario System (Endgame Summary)")]
+    [SerializeField] private ScenarioSystemUI _scenarioSystemPrefab;
+    [SerializeField] private ScenarioSystemUI _scenarioSystemInstance;
+
     [Header("Messages Animations")]
     [SerializeField] private float _appearTime = 0.3f;
     [SerializeField] private float _disappearTime = 0.5f;
@@ -95,6 +99,7 @@ public class UIManager : MonoBehaviour
         ConfigureSimpleChoices();
         ConfigureDayTracker();
         ConfigureMapButtons();
+        EnsureScenarioSystemAvailable(false);
         DebugCampaignPanelUI.EnsureAttached(this);
 
         if (_pauseMenuPanel != null)
@@ -114,6 +119,7 @@ public class UIManager : MonoBehaviour
             EventBus.Instance.Subscribe("CloseMap", HideMap);
             EventBus.Instance.Subscribe("D1_StudentConnectConversationComplete", EnableConnectDownload);
             EventBus.Instance.Subscribe("D1_Profile_End", CompleteConnectProfile);
+            EventBus.Instance.Subscribe("OpenScenarioSystem", ShowScenarioSystem);
         }
 
         SyncInitialSceneState();
@@ -129,6 +135,7 @@ public class UIManager : MonoBehaviour
             EventBus.Instance.Unsubscribe("CloseMap", HideMap);
             EventBus.Instance.Unsubscribe("D1_StudentConnectConversationComplete", EnableConnectDownload);
             EventBus.Instance.Unsubscribe("D1_Profile_End", CompleteConnectProfile);
+            EventBus.Instance.Unsubscribe("OpenScenarioSystem", ShowScenarioSystem);
         }
     }
 
@@ -136,7 +143,25 @@ public class UIManager : MonoBehaviour
     {
         RefreshDayTracker();
 
+        if (Keyboard.current != null && Keyboard.current.f10Key.wasPressedThisFrame)
+        {
+            if (IsScenarioSystemOpen)
+            {
+                HideScenarioSystem();
+            }
+            else
+            {
+                if (DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen)
+                {
+                    DebugCampaignPanelUI.Instance.ClosePanel();
+                }
+                ShowScenarioSystem();
+            }
+            return;
+        }
+
         if ((DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen) ||
+            IsScenarioSystemOpen ||
             (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning))
         {
             return;
@@ -200,6 +225,80 @@ public class UIManager : MonoBehaviour
     public UIState GetCurrentState() => _currentState;
     public GameObject GetPauseMenuPanel() => _pauseMenuPanel;
     public GameObject GetMainMenuUI() => _mainMenuUI;
+    public bool IsScenarioSystemOpen => _scenarioSystemInstance != null && _scenarioSystemInstance.IsVisible;
+
+    /// <summary>
+    /// Instantiates or activates the independent ScenarioSystem UI Canvas and displays the endgame decision flowchart.
+    /// </summary>
+    public void ShowScenarioSystem()
+    {
+        EnsureScenarioSystemAvailable(true);
+
+        if (_phone != null && _phone.activeSelf)
+        {
+            _phone.SetActive(false);
+        }
+
+        if (_map != null && _map.activeSelf)
+        {
+            _map.SetActive(false);
+        }
+
+        if (_pauseMenuPanel != null && _pauseMenuPanel.activeSelf)
+        {
+            _pauseMenuPanel.SetActive(false);
+        }
+
+        UnlockMouse();
+        _scenarioSystemInstance?.ShowScenarioTree();
+    }
+
+    /// <summary>
+    /// Hides the ScenarioSystem endgame summary screen if currently active.
+    /// </summary>
+    public void HideScenarioSystem()
+    {
+        if (_scenarioSystemInstance != null)
+        {
+            _scenarioSystemInstance.HideScenarioTree();
+        }
+    }
+
+    private void EnsureScenarioSystemAvailable(bool activateAfterCreate)
+    {
+        if (_scenarioSystemInstance == null)
+        {
+            _scenarioSystemInstance = ScenarioSystemUI.Instance != null
+                ? ScenarioSystemUI.Instance
+                : FindAnyObjectByType<ScenarioSystemUI>(FindObjectsInactive.Include);
+        }
+
+        if (_scenarioSystemInstance == null)
+        {
+            ScenarioSystemUI prefabToUse = _scenarioSystemPrefab != null
+                ? _scenarioSystemPrefab
+                : Resources.Load<ScenarioSystemUI>("ScenarioSystem");
+
+            if (prefabToUse != null)
+            {
+                _scenarioSystemInstance = Instantiate(prefabToUse);
+                _scenarioSystemInstance.name = "ScenarioSystem";
+                DontDestroyOnLoad(_scenarioSystemInstance.gameObject);
+            }
+            else
+            {
+                GameObject scenarioCanvasObj = new GameObject("ScenarioSystem");
+                DontDestroyOnLoad(scenarioCanvasObj);
+                _scenarioSystemInstance = scenarioCanvasObj.AddComponent<ScenarioSystemUI>();
+                _scenarioSystemInstance.EnsureHierarchyBuilt();
+            }
+        }
+
+        if (!activateAfterCreate && _scenarioSystemInstance != null)
+        {
+            _scenarioSystemInstance.HideScenarioTree();
+        }
+    }
 
     public void TogglePause()
     {

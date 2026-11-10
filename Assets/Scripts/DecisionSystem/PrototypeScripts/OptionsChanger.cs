@@ -248,8 +248,17 @@ public class OptionsChanger : MonoBehaviour
         DialogueType lastType = _currentNode.DialogueType();
 
         // 3. Resolve the next node by evaluating conditional reputation branches
+        int decisionNodeId = _currentNode.ID();
         int targetNodeId = selectedOption.ResolveNextNode();
+        if (DecisionDataManager.Instance != null)
+        {
+            DecisionDataManager.Instance.SetOrAddIntVariable($"Scenario_Node_{decisionNodeId}", selectedOptionId);
+        }
         targetNodeId = MessagesManager.Instance.ResolveEntryRedirects(targetNodeId);
+        if (DecisionDataManager.Instance != null)
+        {
+            DecisionDataManager.Instance.SetOrAddIntVariable($"Scenario_NodeNext_{decisionNodeId}", targetNodeId);
+        }
 
         contact.SetNarrativeNode(targetNodeId);
         contact.SetCurrentMessageIndex(0);
