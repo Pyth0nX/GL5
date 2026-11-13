@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7b3d831fe1f2d124e831b5d9c2355b41
+guid: 9cc197c05483f41499f4bbf6d1c13ba4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8900949771147405097
-    second: Phone16_0
+      213: 3419375109650810074
+    second: NPC-TriMessages_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Phone16_0
+      name: NPC-TriMessages_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 394
-        height: 852
+        width: 54
+        height: 56
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7d81a27a759797480800000000000000
-      internalID: -8900949771147405097
+      spriteID: ad48c8cab8f047f20800000000000000
+      internalID: 3419375109650810074
       vertices: []
       indices: 
       edges: []
@@ -162,7 +162,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      NPC-TriMessages_0: 3419375109650810074
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
