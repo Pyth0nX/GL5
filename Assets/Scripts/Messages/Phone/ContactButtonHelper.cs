@@ -1,55 +1,99 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
+using TMPro;
 
 public class ContactButtonHelper : MonoBehaviour
 {
-    private PhoneTabButton _phoneTabButton; // Reference to the PhoneTabButton component
+    private string _contactName;
+    private bool _listenersConfigured;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Gets the PhoneTabButton component attached to the same GameObject 
-        SetButtonActions();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (!_listenersConfigured)
+        {
+            SetButtonActions();
+        }
     }
 
     /// <summary>
-    /// Sets the actions for the button when it is clicked. It configures the button to open the messaging tab, close the contacts tab, and set the current contact based on the button's text.
+    /// Explicitly assigns the contact name and binds click behavior before badge text objects are inspected.
+    /// </summary>
+    public void Configure(string contactName)
+    {
+        _contactName = contactName;
+        SetButtonActions();
+    }
+
+    private string ResolveContactName()
+    {
+        if (!string.IsNullOrEmpty(_contactName))
+        {
+            return _contactName;
+        }
+
+        Transform nameChild = transform.Find("Text (TMP)");
+        TextMeshProUGUI nameTmp = nameChild != null
+            ? nameChild.GetComponent<TextMeshProUGUI>()
+            : GetComponentInChildren<TextMeshProUGUI>();
+
+        return nameTmp != null ? nameTmp.text : string.Empty;
+    }
+
+    /// <summary>
+    /// Sets the actions for the button when it is clicked: marks unread notifications as read,
+    /// opens the messaging tab, and loads the contact's messages and active narrative options.
     /// </summary>
     private void SetButtonActions()
     {
-        string contactName = GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
-
         Button button = GetComponent<Button>();
-        button.onClick.AddListener(() => MessagesManager.Instance.GetPhoneStateMachine().ChangeState(1));
-        button.onClick.AddListener(() => MessagesManager.Instance.SetCurrentContact(contactName));
-        button.onClick.AddListener(() => MessagesManager.Instance.GetMessagesUI().SetContactName(contactName));
-        button.onClick.AddListener(() => MessagesManager.Instance.GetMessagesUI().CreateMessages());
-        button.onClick.AddListener(() => MessagesManager.Instance.GetOptionsChanger().SetCurrentNode(MessagesManager.Instance.GetCurrentContactNarrativeNode()));
-        button.onClick.AddListener(() => ShowDecisionAvailable());
-        button.onClick.AddListener(() => ShowDialogueAvailable());
+        if (button == null || _listenersConfigured) return;
+
+        _listenersConfigured = true;
+        button.onClick.AddListener(OnContactClicked);
+    }
+
+    private void OnContactClicked()
+    {
+        if (MessagesManager.Instance == null) return;
+
+        string contactName = ResolveContactName();
+        MessagesManager.Instance.MarkContactNotificationsAsRead(contactName);
+        MessagesManager.Instance.GetPhoneStateMachine()?.ChangeState((int)PhoneState.MESSAGING);
+        MessagesManager.Instance.SetCurrentContact(contactName);
+
+        MessagesUI ui = MessagesManager.Instance.GetMessagesUI();
+        if (ui != null)
+        {
+            ui.SetContactName(contactName);
+            ui.CreateMessages();
+        }
+
+        OptionsChanger optionsChanger = MessagesManager.Instance.GetOptionsChanger();
+        if (optionsChanger != null)
+        {
+            optionsChanger.SetCurrentNode(MessagesManager.Instance.GetCurrentContactNarrativeNode());
+        }
+
+        ShowDecisionAvailable();
+        ShowDialogueAvailable();
     }
 
     private void ShowDecisionAvailable()
     {
-        int contactNarrativeId = (MessagesManager.Instance.GetCurrentContactNarrativeNode() != null ? MessagesManager.Instance.GetCurrentContactNarrativeNode().ID() : -1);
+        NarrativeNode node = MessagesManager.Instance.GetCurrentContactNarrativeNode();
+        int contactNarrativeId = node != null ? node.ID() : -1;
         if (contactNarrativeId != -1 && MessagesManager.Instance.GetNarrativeNode(contactNarrativeId).HasOptions())
         {
-            MessagesManager.Instance.GetPhoneStateMachine().ShowDecisionsTab();
+            MessagesManager.Instance.GetPhoneStateMachine()?.ShowDecisionsTab();
         }
     }
 
     private void ShowDialogueAvailable()
     {
-        if(MessagesManager.Instance.GetCurrentContact().HasNewMessages())
+        Contact current = MessagesManager.Instance.GetCurrentContact();
+        if (current != null && current.HasNewMessages())
         {
-            MessagesManager.Instance.GetPhoneStateMachine().ShowDialogueTab();
+            MessagesManager.Instance.GetPhoneStateMachine()?.ShowDialogueTab();
         }
     }
 }

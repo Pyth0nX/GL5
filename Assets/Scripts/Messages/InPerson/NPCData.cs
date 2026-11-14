@@ -24,6 +24,11 @@ public class NPCData : IInteractable
     [SerializeField] private int _afterClassNodeId = -1;
 
     private static bool _isClassFinishedToday = false;
+    private bool _isInConversation;
+    private bool _isInStandaloneInteraction;
+
+    public event System.Action InteractionStarted;
+    public event System.Action InteractionEnded;
 
     protected override void Awake()
     {
@@ -78,18 +83,27 @@ public class NPCData : IInteractable
         }
     }
 
+    public static void ResetClassFinishedState()
+    {
+        _isClassFinishedToday = false;
+    }
+
     public static bool IsSchoolClassFinished()
     {
-        if (_isClassFinishedToday) return true;
-
         if (ObjectivesManager.Instance != null && ObjectivesManager.Instance.GetCurrentObjective() != null)
         {
             string ev = ObjectivesManager.Instance.GetCurrentObjective().EventToListen();
-            if (ev == "SchoolClassFinished" || ev == "SchoolEncounterComplete")
+            if (ev == "SchoolClassFinished" || ev == "SchoolEncounterComplete" || ev == "Day1_GoToSchool")
             {
                 return false;
             }
+
+            if (ev == "Day1_ComebackHome" || ev == "D1_StudentConnectOverheard")
+            {
+                return true;
+            }
         }
+
         return _isClassFinishedToday;
     }
 
@@ -134,6 +148,7 @@ public class NPCData : IInteractable
             }
 
             EventBus.Instance.Subscribe("SchoolClassFinished", OnSchoolClassFinished);
+            EventBus.Instance.Subscribe("Conversation_Ended", HandleConversationEnded);
             EventBus.Instance.Subscribe("NextDay", OnDayReset);
             EventBus.Instance.Subscribe("Day1_GoToSchool", OnDayReset);
             EventBus.Instance.Subscribe("Start_Day1", OnDayReset);
@@ -151,17 +166,24 @@ public class NPCData : IInteractable
             if (contact != null)
             {
                 int curr = contact.NarrativeNode();
+                int beforeEnd = (_afterClassNodeId > _beforeClassNodeId)
+                    ? _afterClassNodeId
+                    : _beforeClassNodeId + 10;
+                int afterEnd = (_afterClassNodeId >= 0)
+                    ? _afterClassNodeId + 10
+                    : -1;
+
                 if (curr < 0)
                 {
                     contact.SetNarrativeNode(targetNode);
                     contact.SetCurrentMessageIndex(0);
                 }
-                else if (classDone && _afterClassNodeId >= 0 && (curr < _afterClassNodeId || curr >= _afterClassNodeId + 10))
+                else if (classDone && _afterClassNodeId >= 0 && (curr < _afterClassNodeId || curr >= afterEnd))
                 {
                     contact.SetNarrativeNode(targetNode);
                     contact.SetCurrentMessageIndex(0);
                 }
-                else if (!classDone && _beforeClassNodeId >= 0 && (curr < _beforeClassNodeId || curr >= _beforeClassNodeId + 10))
+                else if (!classDone && (curr < _beforeClassNodeId || curr >= beforeEnd))
                 {
                     contact.SetNarrativeNode(targetNode);
                     contact.SetCurrentMessageIndex(0);
@@ -217,6 +239,7 @@ public class NPCData : IInteractable
                 }
             }
             EventBus.Instance.Unsubscribe("SchoolClassFinished", OnSchoolClassFinished);
+            EventBus.Instance.Unsubscribe("Conversation_Ended", HandleConversationEnded);
             EventBus.Instance.Unsubscribe("NextDay", OnDayReset);
             EventBus.Instance.Unsubscribe("Day1_GoToSchool", OnDayReset);
             EventBus.Instance.Unsubscribe("Start_Day1", OnDayReset);
@@ -276,7 +299,11 @@ public class NPCData : IInteractable
                               _standaloneDialogue,
                               EndStandaloneInteraction);
 
-            if (!opened)
+            if (opened)
+            {
+                BeginActiveInteraction(isStoryConversation: false);
+            }
+            else
             {
                 EndStandaloneInteraction();
             }
@@ -307,8 +334,27 @@ public class NPCData : IInteractable
             }
         }
 
+        BeginActiveInteraction(isStoryConversation: true);
         MessagesManager.Instance.SetCurrentContact(_characterName);
         UIManager.Instance.ChangeState(4);
+    }
+
+    private void BeginActiveInteraction(bool isStoryConversation)
+    {
+        _isInConversation = isStoryConversation;
+        _isInStandaloneInteraction = !isStoryConversation;
+        InteractionStarted?.Invoke();
+    }
+
+    private void HandleConversationEnded()
+    {
+        if (!_isInConversation)
+        {
+            return;
+        }
+
+        _isInConversation = false;
+        InteractionEnded?.Invoke();
     }
 
     private void EndStandaloneInteraction()
@@ -322,6 +368,12 @@ public class NPCData : IInteractable
         if (playerState != null)
         {
             playerState.ChangeState(PlayerState.Idle);
+        }
+
+        if (_isInStandaloneInteraction)
+        {
+            _isInStandaloneInteraction = false;
+            InteractionEnded?.Invoke();
         }
     }
 }

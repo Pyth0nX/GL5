@@ -108,7 +108,7 @@ public class ScenarioAnnotationTooltipUI : MonoBehaviour
         EnsureReferences();
 
         ScenarioOptionNodeData data = nodeUI.NodeData;
-        string noteText = data.GetDisplayAnnotation();
+        string noteText = PlayerNameService.FormatText(data.GetDisplayAnnotation());
 
         if (_annotationText != null)
         {

@@ -135,6 +135,7 @@ public class DayManager : MonoBehaviour
         _skippedDays.Clear();
         _recordedChoices.Clear();
         _lastResolvedEndingNode = -1;
+        NPCData.ResetClassFinishedState();
     }
 
     /// <summary>
@@ -153,6 +154,7 @@ public class DayManager : MonoBehaviour
     private void OnNextDay()
     {
         _currentDay++;
+        NPCData.ResetClassFinishedState();
         Debug.Log($"[DayManager] Advanced to Day {_currentDay}");
 
         // Broadcast the specific day start event so EventNodeUpdater and scene objects can react
@@ -438,6 +440,7 @@ public class DayManager : MonoBehaviour
         _skippedDays.Clear();
         _recordedChoices.Clear();
         _lastResolvedEndingNode = -1;
+        NPCData.ResetClassFinishedState();
 
         if (targetDay >= 2)
         {

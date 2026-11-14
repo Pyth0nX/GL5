@@ -18,6 +18,8 @@ public class MessagesManager : MonoBehaviour
 {
     public static MessagesManager Instance { get; private set; }
 
+    public static event Action OnUnreadCountsChanged;
+
     private string _currentContact; // The contact that is currently being interacted with
 
     private MessagesUI _messagesUI; // Reference to the MessagesUI component for updating the UI
@@ -79,18 +81,7 @@ public class MessagesManager : MonoBehaviour
         _narrativeNodes = new Dictionary<int, NarrativeNode>();
         List<NarrativeNode> nodesList = DataLoader.LoadNarrativeNodes(narrativeNodesFilePath);
 
-        if (nodesList != null)
-        {
-            foreach (NarrativeNode node in nodesList)
-            {
-                if (node != null)
-                {
-                    _narrativeNodes[node.ID()] = node;
-                }
-            }
-        }
-
-        // If there are nodes configured or overridden in the Inspector, they take precedence over the base JSON
+        // Populate from Inspector first as baseline fallback if any exist...
         if (_inspectorNarrativeNodes != null && _inspectorNarrativeNodes.Count > 0)
         {
             foreach (NarrativeNode inspectorNode in _inspectorNarrativeNodes)
@@ -98,6 +89,18 @@ public class MessagesManager : MonoBehaviour
                 if (inspectorNode != null)
                 {
                     _narrativeNodes[inspectorNode.ID()] = inspectorNode;
+                }
+            }
+        }
+
+        // ...then apply JSON on top so modifications in narrativeNodes.json always take effect dynamically!
+        if (nodesList != null)
+        {
+            foreach (NarrativeNode node in nodesList)
+            {
+                if (node != null)
+                {
+                    _narrativeNodes[node.ID()] = node;
                 }
             }
         }
@@ -166,14 +169,14 @@ public class MessagesManager : MonoBehaviour
         if (UIManager.Instance != null)
         {
             UIManager.Instance.ShowTemporaryMessage(
-                "You reached the end of Luna's five-day story.",
+                PlayerNameService.FormatText("You reached the end of {playerName}'s five-day story."),
                 new Color(1f, 0.92f, 0.35f),
                 8f);
         }
 
 
         bool narrationShown = DialogueManager.Instance != null && DialogueManager.Instance.ShowNarration(
-            "End of Luna's 5-Day Story. You have completed the Before You Send campaign.",
+            PlayerNameService.FormatText("End of {playerName}'s 5-Day Story. You have completed the Before You Send campaign."),
             () => UIManager.Instance?.ShowScenarioSystem());
         if (!narrationShown)
         {
@@ -204,11 +207,86 @@ public class MessagesManager : MonoBehaviour
             _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
         }
         _messagesUI?.RefreshContacts();
+        GetPhoneStateMachine()?.UpdatePhoneBackground();
     }
 
     public MessagingChannel GetMessagingChannel()
     {
         return _currentMessagingChannel;
+    }
+
+    /// <summary>
+    /// Returns true if the player is currently looking at this contact's chat inside the phone UI.
+    /// </summary>
+    public bool IsCurrentlyViewingContact(string contactName)
+    {
+        if (string.IsNullOrEmpty(contactName)) return false;
+        if (UIManager.Instance != null && UIManager.Instance.GetCurrentState() != UIState.PHONE) return false;
+
+        PhoneStateMachine sm = GetPhoneStateMachine();
+        if (sm == null || sm.GetCurrentState() != PhoneState.MESSAGING) return false;
+
+        return string.Equals(_currentContact, contactName, StringComparison.OrdinalIgnoreCase) &&
+               GetChannelForContact(contactName) == _currentMessagingChannel;
+    }
+
+    /// <summary>
+    /// Clears pending unread message notifications for the given contact and updates phone app badges.
+    /// </summary>
+    public void MarkContactNotificationsAsRead(string contactName)
+    {
+        if (string.IsNullOrEmpty(contactName)) return;
+
+        Contact contact = GetContactByName(contactName);
+        if (contact != null && contact.UnreadMessagesCount() > 0)
+        {
+            contact.ClearUnreadMessages();
+            NotifyUnreadCountsChanged();
+        }
+    }
+
+    /// <summary>
+    /// Returns the number of unread notifications pending for a given contact.
+    /// </summary>
+    public int GetContactUnreadCount(string contactName)
+    {
+        if (string.IsNullOrEmpty(contactName)) return 0;
+        Contact contact = GetContactByName(contactName);
+        return contact != null ? contact.UnreadMessagesCount() : 0;
+    }
+
+    /// <summary>
+    /// Returns total pending unread notifications across all contacts belonging to the specified channel.
+    /// </summary>
+    public int GetChannelUnreadCount(MessagingChannel channel)
+    {
+        if (channel == MessagingChannel.Connect &&
+            UIManager.Instance != null &&
+            !UIManager.Instance.IsConnectInstalled)
+        {
+            return 0;
+        }
+
+        int total = 0;
+        if (_contacts != null)
+        {
+            for (int i = 0; i < _contacts.Count; i++)
+            {
+                Contact contact = _contacts[i];
+                if (contact == null || string.IsNullOrEmpty(contact.Name())) continue;
+                if (GetChannelForContact(contact.Name()) == channel)
+                {
+                    total += contact.UnreadMessagesCount();
+                }
+            }
+        }
+        return total;
+    }
+
+    public void NotifyUnreadCountsChanged()
+    {
+        OnUnreadCountsChanged?.Invoke();
+        GetPhoneStateMachine()?.UpdateNotificationBadges();
     }
 
     public static MessagingChannel GetChannelForContact(string contactName)
@@ -382,6 +460,8 @@ public class MessagesManager : MonoBehaviour
         {
             Debug.LogWarning($"[MessagesManager] NarrativeNode '{resolvedNodeId}' not found for contact '{contactName}'.");
             contact.SetHasNewMessages(false);
+            contact.ClearUnreadMessages();
+            NotifyUnreadCountsChanged();
             return;
         }
 
@@ -429,6 +509,18 @@ public class MessagesManager : MonoBehaviour
                 bool hasMore = addedCount > 0 || (nextIndex < dialogues.Count) || newNode.HasOptions();
                 contact.SetHasNewMessages(hasMore);
 
+                if (!IsCurrentlyViewingContact(contact.Name()))
+                {
+                    if (addedCount > 0)
+                    {
+                        contact.AddUnreadMessages(addedCount);
+                    }
+                    else if (hasMore)
+                    {
+                        contact.AddUnreadMessages(1);
+                    }
+                }
+
                 SortContacts();
 
                 PhoneApp notificationApp = GetChannelForContact(contact.Name()) == MessagingChannel.Connect
@@ -455,13 +547,20 @@ public class MessagesManager : MonoBehaviour
             {
                 // First message is player, narration, or empty dialogue list with options
                 contact.SetCurrentMessageIndex(0);
-                contact.SetHasNewMessages((dialogues != null && dialogues.Count > 0) || newNode.HasOptions());
+                bool hasMore = (dialogues != null && dialogues.Count > 0) || newNode.HasOptions();
+                contact.SetHasNewMessages(hasMore);
+
+                if (hasMore && !IsCurrentlyViewingContact(contact.Name()))
+                {
+                    contact.AddUnreadMessages(1);
+                }
             }
         }
         else
         {
             // In-person conversation
             contact.SetHasNewMessages(false);
+            contact.ClearUnreadMessages();
         }
 
         SortContacts();
@@ -471,6 +570,7 @@ public class MessagesManager : MonoBehaviour
             _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
         }
         _messagesUI?.RefreshContacts();
+        NotifyUnreadCountsChanged();
 
         Debug.Log($"[MessagesManager] Successfully advanced contact '{contactName}' to node {resolvedNodeId} by event.");
     }
@@ -497,6 +597,7 @@ public class MessagesManager : MonoBehaviour
         int completedMessageIndex = node?.GetActiveDialogues()?.Count ?? 0;
         contact.SetCurrentMessageIndex(completedMessageIndex);
         contact.SetHasNewMessages(false);
+        contact.ClearUnreadMessages();
 
         SortContacts();
 
@@ -506,6 +607,7 @@ public class MessagesManager : MonoBehaviour
         }
 
         _messagesUI?.RefreshContacts();
+        NotifyUnreadCountsChanged();
         Debug.Log($"[MessagesManager] Silently set '{contactName}' to completed node {narrativeNodeId}.");
     }
 
@@ -524,6 +626,7 @@ public class MessagesManager : MonoBehaviour
             _connectMessages[contact.Name()] = new List<Message>();
             contact.SetLastMessageDate(default);
             contact.SetHasNewMessages(false);
+            contact.ClearUnreadMessages();
             contact.SetCurrentMessageIndex(0);
         }
     }
@@ -587,6 +690,7 @@ public class MessagesManager : MonoBehaviour
         }
 
         contact.SetHasNewMessages(false);
+        contact.ClearUnreadMessages();
     }
 
     public void CompleteTestSkipHistoryRebuild()
@@ -599,6 +703,7 @@ public class MessagesManager : MonoBehaviour
         }
 
         _messagesUI?.RefreshContacts();
+        NotifyUnreadCountsChanged();
         Debug.Log("[MessagesManager] Rebuilt completed chat history for debug day skip.");
     }
 
@@ -825,6 +930,7 @@ public class MessagesManager : MonoBehaviour
 
         _currentMessagingChannel = GetChannelForContact(resolvedName);
         SetCurrentContact(resolvedName);
+        MarkContactNotificationsAsRead(resolvedName);
 
         PhoneStateMachine stateMachine = GetPhoneStateMachine();
         if (stateMachine != null)
@@ -885,7 +991,7 @@ public class MessagesManager : MonoBehaviour
 
         OpenContactConversation(contactName);
 
-        string playerName = GameManager.Instance != null ? (GameManager.Instance.GetPlayerName() ?? "") : "";
+        string playerName = PlayerNameService.GetActivePlayerName();
         Date timestamp = GenerateNextMessageTimestamp();
         Message imageMessage = new Message(
             caption ?? "",
@@ -1054,6 +1160,7 @@ public class MessagesManager : MonoBehaviour
             _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
         }
         _messagesUI?.RefreshContacts();
+        NotifyUnreadCountsChanged();
     }
 
     /// <summary>
@@ -1082,6 +1189,7 @@ public class MessagesManager : MonoBehaviour
                 currentNarrativeNodeId = contact.NarrativeNode(),
                 currentMessageIndex = contact.CurrentMessageIndex(),
                 hasNewMessages = contact.HasNewMessages(),
+                unreadMessagesCount = contact.UnreadMessagesCount(),
                 lastMessageDate = contact.LastMessageDate(),
                 contactImagePath = contact.ImagePath(),
                 chatHistory = historyCopy
@@ -1128,6 +1236,7 @@ public class MessagesManager : MonoBehaviour
                 contact.SetNarrativeNode(entry.currentNarrativeNodeId);
                 contact.SetCurrentMessageIndex(entry.currentMessageIndex);
                 contact.SetHasNewMessages(entry.hasNewMessages);
+                contact.SetUnreadMessagesCount(entry.unreadMessagesCount);
                 contact.SetLastMessageDate(entry.lastMessageDate);
 
                 if (entry.chatHistory != null)
@@ -1163,6 +1272,7 @@ public class MessagesManager : MonoBehaviour
             _messagesUI = GetComponent<MessagesUI>() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
         }
         _messagesUI?.RefreshContacts();
+        NotifyUnreadCountsChanged();
     }
 
     #endregion

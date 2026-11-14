@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     [Range(0f, 90f)]
     [SerializeField] private float _verticalClamp = 80f;
 
+    // Scales raw pixel mouse delta so default sensitivity (~1.75) feels natural without clamping input.
+    private const float MouseDeltaScale = 0.1f;
+
     private IInteractable _currentHoveredInteractable;
     private InteractableOutline _currentHoveredStandaloneOutline;
     private bool _isShowingHoverMessage;
@@ -39,6 +42,10 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _playerStateMachine = GetComponent<PlayerStateMachine>();
         _rigidbody = GetComponent<Rigidbody>();
+        if (_rigidbody != null)
+        {
+            _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -46,7 +53,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _currentXRotation = 0f;
-        if (GameManager.Instance != null)
+        if (GameManager.Instance != null && string.IsNullOrWhiteSpace(GameManager.Instance.GetPlayerName()))
         {
             GameManager.Instance.SetPlayerName(_playerName);
         }
@@ -272,15 +279,20 @@ public class PlayerController : MonoBehaviour
 
     private void LookAround()
     {
+        if (_playerCamera == null || Cursor.lockState != CursorLockMode.Locked) return;
+
         if (InputManager.Instance != null && InputManager.Instance.PlayerLooked())
         {
             Vector2 lookVec = InputManager.Instance.GetPlayerLook();
-            Quaternion yRotation = Quaternion.Euler(0f, lookVec.x * _mouseSensitivity, 0f);
-            _rigidbody.MoveRotation(_rigidbody.rotation * yRotation);
+            float sensitivity = _mouseSensitivity * MouseDeltaScale;
 
-            _currentXRotation -= lookVec.y * _mouseSensitivity;
-            _currentXRotation = Mathf.Clamp(_currentXRotation, -_verticalClamp, _verticalClamp);
+            transform.Rotate(0f, lookVec.x * sensitivity, 0f, Space.World);
+            if (_rigidbody != null)
+            {
+                _rigidbody.angularVelocity = Vector3.zero;
+            }
 
+            _currentXRotation = Mathf.Clamp(_currentXRotation - lookVec.y * sensitivity, -_verticalClamp, _verticalClamp);
             _playerCamera.transform.localRotation = Quaternion.Euler(_currentXRotation, 0f, 0f);
         }
     }

@@ -37,7 +37,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite _connectAppIcon;
 
     [Header("Scenario System (Endgame Summary)")]
-    [SerializeField] private ScenarioSystemUI _scenarioSystemPrefab;
     [SerializeField] private ScenarioSystemUI _scenarioSystemInstance;
 
     [Header("Messages Animations")]
@@ -143,7 +142,17 @@ public class UIManager : MonoBehaviour
     {
         RefreshDayTracker();
 
-        if (Keyboard.current != null && Keyboard.current.f10Key.wasPressedThisFrame)
+        bool f10Pressed = false;
+        if (InputManager.Instance != null)
+        {
+            f10Pressed = InputManager.Instance.F10WasPressed();
+        }
+        else if (Keyboard.current != null && Keyboard.current.f10Key.wasPressedThisFrame)
+        {
+            f10Pressed = true;
+        }
+
+        if (f10Pressed)
         {
             if (IsScenarioSystemOpen)
             {
@@ -228,11 +237,12 @@ public class UIManager : MonoBehaviour
     public bool IsScenarioSystemOpen => _scenarioSystemInstance != null && _scenarioSystemInstance.IsVisible;
 
     /// <summary>
-    /// Instantiates or activates the independent ScenarioSystem UI Canvas and displays the endgame decision flowchart.
+    /// Activates the ScenarioSystem UI Canvas and displays the endgame decision flowchart.
     /// </summary>
     public void ShowScenarioSystem()
     {
         EnsureScenarioSystemAvailable(true);
+        if (_scenarioSystemInstance == null) return;
 
         if (_phone != null && _phone.activeSelf)
         {
@@ -250,7 +260,7 @@ public class UIManager : MonoBehaviour
         }
 
         UnlockMouse();
-        _scenarioSystemInstance?.ShowScenarioTree();
+        _scenarioSystemInstance.ShowScenarioTree();
     }
 
     /// <summary>
@@ -268,6 +278,11 @@ public class UIManager : MonoBehaviour
     {
         if (_scenarioSystemInstance == null)
         {
+            _scenarioSystemInstance = GetComponentInChildren<ScenarioSystemUI>(true);
+        }
+
+        if (_scenarioSystemInstance == null)
+        {
             _scenarioSystemInstance = ScenarioSystemUI.Instance != null
                 ? ScenarioSystemUI.Instance
                 : FindAnyObjectByType<ScenarioSystemUI>(FindObjectsInactive.Include);
@@ -275,26 +290,11 @@ public class UIManager : MonoBehaviour
 
         if (_scenarioSystemInstance == null)
         {
-            ScenarioSystemUI prefabToUse = _scenarioSystemPrefab != null
-                ? _scenarioSystemPrefab
-                : Resources.Load<ScenarioSystemUI>("ScenarioSystem");
-
-            if (prefabToUse != null)
-            {
-                _scenarioSystemInstance = Instantiate(prefabToUse);
-                _scenarioSystemInstance.name = "ScenarioSystem";
-                DontDestroyOnLoad(_scenarioSystemInstance.gameObject);
-            }
-            else
-            {
-                GameObject scenarioCanvasObj = new GameObject("ScenarioSystem");
-                DontDestroyOnLoad(scenarioCanvasObj);
-                _scenarioSystemInstance = scenarioCanvasObj.AddComponent<ScenarioSystemUI>();
-                _scenarioSystemInstance.EnsureHierarchyBuilt();
-            }
+            Debug.LogWarning("[UIManager] ScenarioSystemUI was not found in UI or the active scene.");
+            return;
         }
 
-        if (!activateAfterCreate && _scenarioSystemInstance != null)
+        if (!activateAfterCreate)
         {
             _scenarioSystemInstance.HideScenarioTree();
         }
@@ -319,7 +319,7 @@ public class UIManager : MonoBehaviour
         _delayTween?.Kill();
         _interactionCanvasGroup.DOKill();
 
-        _interactionText.text = message;
+        _interactionText.text = PlayerNameService.FormatText(message);
         _interactionText.color = colorText;
 
         _fadeTween = _interactionCanvasGroup.DOFade(1f, _appearTime);
@@ -453,11 +453,11 @@ public class UIManager : MonoBehaviour
         {
             _simpleChoicePrompt.gameObject.SetActive(true);
             _simpleChoicePrompt.enabled = true;
-            _simpleChoicePrompt.text = prompt;
+            _simpleChoicePrompt.text = PlayerNameService.FormatText(prompt);
         }
 
-        SetSimpleChoiceButton(0, firstChoice);
-        SetSimpleChoiceButton(1, secondChoice);
+        SetSimpleChoiceButton(0, PlayerNameService.FormatText(firstChoice));
+        SetSimpleChoiceButton(1, PlayerNameService.FormatText(secondChoice));
 
         _simpleChoicePanel.SetActive(true);
         _simpleChoicePanel.transform.SetAsLastSibling();
@@ -498,11 +498,11 @@ public class UIManager : MonoBehaviour
         {
             _simpleChoicePrompt.gameObject.SetActive(true);
             _simpleChoicePrompt.enabled = true;
-            _simpleChoicePrompt.text = prompt;
+            _simpleChoicePrompt.text = PlayerNameService.FormatText(prompt);
         }
 
-        SetSimpleChoiceButton(0, firstChoice);
-        SetSimpleChoiceButton(1, secondChoice);
+        SetSimpleChoiceButton(0, PlayerNameService.FormatText(firstChoice));
+        SetSimpleChoiceButton(1, PlayerNameService.FormatText(secondChoice));
         _simpleChoicePanel.SetActive(true);
         _simpleChoicePanel.transform.SetAsLastSibling();
         SetPhoneAppInteraction(false);
@@ -569,6 +569,7 @@ public class UIManager : MonoBehaviour
         }
 
         UpdatePhoneAppLayout();
+        MessagesManager.Instance?.NotifyUnreadCountsChanged();
     }
 
     public void ApplyCompletedConnectSetupForTestSkip()
@@ -589,6 +590,7 @@ public class UIManager : MonoBehaviour
         }
 
         UpdatePhoneAppLayout();
+        MessagesManager.Instance?.NotifyUnreadCountsChanged();
         EventBus.Instance?.Publish("D1_ConnectAvailable");
         EventBus.Instance?.Publish("D1_ConnectDownloaded");
         ShowTemporaryMessage("Connect installed.", Color.white, 2.5f);
@@ -770,6 +772,22 @@ public class UIManager : MonoBehaviour
         _blurTween = DOTween.To(() => _blurVolume.weight, x => _blurVolume.weight = x, targetWeight, _fadeDuration).SetUpdate(true);
     }
 
+    private bool _appStoreCreatedFromTemplate = false;
+    private bool _connectCreatedFromTemplate = false;
+
+    private static void RebindPhoneButton(Button button, UnityEngine.Events.UnityAction action)
+    {
+        if (button == null) return;
+
+        for (int i = 0; i < button.onClick.GetPersistentEventCount(); i++)
+        {
+            button.onClick.SetPersistentListenerState(i, UnityEngine.Events.UnityEventCallState.Off);
+        }
+
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(action);
+    }
+
     private void ConfigurePhoneLayout()
     {
         if (_phone == null) return;
@@ -792,8 +810,7 @@ public class UIManager : MonoBehaviour
         Button messagesButton = buttonPanel.Find("Messages")?.GetComponent<Button>();
         if (messagesButton != null)
         {
-            messagesButton.onClick = new Button.ButtonClickedEvent();
-            messagesButton.onClick.AddListener(OpenPhoneMessages);
+            RebindPhoneButton(messagesButton, OpenPhoneMessages);
         }
 
         ConfigureConnectAppButton(buttonPanel);
@@ -819,6 +836,8 @@ public class UIManager : MonoBehaviour
     private void ConfigureAppStoreButton(Transform buttonPanel)
     {
         Button appStoreButton = buttonPanel.Find("AppStore")?.GetComponent<Button>();
+        _appStoreCreatedFromTemplate = false;
+
         if (appStoreButton == null)
         {
             Button template = _settingsAppButton != null ? _settingsAppButton : _connectAppButton;
@@ -830,9 +849,10 @@ public class UIManager : MonoBehaviour
 
             appStoreButton = Instantiate(template, buttonPanel);
             appStoreButton.name = "AppStore";
+            _appStoreCreatedFromTemplate = true;
         }
 
-        // Ensure cloned button never inherits Settings' UIEventPublisher
+        // Ensure button never triggers unrelated UIEventPublisher actions
         UIEventPublisher[] eventPublishers = appStoreButton.GetComponents<UIEventPublisher>();
         for (int i = 0; i < eventPublishers.Length; i++)
         {
@@ -840,19 +860,18 @@ public class UIManager : MonoBehaviour
         }
 
         appStoreButton.gameObject.SetActive(true);
-        appStoreButton.onClick = new Button.ButtonClickedEvent();
-        appStoreButton.onClick.AddListener(OpenAppStoreMonologue);
+        RebindPhoneButton(appStoreButton, OpenAppStoreMonologue);
         _appStoreButton = appStoreButton;
 
-        Sprite icon = _appStoreIcon;
-        if (icon == null) icon = Resources.Load<Sprite>("_PhoneUIImages/AppStore");
-        if (icon == null) icon = Resources.Load<Sprite>("AppStore");
-        if (icon == null) icon = MessagesUI.LoadSprite("_PhoneUIImages/AppStore.png");
-        if (icon == null) icon = MessagesUI.LoadSprite("AppStore.png");
-
         Image appStoreImage = appStoreButton.GetComponent<Image>();
-        if (appStoreImage != null)
+        if (appStoreImage != null && (_appStoreCreatedFromTemplate || appStoreImage.sprite == null))
         {
+            Sprite icon = _appStoreIcon;
+            if (icon == null) icon = Resources.Load<Sprite>("_PhoneUIImages/AppStore");
+            if (icon == null) icon = Resources.Load<Sprite>("AppStore");
+            if (icon == null) icon = MessagesUI.LoadSprite("_PhoneUIImages/AppStore.png");
+            if (icon == null) icon = MessagesUI.LoadSprite("AppStore.png");
+
             if (icon != null)
             {
                 appStoreImage.sprite = icon;
@@ -869,11 +888,14 @@ public class UIManager : MonoBehaviour
     private void ConfigureConnectAppButton(Transform buttonPanel)
     {
         _connectAppButton = buttonPanel.Find("Connect")?.GetComponent<Button>();
+        _connectCreatedFromTemplate = false;
+
         if (_connectAppButton == null)
         {
             if (_settingsAppButton == null) return;
             _connectAppButton = Instantiate(_settingsAppButton, buttonPanel);
             _connectAppButton.name = "Connect";
+            _connectCreatedFromTemplate = true;
         }
 
         UIEventPublisher[] eventPublishers = _connectAppButton.GetComponents<UIEventPublisher>();
@@ -882,16 +904,12 @@ public class UIManager : MonoBehaviour
             DestroyImmediate(eventPublishers[i]);
         }
 
-        _connectAppButton.onClick = new Button.ButtonClickedEvent();
-        _connectAppButton.onClick.AddListener(OpenConnectApp);
+        RebindPhoneButton(_connectAppButton, OpenConnectApp);
 
         Image connectImage = _connectAppButton.GetComponent<Image>();
-        if (connectImage != null)
+        if (connectImage != null && (_connectCreatedFromTemplate || connectImage.sprite == null))
         {
-            Sprite icon = _connectAppIcon != null
-                ? _connectAppIcon
-                : (connectImage.sprite != null ? connectImage.sprite : null);
-
+            Sprite icon = _connectAppIcon;
             if (icon == null) icon = Resources.Load<Sprite>("_PhoneUIImages/ConenctSocialMedia");
             if (icon == null) icon = Resources.Load<Sprite>("ConenctSocialMedia");
             if (icon == null) icon = MessagesUI.LoadSprite("_PhoneUIImages/ConenctSocialMedia.png");
@@ -910,9 +928,8 @@ public class UIManager : MonoBehaviour
 
     private void UpdatePhoneAppLayout()
     {
-        // Preserve Settings (-150, 340) and Gallery (-50, 340) untouched on the top row.
-        // Place AppStore at (50, 340) and Connect at (150, 340) with matching 100x100 dimensions.
-        if (_appStoreButton != null && _appStoreButton.transform is RectTransform appStoreRect)
+        // Only apply fallback coordinates if buttons were instantiated dynamically (preserve prefab transforms).
+        if (_appStoreCreatedFromTemplate && _appStoreButton != null && _appStoreButton.transform is RectTransform appStoreRect)
         {
             appStoreRect.anchorMin = new Vector2(0.5f, 0.5f);
             appStoreRect.anchorMax = new Vector2(0.5f, 0.5f);
@@ -922,7 +939,7 @@ public class UIManager : MonoBehaviour
             appStoreRect.localScale = Vector3.one;
         }
 
-        if (_connectAppButton != null && _connectAppButton.transform is RectTransform connectRect)
+        if (_connectCreatedFromTemplate && _connectAppButton != null && _connectAppButton.transform is RectTransform connectRect)
         {
             connectRect.anchorMin = new Vector2(0.5f, 0.5f);
             connectRect.anchorMax = new Vector2(0.5f, 0.5f);
@@ -940,6 +957,7 @@ public class UIManager : MonoBehaviour
         MessagesManager.Instance.SetMessagingChannel(MessagingChannel.Phone);
         PhoneStateMachine phoneState = MessagesManager.Instance.GetPhoneStateMachine();
         phoneState?.ChangeState((int)PhoneState.CONTACTS);
+        phoneState?.UpdatePhoneBackground();
         MessagesManager.Instance.GetMessagesUI()?.RefreshContacts();
     }
 
@@ -957,6 +975,7 @@ public class UIManager : MonoBehaviour
         if (_connectProfileCreated)
         {
             phoneState.ChangeState((int)PhoneState.CONTACTS);
+            phoneState.UpdatePhoneBackground();
             messagesUI.RefreshContacts();
             return;
         }
@@ -968,7 +987,9 @@ public class UIManager : MonoBehaviour
         }
 
         messages.SetCurrentContact("Connect");
+        messages.MarkContactNotificationsAsRead("Connect");
         phoneState.ChangeState((int)PhoneState.MESSAGING);
+        phoneState.UpdatePhoneBackground();
         messagesUI.SetContactName("Connect");
         messagesUI.CreateMessages();
 

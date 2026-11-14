@@ -29,6 +29,10 @@ public class SaveSlotsPanelUI : MonoBehaviour
     [Tooltip("Automatically hides the Save Slots panel on startup until OpenPanel() is called.")]
     [SerializeField] private bool _hidePanelOnStart = true;
 
+    [Header("New Game Name Prompt")]
+    [Tooltip("Optional custom modal used to choose the protagonist's name before starting a New Game. Auto-created at runtime if left unassigned.")]
+    [SerializeField] private NewGameNameModalUI _namePromptModal;
+
     private bool _isInitialized = false;
     private bool _isPanelOpen = false;
 
@@ -115,12 +119,57 @@ public class SaveSlotsPanelUI : MonoBehaviour
         EnsureInitialized();
         _isPanelOpen = false;
 
+        if (_namePromptModal != null && _namePromptModal.IsOpen)
+        {
+            _namePromptModal.Close();
+        }
+
         if (_mainMenuButtonsContainer != null)
         {
             _mainMenuButtonsContainer.SetActive(true);
         }
 
         TargetPanelRoot.SetActive(false);
+    }
+
+    /// <summary>
+    /// Opens the character-name prompt modal for an empty save slot and starts the New Game upon confirmation.
+    /// </summary>
+    public void PromptNewGameForSlot(int slotIndex)
+    {
+        if (SaveManager.Instance == null)
+        {
+            Debug.LogError("[SaveSlotsPanelUI] SaveManager instance is unavailable.");
+            return;
+        }
+
+        EnsureNamePromptModal();
+        if (_namePromptModal == null)
+        {
+            SaveManager.Instance.StartNewGame(slotIndex);
+            return;
+        }
+
+        _namePromptModal.Open(slotIndex, HandleNewGameNameConfirmed);
+    }
+
+    private void EnsureNamePromptModal()
+    {
+        if (_namePromptModal != null) return;
+
+        _namePromptModal = GetComponentInChildren<NewGameNameModalUI>(true);
+        if (_namePromptModal == null)
+        {
+            _namePromptModal = gameObject.AddComponent<NewGameNameModalUI>();
+        }
+    }
+
+    private void HandleNewGameNameConfirmed(int slotIndex, string playerName)
+    {
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.StartNewGame(slotIndex, playerName);
+        }
     }
 
     /// <summary>

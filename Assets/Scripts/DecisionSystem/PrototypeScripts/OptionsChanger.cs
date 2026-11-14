@@ -181,7 +181,7 @@ public class OptionsChanger : MonoBehaviour
                         string displayText = (!entry.isUnlocked && !string.IsNullOrEmpty(entry.option.lockedText))
                             ? entry.option.lockedText
                             : entry.option.text;
-                        textComponent.text = displayText;
+                        textComponent.text = PlayerNameService.FormatText(displayText);
                     }
                 }
                 else

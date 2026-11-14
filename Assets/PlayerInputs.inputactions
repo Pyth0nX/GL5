@@ -21,7 +21,7 @@
                     "type": "Value",
                     "id": "01996515-66ee-4f67-985d-ddd476492bfb",
                     "expectedControlType": "Vector2",
-                    "processors": "StickDeadzone(min=0.001,max=1)",
+                    "processors": "",
                     "interactions": "",
                     "initialStateCheck": true,
                     "priority": 0
@@ -139,6 +139,36 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "LeftClick",
+                    "type": "Button",
+                    "id": "900f77b0-9f36-4916-97cb-e252ecb430a6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "F9",
+                    "type": "Button",
+                    "id": "0b4ebf22-4326-4222-ad89-5716a9d176b5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "F10",
+                    "type": "Button",
+                    "id": "1879019e-efa3-4030-afa4-e5966c4864a8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -183,6 +213,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f260172-ef0b-447b-bcb6-6e8d426b6e61",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard & Mouse",
+                    "action": "LeftClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e55807b-6232-4cdf-8c87-f20e4150c4bc",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard & Mouse",
+                    "action": "ContinueDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "072ac30b-1495-43c3-8c4f-19d9e3bc8fd7",
+                    "path": "<Keyboard>/f9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard & Mouse",
+                    "action": "F9",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a46dd833-39dd-4a2a-a14d-80b5d460d24b",
+                    "path": "<Keyboard>/f10",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard & Mouse",
+                    "action": "F10",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

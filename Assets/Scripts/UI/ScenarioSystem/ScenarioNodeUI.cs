@@ -232,7 +232,7 @@ public class ScenarioNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (_labelText != null)
         {
             _labelText.raycastTarget = false;
-            _labelText.text = data.GetDisplayLabel();
+            _labelText.text = PlayerNameService.FormatText(data.GetDisplayLabel());
             _labelText.color = Color.white;
 
             if (data.isTaken)

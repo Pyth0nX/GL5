@@ -49,15 +49,17 @@ public class ObjectivesUI : MonoBehaviour
             _panel.SetActive(true);
         }
 
+        string description = PlayerNameService.FormatText(currentObj.Description());
+
         // If the target count is greater than 1, we show a progress counter like (1/3)
         if (currentObj.TargetCount() > 1)
         {
-            _objectiveText.text = $"{currentObj.Description()} ({progress}/{currentObj.TargetCount()})";
+            _objectiveText.text = $"{description} ({progress}/{currentObj.TargetCount()})";
         }
         else
         {
             // If the target is just 1 (e.g. "Go to class"), we just show the description
-            _objectiveText.text = currentObj.Description();
+            _objectiveText.text = description;
         }
     }
 }

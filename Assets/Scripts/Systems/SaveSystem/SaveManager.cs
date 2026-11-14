@@ -274,10 +274,21 @@ public class SaveManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Starts a fresh game session assigned to the specified slot index and loads the initial gameplay scene.
+    /// Starts a fresh game session assigned to the specified slot index using the default protagonist name.
     /// </summary>
     /// <param name="slotIndex">Zero-based slot index (e.g. 0, 1, 2).</param>
     public void StartNewGame(int slotIndex)
+    {
+        StartNewGame(slotIndex, PlayerNameService.DefaultPlayerName);
+    }
+
+    /// <summary>
+    /// Starts a fresh game session assigned to the specified slot index and protagonist name,
+    /// and loads the initial gameplay scene.
+    /// </summary>
+    /// <param name="slotIndex">Zero-based slot index (e.g. 0, 1, 2).</param>
+    /// <param name="playerName">Protagonist name chosen by the player.</param>
+    public void StartNewGame(int slotIndex, string playerName)
     {
         if (!IsValidSlotIndex(slotIndex))
         {
@@ -291,6 +302,8 @@ public class SaveManager : MonoBehaviour
             _deferredAutoSaveCoroutine = null;
         }
 
+        string resolvedPlayerName = PlayerNameService.SanitizeName(playerName);
+
         Time.timeScale = 1f;
         _activeSlotIndex = slotIndex;
         _isLoadingSavedGame = false;
@@ -299,7 +312,12 @@ public class SaveManager : MonoBehaviour
 
         ResetAllRuntimeSystemsForNewGame();
 
-        Debug.Log($"[SaveManager] Starting New Game in slot {slotIndex} -> Scene '{_newGameStartingScene}'.");
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetPlayerName(resolvedPlayerName);
+        }
+
+        Debug.Log($"[SaveManager] Starting New Game in slot {slotIndex} as '{resolvedPlayerName}' -> Scene '{_newGameStartingScene}'.");
         SceneManager.LoadScene(_newGameStartingScene);
     }
 
@@ -525,9 +543,11 @@ public class SaveManager : MonoBehaviour
         int objectiveProgress = 0;
         bool isObjectiveActive = true;
 
+        string activePlayerName = PlayerNameService.GetActivePlayerName();
+
         if (ObjectivesManager.Instance != null)
         {
-            objectiveText = ObjectivesManager.Instance.GetCurrentObjectiveDisplayText();
+            objectiveText = PlayerNameService.FormatText(ObjectivesManager.Instance.GetCurrentObjectiveDisplayText(), activePlayerName);
             objectiveId = ObjectivesManager.Instance.GetCurrentObjectiveId();
             objectiveProgress = ObjectivesManager.Instance.GetCurrentProgress();
             isObjectiveActive = ObjectivesManager.Instance.IsCurrentObjectiveActive();
@@ -572,6 +592,7 @@ public class SaveManager : MonoBehaviour
             slotIndex = slotIndex,
             saveTimestamp = DateTime.Now.ToString(_timestampFormat),
             isOccupied = true,
+            playerName = activePlayerName,
             currentObjective = objectiveText,
             sceneName = activeScene.name,
             sceneBuildIndex = activeScene.buildIndex,
@@ -601,6 +622,7 @@ public class SaveManager : MonoBehaviour
         {
             // Prevent GameManager from firing initial Day 1 advancement when loading into Home
             GameManager.Instance.SetHasEnteredHomeFirstTime(true);
+            GameManager.Instance.SetPlayerName(PlayerNameService.SanitizeName(saveData.playerName));
         }
 
         if (DayManager.Instance != null)

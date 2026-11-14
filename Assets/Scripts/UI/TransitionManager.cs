@@ -1,3 +1,4 @@
+using UnityEngine.InputSystem;
 using System;
 using System.Collections;
 using TMPro;
@@ -52,6 +53,7 @@ public class TransitionManager : MonoBehaviour
     private AudioSource _scene1AlarmSource;
     private Coroutine _scene1AlarmRoutine;
     private Coroutine _activeOpeningRoutine;
+    private bool _skipCutsceneRequested;
 
     public bool IsTransitioning => _isTransitioning;
 
@@ -327,6 +329,29 @@ public class TransitionManager : MonoBehaviour
         SetScene1OpeningImageAlpha(0f);
     }
 
+    private bool WasSkipOpeningPressed()
+    {
+        if (InputManager.Instance != null)
+        {
+            if (InputManager.Instance.LeftClickWasPressed() || InputManager.Instance.InteractWasPressed())
+            {
+                return true;
+            }
+        }
+
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public bool ShouldPlayDayOneOpening()
     {
         if (_scene1OpeningCompletedThisSession) return false;
@@ -386,32 +411,48 @@ public class TransitionManager : MonoBehaviour
 
         StartScene1Alarm();
 
-        // Lock player movement and interactions completely
+        _skipCutsceneRequested = false;
+
+        // Lock player movement, but keep interactions map enabled for cutscene skipping (E or Left Click)
         if (InputManager.Instance != null)
         {
             InputManager.Instance.DisableMovementMap();
-            InputManager.Instance.DisableInteractionsMap();
+            InputManager.Instance.EnableInteractionsMap();
+            InputManager.Instance.EnableLeftClick();
+            InputManager.Instance.EnableInteract();
         }
 
         ReturnPlayerToIdle();
 
-        // Play all 6 comic frames sequentially without skip (mandatory viewing)
+        // Play comic frames sequentially, allowing the player to skip with Interact or Left Click
         if (_scene1OpeningFrames != null && _scene1OpeningFrames.Length > 0)
         {
             for (int i = 0; i < _scene1OpeningFrames.Length; i++)
             {
+                if (_skipCutsceneRequested || WasSkipOpeningPressed())
+                {
+                    _skipCutsceneRequested = true;
+                    break;
+                }
+
                 Sprite frame = _scene1OpeningFrames[i];
                 if (frame == null) continue;
 
                 float duration = GetScene1OpeningFrameDuration(i);
                 yield return ShowOpeningFrame(frame, duration);
+
+                if (_skipCutsceneRequested)
+                {
+                    break;
+                }
             }
         }
 
         StopScene1Alarm();
 
-        // Fade both the solid black background and the final comic frame together into Luna's bedroom
-        yield return FadeOpeningToRoom(_fadeDuration);
+        // Fade both the solid black background and the active comic frame together into Luna's bedroom
+        float transitionFadeDuration = _skipCutsceneRequested ? Mathf.Min(0.4f, _fadeDuration) : _fadeDuration;
+        yield return FadeOpeningToRoom(transitionFadeDuration);
 
         HideScene1OpeningImages();
         SetTransitionMessage(null);
@@ -471,6 +512,12 @@ public class TransitionManager : MonoBehaviour
         float fadeElapsed = 0f;
         while (fadeElapsed < fadeDuration)
         {
+            if (WasSkipOpeningPressed())
+            {
+                _skipCutsceneRequested = true;
+                yield break;
+            }
+
             fadeElapsed += Time.unscaledDeltaTime;
             float t = fadeDuration > 0f ? Mathf.Clamp01(fadeElapsed / fadeDuration) : 1f;
             SetImageAlpha(targetImage, t);
@@ -487,11 +534,19 @@ public class TransitionManager : MonoBehaviour
             _scene1OpeningIncomingImage = currentImage;
         }
 
-        // Hold frame for remaining duration without any skipping allowed
+        // Hold frame for remaining duration, polling for skip input
         float remainingDuration = Mathf.Max(0f, frameDuration - fadeDuration);
-        if (remainingDuration > 0f)
+        float holdElapsed = 0f;
+        while (holdElapsed < remainingDuration)
         {
-            yield return new WaitForSecondsRealtime(remainingDuration);
+            if (WasSkipOpeningPressed())
+            {
+                _skipCutsceneRequested = true;
+                yield break;
+            }
+
+            holdElapsed += Time.unscaledDeltaTime;
+            yield return null;
         }
     }
 
@@ -505,6 +560,11 @@ public class TransitionManager : MonoBehaviour
 
         while (elapsed < safeDuration)
         {
+            if (WasSkipOpeningPressed())
+            {
+                break;
+            }
+
             elapsed += Time.unscaledDeltaTime;
             float alpha = Mathf.Clamp01(1f - (elapsed / safeDuration));
 
@@ -771,13 +831,13 @@ public class TransitionManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(MessageCardRoutine(message, Mathf.Max(0f, holdDuration)));
+        StartCoroutine(MessageCardRoutine(PlayerNameService.FormatText(message), Mathf.Max(0f, holdDuration)));
     }
 
     public void PlayTextTransition(string message = "6 hours later...", Action onMiddle = null, Action onComplete = null)
     {
         if (_isTransitioning) return;
-        StartCoroutine(TextTransitionRoutine(message, onMiddle, onComplete));
+        StartCoroutine(TextTransitionRoutine(PlayerNameService.FormatText(message), onMiddle, onComplete));
     }
 
     private IEnumerator TextTransitionRoutine(string message, Action onMiddle, Action onComplete)

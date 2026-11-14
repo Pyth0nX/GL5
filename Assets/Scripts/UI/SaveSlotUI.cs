@@ -99,16 +99,26 @@ public class SaveSlotUI : MonoBehaviour
     /// </summary>
     public void RefreshSlotView()
     {
-        if (_slotTitleText != null && !string.IsNullOrEmpty(_slotHeaderFormat))
-        {
-            _slotTitleText.text = string.Format(_slotHeaderFormat, _slotIndex + 1);
-        }
-
         SaveSlotMetadata metadata = SaveManager.Instance != null
             ? SaveManager.Instance.GetSlotMetadata(_slotIndex)
             : new SaveSlotMetadata { slotIndex = _slotIndex, isOccupied = false };
 
         bool isOccupied = metadata != null && metadata.isOccupied;
+        string defaultSlotHeader = !string.IsNullOrEmpty(_slotHeaderFormat)
+            ? string.Format(_slotHeaderFormat, _slotIndex + 1)
+            : $"Slot {_slotIndex + 1}";
+
+        if (_slotTitleText != null)
+        {
+            if (isOccupied && !string.IsNullOrWhiteSpace(metadata.playerName))
+            {
+                _slotTitleText.text = metadata.playerName;
+            }
+            else
+            {
+                _slotTitleText.text = defaultSlotHeader;
+            }
+        }
 
         if (!isOccupied)
         {
@@ -125,8 +135,12 @@ public class SaveSlotUI : MonoBehaviour
         }
         else
         {
+            string slotPlayerName = !string.IsNullOrWhiteSpace(metadata.playerName)
+                ? metadata.playerName
+                : PlayerNameService.DefaultPlayerName;
+
             string displayObjective = !string.IsNullOrWhiteSpace(metadata.currentObjective)
-                ? metadata.currentObjective
+                ? PlayerNameService.FormatText(metadata.currentObjective, slotPlayerName)
                 : _fallbackOccupiedText;
 
             if (_timestampText != null)
@@ -151,7 +165,7 @@ public class SaveSlotUI : MonoBehaviour
 
     /// <summary>
     /// Invoked when the player clicks this save slot card.
-    /// Starts a New Game assigned to this slot if empty, or loads the saved game if occupied.
+    /// Prompts for the protagonist name and starts a New Game if empty, or loads the saved game if occupied.
     /// </summary>
     public void OnSlotClicked()
     {
@@ -167,7 +181,15 @@ public class SaveSlotUI : MonoBehaviour
         }
         else
         {
-            SaveManager.Instance.StartNewGame(_slotIndex);
+            SaveSlotsPanelUI panel = GetComponentInParent<SaveSlotsPanelUI>(true) ?? FindAnyObjectByType<SaveSlotsPanelUI>(FindObjectsInactive.Include);
+            if (panel != null)
+            {
+                panel.PromptNewGameForSlot(_slotIndex);
+            }
+            else
+            {
+                SaveManager.Instance.StartNewGame(_slotIndex);
+            }
         }
     }
 

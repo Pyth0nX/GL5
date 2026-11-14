@@ -6,11 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private string _playerName;
+    private string _playerName = PlayerNameService.DefaultPlayerName;
     private bool _hasEnteredHomeFirstTime = false;
 
-    [Header("Scenario System (Endgame Summary)")]
-    [SerializeField] private ScenarioSystemUI _scenarioSystemPrefab;
     private ScenarioSystemUI _scenarioSystemInstance;
 
     public bool HasEnteredHomeFirstTime => _hasEnteredHomeFirstTime;
@@ -21,8 +19,8 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Instantiates or activates the ScenarioSystem Canvas when reaching the end of the game.
-    /// Delegates to UIManager if available, or manages its own ScenarioSystemUI instance directly.
+    /// Activates the ScenarioSystem Canvas when reaching the end of the game.
+    /// Delegates to UIManager if available, or looks up an existing ScenarioSystemUI in the scene.
     /// </summary>
     public void ShowScenarioSystem()
     {
@@ -41,23 +39,8 @@ public class GameManager : MonoBehaviour
 
         if (_scenarioSystemInstance == null)
         {
-            ScenarioSystemUI prefab = _scenarioSystemPrefab != null
-                ? _scenarioSystemPrefab
-                : Resources.Load<ScenarioSystemUI>("ScenarioSystem");
-
-            if (prefab != null)
-            {
-                _scenarioSystemInstance = Instantiate(prefab);
-                _scenarioSystemInstance.name = "ScenarioSystem";
-                DontDestroyOnLoad(_scenarioSystemInstance.gameObject);
-            }
-            else
-            {
-                GameObject canvasObj = new GameObject("ScenarioSystem");
-                DontDestroyOnLoad(canvasObj);
-                _scenarioSystemInstance = canvasObj.AddComponent<ScenarioSystemUI>();
-                _scenarioSystemInstance.EnsureHierarchyBuilt();
-            }
+            Debug.LogWarning("[GameManager] ScenarioSystemUI was not found in UI or the active scene.");
+            return;
         }
 
         _scenarioSystemInstance.ShowScenarioTree();
@@ -117,7 +100,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public string GetPlayerName()
     {
-        return _playerName;
+        return string.IsNullOrWhiteSpace(_playerName) ? PlayerNameService.DefaultPlayerName : _playerName;
     }
 
     /// <summary>
@@ -125,7 +108,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void SetPlayerName(string name)
     {
-        if (_playerName != name) _playerName = name;
+        string sanitized = PlayerNameService.SanitizeName(name);
+        if (_playerName != sanitized)
+        {
+            _playerName = sanitized;
+        }
     }
 
     public void ChangeScene(string sceneName)
@@ -155,6 +142,7 @@ public class GameManager : MonoBehaviour
         if (scene.name.Equals("MainMenu", System.StringComparison.OrdinalIgnoreCase))
         {
             _hasEnteredHomeFirstTime = false;
+            _playerName = PlayerNameService.DefaultPlayerName;
             DayManager.ClearQueuedTestStart();
 
             if (DayManager.Instance != null)

@@ -7020,8 +7020,11 @@ MonoBehaviour:
   messagePrefab: {fileID: 3268024124555062403, guid: 51d38bb6db73f0947808a4769d7d2d06, type: 3}
   imageMessagePrefab: {fileID: 4000000000000001, guid: a840e671c6994fb4ba90ef98b871c421, type: 3}
   contactPrefab: {fileID: 6391233378624843405, guid: 920a50a28ceb8404da0f3faa4c5027dd, type: 3}
-  playerMessageColor: {r: 0, g: 0.5921569, b: 0.06666667, a: 1}
-  NPCMessageColor: {r: 0.5018867, g: 0.18086863, b: 0.19428025, a: 1}
+  playerMessagesBubbleSprite: {fileID: 21300000, guid: affb569a86aa95d41a4deea893b576b9, type: 3}
+  playerConnectBubbleSprite: {fileID: 21300000, guid: d8db4b217258ba34b9da3b3f90825b07, type: 3}
+  npcMessagesBubbleSprite: {fileID: 21300000, guid: 4964f497b8e637c479c6a0011a0943e4, type: 3}
+  npcConnectBubbleSprite: {fileID: 21300000, guid: 17d563d4153b4df4fb495bf7a730acb6, type: 3}
+  notificationBadgeSprite: {fileID: 21300000, guid: bb2a7e7d4efac2d47b8c63ad311ed71e, type: 3}
   lunaFlirtSelfie: {fileID: -2589699542654849014, guid: 0e04a03c8de1aab4fa9553b55286084f, type: 3}
   lunaNormalSelfie: {fileID: -4644427626319330781, guid: 7dca4c9d4c98eb54face0419dbc32dd5, type: 3}
   messagesScrollRect: {fileID: 0}

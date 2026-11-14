@@ -116,6 +116,9 @@ public class Contact
     [SerializeField]
     private int _currentMessageIndex = 0; // Index of the next message to be sent from the current narrative node
 
+    [SerializeField]
+    private int _unreadMessagesCount = 0; // Number of pending unread notifications for this contact
+
     #region Getters
     public int NarrativeNode() { return _currentNarrative; }
     public Date LastMessageDate() { return _lastMessageDate; }
@@ -125,6 +128,8 @@ public class Contact
     public bool HasNewMessages() { return _hasNewMessages; }
     
     public int CurrentMessageIndex() { return _currentMessageIndex; }
+
+    public int UnreadMessagesCount() { return _unreadMessagesCount; }
 
     #endregion
 
@@ -136,6 +141,10 @@ public class Contact
     public void SetHasNewMessages(bool hasNewMessages) { _hasNewMessages = hasNewMessages; }
     
     public void SetCurrentMessageIndex(int index) { _currentMessageIndex = index; }
+
+    public void SetUnreadMessagesCount(int count) { _unreadMessagesCount = Mathf.Max(0, count); }
+    public void AddUnreadMessages(int count) { _unreadMessagesCount = Mathf.Max(0, _unreadMessagesCount + count); }
+    public void ClearUnreadMessages() { _unreadMessagesCount = 0; }
 
     #endregion
 

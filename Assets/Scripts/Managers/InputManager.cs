@@ -22,6 +22,9 @@ public class InputManager : MonoBehaviour
     private InputAction _pInteractAction;
     private InputAction _pMenuAction;
     private InputAction _pContinueDialogueAction;
+    private InputAction _pLeftClickAction;
+    private InputAction _pF9Action;
+    private InputAction _pF10Action;
     #endregion
 
 
@@ -60,6 +63,9 @@ public class InputManager : MonoBehaviour
         _pInteractAction = _pInteractionsMap.FindAction("Interact");
         _pContinueDialogueAction = _pInteractionsMap.FindAction("ContinueDialogue");
         _pMenuAction = _pInteractionsMap.FindAction("Menu");
+        _pLeftClickAction = _pInteractionsMap.FindAction("LeftClick");
+        _pF9Action = _pInteractionsMap.FindAction("F9");
+        _pF10Action = _pInteractionsMap.FindAction("F10");
 
         _pMenuAction.performed += OnMenuActionPerformed;
     }
@@ -126,7 +132,62 @@ public class InputManager : MonoBehaviour
 
     public bool InteractWasPressed() 
     {
-        return _pInteractAction.WasPressedThisFrame();
+        if (_pInteractAction != null && _pInteractAction.WasPressedThisFrame())
+        {
+            return true;
+        }
+
+        if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool LeftClickWasPressed()
+    {
+        if (_pLeftClickAction != null && _pLeftClickAction.WasPressedThisFrame())
+        {
+            return true;
+        }
+
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool F9WasPressed()
+    {
+        if (_pF9Action != null && _pF9Action.WasPressedThisFrame())
+        {
+            return true;
+        }
+
+        if (Keyboard.current != null && Keyboard.current.f9Key.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool F10WasPressed()
+    {
+        if (_pF10Action != null && _pF10Action.WasPressedThisFrame())
+        {
+            return true;
+        }
+
+        if (Keyboard.current != null && Keyboard.current.f10Key.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public bool PhoneWasPressed()
@@ -175,6 +236,21 @@ public class InputManager : MonoBehaviour
     {
         _pInteractAction.Enable();
     }
+
+    public void EnableLeftClick()
+    {
+        _pLeftClickAction?.Enable();
+    }
+
+    public void EnableF9()
+    {
+        _pF9Action?.Enable();
+    }
+
+    public void EnableF10()
+    {
+        _pF10Action?.Enable();
+    }
     #endregion
 
     #region Disablers
@@ -212,6 +288,21 @@ public class InputManager : MonoBehaviour
     public void DisableInteract()
     {
         _pInteractAction.Disable();
+    }
+
+    public void DisableLeftClick()
+    {
+        _pLeftClickAction?.Disable();
+    }
+
+    public void DisableF9()
+    {
+        _pF9Action?.Disable();
+    }
+
+    public void DisableF10()
+    {
+        _pF10Action?.Disable();
     }
     #endregion
 }

@@ -1,3 +1,4 @@
+using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -26,6 +27,43 @@ public class DialogueButton : MonoBehaviour
     private void Update()
     {
         UpdateButtonVisibility();
+        CheckInput();
+    }
+
+    private void CheckInput()
+    {
+        if (MessagesManager.Instance == null) return;
+        if (_narrationDialogueActive) return;
+
+        Contact currentContact = MessagesManager.Instance.GetCurrentContact();
+        if (currentContact == null || !currentContact.HasNewMessages()) return;
+
+        bool inputPressed = false;
+        if (InputManager.Instance != null)
+        {
+            inputPressed = InputManager.Instance.InteractWasPressed() ||
+                           InputManager.Instance.LeftClickWasPressed() ||
+                           InputManager.Instance.ContinueDialogueWasPressed();
+        }
+
+        if (!inputPressed)
+        {
+            if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame) inputPressed = true;
+            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) inputPressed = true;
+        }
+
+        if (!inputPressed) return;
+
+        // If the player response button is active and waiting for input, trigger sending the message
+        if (_button != null && _button.interactable && _image != null && _image.enabled)
+        {
+            OnDialogueButtonPressed();
+        }
+        else
+        {
+            // If waiting for the 1-second NPC pause timer, fast-forward it
+            _timer = Mathf.Max(_timer, 1f);
+        }
     }
 
     private void SetVisualsActive(bool active)

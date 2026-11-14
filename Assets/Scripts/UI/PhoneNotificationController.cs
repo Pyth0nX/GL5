@@ -324,6 +324,8 @@ public class PhoneNotificationController : MonoBehaviour
     {
         if (data == null) return;
 
+        data.Message = PlayerNameService.FormatText(data.Message);
+
         InitializeComponents();
         _notificationQueue.Enqueue(data);
 

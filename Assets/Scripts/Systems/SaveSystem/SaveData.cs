@@ -60,6 +60,9 @@ public class ContactNarrativeSaveData
     [Tooltip("Indicates whether the contact has pending unread or interactive phone messages.")]
     public bool hasNewMessages = false;
 
+    [Tooltip("Number of pending unread message notifications for this contact.")]
+    public int unreadMessagesCount = 0;
+
     [Tooltip("Timestamp of the most recent message used to order contacts in the phone UI.")]
     public Date lastMessageDate;
 
@@ -101,6 +104,7 @@ public class SaveSlotMetadata
 {
     public int slotIndex;
     public bool isOccupied;
+    public string playerName;
     public string saveTimestamp;
     public string currentObjective;
     public string sceneName;
@@ -124,6 +128,9 @@ public class GameSaveData
 
     [Tooltip("True when this slot contains valid saved gameplay data.")]
     public bool isOccupied;
+
+    [Tooltip("Custom protagonist name chosen by the player for this save slot.")]
+    public string playerName;
 
     [Tooltip("Display text of the active objective at the moment of saving.")]
     public string currentObjective;
@@ -192,6 +199,7 @@ public class GameSaveData
         {
             slotIndex = this.slotIndex,
             isOccupied = this.isOccupied,
+            playerName = this.playerName,
             saveTimestamp = this.saveTimestamp,
             currentObjective = this.currentObjective,
             sceneName = this.sceneName,

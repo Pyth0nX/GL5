@@ -164,20 +164,31 @@ public class DebugCampaignPanelUI : MonoBehaviour
             TrySubscribeEventBus();
         }
 
+        bool f9Pressed = false;
+        if (InputManager.Instance != null)
+        {
+            f9Pressed = InputManager.Instance.F9WasPressed();
+        }
+        else if (Keyboard.current != null && Keyboard.current.f9Key.wasPressedThisFrame)
+        {
+            f9Pressed = true;
+        }
+
+        if (f9Pressed)
+        {
+            if (IsOpen)
+            {
+                ClosePanel();
+            }
+            else
+            {
+                OpenFromCurrentContext();
+            }
+            return;
+        }
+
         if (Keyboard.current != null)
         {
-            if (Keyboard.current.f9Key.wasPressedThisFrame)
-            {
-                if (IsOpen)
-                {
-                    ClosePanel();
-                }
-                else
-                {
-                    OpenFromCurrentContext();
-                }
-                return;
-            }
 
 
             if (IsOpen && Keyboard.current.escapeKey.wasPressedThisFrame)

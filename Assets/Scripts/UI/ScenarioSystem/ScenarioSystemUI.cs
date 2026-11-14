@@ -52,6 +52,23 @@ public class ScenarioSystemUI : MonoBehaviour
     [Tooltip("Optional custom sprite for the hover annotation tooltip box. If unassigned, procedural rounded rect is used.")]
     [SerializeField] private Sprite _customTooltipSprite;
 
+    [Tooltip("Optional custom single-piece sprite for the entire taken path connection arrow. Points right (+X).")]
+    [SerializeField] private Sprite _customTakenArrowSprite;
+
+    [Tooltip("Optional custom single-piece sprite for untaken/void connection arrows. If unassigned but Taken Arrow is assigned, Taken Arrow is used as fallback.")]
+    [SerializeField] private Sprite _customUntakenArrowSprite;
+
+    [Tooltip("Height / thickness for custom single-piece arrow sprites in UI units.")]
+    [SerializeField] private float _customArrowHeight = 20f;
+
+    [Tooltip("If true, custom arrow sprites are tinted with Taken/Untaken Arrow Color. If false, they keep their native sprite colors.")]
+    [SerializeField] private bool _tintCustomArrowSprites = false;
+
+    [Tooltip("Alpha opacity applied when an untaken arrow reuses the taken arrow sprite as fallback without full tinting.")]
+    [Range(0.1f, 1f)]
+    [SerializeField] private float _fallbackUntakenArrowAlpha = 0.5f;
+
+    [Header("Legacy 2-Piece Arrow Overrides (Optional Fallback)")]
     [Tooltip("Optional custom sprite for the connection arrowhead. If unassigned, procedural triangle arrow is used.")]
     [SerializeField] private Sprite _customArrowHeadSprite;
 
@@ -606,7 +623,7 @@ public class ScenarioSystemUI : MonoBehaviour
                     Color arrowColor = leadsToTaken ? _takenArrowColor : _untakenArrowColor;
                     float thickness = leadsToTaken ? 3.2f : 2.4f;
 
-                    CreateDirectedArrow(startLocal, endLocal, arrowColor, thickness);
+                    CreateDirectedArrow(startLocal, endLocal, arrowColor, thickness, leadsToTaken);
                 }
             }
 
@@ -657,14 +674,18 @@ public class ScenarioSystemUI : MonoBehaviour
             Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
             Vector2 endLocal = startLocal + (direction * _voidArrowLength);
 
-            CreateDirectedArrow(startLocal, endLocal, _untakenArrowColor, 2.3f);
+            CreateDirectedArrow(startLocal, endLocal, _untakenArrowColor, 2.3f, false);
         }
     }
 
     /// <summary>
-    /// Creates a UI line segment with a triangular arrowhead pointing from startPos to endPos inside _connectionsLayerRect.
+    /// Creates a UI directed arrow pointing from startPos to endPos inside _connectionsLayerRect.
+    /// If single-piece custom arrow sprites are provided (_customTakenArrowSprite / _customUntakenArrowSprite),
+    /// it instantiates a single GameObject stretched along the connection vector.
+    /// If untaken arrow sprite is missing, it falls back to the taken arrow sprite.
+    /// If no custom sprites are provided, it falls back to procedural 2-piece arrow (shaft + head).
     /// </summary>
-    private void CreateDirectedArrow(Vector2 startPos, Vector2 endPos, Color color, float thickness)
+    private void CreateDirectedArrow(Vector2 startPos, Vector2 endPos, Color color, float thickness, bool isTaken = true)
     {
         Vector2 delta = endPos - startPos;
         float fullDistance = delta.magnitude;
@@ -674,6 +695,71 @@ public class ScenarioSystemUI : MonoBehaviour
         }
 
         float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
+
+        // Resolve single custom arrow sprite (points right / +X by default)
+        Sprite customArrowSprite = null;
+        bool isUsingFallbackTakenSprite = false;
+
+        if (isTaken)
+        {
+            if (_customTakenArrowSprite != null)
+            {
+                customArrowSprite = _customTakenArrowSprite;
+            }
+        }
+        else
+        {
+            if (_customUntakenArrowSprite != null)
+            {
+                customArrowSprite = _customUntakenArrowSprite;
+            }
+            else if (_customTakenArrowSprite != null)
+            {
+                // Fallback: If no untaken arrow sprite is provided but a taken arrow sprite is assigned, use the taken arrow sprite
+                customArrowSprite = _customTakenArrowSprite;
+                isUsingFallbackTakenSprite = true;
+            }
+        }
+
+        // If a single custom arrow sprite is available, instantiate 1 single GameObject for the entire arrow
+        if (customArrowSprite != null)
+        {
+            GameObject arrowObj = new GameObject(isTaken ? "CustomArrow_Taken" : "CustomArrow_Untaken", typeof(RectTransform), typeof(Image));
+            arrowObj.transform.SetParent(_connectionsLayerRect, false);
+            _spawnedGraphObjects.Add(arrowObj);
+
+            RectTransform rect = arrowObj.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = (startPos + endPos) * 0.5f;
+            float arrowHeight = _customArrowHeight > 0f ? _customArrowHeight : thickness * 5f;
+            rect.sizeDelta = new Vector2(fullDistance, arrowHeight);
+            rect.localRotation = Quaternion.Euler(0f, 0f, angle);
+
+            Image img = arrowObj.GetComponent<Image>();
+            img.sprite = customArrowSprite;
+            img.type = (customArrowSprite.border != Vector4.zero) ? Image.Type.Sliced : Image.Type.Simple;
+
+            if (_tintCustomArrowSprites)
+            {
+                img.color = color;
+            }
+            else if (isUsingFallbackTakenSprite)
+            {
+                // Dim slightly so the player still perceives untaken branches visually when sharing the same sprite
+                img.color = new Color(1f, 1f, 1f, _fallbackUntakenArrowAlpha);
+            }
+            else
+            {
+                img.color = Color.white;
+            }
+
+            img.raycastTarget = false;
+            return;
+        }
+
+        // Legacy / Procedural Fallback: 2-piece arrow (Shaft + Head)
         const float arrowHeadLength = 13f;
         const float arrowHeadWidth = 12f;
 
@@ -886,7 +972,17 @@ public class ScenarioSystemUI : MonoBehaviour
         }
 
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        _canvas.overrideSorting = true;
         _canvas.sortingOrder = 500;
+
+        if (transform.parent is RectTransform && transform is RectTransform selfRect)
+        {
+            selfRect.anchorMin = Vector2.zero;
+            selfRect.anchorMax = Vector2.one;
+            selfRect.offsetMin = Vector2.zero;
+            selfRect.offsetMax = Vector2.zero;
+            selfRect.localScale = Vector3.one;
+        }
 
         CanvasScaler scaler = GetComponent<CanvasScaler>();
         if (scaler == null)
@@ -964,7 +1060,17 @@ public class ScenarioSystemUI : MonoBehaviour
             _canvas = gameObject.AddComponent<Canvas>();
         }
         _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        _canvas.overrideSorting = true;
         _canvas.sortingOrder = 500;
+
+        if (transform.parent is RectTransform && transform is RectTransform selfRect)
+        {
+            selfRect.anchorMin = Vector2.zero;
+            selfRect.anchorMax = Vector2.one;
+            selfRect.offsetMin = Vector2.zero;
+            selfRect.offsetMax = Vector2.zero;
+            selfRect.localScale = Vector3.one;
+        }
 
         CanvasScaler scaler = GetComponent<CanvasScaler>();
         if (scaler == null)
@@ -1208,8 +1314,20 @@ public class ScenarioSystemUI : MonoBehaviour
 
     /// <summary>
     /// Configures custom sprites for the flowchart connection arrows.
+    /// Supports a single sprite for taken arrows and an optional sprite for untaken arrows.
+    /// If untakenArrow is null, the takenArrow sprite will be used for untaken arrows as well.
     /// </summary>
-    public void SetCustomArrowSprites(Sprite arrowHead, Sprite arrowShaft = null)
+    public void SetCustomArrowSprites(Sprite takenArrow, Sprite untakenArrow = null)
+    {
+        _customTakenArrowSprite = takenArrow;
+        _customUntakenArrowSprite = untakenArrow;
+        if (IsVisible) RebuildScenarioTree();
+    }
+
+    /// <summary>
+    /// Legacy method for configuring procedural 2-piece arrow sprites (head and shaft).
+    /// </summary>
+    public void SetLegacyCustomArrowSprites(Sprite arrowHead, Sprite arrowShaft = null)
     {
         _customArrowHeadSprite = arrowHead;
         _customArrowShaftSprite = arrowShaft;

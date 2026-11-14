@@ -17,9 +17,19 @@ public class MessagesUI : MonoBehaviour
     [SerializeField] private GameObject imageMessagePrefab;
     [SerializeField] private GameObject contactPrefab;
 
-    [Header("Messages Colors")]
-    [SerializeField] private Color playerMessageColor;
-    [SerializeField] private Color NPCMessageColor;
+    [Header("Message Bubble Sprites")]
+    [Tooltip("Bubble sprite used for Player messages in the Messages app.")]
+    [SerializeField] private Sprite playerMessagesBubbleSprite;
+    [Tooltip("Bubble sprite used for Player messages in the Connect app.")]
+    [SerializeField] private Sprite playerConnectBubbleSprite;
+    [Tooltip("Bubble sprite used for NPC messages in the Messages app.")]
+    [SerializeField] private Sprite npcMessagesBubbleSprite;
+    [Tooltip("Bubble sprite used for NPC messages in the Connect app.")]
+    [SerializeField] private Sprite npcConnectBubbleSprite;
+
+    [Header("Notifications")]
+    [Tooltip("Notification badge sprite displayed on contacts that have unread messages.")]
+    [SerializeField] private Sprite notificationBadgeSprite;
 
     [Header("Message Images")]
     [SerializeField] private Sprite lunaFlirtSelfie;
@@ -39,6 +49,11 @@ public class MessagesUI : MonoBehaviour
     [SerializeField] private float npcTypingDuration = 2.0f;
     [SerializeField] private float npcDotInterval = 0.35f;
     [SerializeField] private float playerTypewriterSpeed = 0.03f;
+
+    [Header("Message Bubble Layout")]
+    [SerializeField, Range(0.5f, 0.95f)] private float maxBubbleWidthRatio = 0.8f;
+    [SerializeField, Min(4f)] private float bubbleHorizontalMargin = 22f;
+    [SerializeField, Min(4f)] private float bubbleVerticalMargin = 16f;
 
     private const string LunaFlirtSelfieToken = "[Luna sends a flirty selfie.]";
     private const string LunaNormalSelfieToken = "[Luna sends a normal selfie.]";
@@ -247,7 +262,7 @@ public class MessagesUI : MonoBehaviour
         {
             foreach (Contact contact in contacts)
             {
-                if (MessagesManager.Instance.ContactHasMessages(contact.Name()))
+                if (MessagesManager.Instance.ContactHasMessages(contact.Name()) || contact.UnreadMessagesCount() > 0)
                 {
                     InstantiateContact(contact);
                 }
@@ -258,10 +273,208 @@ public class MessagesUI : MonoBehaviour
     private void InstantiateContact(Contact contact)
     {
         GameObject contactGO = Instantiate(contactPrefab, contactListContainer);
-        TextMeshProUGUI contactNameText = contactGO.GetComponentInChildren<TextMeshProUGUI>();
+        Transform nameChild = contactGO.transform.Find("Text (TMP)");
+        TextMeshProUGUI contactNameText = nameChild != null
+            ? nameChild.GetComponent<TextMeshProUGUI>()
+            : contactGO.GetComponentInChildren<TextMeshProUGUI>();
+
         if (contactNameText != null)
         {
             contactNameText.text = contact.Name();
+        }
+
+        ApplyContactDimensions(contactGO);
+
+        ContactButtonHelper helper = contactGO.GetComponent<ContactButtonHelper>();
+        if (helper != null)
+        {
+            helper.Configure(contact.Name());
+        }
+
+        int unreadCount = contact.UnreadMessagesCount();
+        Sprite badgeSprite = notificationBadgeSprite != null ? notificationBadgeSprite : LoadSprite("Hilmir/UI/Notifications.png");
+        TMP_FontAsset fontAsset = contactNameText != null ? contactNameText.font : null;
+
+        ApplyNotificationBadge(
+            contactGO.transform,
+            unreadCount,
+            badgeSprite,
+            fontAsset,
+            new Vector2(1f, 0.5f),
+            new Vector2(1f, 0.5f),
+            new Vector2(1f, 0.5f),
+            new Vector2(-14f, 0f),
+            new Vector2(44f, 44f),
+            14f,
+            26f);
+
+        if (contactNameText != null)
+        {
+            RectTransform nameRect = contactNameText.rectTransform;
+            nameRect.offsetMax = unreadCount > 0 ? new Vector2(-64f, nameRect.offsetMax.y) : new Vector2(0f, nameRect.offsetMax.y);
+        }
+    }
+
+    private float GetContactContainerWidth()
+    {
+        if (!(contactListContainer is RectTransform containerRect)) return 0f;
+
+        if (containerRect.gameObject.activeInHierarchy)
+        {
+            Canvas.ForceUpdateCanvases();
+        }
+
+        float width = containerRect.rect.width;
+        if (width <= 1f && containerRect.parent is RectTransform viewportRect)
+        {
+            width = viewportRect.rect.width;
+            if (width <= 1f && viewportRect.parent is RectTransform scrollRect)
+            {
+                width = scrollRect.rect.width + viewportRect.sizeDelta.x;
+            }
+            width += containerRect.sizeDelta.x;
+        }
+
+        return Mathf.Max(0f, width);
+    }
+
+    private void ApplyContactDimensions(GameObject contactGO)
+    {
+        if (contactGO == null) return;
+
+        if (contactListContainer != null)
+        {
+            VerticalLayoutGroup vlg = contactListContainer.GetComponent<VerticalLayoutGroup>();
+            if (vlg != null && vlg.childAlignment != TextAnchor.UpperCenter)
+            {
+                vlg.childAlignment = TextAnchor.UpperCenter;
+            }
+        }
+
+        float containerWidth = GetContactContainerWidth();
+        if (containerWidth <= 1f) return;
+
+        float targetWidth = containerWidth * 0.9f;
+        if (contactGO.transform is RectTransform contactRect)
+        {
+            contactRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetWidth);
+        }
+
+        LayoutElement layoutElement = contactGO.GetComponent<LayoutElement>();
+        if (layoutElement != null)
+        {
+            layoutElement.preferredWidth = targetWidth;
+        }
+    }
+
+    /// <summary>
+    /// Formats notification badge text ("1".."9" or "+9" when >= 10).
+    /// </summary>
+    public static string FormatNotificationCount(int count)
+    {
+        return count >= 10 ? "+9" : count.ToString();
+    }
+
+    /// <summary>
+    /// Creates or updates a red notification circle with centered counter text on any UI container.
+    /// </summary>
+    public static void ApplyNotificationBadge(
+        Transform parent,
+        int unreadCount,
+        Sprite badgeSprite,
+        TMP_FontAsset fontAsset,
+        Vector2 anchorMin,
+        Vector2 anchorMax,
+        Vector2 pivot,
+        Vector2 anchoredPosition,
+        Vector2 sizeDelta,
+        float minFontSize = 12f,
+        float maxFontSize = 24f)
+    {
+        if (parent == null) return;
+
+        Transform badgeTransform = parent.Find("NotificationBadge");
+        if (unreadCount <= 0)
+        {
+            if (badgeTransform != null)
+            {
+                badgeTransform.gameObject.SetActive(false);
+            }
+            return;
+        }
+
+        GameObject badgeGO;
+        if (badgeTransform == null)
+        {
+            badgeGO = new GameObject("NotificationBadge", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            badgeGO.layer = parent.gameObject.layer;
+            badgeGO.transform.SetParent(parent, false);
+
+            GameObject textGO = new GameObject("CountText", typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI));
+            textGO.layer = parent.gameObject.layer;
+            textGO.transform.SetParent(badgeGO.transform, false);
+        }
+        else
+        {
+            badgeGO = badgeTransform.gameObject;
+        }
+
+        badgeGO.SetActive(true);
+        badgeGO.transform.SetAsLastSibling();
+
+        RectTransform badgeRect = badgeGO.GetComponent<RectTransform>();
+        badgeRect.anchorMin = anchorMin;
+        badgeRect.anchorMax = anchorMax;
+        badgeRect.pivot = pivot;
+        badgeRect.anchoredPosition = anchoredPosition;
+        badgeRect.sizeDelta = sizeDelta;
+        badgeRect.localScale = Vector3.one;
+
+        Image badgeImage = badgeGO.GetComponent<Image>();
+        if (badgeSprite == null)
+        {
+            badgeSprite = LoadSprite("Hilmir/UI/Notifications.png");
+        }
+        if (badgeSprite != null)
+        {
+            badgeImage.sprite = badgeSprite;
+            badgeImage.preserveAspect = true;
+            badgeImage.color = Color.white;
+        }
+        else
+        {
+            badgeImage.color = new Color(0.92f, 0.14f, 0.14f, 1f);
+        }
+        badgeImage.raycastTarget = false;
+
+        Transform textChild = badgeGO.transform.Find("CountText");
+        TextMeshProUGUI countTmp = textChild != null
+            ? textChild.GetComponent<TextMeshProUGUI>()
+            : badgeGO.GetComponentInChildren<TextMeshProUGUI>(true);
+
+        if (countTmp != null)
+        {
+            RectTransform textRect = countTmp.rectTransform;
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.pivot = new Vector2(0.5f, 0.5f);
+            textRect.offsetMin = new Vector2(2f, 2f);
+            textRect.offsetMax = new Vector2(-2f, -2f);
+            textRect.localScale = Vector3.one;
+
+            if (fontAsset != null)
+            {
+                countTmp.font = fontAsset;
+            }
+            countTmp.alignment = TextAlignmentOptions.Center;
+            countTmp.fontStyle = FontStyles.Bold;
+            countTmp.color = Color.white;
+            countTmp.enableAutoSizing = true;
+            countTmp.fontSizeMin = minFontSize;
+            countTmp.fontSizeMax = maxFontSize;
+            countTmp.textWrappingMode = TextWrappingModes.NoWrap;
+            countTmp.raycastTarget = false;
+            countTmp.text = FormatNotificationCount(unreadCount);
         }
     }
 
@@ -376,13 +589,14 @@ public class MessagesUI : MonoBehaviour
             GameObject messageGO = Instantiate(messagePrefab, messagesContainer);
             CleanUpConflictingComponents(messageGO);
 
+            string formattedContent = PlayerNameService.FormatText(message.Content());
             TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
             if (messageText != null)
             {
-                messageText.text = message.Content();
+                messageText.text = formattedContent;
             }
 
-            ApplyMessageDimensions(messageGO, message.Content(), message.Sender(), availableWidth);
+            ApplyMessageDimensions(messageGO, formattedContent, message.Sender(), availableWidth);
         }
     }
 
@@ -465,7 +679,7 @@ public class MessagesUI : MonoBehaviour
             CleanUpConflictingComponents(messageGO);
 
             TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
-            string fullContent = message.Content() ?? "";
+            string fullContent = PlayerNameService.FormatText(message.Content() ?? "");
 
             if (message.Sender() == Sender.NPC)
             {
@@ -560,11 +774,11 @@ public class MessagesUI : MonoBehaviour
     {
         if (messageGO == null) return;
 
-        float maxBubbleWidth = availableWidth * 0.8f;
-        float horizontalMargin = 10f;
-        float verticalMargin = 8f;
-        float maxTextWidth = maxBubbleWidth - (horizontalMargin * 2f);
-        float minBubbleWidth = 32f;
+        float horizontalMargin = Mathf.Max(4f, bubbleHorizontalMargin);
+        float verticalMargin = Mathf.Max(4f, bubbleVerticalMargin);
+        float maxBubbleWidth = Mathf.Max((horizontalMargin * 2f) + 20f, availableWidth * Mathf.Clamp(maxBubbleWidthRatio, 0.5f, 0.95f));
+        float maxTextWidth = Mathf.Max(20f, maxBubbleWidth - (horizontalMargin * 2f));
+        float minBubbleWidth = Mathf.Max(48f, (horizontalMargin * 2f) + 16f);
 
         TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
         Image image = messageGO.GetComponentInChildren<Image>();
@@ -576,9 +790,10 @@ public class MessagesUI : MonoBehaviour
         if (messageText != null)
         {
             messageText.textWrappingMode = TextWrappingModes.Normal;
+            messageText.verticalAlignment = VerticalAlignmentOptions.Middle;
             Vector2 textSize = messageText.GetPreferredValues(textForMeasurement, maxTextWidth, 0f);
 
-            float desiredTextWidth = Mathf.Min(textSize.x + 2f, maxTextWidth);
+            float desiredTextWidth = Mathf.Min(textSize.x + 4f, maxTextWidth);
             bubbleWidth = Mathf.Clamp(desiredTextWidth + (horizontalMargin * 2f), minBubbleWidth, maxBubbleWidth);
             textHeight = Mathf.Max(18f, textSize.y);
 
@@ -590,7 +805,7 @@ public class MessagesUI : MonoBehaviour
             textRect.offsetMax = new Vector2(-horizontalMargin, -verticalMargin);
         }
 
-        float bubbleHeight = Mathf.Max(28f, textHeight + (verticalMargin * 2f));
+        float bubbleHeight = Mathf.Max((verticalMargin * 2f) + 16f, textHeight + (verticalMargin * 2f));
 
         if (image != null)
         {
@@ -601,17 +816,11 @@ public class MessagesUI : MonoBehaviour
             bubbleRect.sizeDelta = new Vector2(bubbleWidth, bubbleHeight);
 
             bool isPlayer = (sender == Sender.Player);
-            if (isPlayer)
-            {
-                float xOffset = availableWidth - bubbleWidth;
-                bubbleRect.anchoredPosition = new Vector2(xOffset, 0f);
-                image.color = playerMessageColor;
-            }
-            else
-            {
-                bubbleRect.anchoredPosition = Vector2.zero;
-                image.color = NPCMessageColor;
-            }
+            bubbleRect.anchoredPosition = isPlayer
+                ? new Vector2(availableWidth - bubbleWidth, 0f)
+                : Vector2.zero;
+
+            ApplyBubbleSprite(image, isPlayer);
         }
 
         if (messageRect != null)
@@ -700,7 +909,7 @@ public class MessagesUI : MonoBehaviour
         }
 
         TextMeshProUGUI captionText = messageGO.GetComponentInChildren<TextMeshProUGUI>(true);
-        string caption = ignoreCaption ? string.Empty : message.Content();
+        string caption = ignoreCaption ? string.Empty : PlayerNameService.FormatText(message.Content());
         bool hasCaption = !string.IsNullOrEmpty(caption);
 
         // 2. Compute dimensions
@@ -800,17 +1009,11 @@ public class MessagesUI : MonoBehaviour
             bubbleRect.sizeDelta = new Vector2(bubbleWidth, bubbleHeight);
 
             bool isPlayer = (message.Sender() == Sender.Player);
-            if (isPlayer)
-            {
-                float xOffset = availableWidth - bubbleWidth;
-                bubbleRect.anchoredPosition = new Vector2(xOffset, 0f);
-                bubbleImage.color = playerMessageColor;
-            }
-            else
-            {
-                bubbleRect.anchoredPosition = Vector2.zero;
-                bubbleImage.color = NPCMessageColor;
-            }
+            bubbleRect.anchoredPosition = isPlayer
+                ? new Vector2(availableWidth - bubbleWidth, 0f)
+                : Vector2.zero;
+
+            ApplyBubbleSprite(bubbleImage, isPlayer);
         }
 
         // 4. Configure Message Row LayoutElement
@@ -835,6 +1038,37 @@ public class MessagesUI : MonoBehaviour
         rowLayout.minHeight = bubbleHeight;
         rowLayout.preferredHeight = bubbleHeight;
         rowLayout.flexibleHeight = 0f;
+    }
+
+    private void ApplyBubbleSprite(Image targetImage, bool isPlayer)
+    {
+        if (targetImage == null) return;
+
+        bool isConnect = MessagesManager.Instance != null &&
+                         MessagesManager.Instance.GetMessagingChannel() == MessagingChannel.Connect;
+
+        Sprite selectedSprite = isConnect
+            ? (isPlayer ? playerConnectBubbleSprite : npcConnectBubbleSprite)
+            : (isPlayer ? playerMessagesBubbleSprite : npcMessagesBubbleSprite);
+
+        if (selectedSprite == null)
+        {
+            string fallbackPath = isConnect
+                ? (isPlayer ? "Hilmir/UI/Player-Connect.png" : "Hilmir/UI/NPC-Connect.png")
+                : (isPlayer ? "Hilmir/UI/Player-Messages.png" : "Hilmir/UI/NPC-Messages.png");
+            selectedSprite = LoadSprite(fallbackPath);
+        }
+
+        if (selectedSprite != null)
+        {
+            targetImage.sprite = selectedSprite;
+            targetImage.type = (selectedSprite.border != Vector4.zero) ? Image.Type.Sliced : Image.Type.Simple;
+            targetImage.color = Color.white;
+        }
+        else
+        {
+            targetImage.color = isPlayer ? new Color(0.1f, 0.65f, 0.2f, 1f) : new Color(0.55f, 0.55f, 0.55f, 1f);
+        }
     }
 
     /// <summary>
@@ -1040,14 +1274,24 @@ public class MessagesUI : MonoBehaviour
     {
         try
         {
-            if (InputManager.Instance != null && InputManager.Instance.InteractWasPressed())
+            if (InputManager.Instance != null)
             {
-                return true;
+                if (InputManager.Instance.InteractWasPressed() ||
+                    InputManager.Instance.LeftClickWasPressed() ||
+                    InputManager.Instance.ContinueDialogueWasPressed())
+                {
+                    return true;
+                }
             }
         }
         catch { }
 
         if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             return true;
         }

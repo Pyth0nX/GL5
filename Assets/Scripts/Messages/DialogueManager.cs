@@ -1,3 +1,4 @@
+using UnityEngine.InputSystem;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -94,7 +95,21 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        if (InputManager.Instance != null && InputManager.Instance.ContinueDialogueWasPressed())
+        bool advanceRequested = false;
+        if (InputManager.Instance != null)
+        {
+            advanceRequested = InputManager.Instance.ContinueDialogueWasPressed() ||
+                               InputManager.Instance.InteractWasPressed() ||
+                               InputManager.Instance.LeftClickWasPressed();
+        }
+
+        if (!advanceRequested)
+        {
+            if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame) advanceRequested = true;
+            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) advanceRequested = true;
+        }
+
+        if (advanceRequested)
         {
             ContinueDialogue();
         }
@@ -150,7 +165,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public bool ShowInnerMonologue(string text, Action onClosed = null)
     {
-        return ShowStandaloneDialogue("[Luna]", text, onClosed);
+        return ShowStandaloneDialogue($"[{PlayerNameService.GetActivePlayerName()}]", text, onClosed);
     }
 
     /// <summary>
@@ -190,8 +205,8 @@ public class DialogueManager : MonoBehaviour
         _currentDialogues = null;
         _isEndNode = false;
 
-        if (_characterNameText != null) _characterNameText.text = speaker;
-        if (_dialogueText != null) _dialogueText.text = text;
+        if (_characterNameText != null) _characterNameText.text = PlayerNameService.FormatText(speaker);
+        if (_dialogueText != null) _dialogueText.text = PlayerNameService.FormatText(text);
         SetChoiceMode(false);
 
         _dialogueCanvas = _dialogueBox.GetComponentInParent<Canvas>();
@@ -247,25 +262,22 @@ public class DialogueManager : MonoBehaviour
 
         Message currentMessage = _currentDialogues[_currentDialogueIndex];
 
-        string speaker = "";
+        string speaker;
         if (currentMessage.Sender() == Sender.Player)
         {
-            speaker = GameManager.Instance != null ? GameManager.Instance.GetPlayerName() : "Luna";
+            speaker = PlayerNameService.GetActivePlayerName();
+        }
+        else if (!string.IsNullOrEmpty(currentMessage.SpeakerName()))
+        {
+            speaker = PlayerNameService.FormatText(currentMessage.SpeakerName());
         }
         else
         {
-            if (!string.IsNullOrEmpty(currentMessage.SpeakerName()))
-            {
-                speaker = currentMessage.SpeakerName();
-            }
-            else
-            {
-                speaker = _currentContact;
-            }
+            speaker = PlayerNameService.FormatText(_currentContact);
         }
 
         if (_characterNameText != null) _characterNameText.text = speaker;
-        if (_dialogueText != null) _dialogueText.text = currentMessage.Content();
+        if (_dialogueText != null) _dialogueText.text = PlayerNameService.FormatText(currentMessage.Content());
         _currentDialogueIndex++;
     }
 
