@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
@@ -51,6 +52,7 @@ public class UIManager : MonoBehaviour
     private Tween _fadeTween;
     private Tween _blurTween;
     private Tween _delayTween;
+    private Coroutine _relockMouseCoroutine;
 
     private GameObject _simpleChoicePanel;
     private TMP_Text _simpleChoicePrompt;
@@ -175,11 +177,6 @@ public class UIManager : MonoBehaviour
             (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning))
         {
             return;
-        }
-
-        if (InputManager.Instance != null && InputManager.Instance.MenuWasTapped())
-        {
-            TogglePause();
         }
     }
 
@@ -367,12 +364,75 @@ public class UIManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (gameObject.activeInHierarchy)
+        {
+            if (_relockMouseCoroutine != null)
+            {
+                StopCoroutine(_relockMouseCoroutine);
+            }
+            _relockMouseCoroutine = StartCoroutine(RelockMouseAfterEscapeCoroutine());
+        }
     }
 
     public void UnlockMouse()
     {
+        if (_relockMouseCoroutine != null)
+        {
+            StopCoroutine(_relockMouseCoroutine);
+            _relockMouseCoroutine = null;
+        }
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    private IEnumerator RelockMouseAfterEscapeCoroutine()
+    {
+        // Re-apply cursor lock over the next frames so Unity Editor's built-in Escape
+        // cursor-unlock does not leave the mouse visible after closing the phone with ESC.
+        for (int i = 0; i < 2; i++)
+        {
+            yield return null;
+            if (!CanKeepMouseLocked())
+            {
+                _relockMouseCoroutine = null;
+                yield break;
+            }
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        float elapsed = 0f;
+        while (Keyboard.current != null && Keyboard.current.escapeKey.isPressed && elapsed < 0.5f)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+            if (!CanKeepMouseLocked())
+            {
+                _relockMouseCoroutine = null;
+                yield break;
+            }
+        }
+
+        if (CanKeepMouseLocked())
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        _relockMouseCoroutine = null;
+    }
+
+    private bool CanKeepMouseLocked()
+    {
+        if (_currentState != UIState.DEFAULT) return false;
+        if (DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen) return false;
+        if (IsScenarioSystemOpen) return false;
+        if (SettingsPanelUI.Instance != null && SettingsPanelUI.Instance.IsPanelOpen()) return false;
+        if (_simpleChoicePanel != null && _simpleChoicePanel.activeSelf) return false;
+        return true;
     }
 
     public void ShowMap()

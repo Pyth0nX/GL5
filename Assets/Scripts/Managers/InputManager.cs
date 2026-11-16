@@ -41,6 +41,7 @@ public class InputManager : MonoBehaviour
     private int _suppressDialogueAdvanceUntilFrame = -1;
     private float _suppressDialogueAdvanceUntilTime = -1f;
     private int _lastDialogueAdvanceConsumedFrame = -1;
+    private int _suppressPhoneUntilFrame = -1;
 
     private void Awake()
     {
@@ -283,6 +284,11 @@ public class InputManager : MonoBehaviour
 
     public bool PhoneWasPressed()
     {
+        if (_pPhoneAction == null || Time.frameCount <= _suppressPhoneUntilFrame)
+        {
+            return false;
+        }
+
         return _pPhoneAction.WasPressedThisFrame();
     }
 
@@ -315,7 +321,14 @@ public class InputManager : MonoBehaviour
 
     public void EnablePhone()
     {
-        _pPhoneAction.Enable();
+        if (_pPhoneAction == null) return;
+
+        if (!_pPhoneAction.enabled)
+        {
+            // Prevent an Escape/T press that just closed a blocking overlay from toggling the phone on the same frame.
+            _suppressPhoneUntilFrame = Time.frameCount;
+            _pPhoneAction.Enable();
+        }
     }
 
     public void EnableMenuAction()
