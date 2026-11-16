@@ -50,6 +50,13 @@ public class ReputationManager : MonoBehaviour
     private static ReputationManager _instance;
     private static bool _applicationIsQuitting = false;
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStaticState()
+    {
+        _instance = null;
+        _applicationIsQuitting = false;
+    }
+
     public static ReputationManager Instance
     {
         get

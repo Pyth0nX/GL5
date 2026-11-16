@@ -304,7 +304,19 @@ public class MessagesManager : MonoBehaviour
     public static bool IsNarration(Message message)
     {
         return message != null &&
-               string.Equals(message.SpeakerName(), "Narration", StringComparison.OrdinalIgnoreCase);
+               (string.Equals(message.SpeakerName(), "Narration", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(message.SpeakerName(), "Narrator", StringComparison.OrdinalIgnoreCase));
+    }
+
+    public static bool IsThought(Message message)
+    {
+        return message != null &&
+               string.Equals(message.SpeakerName(), "Thought", StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static bool IsDialogueOverlayLine(Message message)
+    {
+        return IsNarration(message) || IsThought(message);
     }
 
     private Dictionary<Name, List<Message>> GetMessageStore(string contactName)
@@ -484,7 +496,7 @@ public class MessagesManager : MonoBehaviour
                 for (int i = 0; i < dialogues.Count; i++)
                 {
                     Message msg = dialogues[i];
-                    if (msg.Sender() == Sender.NPC && !IsNarration(msg))
+                    if (msg.Sender() == Sender.NPC && !IsDialogueOverlayLine(msg))
                     {
                         if (firstNpcMessage == null)
                         {
@@ -571,6 +583,25 @@ public class MessagesManager : MonoBehaviour
         }
         _messagesUI?.RefreshContacts();
         NotifyUnreadCountsChanged();
+
+        if (IsCurrentlyViewingContact(contact.Name()))
+        {
+            PhoneStateMachine stateMachine = GetPhoneStateMachine();
+            if (contact.HasNewMessages())
+            {
+                stateMachine?.ShowDialogueTab();
+            }
+            else if (newNode.DialogueType() == DialogueType.PHONE && newNode.HasOptions())
+            {
+                if (_optionsChanger == null)
+                {
+                    _optionsChanger = GetComponent<OptionsChanger>();
+                }
+                _optionsChanger?.SetCurrentNode(newNode);
+                _optionsChanger?.ActiveDecisionsPanel(true);
+                stateMachine?.ShowDecisionsTab();
+            }
+        }
 
         Debug.Log($"[MessagesManager] Successfully advanced contact '{contactName}' to node {resolvedNodeId} by event.");
     }
@@ -662,7 +693,7 @@ public class MessagesManager : MonoBehaviour
 
             foreach (Message sourceMessage in node.GetActiveDialogues())
             {
-                if (sourceMessage == null || IsNarration(sourceMessage)) continue;
+                if (sourceMessage == null || IsDialogueOverlayLine(sourceMessage)) continue;
 
                 int messageNumber = history.Count;
                 Date timestamp = sourceMessage.Timestamp().year != 0

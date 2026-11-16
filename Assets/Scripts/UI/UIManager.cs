@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
     private bool _connectProfileCreated;
 
     private Transform _hudRoot;
+    private GameObject _crosshair;
     private GameObject _dayTrackerRoot;
     private TextMeshProUGUI _dayTrackerText;
     private int _displayedDay = -1;
@@ -227,6 +228,20 @@ public class UIManager : MonoBehaviour
             if (_hudRoot.gameObject.activeSelf != showHud)
             {
                 _hudRoot.gameObject.SetActive(showHud);
+            }
+
+            if (_crosshair == null)
+            {
+                _crosshair = FindChildByName(_hudRoot, "Crosshair")?.gameObject;
+            }
+
+            if (_crosshair != null)
+            {
+                bool showCrosshair = _currentState == UIState.DEFAULT && !IsScenarioSystemOpen;
+                if (_crosshair.activeSelf != showCrosshair)
+                {
+                    _crosshair.SetActive(showCrosshair);
+                }
             }
         }
     }

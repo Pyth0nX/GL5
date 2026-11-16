@@ -26,10 +26,27 @@ public class NewGameNameModalUI : MonoBehaviour
     [SerializeField] private string _placeholderLabel = "Enter name...";
     [SerializeField] private string _emptyValidationMessage = "Please enter a name to continue.";
 
+    private static readonly Color BackdropColor = new Color(0f, 0f, 0f, 0.65f);
+    private static readonly Color CardColor = new Color(0.24f, 0.24f, 0.24f, 1f);
+    private static readonly Color CardBorderColor = new Color(0.36f, 0.36f, 0.36f, 0.9f);
+    private static readonly Color InputSurfaceColor = new Color(0.14f, 0.14f, 0.14f, 1f);
+    private static readonly Color InputBorderNormalColor = new Color(0.34f, 0.34f, 0.34f, 1f);
+    private static readonly Color AccentColor = new Color(0.17f, 0.83f, 0.78f, 1f);
+    private static readonly Color AccentSelectionColor = new Color(0.17f, 0.83f, 0.78f, 0.30f);
+    private static readonly Color SubtitleColor = new Color(0.80f, 0.80f, 0.80f, 1f);
+    private static readonly Color InputTextColor = new Color(0.95f, 0.95f, 0.95f, 1f);
+    private static readonly Color PlaceholderColor = new Color(0.55f, 0.55f, 0.55f, 1f);
+    private static readonly Color ValidationColor = new Color(0.95f, 0.42f, 0.42f, 1f);
+    private static readonly Color PrimaryButtonBgColor = new Color(0.96f, 0.96f, 0.96f, 1f);
+    private static readonly Color PrimaryButtonTextColor = new Color(0.18f, 0.18f, 0.18f, 1f);
+    private static readonly Color SecondaryButtonBgColor = new Color(0.14f, 0.14f, 0.14f, 1f);
+    private static readonly Color SecondaryButtonTextColor = new Color(0.92f, 0.92f, 0.92f, 1f);
+
     private int _pendingSlotIndex = -1;
     private Action<int, string> _onConfirmed;
     private Action _onCancelled;
     private bool _listenersHooked = false;
+    private UnityEngine.UI.Outline _inputOutline;
 
     public bool IsOpen => _modalRoot != null && _modalRoot.activeSelf;
 
@@ -157,6 +174,22 @@ public class NewGameNameModalUI : MonoBehaviour
         }
     }
 
+    private void HandleInputSelected(string _)
+    {
+        if (_inputOutline != null)
+        {
+            _inputOutline.effectColor = AccentColor;
+        }
+    }
+
+    private void HandleInputDeselected(string _)
+    {
+        if (_inputOutline != null)
+        {
+            _inputOutline.effectColor = InputBorderNormalColor;
+        }
+    }
+
     private void HookListeners()
     {
         if (_listenersHooked) return;
@@ -176,6 +209,8 @@ public class NewGameNameModalUI : MonoBehaviour
         {
             _nameInputField.onValueChanged.AddListener(HandleInputChanged);
             _nameInputField.onSubmit.AddListener(HandleInputSubmit);
+            _nameInputField.onSelect.AddListener(HandleInputSelected);
+            _nameInputField.onDeselect.AddListener(HandleInputDeselected);
         }
     }
 
@@ -198,6 +233,8 @@ public class NewGameNameModalUI : MonoBehaviour
         {
             _nameInputField.onValueChanged.RemoveListener(HandleInputChanged);
             _nameInputField.onSubmit.RemoveListener(HandleInputSubmit);
+            _nameInputField.onSelect.RemoveListener(HandleInputSelected);
+            _nameInputField.onDeselect.RemoveListener(HandleInputDeselected);
         }
     }
 
@@ -213,10 +250,20 @@ public class NewGameNameModalUI : MonoBehaviour
         TMP_FontAsset sharedFont = ResolveMenuFont(transform) ?? ResolveMenuFont(parentTransform);
         Sprite roundedSprite = ResolveRoundedSprite(transform) ?? ResolveRoundedSprite(parentTransform);
 
-        // Full-screen dimmed backdrop to focus attention and block clicks behind the modal
-        GameObject backdropGO = new GameObject("NewGameNameModal", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        // Full-screen overlay canvas and backdrop matching SettingsPanel / DebugPanel
+        GameObject backdropGO = new GameObject(
+            "NewGameNameModal",
+            typeof(RectTransform),
+            typeof(Canvas),
+            typeof(GraphicRaycaster),
+            typeof(CanvasRenderer),
+            typeof(Image));
         backdropGO.layer = parentTransform.gameObject.layer;
         backdropGO.transform.SetParent(parentTransform, false);
+
+        Canvas modalCanvas = backdropGO.GetComponent<Canvas>();
+        modalCanvas.overrideSorting = true;
+        modalCanvas.sortingOrder = 500;
 
         RectTransform backdropRect = backdropGO.GetComponent<RectTransform>();
         backdropRect.anchorMin = Vector2.zero;
@@ -225,11 +272,11 @@ public class NewGameNameModalUI : MonoBehaviour
         backdropRect.offsetMax = Vector2.zero;
 
         Image backdropImg = backdropGO.GetComponent<Image>();
-        backdropImg.color = new Color(0.04f, 0.05f, 0.09f, 0.72f);
+        backdropImg.color = BackdropColor;
         backdropImg.raycastTarget = true;
 
-        // Centered card
-        GameObject cardGO = new GameObject("ModalCard", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(VerticalLayoutGroup));
+        // Centered charcoal dialog panel matching SettingsPanel and DebugPanel
+        GameObject cardGO = new GameObject("DialogPanel", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(UnityEngine.UI.Outline), typeof(VerticalLayoutGroup));
         cardGO.layer = backdropGO.layer;
         cardGO.transform.SetParent(backdropGO.transform, false);
 
@@ -237,16 +284,20 @@ public class NewGameNameModalUI : MonoBehaviour
         cardRect.anchorMin = new Vector2(0.5f, 0.5f);
         cardRect.anchorMax = new Vector2(0.5f, 0.5f);
         cardRect.pivot = new Vector2(0.5f, 0.5f);
-        cardRect.sizeDelta = new Vector2(560f, 340f);
+        cardRect.sizeDelta = new Vector2(560f, 360f);
         cardRect.anchoredPosition = Vector2.zero;
 
         Image cardImg = cardGO.GetComponent<Image>();
         cardImg.sprite = roundedSprite;
         cardImg.type = roundedSprite != null ? Image.Type.Sliced : Image.Type.Simple;
-        cardImg.color = new Color(0.11f, 0.13f, 0.19f, 0.98f);
+        cardImg.color = CardColor;
+
+        UnityEngine.UI.Outline cardOutline = cardGO.GetComponent<UnityEngine.UI.Outline>();
+        cardOutline.effectColor = CardBorderColor;
+        cardOutline.effectDistance = new Vector2(1.5f, -1.5f);
 
         VerticalLayoutGroup cardLayout = cardGO.GetComponent<VerticalLayoutGroup>();
-        cardLayout.padding = new RectOffset(32, 32, 28, 28);
+        cardLayout.padding = new RectOffset(36, 36, 30, 30);
         cardLayout.spacing = 14f;
         cardLayout.childAlignment = TextAnchor.UpperCenter;
         cardLayout.childControlWidth = true;
@@ -254,31 +305,31 @@ public class NewGameNameModalUI : MonoBehaviour
         cardLayout.childForceExpandWidth = true;
         cardLayout.childForceExpandHeight = false;
 
-        _titleText = CreateLabel("TitleText", cardGO.transform, _titleLabel, 30f, FontStyles.Bold, Color.white, sharedFont, 40f);
-        _subtitleText = CreateLabel("SubtitleText", cardGO.transform, _subtitleLabel, 20f, FontStyles.Normal, new Color(0.84f, 0.87f, 0.94f, 1f), sharedFont, 32f);
+        _titleText = CreateLabel("TitleText", cardGO.transform, _titleLabel, 34f, FontStyles.Bold, Color.white, sharedFont, 44f);
+        _subtitleText = CreateLabel("SubtitleText", cardGO.transform, _subtitleLabel, 19f, FontStyles.Normal, SubtitleColor, sharedFont, 46f);
 
         _nameInputField = CreateInputField(cardGO.transform, sharedFont, roundedSprite);
 
-        _validationText = CreateLabel("ValidationText", cardGO.transform, string.Empty, 17f, FontStyles.Italic, new Color(1f, 0.45f, 0.45f, 1f), sharedFont, 24f);
+        _validationText = CreateLabel("ValidationText", cardGO.transform, string.Empty, 17f, FontStyles.Normal, ValidationColor, sharedFont, 24f);
         _validationText.gameObject.SetActive(false);
 
-        // Button row
+        // Action button row matching SettingsPanel / DebugPanel contrast hierarchy
         GameObject buttonRowGO = new GameObject("ButtonsRow", typeof(RectTransform), typeof(HorizontalLayoutGroup));
         buttonRowGO.layer = cardGO.layer;
         buttonRowGO.transform.SetParent(cardGO.transform, false);
         RectTransform rowRect = buttonRowGO.GetComponent<RectTransform>();
-        rowRect.sizeDelta = new Vector2(0f, 54f);
+        rowRect.sizeDelta = new Vector2(0f, 52f);
 
         HorizontalLayoutGroup rowLayout = buttonRowGO.GetComponent<HorizontalLayoutGroup>();
-        rowLayout.spacing = 18f;
+        rowLayout.spacing = 16f;
         rowLayout.childAlignment = TextAnchor.MiddleCenter;
         rowLayout.childControlWidth = true;
         rowLayout.childControlHeight = true;
         rowLayout.childForceExpandWidth = true;
         rowLayout.childForceExpandHeight = true;
 
-        _cancelButton = CreateButton("CancelButton", buttonRowGO.transform, "Cancel", new Color(0.28f, 0.31f, 0.39f, 1f), Color.white, sharedFont, roundedSprite);
-        _confirmButton = CreateButton("ConfirmButton", buttonRowGO.transform, "Start Game", new Color(0.20f, 0.56f, 0.92f, 1f), Color.white, sharedFont, roundedSprite);
+        _cancelButton = CreateButton("CancelButton", buttonRowGO.transform, "Cancel", SecondaryButtonBgColor, SecondaryButtonTextColor, sharedFont, roundedSprite);
+        _confirmButton = CreateButton("ConfirmButton", buttonRowGO.transform, "Start Game", PrimaryButtonBgColor, PrimaryButtonTextColor, sharedFont, roundedSprite);
 
         _modalRoot = backdropGO;
         _modalRoot.SetActive(false);
@@ -286,7 +337,7 @@ public class NewGameNameModalUI : MonoBehaviour
 
     private TMP_InputField CreateInputField(Transform parent, TMP_FontAsset font, Sprite roundedSprite)
     {
-        GameObject inputGO = new GameObject("NameInputField", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(TMP_InputField));
+        GameObject inputGO = new GameObject("NameInputField", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(UnityEngine.UI.Outline), typeof(TMP_InputField));
         inputGO.layer = parent.gameObject.layer;
         inputGO.transform.SetParent(parent, false);
 
@@ -296,7 +347,11 @@ public class NewGameNameModalUI : MonoBehaviour
         Image bgImg = inputGO.GetComponent<Image>();
         bgImg.sprite = roundedSprite;
         bgImg.type = roundedSprite != null ? Image.Type.Sliced : Image.Type.Simple;
-        bgImg.color = new Color(0.96f, 0.97f, 0.99f, 1f);
+        bgImg.color = InputSurfaceColor;
+
+        _inputOutline = inputGO.GetComponent<UnityEngine.UI.Outline>();
+        _inputOutline.effectColor = InputBorderNormalColor;
+        _inputOutline.effectDistance = new Vector2(1.25f, -1.25f);
 
         GameObject textAreaGO = new GameObject("Text Area", typeof(RectTransform), typeof(RectMask2D));
         textAreaGO.layer = inputGO.layer;
@@ -304,15 +359,15 @@ public class NewGameNameModalUI : MonoBehaviour
         RectTransform textAreaRect = textAreaGO.GetComponent<RectTransform>();
         textAreaRect.anchorMin = Vector2.zero;
         textAreaRect.anchorMax = Vector2.one;
-        textAreaRect.offsetMin = new Vector2(16f, 8f);
-        textAreaRect.offsetMax = new Vector2(-16f, -8f);
+        textAreaRect.offsetMin = new Vector2(18f, 8f);
+        textAreaRect.offsetMax = new Vector2(-18f, -8f);
 
-        TextMeshProUGUI placeholderTmp = CreateLabel("Placeholder", textAreaGO.transform, _placeholderLabel, 22f, FontStyles.Italic, new Color(0.50f, 0.53f, 0.60f, 0.85f), font, 40f);
+        TextMeshProUGUI placeholderTmp = CreateLabel("Placeholder", textAreaGO.transform, _placeholderLabel, 20f, FontStyles.Normal, PlaceholderColor, font, 40f);
         StretchFull(placeholderTmp.rectTransform);
         placeholderTmp.alignment = TextAlignmentOptions.MidlineLeft;
         placeholderTmp.raycastTarget = false;
 
-        TextMeshProUGUI textTmp = CreateLabel("Text", textAreaGO.transform, string.Empty, 24f, FontStyles.Bold, new Color(0.10f, 0.12f, 0.18f, 1f), font, 40f);
+        TextMeshProUGUI textTmp = CreateLabel("Text", textAreaGO.transform, string.Empty, 22f, FontStyles.Bold, InputTextColor, font, 40f);
         StretchFull(textTmp.rectTransform);
         textTmp.alignment = TextAlignmentOptions.MidlineLeft;
         textTmp.richText = false;
@@ -330,9 +385,9 @@ public class NewGameNameModalUI : MonoBehaviour
         inputField.characterLimit = PlayerNameService.MaxNameLength;
         inputField.lineType = TMP_InputField.LineType.SingleLine;
         inputField.customCaretColor = true;
-        inputField.caretColor = new Color(0.12f, 0.15f, 0.24f, 1f);
+        inputField.caretColor = AccentColor;
         inputField.caretWidth = 2;
-        inputField.selectionColor = new Color(0.20f, 0.56f, 0.92f, 0.35f);
+        inputField.selectionColor = AccentSelectionColor;
 
         return inputField;
     }
@@ -377,7 +432,7 @@ public class NewGameNameModalUI : MonoBehaviour
         TMP_FontAsset font,
         Sprite roundedSprite)
     {
-        GameObject btnGO = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+        GameObject btnGO = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button), typeof(UIHoverFeedback));
         btnGO.layer = parent.gameObject.layer;
         btnGO.transform.SetParent(parent, false);
 
@@ -388,8 +443,16 @@ public class NewGameNameModalUI : MonoBehaviour
 
         Button btn = btnGO.GetComponent<Button>();
         btn.targetGraphic = img;
+        ColorBlock colors = btn.colors;
+        colors.normalColor = Color.white;
+        colors.highlightedColor = new Color(0.88f, 0.88f, 0.88f, 1f);
+        colors.pressedColor = new Color(0.72f, 0.72f, 0.72f, 1f);
+        colors.selectedColor = Color.white;
+        colors.disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+        colors.fadeDuration = 0.1f;
+        btn.colors = colors;
 
-        TextMeshProUGUI labelTmp = CreateLabel("Text (TMP)", btnGO.transform, label, 22f, FontStyles.Bold, textColor, font, 0f);
+        TextMeshProUGUI labelTmp = CreateLabel("Text (TMP)", btnGO.transform, label, 21f, FontStyles.Bold, textColor, font, 0f);
         StretchFull(labelTmp.rectTransform);
         labelTmp.raycastTarget = false;
 
@@ -437,6 +500,16 @@ public class NewGameNameModalUI : MonoBehaviour
             if (anyBtn != null && anyBtn.image != null && anyBtn.image.sprite != null)
             {
                 return anyBtn.image.sprite;
+            }
+        }
+
+        SaveSlotUI fallbackSlot = FindAnyObjectByType<SaveSlotUI>(FindObjectsInactive.Include);
+        if (fallbackSlot != null)
+        {
+            Image fallbackImg = fallbackSlot.GetComponent<Image>();
+            if (fallbackImg != null && fallbackImg.sprite != null)
+            {
+                return fallbackImg.sprite;
             }
         }
 

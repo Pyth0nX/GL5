@@ -198,12 +198,23 @@ public class GameManager : MonoBehaviour
             }
 
             bool isLoadingSave = SaveManager.HasInstance && SaveManager.Instance.IsLoadingSavedGame;
-            if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) && !isLoadingSave)
+            bool isReturningFromSchool = PlayerSpawnManager.HasInstance && PlayerSpawnManager.Instance.IsReturningFromSchool;
+
+            if (scene.name.Equals("School", System.StringComparison.OrdinalIgnoreCase))
+            {
+                _hasEnteredHomeFirstTime = true;
+            }
+            else if (scene.name.Equals("Home", System.StringComparison.OrdinalIgnoreCase) && !isLoadingSave)
             {
                 if (DayManager.HasQueuedDebugStart)
                 {
                     _hasEnteredHomeFirstTime = true;
                     StartCoroutine(ApplyDebugStartNextFrame());
+                }
+                else if (isReturningFromSchool)
+                {
+                    // Returning from School should keep the player at FromSchool rather than firing NextDay
+                    _hasEnteredHomeFirstTime = true;
                 }
                 else if (!_hasEnteredHomeFirstTime)
                 {

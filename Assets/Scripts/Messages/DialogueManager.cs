@@ -24,13 +24,25 @@ public class DialogueManager : MonoBehaviour
 
     private Button _dialogueAdvanceButton;
     private CanvasGroup _dialogueCanvasGroup;
+    private Image _dialogueBoxImage;
+    private Image _characterBoxImage;
+    private bool _defaultsCaptured;
+    private Color _defaultBoxColor = new Color(1f, 1f, 1f, 0.392f);
+    private Color _defaultCharacterBoxColor = new Color(0f, 0f, 0f, 1f);
+    private Color _defaultNameColor = Color.white;
+    private Color _defaultDialogueTextColor = Color.white;
     private bool _standaloneMonologueActive;
     private Action _standaloneMonologueClosed;
     private Canvas _dialogueCanvas;
     private bool _previousOverrideSorting;
     private int _previousSortingOrder;
+    private int _openedFrame = -1;
+    private int _lastAdvanceFrame = -1;
+    private float _lastAdvanceTime = -1f;
+    private const float DialogueAdvanceCooldownSeconds = 0.18f;
 
     public bool HasActiveDecision => _hasActiveDecision;
+    public bool IsDialogueActive => _dialogueBox != null && _dialogueBox.activeSelf;
 
     public void SetHasActiveDecision(bool hasActiveDecision)
     {
@@ -90,7 +102,19 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        if (Time.frameCount <= _openedFrame + 1 ||
+            Time.frameCount <= _lastAdvanceFrame + 1 ||
+            Time.unscaledTime - _lastAdvanceTime < DialogueAdvanceCooldownSeconds)
+        {
+            return;
+        }
+
         if (!_standaloneMonologueActive && _hasActiveDecision)
+        {
+            return;
+        }
+
+        if (InputManager.Instance != null && InputManager.Instance.IsDialogueAdvanceSuppressed())
         {
             return;
         }
@@ -99,11 +123,10 @@ public class DialogueManager : MonoBehaviour
         if (InputManager.Instance != null)
         {
             advanceRequested = InputManager.Instance.ContinueDialogueWasPressed() ||
-                               InputManager.Instance.InteractWasPressed() ||
+                               InputManager.Instance.RawInteractWasPressed() ||
                                InputManager.Instance.LeftClickWasPressed();
         }
-
-        if (!advanceRequested)
+        else
         {
             if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame) advanceRequested = true;
             if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) advanceRequested = true;
@@ -111,6 +134,13 @@ public class DialogueManager : MonoBehaviour
 
         if (advanceRequested)
         {
+            if (InputManager.Instance != null && !InputManager.Instance.TryConsumeDialogueAdvance(0.2f, 3))
+            {
+                return;
+            }
+
+            _lastAdvanceFrame = Time.frameCount;
+            _lastAdvanceTime = Time.unscaledTime;
             ContinueDialogue();
         }
     }
@@ -139,6 +169,10 @@ public class DialogueManager : MonoBehaviour
         _currentDialogues = currentNode.GetActiveDialogues();
         _currentContact = MessagesManager.Instance.GetCurrentContactName();
         _isEndNode = currentNode.IsEndNode();
+        _openedFrame = Time.frameCount;
+        _lastAdvanceFrame = Time.frameCount;
+        _lastAdvanceTime = Time.unscaledTime;
+        InputManager.Instance?.ConsumeDialogueAdvance(0.2f, 3);
 
         if (_dialogueBox != null)
         {
@@ -204,8 +238,12 @@ public class DialogueManager : MonoBehaviour
         _currentDialogueIndex = 0;
         _currentDialogues = null;
         _isEndNode = false;
+        _openedFrame = Time.frameCount;
+        _lastAdvanceFrame = Time.frameCount;
+        _lastAdvanceTime = Time.unscaledTime;
+        InputManager.Instance?.ConsumeDialogueAdvance(0.2f, 3);
 
-        if (_characterNameText != null) _characterNameText.text = PlayerNameService.FormatText(speaker);
+        ApplyDialogueVisualStyle(speaker);
         if (_dialogueText != null) _dialogueText.text = PlayerNameService.FormatText(text);
         SetChoiceMode(false);
 
@@ -276,7 +314,14 @@ public class DialogueManager : MonoBehaviour
             speaker = PlayerNameService.FormatText(_currentContact);
         }
 
-        if (_characterNameText != null) _characterNameText.text = speaker;
+        bool isThoughtLine = MessagesManager.IsThought(currentMessage);
+        string styleSpeaker = isThoughtLine
+            ? "Thought"
+            : (currentMessage.Sender() == Sender.Player
+                ? speaker
+                : (!string.IsNullOrEmpty(currentMessage.SpeakerName()) ? currentMessage.SpeakerName() : speaker));
+
+        ApplyDialogueVisualStyle(styleSpeaker, isThoughtLine);
         if (_dialogueText != null) _dialogueText.text = PlayerNameService.FormatText(currentMessage.Content());
         _currentDialogueIndex++;
     }
@@ -300,6 +345,8 @@ public class DialogueManager : MonoBehaviour
 
         Action closed = _standaloneMonologueClosed;
         _standaloneMonologueClosed = null;
+        InputManager.Instance?.SuppressInteract();
+        InputManager.Instance?.ConsumeDialogueAdvance(0.2f, 3);
         closed?.Invoke();
     }
 
@@ -318,6 +365,7 @@ public class DialogueManager : MonoBehaviour
         // If the current node has options, show the decisions panel now that all introductory lines have played
         if (currentNode.HasOptions())
         {
+            InputManager.Instance?.ConsumeDialogueAdvance(0.2f, 3);
             SetHasActiveDecision(true);
             SetChoiceMode(true);
             OptionsChanger optionsChanger = MessagesManager.Instance.GetOptionsChanger();
@@ -336,6 +384,8 @@ public class DialogueManager : MonoBehaviour
 
         if (reachedEndNode)
         {
+            InputManager.Instance?.SuppressInteract();
+            InputManager.Instance?.ConsumeDialogueAdvance(0.2f, 3);
             SetHasActiveDecision(false);
             SetChoiceMode(false);
             if (_dialogueBox != null)
@@ -433,8 +483,8 @@ public class DialogueManager : MonoBehaviour
         Navigation navigation = _dialogueAdvanceButton.navigation;
         navigation.mode = Navigation.Mode.None;
         _dialogueAdvanceButton.navigation = navigation;
+        // Advance input is handled centrally in Update() so left-clicking does not double-fire via Button.onClick
         _dialogueAdvanceButton.onClick.RemoveListener(ContinueDialogue);
-        _dialogueAdvanceButton.onClick.AddListener(ContinueDialogue);
 
         _dialogueCanvasGroup = _dialogueBox.GetComponent<CanvasGroup>();
         if (_dialogueCanvasGroup == null)
@@ -443,6 +493,100 @@ public class DialogueManager : MonoBehaviour
         }
 
         SetChoiceMode(false);
+        CaptureDefaultVisualStyleIfNeeded();
+    }
+
+    private void CaptureDefaultVisualStyleIfNeeded()
+    {
+        if (_defaultsCaptured || _dialogueBox == null)
+        {
+            return;
+        }
+
+        _dialogueBoxImage = _dialogueBox.GetComponent<Image>();
+        if (_characterNameText != null &&
+            _characterNameText.transform.parent != null &&
+            _characterNameText.transform.parent != _dialogueBox.transform)
+        {
+            _characterBoxImage = _characterNameText.transform.parent.GetComponent<Image>();
+        }
+        if (_characterBoxImage == null)
+        {
+            Transform charBox = _dialogueBox.transform.Find("BG_CharacterBox");
+            if (charBox != null)
+            {
+                _characterBoxImage = charBox.GetComponent<Image>();
+            }
+        }
+
+        if (_dialogueBoxImage != null) _defaultBoxColor = _dialogueBoxImage.color;
+        if (_characterBoxImage != null) _defaultCharacterBoxColor = _characterBoxImage.color;
+        if (_characterNameText != null) _defaultNameColor = _characterNameText.color;
+        if (_dialogueText != null) _defaultDialogueTextColor = _dialogueText.color;
+
+        _defaultsCaptured = true;
+    }
+
+    private void ApplyDialogueVisualStyle(string rawSpeaker, bool forceThought = false)
+    {
+        CaptureDefaultVisualStyleIfNeeded();
+
+        string trimmedSpeaker = (rawSpeaker ?? string.Empty).Trim();
+        bool isNarration = !forceThought &&
+                           (string.Equals(trimmedSpeaker, "Narration", StringComparison.OrdinalIgnoreCase) ||
+                            string.Equals(trimmedSpeaker, "Narrator", StringComparison.OrdinalIgnoreCase));
+        bool isThought = forceThought ||
+                         string.Equals(trimmedSpeaker, "Thought", StringComparison.OrdinalIgnoreCase) ||
+                         (trimmedSpeaker.StartsWith("[", StringComparison.Ordinal) &&
+                          trimmedSpeaker.EndsWith("]", StringComparison.Ordinal));
+
+        if (isNarration)
+        {
+            if (_dialogueBoxImage != null) _dialogueBoxImage.color = new Color(0.08f, 0.11f, 0.20f, 0.90f);
+            if (_characterBoxImage != null) _characterBoxImage.color = new Color(0.52f, 0.36f, 0.10f, 0.96f);
+            if (_characterNameText != null)
+            {
+                _characterNameText.color = new Color(1f, 0.88f, 0.52f, 1f);
+                _characterNameText.text = "Narrator";
+            }
+            if (_dialogueText != null)
+            {
+                _dialogueText.color = new Color(0.97f, 0.93f, 0.80f, 1f);
+                _dialogueText.fontStyle = FontStyles.Italic;
+            }
+            return;
+        }
+
+        if (isThought)
+        {
+            if (_dialogueBoxImage != null) _dialogueBoxImage.color = new Color(0.14f, 0.09f, 0.24f, 0.90f);
+            if (_characterBoxImage != null) _characterBoxImage.color = new Color(0.32f, 0.18f, 0.52f, 0.96f);
+            if (_characterNameText != null)
+            {
+                _characterNameText.color = new Color(0.84f, 0.78f, 1f, 1f);
+                _characterNameText.text = $"{PlayerNameService.GetActivePlayerName()} (Thought)";
+            }
+            if (_dialogueText != null)
+            {
+                _dialogueText.color = new Color(0.90f, 0.88f, 1f, 1f);
+                _dialogueText.fontStyle = FontStyles.Italic;
+            }
+            return;
+        }
+
+        // Standard in-person conversation style
+        if (_dialogueBoxImage != null) _dialogueBoxImage.color = _defaultBoxColor;
+        if (_characterBoxImage != null) _characterBoxImage.color = _defaultCharacterBoxColor;
+        if (_characterNameText != null)
+        {
+            _characterNameText.color = _defaultNameColor;
+            _characterNameText.text = PlayerNameService.FormatText(rawSpeaker);
+        }
+        if (_dialogueText != null)
+        {
+            _dialogueText.color = _defaultDialogueTextColor;
+            _dialogueText.fontStyle = FontStyles.Normal;
+        }
     }
 
     public void SetChoiceMode(bool isChoosing)
@@ -477,6 +621,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         MessagesManager.Instance?.GetOptionsChanger()?.ActiveDecisionsPanel(false);
+        InputManager.Instance?.SuppressInteract();
 
         if (UIManager.Instance != null)
         {

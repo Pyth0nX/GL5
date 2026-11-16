@@ -145,12 +145,6 @@ MonoBehaviour:
     _intValue: 0
     _floatValue: 0
     _boolValue: 0
-  - _eventName: StoryDaySleep
-    _dataType: 0
-    _stringValue: 
-    _intValue: 0
-    _floatValue: 0
-    _boolValue: 0
   _instantAction: 1
   _enableEvents:
   - D1_Evening_End

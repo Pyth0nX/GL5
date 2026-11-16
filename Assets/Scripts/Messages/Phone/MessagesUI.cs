@@ -65,6 +65,7 @@ public class MessagesUI : MonoBehaviour
     private bool _quickGalleryListenerBound = false;
 
     private static readonly Dictionary<string, Sprite> _loadedSpritesCache = new Dictionary<string, Sprite>();
+    private static readonly Dictionary<Sprite, Sprite> _slicedBubbleSpritesCache = new Dictionary<Sprite, Sprite>();
 
     public bool IsAnimating => _isAnimating || _pendingMessages.Count > 0;
 
@@ -602,6 +603,8 @@ public class MessagesUI : MonoBehaviour
 
     private IEnumerator AnimateMessage(Message message)
     {
+        int animationStartFrame = Time.frameCount;
+        float animationStartTime = Time.unscaledTime;
         float availableWidth = GetAvailableWidth();
         bool isSelfieToken = TryGetSelfieTokenSprite(message, out Sprite tokenSprite);
 
@@ -627,7 +630,7 @@ public class MessagesUI : MonoBehaviour
 
                 while (elapsed < npcTypingDuration)
                 {
-                    if (WasSkipPressed()) break;
+                    if (WasSkipPressed(animationStartFrame, animationStartTime)) break;
 
                     elapsed += Time.deltaTime;
                     dotTimer += Time.deltaTime;
@@ -697,7 +700,7 @@ public class MessagesUI : MonoBehaviour
 
                 while (elapsed < npcTypingDuration)
                 {
-                    if (WasSkipPressed())
+                    if (WasSkipPressed(animationStartFrame, animationStartTime))
                     {
                         break;
                     }
@@ -745,7 +748,7 @@ public class MessagesUI : MonoBehaviour
 
                     while (visibleChars < totalCharacters)
                     {
-                        if (WasSkipPressed())
+                        if (WasSkipPressed(animationStartFrame, animationStartTime))
                         {
                             messageText.maxVisibleCharacters = totalCharacters;
                             break;
@@ -774,8 +777,8 @@ public class MessagesUI : MonoBehaviour
     {
         if (messageGO == null) return;
 
-        float horizontalMargin = Mathf.Max(4f, bubbleHorizontalMargin);
-        float verticalMargin = Mathf.Max(4f, bubbleVerticalMargin);
+        float horizontalMargin = Mathf.Clamp(bubbleHorizontalMargin, 10f, 14f);
+        float verticalMargin = Mathf.Clamp(bubbleVerticalMargin, 8f, 10f);
         float maxBubbleWidth = Mathf.Max((horizontalMargin * 2f) + 20f, availableWidth * Mathf.Clamp(maxBubbleWidthRatio, 0.5f, 0.95f));
         float maxTextWidth = Mathf.Max(20f, maxBubbleWidth - (horizontalMargin * 2f));
         float minBubbleWidth = Mathf.Max(48f, (horizontalMargin * 2f) + 16f);
@@ -790,7 +793,7 @@ public class MessagesUI : MonoBehaviour
         if (messageText != null)
         {
             messageText.textWrappingMode = TextWrappingModes.Normal;
-            messageText.verticalAlignment = VerticalAlignmentOptions.Middle;
+            messageText.verticalAlignment = VerticalAlignmentOptions.Top;
             Vector2 textSize = messageText.GetPreferredValues(textForMeasurement, maxTextWidth, 0f);
 
             float desiredTextWidth = Mathf.Min(textSize.x + 4f, maxTextWidth);
@@ -1061,14 +1064,52 @@ public class MessagesUI : MonoBehaviour
 
         if (selectedSprite != null)
         {
+            selectedSprite = EnsureNineSlicedBubbleSprite(selectedSprite);
             targetImage.sprite = selectedSprite;
-            targetImage.type = (selectedSprite.border != Vector4.zero) ? Image.Type.Sliced : Image.Type.Simple;
+            targetImage.type = Image.Type.Sliced;
+            targetImage.fillCenter = true;
+            targetImage.pixelsPerUnitMultiplier = 1.6f;
             targetImage.color = Color.white;
         }
         else
         {
             targetImage.color = isPlayer ? new Color(0.1f, 0.65f, 0.2f, 1f) : new Color(0.55f, 0.55f, 0.55f, 1f);
         }
+    }
+
+    private static Sprite EnsureNineSlicedBubbleSprite(Sprite sourceSprite)
+    {
+        if (sourceSprite == null || sourceSprite.border != Vector4.zero)
+        {
+            return sourceSprite;
+        }
+
+        if (_slicedBubbleSpritesCache.TryGetValue(sourceSprite, out Sprite cachedSliced) && cachedSliced != null)
+        {
+            return cachedSliced;
+        }
+
+        if (sourceSprite.texture == null)
+        {
+            return sourceSprite;
+        }
+
+        // Preserve rounded corners in a 3x3 9-slice grid regardless of bubble dimensions
+        Vector4 border = sourceSprite.rect.height >= 64f
+            ? new Vector4(24f, 24f, 26f, 20f)
+            : new Vector4(24f, 20f, 26f, 20f);
+
+        Sprite sliced = Sprite.Create(
+            sourceSprite.texture,
+            sourceSprite.rect,
+            new Vector2(0.5f, 0.5f),
+            sourceSprite.pixelsPerUnit,
+            0,
+            SpriteMeshType.FullRect,
+            border);
+        sliced.name = $"{sourceSprite.name}_9Slice";
+        _slicedBubbleSpritesCache[sourceSprite] = sliced;
+        return sliced;
     }
 
     /// <summary>
@@ -1270,29 +1311,42 @@ public class MessagesUI : MonoBehaviour
         _scrollCoroutine = null;
     }
 
-    private bool WasSkipPressed()
+    private bool WasSkipPressed(int animationStartFrame, float animationStartTime)
     {
+        // Ignore the press on the exact frame that initiated this message animation
+        if (Time.frameCount <= animationStartFrame)
+        {
+            return false;
+        }
+
+        bool skipPressed = false;
         try
         {
             if (InputManager.Instance != null)
             {
-                if (InputManager.Instance.InteractWasPressed() ||
-                    InputManager.Instance.LeftClickWasPressed() ||
-                    InputManager.Instance.ContinueDialogueWasPressed())
-                {
-                    return true;
-                }
+                skipPressed = InputManager.Instance.RawInteractWasPressed() ||
+                              InputManager.Instance.InteractWasPressed() ||
+                              InputManager.Instance.LeftClickWasPressed() ||
+                              InputManager.Instance.ContinueDialogueWasPressed();
             }
         }
         catch { }
 
-        if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        if (!skipPressed)
         {
-            return true;
+            if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                skipPressed = true;
+            }
+            else if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                skipPressed = true;
+            }
         }
 
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        if (skipPressed)
         {
+            InputManager.Instance?.ConsumeDialogueAdvance(0.12f, 2);
             return true;
         }
 

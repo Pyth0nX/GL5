@@ -108,16 +108,16 @@ MonoBehaviour:
   - {fileID: -7239393328269180115, guid: 664438b32eb3a8147af89066d6b77616, type: 3}
   - {fileID: 3625106821771087868, guid: 16a75225acda6a340a668b562c6d1891, type: 3}
   _scene1OpeningFrameDurations:
-  - 5
-  - 5
-  - 5
-  - 5
-  - 5
-  - 5
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
   _scene1OpeningFrameFadeDuration: 0.75
   _scene1AlarmClip: {fileID: 8300000, guid: 4008eb0306622fc4284d8ccff89e29de, type: 3}
-  _scene1AlarmDelay: 5
-  _scene1AlarmDuration: 11
+  _scene1AlarmDelay: 2.5
+  _scene1AlarmDuration: 6
 --- !u!1 &3096508624065197258
 GameObject:
   m_ObjectHideFlags: 0

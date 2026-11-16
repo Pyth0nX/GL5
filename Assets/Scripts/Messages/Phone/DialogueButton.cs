@@ -11,6 +11,9 @@ public class DialogueButton : MonoBehaviour
     private Image _image;
     private TextMeshProUGUI _textMesh;
     private bool _narrationDialogueActive;
+    private int _lastAdvanceFrame = -1;
+    private float _lastAdvanceTime = -1f;
+    private const float PhoneAdvanceCooldownSeconds = 0.08f;
 
     private void Awake()
     {
@@ -35,13 +38,31 @@ public class DialogueButton : MonoBehaviour
         if (MessagesManager.Instance == null) return;
         if (_narrationDialogueActive) return;
 
+        // While a message is typing/animating, let MessagesUI handle skip input exclusively
+        MessagesUI messagesUI = MessagesManager.Instance.GetMessagesUI();
+        if (messagesUI != null && messagesUI.IsAnimating)
+        {
+            return;
+        }
+
         Contact currentContact = MessagesManager.Instance.GetCurrentContact();
         if (currentContact == null || !currentContact.HasNewMessages()) return;
+
+        if (Time.frameCount <= _lastAdvanceFrame + 1 || Time.unscaledTime - _lastAdvanceTime < PhoneAdvanceCooldownSeconds)
+        {
+            return;
+        }
+
+        if (InputManager.Instance != null && InputManager.Instance.IsDialogueAdvanceSuppressed())
+        {
+            return;
+        }
 
         bool inputPressed = false;
         if (InputManager.Instance != null)
         {
-            inputPressed = InputManager.Instance.InteractWasPressed() ||
+            inputPressed = InputManager.Instance.RawInteractWasPressed() ||
+                           InputManager.Instance.InteractWasPressed() ||
                            InputManager.Instance.LeftClickWasPressed() ||
                            InputManager.Instance.ContinueDialogueWasPressed();
         }
@@ -54,10 +75,18 @@ public class DialogueButton : MonoBehaviour
 
         if (!inputPressed) return;
 
+        if (InputManager.Instance != null && !InputManager.Instance.TryConsumeDialogueAdvance(0.08f, 1))
+        {
+            return;
+        }
+
+        _lastAdvanceFrame = Time.frameCount;
+        _lastAdvanceTime = Time.unscaledTime;
+
         // If the player response button is active and waiting for input, trigger sending the message
         if (_button != null && _button.interactable && _image != null && _image.enabled)
         {
-            OnDialogueButtonPressed();
+            SendNextMessage();
         }
         else
         {
@@ -113,7 +142,7 @@ public class DialogueButton : MonoBehaviour
                     if (_button != null) _button.gameObject.SetActive(true);
 
                     Message nextMsg = activeDialogues[currentContact.CurrentMessageIndex()];
-                    if (MessagesManager.IsNarration(nextMsg))
+                    if (MessagesManager.IsDialogueOverlayLine(nextMsg))
                     {
                         SetVisualsActive(false);
                         _timer = 0f;
@@ -169,13 +198,17 @@ public class DialogueButton : MonoBehaviour
         }
 
         _narrationDialogueActive = true;
-        bool opened = DialogueManager.Instance.ShowNarration(
-            narration.Content(),
-            () =>
-            {
-                _narrationDialogueActive = false;
-                _timer = 0f;
-            });
+        System.Action onClosed = () =>
+        {
+            _narrationDialogueActive = false;
+            _timer = 0f;
+            _lastAdvanceFrame = Time.frameCount;
+            _lastAdvanceTime = Time.unscaledTime;
+        };
+
+        bool opened = MessagesManager.IsThought(narration)
+            ? DialogueManager.Instance.ShowInnerMonologue(narration.Content(), onClosed)
+            : DialogueManager.Instance.ShowNarration(narration.Content(), onClosed);
 
         if (!opened)
         {
@@ -190,10 +223,31 @@ public class DialogueButton : MonoBehaviour
 
     private void OnDialogueButtonPressed()
     {
-        if (_button != null && _button.interactable)
+        if (_button == null || !_button.interactable)
         {
-            SendNextMessage();
+            return;
         }
+
+        if (MessagesManager.Instance != null &&
+            MessagesManager.Instance.GetMessagesUI() != null &&
+            MessagesManager.Instance.GetMessagesUI().IsAnimating)
+        {
+            return;
+        }
+
+        if (Time.frameCount <= _lastAdvanceFrame + 1 || Time.unscaledTime - _lastAdvanceTime < PhoneAdvanceCooldownSeconds)
+        {
+            return;
+        }
+
+        if (InputManager.Instance != null && !InputManager.Instance.TryConsumeDialogueAdvance(0.08f, 1))
+        {
+            return;
+        }
+
+        _lastAdvanceFrame = Time.frameCount;
+        _lastAdvanceTime = Time.unscaledTime;
+        SendNextMessage();
     }
 
     private void SendNextMessage()

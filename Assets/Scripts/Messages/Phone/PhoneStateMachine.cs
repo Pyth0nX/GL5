@@ -70,6 +70,13 @@ public class PhoneStateMachine : MonoBehaviour
     [SerializeField] private Button _messagesAppButton;
     [SerializeField] private Button _connectAppButton;
 
+    [Header("Connect App Reputation Icons")]
+    [SerializeField] private Sprite _connectVeryLowSprite;
+    [SerializeField] private Sprite _connectLowSprite;
+    [SerializeField] private Sprite _connectNeutralSprite;
+    [SerializeField] private Sprite _connectHighSprite;
+    [SerializeField] private Sprite _connectVeryHighSprite;
+
     private TMP_FontAsset _cachedBadgeFont;
     private int _backButtonState = 0; // State to change to when the back button is pressed
 
@@ -84,6 +91,7 @@ public class PhoneStateMachine : MonoBehaviour
     {
         UpdatePhoneBackground();
         UpdateNotificationBadges();
+        UpdateConnectAppIcon();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -100,10 +108,12 @@ public class PhoneStateMachine : MonoBehaviour
         if (EventBus.Instance != null)
         {
             EventBus.Instance.Subscribe<int>("Phone_Closed", ChangeState);
+            EventBus.Instance.Subscribe(ReputationManager.EventTierChanged, UpdateConnectAppIcon);
         }
 
         UpdatePhoneBackground();
         UpdateNotificationBadges();
+        UpdateConnectAppIcon();
     }
 
     private void OnDestroy()
@@ -118,6 +128,7 @@ public class PhoneStateMachine : MonoBehaviour
         if (EventBus.Instance != null)
         {
             EventBus.Instance.Unsubscribe<int>("Phone_Closed", ChangeState);
+            EventBus.Instance.Unsubscribe(ReputationManager.EventTierChanged, UpdateConnectAppIcon);
         }
     }
 
@@ -380,6 +391,58 @@ public class PhoneStateMachine : MonoBehaviour
                 12f,
                 22f);
         }
+    }
+
+    /// <summary>
+    /// Updates the Connect app icon sprite to match the protagonist's current ReputationTier.
+    /// </summary>
+    public void UpdateConnectAppIcon()
+    {
+        EnsureAppButtons();
+        if (_connectAppButton == null)
+        {
+            return;
+        }
+
+        Image connectImage = _connectAppButton.GetComponent<Image>();
+        if (connectImage == null)
+        {
+            return;
+        }
+
+        ReputationTier currentTier = ReputationManager.Instance != null
+            ? ReputationManager.Instance.CurrentTier
+            : ReputationTier.Neutral;
+
+        Sprite targetIcon = GetConnectIconForTier(currentTier);
+        if (targetIcon != null)
+        {
+            connectImage.sprite = targetIcon;
+            connectImage.preserveAspect = true;
+            _connectAppButton.targetGraphic = connectImage;
+        }
+    }
+
+    private Sprite GetConnectIconForTier(ReputationTier tier)
+    {
+        return tier switch
+        {
+            ReputationTier.VeryLow => _connectVeryLowSprite != null
+                ? _connectVeryLowSprite
+                : MessagesUI.LoadSprite("Hilmir/UI/EVIL.png"),
+            ReputationTier.Low => _connectLowSprite != null
+                ? _connectLowSprite
+                : MessagesUI.LoadSprite("Hilmir/UI/Slightly-Evil.png"),
+            ReputationTier.High => _connectHighSprite != null
+                ? _connectHighSprite
+                : MessagesUI.LoadSprite("Hilmir/UI/Slightly-Good.png"),
+            ReputationTier.VeryHigh => _connectVeryHighSprite != null
+                ? _connectVeryHighSprite
+                : MessagesUI.LoadSprite("Hilmir/UI/GOOD.png"),
+            _ => _connectNeutralSprite != null
+                ? _connectNeutralSprite
+                : MessagesUI.LoadSprite("Hilmir/UI/Neutral.png")
+        };
     }
 
     private void EnsureBackgroundReferences()

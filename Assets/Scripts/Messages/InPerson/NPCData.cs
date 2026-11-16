@@ -80,6 +80,16 @@ public class NPCData : IInteractable
             _standaloneDialogue = "";
             if (_beforeClassNodeId < 0) _beforeClassNodeId = 150;
             if (_afterClassNodeId < 0) _afterClassNodeId = 153;
+            return;
+        }
+        else
+        {
+            return;
+        }
+
+        if (GetComponent<NPCDailySchedule>() == null)
+        {
+            gameObject.AddComponent<NPCDailySchedule>();
         }
     }
 
@@ -110,19 +120,58 @@ public class NPCData : IInteractable
     private void OnSchoolClassFinished()
     {
         _isClassFinishedToday = true;
-        if (!string.IsNullOrEmpty(_characterName) && _afterClassNodeId >= 0 && MessagesManager.Instance != null)
+        int afterNode = ResolveDayAfterClassNodeId();
+        if (!string.IsNullOrEmpty(_characterName) && afterNode >= 0 && MessagesManager.Instance != null)
         {
-            MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent(_characterName, _afterClassNodeId);
+            MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent(_characterName, afterNode);
         }
     }
 
     private void OnDayReset()
     {
         _isClassFinishedToday = false;
-        if (!string.IsNullOrEmpty(_characterName) && _beforeClassNodeId >= 0 && MessagesManager.Instance != null)
+        int beforeNode = ResolveDayBeforeClassNodeId();
+        if (!string.IsNullOrEmpty(_characterName) && beforeNode >= 0 && MessagesManager.Instance != null)
         {
-            MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent(_characterName, _beforeClassNodeId);
+            MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent(_characterName, beforeNode);
         }
+
+        if (string.IsNullOrWhiteSpace(_standaloneDialogue) &&
+            _disableEvents != null &&
+            _disableEvents.Contains("SchoolEncounterComplete") &&
+            ObjectivesManager.Instance != null &&
+            ObjectivesManager.Instance.GetCurrentObjective() != null &&
+            ObjectivesManager.Instance.GetCurrentObjective().EventToListen() == "SchoolEncounterComplete")
+        {
+            _canInteract = true;
+            UpdateHoveredOutlineColor();
+        }
+    }
+
+    private int ResolveDayBeforeClassNodeId() => ResolveDayAdjustedNodeId(_beforeClassNodeId);
+    private int ResolveDayAfterClassNodeId() => ResolveDayAdjustedNodeId(_afterClassNodeId);
+
+    private static int ResolveDayAdjustedNodeId(int baseNodeId)
+    {
+        if (baseNodeId < 100 || baseNodeId > 159)
+        {
+            return baseNodeId;
+        }
+
+        int currentDay = DayManager.Instance != null ? DayManager.Instance.GetCurrentDay() : 1;
+        if (currentDay < 2)
+        {
+            return baseNodeId;
+        }
+
+        int clampedDay = Mathf.Clamp(currentDay, 2, 5);
+        int candidate = 1000 + clampedDay * 100 + (baseNodeId - 100);
+        if (MessagesManager.Instance != null && MessagesManager.Instance.GetNarrativeNode(candidate) != null)
+        {
+            return candidate;
+        }
+
+        return baseNodeId;
     }
 
     protected override void Start()
@@ -158,19 +207,21 @@ public class NPCData : IInteractable
             EventBus.Instance.Subscribe("Start_Day5", OnDayReset);
         }
 
-        if (!string.IsNullOrEmpty(_characterName) && _beforeClassNodeId >= 0 && MessagesManager.Instance != null)
+        int beforeNode = ResolveDayBeforeClassNodeId();
+        int afterNode = ResolveDayAfterClassNodeId();
+        if (!string.IsNullOrEmpty(_characterName) && beforeNode >= 0 && MessagesManager.Instance != null)
         {
             bool classDone = IsSchoolClassFinished();
-            int targetNode = classDone && _afterClassNodeId >= 0 ? _afterClassNodeId : _beforeClassNodeId;
+            int targetNode = classDone && afterNode >= 0 ? afterNode : beforeNode;
             Contact contact = MessagesManager.Instance.GetContactByName(_characterName);
             if (contact != null)
             {
                 int curr = contact.NarrativeNode();
-                int beforeEnd = (_afterClassNodeId > _beforeClassNodeId)
-                    ? _afterClassNodeId
-                    : _beforeClassNodeId + 10;
-                int afterEnd = (_afterClassNodeId >= 0)
-                    ? _afterClassNodeId + 10
+                int beforeEnd = (afterNode > beforeNode)
+                    ? afterNode
+                    : beforeNode + 10;
+                int afterEnd = (afterNode >= 0)
+                    ? afterNode + 10
                     : -1;
 
                 if (curr < 0)
@@ -178,12 +229,12 @@ public class NPCData : IInteractable
                     contact.SetNarrativeNode(targetNode);
                     contact.SetCurrentMessageIndex(0);
                 }
-                else if (classDone && _afterClassNodeId >= 0 && (curr < _afterClassNodeId || curr >= afterEnd))
+                else if (classDone && afterNode >= 0 && (curr < afterNode || curr >= afterEnd))
                 {
                     contact.SetNarrativeNode(targetNode);
                     contact.SetCurrentMessageIndex(0);
                 }
-                else if (!classDone && (curr < _beforeClassNodeId || curr >= beforeEnd))
+                else if (!classDone && (curr < beforeNode || curr >= beforeEnd))
                 {
                     contact.SetNarrativeNode(targetNode);
                     contact.SetCurrentMessageIndex(0);

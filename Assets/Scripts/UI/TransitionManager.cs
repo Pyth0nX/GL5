@@ -31,7 +31,7 @@ public class TransitionManager : MonoBehaviour
     [Header("Scene 1 Opening")]
     [Tooltip("Comic images shown in order before the player gains control in Luna's bedroom.")]
     [SerializeField] private Sprite[] _scene1OpeningFrames;
-    [Tooltip("Duration for each comic frame. Missing entries use five seconds.")]
+    [Tooltip("Duration for each comic frame. Missing entries use 2.5 seconds.")]
     [SerializeField] private float[] _scene1OpeningFrameDurations;
     [Tooltip("How long each new comic frame takes to fade in over the previous frame.")]
     [SerializeField, Min(0f)] private float _scene1OpeningFrameFadeDuration = 0.75f;
@@ -39,9 +39,9 @@ public class TransitionManager : MonoBehaviour
     [Header("Scene 1 Opening Audio")]
     [SerializeField] private AudioClip _scene1AlarmClip;
     [Tooltip("Seconds after the opening comic begins before the alarm starts.")]
-    [SerializeField, Min(0f)] private float _scene1AlarmDelay = 5f;
+    [SerializeField, Min(0f)] private float _scene1AlarmDelay = 2.5f;
     [Tooltip("How long the alarm is allowed to play before it is stopped.")]
-    [SerializeField, Min(0f)] private float _scene1AlarmDuration = 11f;
+    [SerializeField, Min(0f)] private float _scene1AlarmDuration = 6f;
 
     private bool _isTransitioning;
     private bool _showScene1OpeningOnStart;
@@ -751,7 +751,7 @@ public class TransitionManager : MonoBehaviour
             return Mathf.Max(0f, _scene1OpeningFrameDurations[frameIndex]);
         }
 
-        return 5f;
+        return 2.5f;
     }
 
     private void SetScene1OpeningImageAlpha(float alpha)
@@ -964,18 +964,20 @@ public class TransitionManager : MonoBehaviour
         yield return FadeRoutine(0f, 1f, syncMessageAlpha: true);
 
         // Reposition player at WakingUp spawner while the screen is completely black
-        if (PlayerSpawnManager.HasInstance)
+        if (PlayerSpawnManager.Instance != null)
         {
             PlayerSpawnManager.Instance.SpawnPlayerAt(PlayerSpawnManager.SpawnerWakingUp);
         }
 
-        // Advance day while the screen is black so morning messages and door locks initialize cleanly
+        // Wait during full black screen before completing the sleep objective and advancing the day
+        yield return new WaitForSeconds(_blackScreenDuration);
+
+        // Publish sleep completion and day advance right before fading back in so the HUD updates only when waking up
         if (EventBus.Instance != null)
         {
+            EventBus.Instance.Publish("StoryDaySleep");
             EventBus.Instance.Publish("NextDay");
         }
-
-        yield return new WaitForSeconds(_blackScreenDuration);
 
         yield return FadeRoutine(1f, 0f, syncMessageAlpha: true);
         SetTransitionMessage(null);

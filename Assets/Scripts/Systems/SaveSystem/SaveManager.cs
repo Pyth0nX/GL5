@@ -19,6 +19,13 @@ public class SaveManager : MonoBehaviour
     private static SaveManager _instance;
     private static bool _applicationIsQuitting = false;
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStaticState()
+    {
+        _instance = null;
+        _applicationIsQuitting = false;
+    }
+
     public static bool HasInstance => _instance != null;
 
     public static SaveManager Instance
@@ -102,6 +109,8 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
+        _applicationIsQuitting = false;
+
         if (_instance == null)
         {
             _instance = this;
@@ -318,6 +327,7 @@ public class SaveManager : MonoBehaviour
         }
 
         Debug.Log($"[SaveManager] Starting New Game in slot {slotIndex} as '{resolvedPlayerName}' -> Scene '{_newGameStartingScene}'.");
+        PlayerSpawnManager.Instance?.QueueSpawn(PlayerSpawnManager.SpawnerWakingUp);
         SceneManager.LoadScene(_newGameStartingScene);
     }
 

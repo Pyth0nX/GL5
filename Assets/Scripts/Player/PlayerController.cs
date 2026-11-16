@@ -28,12 +28,15 @@ public class PlayerController : MonoBehaviour
     private IInteractable _currentHoveredInteractable;
     private InteractableOutline _currentHoveredStandaloneOutline;
     private bool _isShowingHoverMessage;
+    private bool _lastHoveredCanInteract;
+    private string _lastHoveredMessage;
     private PlayerInput _playerInput;
     private PlayerStateMachine _playerStateMachine;
     private Camera _playerCamera;
     private Rigidbody _rigidbody;
-    private RaycastHit _raycastHit;
+    private readonly RaycastHit[] _raycastHits = new RaycastHit[32];
     private float _currentXRotation;
+    private Coroutine _postTeleportSyncCoroutine;
 
     private void Awake()
     {
@@ -86,6 +89,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnConversationEnded()
     {
+        InputManager.Instance?.SuppressInteract();
         if (_playerStateMachine != null && _playerStateMachine.GetCurrentState() == PlayerState.Interacting)
         {
             _playerStateMachine.ChangeState(PlayerState.Idle);
@@ -178,22 +182,34 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// Teleports the player to a target position and rotation, immediately resetting velocity,
-    /// vertical camera pitch, and syncing physics transforms.
+    /// rigidbody interpolation state, vertical camera pitch, and syncing physics transforms.
     /// </summary>
     public void Teleport(Vector3 position, Quaternion rotation)
     {
         StopMovementImmediately();
 
+        // Split spawner orientation into upright horizontal yaw for the capsule and clamped pitch for the camera
+        Vector3 euler = rotation.eulerAngles;
+        Quaternion bodyRotation = Quaternion.Euler(0f, euler.y, 0f);
+        float pitch = Mathf.Clamp(Mathf.DeltaAngle(0f, euler.x), -_verticalClamp, _verticalClamp);
+
+        RigidbodyInterpolation previousInterpolation = RigidbodyInterpolation.None;
+        if (_rigidbody != null)
+        {
+            previousInterpolation = _rigidbody.interpolation;
+            _rigidbody.interpolation = RigidbodyInterpolation.None;
+        }
+
         CharacterController characterController = GetComponent<CharacterController>();
         if (characterController != null)
         {
             characterController.enabled = false;
-            transform.SetPositionAndRotation(position, rotation);
+            transform.SetPositionAndRotation(position, bodyRotation);
             characterController.enabled = true;
         }
         else
         {
-            transform.SetPositionAndRotation(position, rotation);
+            transform.SetPositionAndRotation(position, bodyRotation);
         }
 
         if (_rigidbody != null)
@@ -201,16 +217,50 @@ public class PlayerController : MonoBehaviour
             _rigidbody.linearVelocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;
             _rigidbody.position = position;
-            _rigidbody.rotation = rotation;
+            _rigidbody.rotation = bodyRotation;
         }
 
-        _currentXRotation = 0f;
+        _currentXRotation = pitch;
         if (_playerCamera != null)
         {
-            _playerCamera.transform.localRotation = Quaternion.identity;
+            _playerCamera.transform.localRotation = Quaternion.Euler(_currentXRotation, 0f, 0f);
         }
 
         Physics.SyncTransforms();
+
+        if (_rigidbody != null)
+        {
+            if (gameObject.activeInHierarchy)
+            {
+                if (_postTeleportSyncCoroutine != null)
+                {
+                    StopCoroutine(_postTeleportSyncCoroutine);
+                }
+                _postTeleportSyncCoroutine = StartCoroutine(RestoreRigidbodyAfterTeleport(position, bodyRotation, previousInterpolation));
+            }
+            else
+            {
+                _rigidbody.interpolation = previousInterpolation;
+            }
+        }
+    }
+
+    private IEnumerator RestoreRigidbodyAfterTeleport(Vector3 position, Quaternion bodyRotation, RigidbodyInterpolation previousInterpolation)
+    {
+        yield return new WaitForFixedUpdate();
+
+        if (_rigidbody != null)
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
+            _rigidbody.position = position;
+            _rigidbody.rotation = bodyRotation;
+            transform.SetPositionAndRotation(position, bodyRotation);
+            Physics.SyncTransforms();
+            _rigidbody.interpolation = previousInterpolation;
+        }
+
+        _postTeleportSyncCoroutine = null;
     }
 
     /// <summary>
@@ -235,6 +285,9 @@ public class PlayerController : MonoBehaviour
             _currentHoveredStandaloneOutline.SetOutlineActive(false);
             _currentHoveredStandaloneOutline = null;
         }
+
+        _lastHoveredCanInteract = false;
+        _lastHoveredMessage = null;
 
         if (_isShowingHoverMessage)
         {
@@ -289,6 +342,7 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(0f, lookVec.x * sensitivity, 0f, Space.World);
             if (_rigidbody != null)
             {
+                _rigidbody.rotation = transform.rotation;
                 _rigidbody.angularVelocity = Vector3.zero;
             }
 
@@ -375,7 +429,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        IInteractable interactable = GetInteractableInSight();
+        int hitCount = RaycastSortedNonAlloc();
+        IInteractable interactable = FindInteractableInHits(hitCount);
 
         if (interactable != null)
         {
@@ -399,23 +454,18 @@ public class PlayerController : MonoBehaviour
 
                 if (UIManager.Instance != null)
                 {
-                    string messageToShow = interactable.CanInteract()
-                        ? interactable.InteractionMessage()
-                        : interactable.NotAvailableMessage();
-                    Color messageColor = interactable.CanInteract()
-                        ? Color.white
-                        : UIManager.UnavailableInteractionColor;
-                    UIManager.Instance.ShowMessage(messageToShow, messageColor);
+                    ShowHoverPrompt(interactable);
                 }
             }
             else
             {
                 _currentHoveredInteractable.UpdateHoveredOutlineColor();
+                RefreshHoverPromptIfChanged(interactable);
             }
         }
         else
         {
-            InteractableOutline standaloneOutline = GetStandaloneOutlineInSight();
+            InteractableOutline standaloneOutline = FindStandaloneOutlineInHits(hitCount);
 
             if (standaloneOutline != null)
             {
@@ -436,6 +486,9 @@ public class PlayerController : MonoBehaviour
                     _currentHoveredStandaloneOutline.SetOutlineActive(true);
                 }
 
+                _lastHoveredCanInteract = false;
+                _lastHoveredMessage = null;
+
                 if (_isShowingHoverMessage)
                 {
                     _isShowingHoverMessage = false;
@@ -452,9 +505,56 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void ShowHoverPrompt(IInteractable interactable)
+    {
+        if (interactable == null || UIManager.Instance == null)
+        {
+            return;
+        }
+
+        bool canInteractNow = interactable.CanInteract();
+        string messageToShow = canInteractNow
+            ? interactable.InteractionMessage()
+            : interactable.NotAvailableMessage();
+        Color messageColor = canInteractNow
+            ? Color.white
+            : UIManager.UnavailableInteractionColor;
+
+        _lastHoveredCanInteract = canInteractNow;
+        _lastHoveredMessage = messageToShow;
+        _isShowingHoverMessage = true;
+        UIManager.Instance.ShowMessage(messageToShow, messageColor);
+    }
+
+    private void RefreshHoverPromptIfChanged(IInteractable interactable)
+    {
+        if (interactable == null || UIManager.Instance == null)
+        {
+            return;
+        }
+
+        bool canInteractNow = interactable.CanInteract();
+        string currentMessage = canInteractNow
+            ? interactable.InteractionMessage()
+            : interactable.NotAvailableMessage();
+
+        if (!_isShowingHoverMessage ||
+            canInteractNow != _lastHoveredCanInteract ||
+            !string.Equals(currentMessage, _lastHoveredMessage, System.StringComparison.Ordinal))
+        {
+            ShowHoverPrompt(interactable);
+        }
+    }
+
     public void TryInteract()
     {
         if (_playerStateMachine != null && _playerStateMachine.GetCurrentState() != PlayerState.Idle)
+        {
+            return;
+        }
+
+        if ((DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive) ||
+            (UIManager.Instance != null && UIManager.Instance.GetCurrentState() == UIState.CONVERSATION))
         {
             return;
         }
@@ -484,16 +584,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IInteractable GetInteractableInSight()
+    private int RaycastSortedNonAlloc()
     {
+        if (_playerCamera == null) return 0;
+
         Vector3 origin = _playerCamera.transform.position;
         Vector3 dir = _playerCamera.transform.forward;
 
-        RaycastHit[] hits = Physics.RaycastAll(origin, dir, _interactDistance);
-        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-
-        foreach (RaycastHit hit in hits)
+        int hitCount = Physics.RaycastNonAlloc(origin, dir, _raycastHits, _interactDistance);
+        for (int i = 1; i < hitCount; i++)
         {
+            RaycastHit key = _raycastHits[i];
+            int j = i - 1;
+            while (j >= 0 && _raycastHits[j].distance > key.distance)
+            {
+                _raycastHits[j + 1] = _raycastHits[j];
+                j--;
+            }
+            _raycastHits[j + 1] = key;
+        }
+
+        return hitCount;
+    }
+
+    private IInteractable GetInteractableInSight()
+    {
+        int hitCount = RaycastSortedNonAlloc();
+        return FindInteractableInHits(hitCount);
+    }
+
+    private IInteractable FindInteractableInHits(int hitCount)
+    {
+        for (int i = 0; i < hitCount; i++)
+        {
+            RaycastHit hit = _raycastHits[i];
             GameObject hitObject = hit.collider.gameObject;
 
             if (hitObject == gameObject || hitObject.transform.root == transform.root) continue;
@@ -516,14 +640,15 @@ public class PlayerController : MonoBehaviour
 
     private InteractableOutline GetStandaloneOutlineInSight()
     {
-        Vector3 origin = _playerCamera.transform.position;
-        Vector3 dir = _playerCamera.transform.forward;
+        int hitCount = RaycastSortedNonAlloc();
+        return FindStandaloneOutlineInHits(hitCount);
+    }
 
-        RaycastHit[] hits = Physics.RaycastAll(origin, dir, _interactDistance);
-        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-
-        foreach (RaycastHit hit in hits)
+    private InteractableOutline FindStandaloneOutlineInHits(int hitCount)
+    {
+        for (int i = 0; i < hitCount; i++)
         {
+            RaycastHit hit = _raycastHits[i];
             GameObject hitObject = hit.collider.gameObject;
 
             if (hitObject == gameObject || hitObject.transform.root == transform.root) continue;

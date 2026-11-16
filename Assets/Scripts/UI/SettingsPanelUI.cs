@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -37,6 +38,10 @@ public class SettingsPanelUI : MonoBehaviour
     [SerializeField] private TMP_Text _musicVolumeText;
     [SerializeField] private TMP_Text _sfxVolumeText;
     [SerializeField] private TMP_Text _voiceVolumeText;
+
+    [Header("Graphics Quality")]
+    [SerializeField] private TMP_Dropdown _graphicsQualityDropdown;
+    [SerializeField] private TMP_Text _graphicsQualityText;
 
     [Header("Navigation")]
     [SerializeField] private Button _backButton;
@@ -210,6 +215,12 @@ public class SettingsPanelUI : MonoBehaviour
         {
             _voiceVolumeSlider.onValueChanged.AddListener(OnVoiceVolumeSliderChanged);
         }
+
+        if (_graphicsQualityDropdown != null)
+        {
+            PopulateGraphicsQualityDropdown();
+            _graphicsQualityDropdown.onValueChanged.AddListener(OnGraphicsQualityDropdownChanged);
+        }
     }
 
     private void UnhookSliderListeners()
@@ -237,6 +248,11 @@ public class SettingsPanelUI : MonoBehaviour
         if (_voiceVolumeSlider != null)
         {
             _voiceVolumeSlider.onValueChanged.RemoveListener(OnVoiceVolumeSliderChanged);
+        }
+
+        if (_graphicsQualityDropdown != null)
+        {
+            _graphicsQualityDropdown.onValueChanged.RemoveListener(OnGraphicsQualityDropdownChanged);
         }
     }
 
@@ -442,6 +458,7 @@ public class SettingsPanelUI : MonoBehaviour
         UpdateMusicVolumeLabel(music);
         UpdateSfxVolumeLabel(sfx);
         UpdateVoiceVolumeLabel(voice);
+        RefreshGraphicsQualityUI();
 
         _isUpdatingUI = false;
     }
@@ -523,5 +540,71 @@ public class SettingsPanelUI : MonoBehaviour
             int percent = Mathf.RoundToInt(value * 100f);
             _voiceVolumeText.text = $"Voice Volume: {percent}%";
         }
+    }
+
+    private void PopulateGraphicsQualityDropdown()
+    {
+        if (_graphicsQualityDropdown == null) return;
+
+        if (GraphicsSettingsManager.Instance != null)
+        {
+            GraphicsSettingsManager.Instance.PopulateDropdown(_graphicsQualityDropdown);
+            return;
+        }
+
+        string[] names = QualitySettings.names;
+        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>(names.Length);
+        for (int i = 0; i < names.Length; i++)
+        {
+            options.Add(new TMP_Dropdown.OptionData(names[i]));
+        }
+
+        _graphicsQualityDropdown.ClearOptions();
+        _graphicsQualityDropdown.AddOptions(options);
+    }
+
+    private void RefreshGraphicsQualityUI()
+    {
+        if (_graphicsQualityDropdown == null) return;
+
+        if (_graphicsQualityDropdown.options.Count != QualitySettings.names.Length)
+        {
+            PopulateGraphicsQualityDropdown();
+        }
+
+        int qualityIndex = GraphicsSettingsManager.Instance != null
+            ? GraphicsSettingsManager.Instance.CurrentQualityIndex
+            : QualitySettings.GetQualityLevel();
+
+        qualityIndex = Mathf.Clamp(qualityIndex, 0, Mathf.Max(0, QualitySettings.names.Length - 1));
+        _graphicsQualityDropdown.SetValueWithoutNotify(qualityIndex);
+        _graphicsQualityDropdown.RefreshShownValue();
+        UpdateGraphicsQualityLabel(qualityIndex);
+    }
+
+    private void OnGraphicsQualityDropdownChanged(int index)
+    {
+        UpdateGraphicsQualityLabel(index);
+        if (_isUpdatingUI) return;
+
+        if (GraphicsSettingsManager.Instance != null)
+        {
+            GraphicsSettingsManager.Instance.SetQualityLevel(index);
+        }
+        else
+        {
+            QualitySettings.SetQualityLevel(index, true);
+            PlayerPrefs.SetInt(GraphicsSettingsManager.PrefKeyQualityLevel, index);
+            PlayerPrefs.Save();
+        }
+    }
+
+    private void UpdateGraphicsQualityLabel(int index)
+    {
+        if (_graphicsQualityText == null) return;
+
+        string[] names = QualitySettings.names;
+        string levelName = (index >= 0 && index < names.Length) ? names[index] : "-";
+        _graphicsQualityText.text = $"Graphics Quality: {levelName}";
     }
 }

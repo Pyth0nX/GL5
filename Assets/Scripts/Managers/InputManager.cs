@@ -33,6 +33,15 @@ public class InputManager : MonoBehaviour
     private bool _menuWasHeld = false;
     #endregion
 
+    [Header("Interaction Anti-Bounce")]
+    [Tooltip("Seconds after closing a dialogue during which world Interact (E) is suppressed so rapid presses cannot immediately re-open it.")]
+    [SerializeField] private float _postDialogueInteractCooldown = 0.25f;
+    private int _suppressInteractUntilFrame = -1;
+    private float _suppressInteractUntilTime = -1f;
+    private int _suppressDialogueAdvanceUntilFrame = -1;
+    private float _suppressDialogueAdvanceUntilTime = -1f;
+    private int _lastDialogueAdvanceConsumedFrame = -1;
+
     private void Awake()
     {
         if(Instance == null)
@@ -130,7 +139,79 @@ public class InputManager : MonoBehaviour
         return _menuWasHeld;
     }
 
-    public bool InteractWasPressed() 
+    /// <summary>
+    /// Temporarily blocks world Interact queries so closing a dialogue with E does not
+    /// immediately re-trigger the NPC on the same frame or during rapid key presses.
+    /// </summary>
+    public void SuppressInteract(float cooldownSeconds = -1f, int minFrames = 2)
+    {
+        float resolvedCooldown = cooldownSeconds < 0f ? _postDialogueInteractCooldown : cooldownSeconds;
+        int targetFrame = Time.frameCount + Mathf.Max(0, minFrames);
+        if (targetFrame > _suppressInteractUntilFrame)
+        {
+            _suppressInteractUntilFrame = targetFrame;
+        }
+
+        if (resolvedCooldown > 0f)
+        {
+            float targetTime = Time.unscaledTime + resolvedCooldown;
+            if (targetTime > _suppressInteractUntilTime)
+            {
+                _suppressInteractUntilTime = targetTime;
+            }
+        }
+    }
+
+    public bool IsInteractSuppressed()
+    {
+        return Time.frameCount <= _suppressInteractUntilFrame || Time.unscaledTime < _suppressInteractUntilTime;
+    }
+
+    /// <summary>
+    /// Suppresses dialogue advance and animation skip inputs briefly so one click or key press cannot
+    /// skip multiple lines or leak across UI transitions.
+    /// </summary>
+    public void ConsumeDialogueAdvance(float cooldownSeconds = 0.2f, int minFrames = 3)
+    {
+        _lastDialogueAdvanceConsumedFrame = Time.frameCount;
+        int targetFrame = Time.frameCount + Mathf.Max(0, minFrames);
+        if (targetFrame > _suppressDialogueAdvanceUntilFrame)
+        {
+            _suppressDialogueAdvanceUntilFrame = targetFrame;
+        }
+
+        if (cooldownSeconds > 0f)
+        {
+            float targetTime = Time.unscaledTime + cooldownSeconds;
+            if (targetTime > _suppressDialogueAdvanceUntilTime)
+            {
+                _suppressDialogueAdvanceUntilTime = targetTime;
+            }
+        }
+    }
+
+    public bool IsDialogueAdvanceSuppressed()
+    {
+        return Time.frameCount <= _lastDialogueAdvanceConsumedFrame ||
+               Time.frameCount <= _suppressDialogueAdvanceUntilFrame ||
+               Time.unscaledTime < _suppressDialogueAdvanceUntilTime;
+    }
+
+    public bool TryConsumeDialogueAdvance(float cooldownSeconds = 0.2f, int minFrames = 3)
+    {
+        if (IsDialogueAdvanceSuppressed())
+        {
+            return false;
+        }
+
+        ConsumeDialogueAdvance(cooldownSeconds, minFrames);
+        return true;
+    }
+
+    /// <summary>
+    /// Raw Interact press check without post-dialogue suppression, used inside active dialogue UI.
+    /// </summary>
+    public bool RawInteractWasPressed()
     {
         if (_pInteractAction != null && _pInteractAction.WasPressedThisFrame())
         {
@@ -143,6 +224,16 @@ public class InputManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool InteractWasPressed()
+    {
+        if (IsInteractSuppressed())
+        {
+            return false;
+        }
+
+        return RawInteractWasPressed();
     }
 
     public bool LeftClickWasPressed()
@@ -234,6 +325,7 @@ public class InputManager : MonoBehaviour
 
     public void EnableInteract()
     {
+        SuppressInteract(0f, 1);
         _pInteractAction.Enable();
     }
 

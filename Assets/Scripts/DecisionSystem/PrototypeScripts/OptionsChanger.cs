@@ -237,6 +237,12 @@ public class OptionsChanger : MonoBehaviour
         }
 
         // Hide the choice overlay before starting the selected branch and restore click-to-advance
+        // Consume the click/key press so it cannot skip or advance the chosen branch's opening line
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.ConsumeDialogueAdvance(0.2f, 3);
+        }
+
         ActiveDecisionsPanel(false);
 
         // 1. Apply the Reputation/Safety impact first so subsequent branches and anxiety VFX reflect the updated state

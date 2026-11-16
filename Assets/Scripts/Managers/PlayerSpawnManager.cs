@@ -17,6 +17,13 @@ public class PlayerSpawnManager : MonoBehaviour
     private static PlayerSpawnManager _instance;
     private static bool _applicationIsQuitting = false;
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStaticState()
+    {
+        _instance = null;
+        _applicationIsQuitting = false;
+    }
+
     public static bool HasInstance => _instance != null;
 
     public static PlayerSpawnManager Instance
@@ -50,10 +57,21 @@ public class PlayerSpawnManager : MonoBehaviour
     private string _lastActiveSceneName;
     private string _queuedSpawnerName;
     private bool _isReturningFromSchool;
+    private bool _arrivedFromSchoolInCurrentLoad;
     private Coroutine _confirmSpawnCoroutine;
+
+    /// <summary>
+    /// True when the current Home entry is returning from the School scene.
+    /// </summary>
+    public bool IsReturningFromSchool =>
+        _isReturningFromSchool ||
+        _arrivedFromSchoolInCurrentLoad ||
+        string.Equals(_lastActiveSceneName, SchoolSceneName, StringComparison.OrdinalIgnoreCase);
 
     private void Awake()
     {
+        _applicationIsQuitting = false;
+
         if (_instance == null)
         {
             _instance = this;
@@ -71,6 +89,7 @@ public class PlayerSpawnManager : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
 
         if (EventBus.Instance != null)
         {
@@ -94,6 +113,7 @@ public class PlayerSpawnManager : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
         UnsubscribeEvents();
     }
 
@@ -168,11 +188,32 @@ public class PlayerSpawnManager : MonoBehaviour
         }
     }
 
+    private void OnSceneUnloaded(Scene scene)
+    {
+        if (!string.IsNullOrEmpty(scene.name))
+        {
+            _lastActiveSceneName = scene.name;
+            if (string.Equals(scene.name, SchoolSceneName, StringComparison.OrdinalIgnoreCase))
+            {
+                _isReturningFromSchool = true;
+            }
+            else if (string.Equals(scene.name, HomeSceneName, StringComparison.OrdinalIgnoreCase))
+            {
+                _arrivedFromSchoolInCurrentLoad = false;
+            }
+        }
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (string.Equals(scene.name, HomeSceneName, StringComparison.OrdinalIgnoreCase))
         {
             HandleHomeSceneSpawn();
+        }
+        else
+        {
+            _arrivedFromSchoolInCurrentLoad = false;
+            _isReturningFromSchool = false;
         }
 
         _lastActiveSceneName = scene.name;
@@ -185,11 +226,16 @@ public class PlayerSpawnManager : MonoBehaviour
         {
             _queuedSpawnerName = null;
             _isReturningFromSchool = false;
+            _arrivedFromSchoolInCurrentLoad = false;
             return;
         }
 
         string targetSpawner;
-        if (!string.IsNullOrEmpty(_queuedSpawnerName))
+        if (DayManager.HasQueuedDebugStart)
+        {
+            targetSpawner = SpawnerWakingUp;
+        }
+        else if (!string.IsNullOrEmpty(_queuedSpawnerName))
         {
             targetSpawner = _queuedSpawnerName;
         }
@@ -202,6 +248,7 @@ public class PlayerSpawnManager : MonoBehaviour
             targetSpawner = SpawnerWakingUp;
         }
 
+        _arrivedFromSchoolInCurrentLoad = string.Equals(targetSpawner, SpawnerFromSchool, StringComparison.OrdinalIgnoreCase);
         _queuedSpawnerName = null;
         _isReturningFromSchool = false;
 
@@ -225,6 +272,9 @@ public class PlayerSpawnManager : MonoBehaviour
 
     private void OnNextDayEvent()
     {
+        _isReturningFromSchool = false;
+        _arrivedFromSchoolInCurrentLoad = false;
+        _queuedSpawnerName = null;
         HandleDayAdvanced();
     }
 
@@ -234,7 +284,9 @@ public class PlayerSpawnManager : MonoBehaviour
         if (string.Equals(SceneManager.GetActiveScene().name, HomeSceneName, StringComparison.OrdinalIgnoreCase))
         {
             // Only reposition to WakingUp if not returning from school
-            if (!_isReturningFromSchool && !string.Equals(_lastActiveSceneName, SchoolSceneName, StringComparison.OrdinalIgnoreCase))
+            if (!_arrivedFromSchoolInCurrentLoad &&
+                !_isReturningFromSchool &&
+                !string.Equals(_lastActiveSceneName, SchoolSceneName, StringComparison.OrdinalIgnoreCase))
             {
                 SpawnPlayerAt(SpawnerWakingUp);
             }
@@ -294,7 +346,7 @@ public class PlayerSpawnManager : MonoBehaviour
         }
 
         // 3. Fallback: Search all transforms in active scene
-        Transform[] allTransforms = FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        Transform[] allTransforms = FindObjectsByType<Transform>(FindObjectsInactive.Include);
         foreach (Transform t in allTransforms)
         {
             if (t.gameObject.scene == SceneManager.GetActiveScene() &&

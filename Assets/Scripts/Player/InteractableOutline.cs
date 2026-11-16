@@ -270,6 +270,10 @@ public class InteractableOutline : MonoBehaviour
                 helperSMR.sharedMesh = smr.sharedMesh;
                 helperSMR.bones = smr.bones;
                 helperSMR.rootBone = smr.rootBone;
+                helperSMR.updateWhenOffscreen = false;
+                helperSMR.skinnedMotionVectors = false;
+                helperSMR.quality = SkinQuality.Bone1;
+                helperSMR.allowOcclusionWhenDynamic = false;
                 ConfigureHelperRenderer(helperSMR, smr.sharedMesh.subMeshCount);
 
                 _helperObjects.Add(helperGO);

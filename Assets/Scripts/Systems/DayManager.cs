@@ -417,6 +417,7 @@ public class DayManager : MonoBehaviour
         }
 
         Debug.Log($"[DayManager] Launching Debug Session -> Day {clampedDay}, Profile: {route} (Preserved: {_preservedDebugChoices.Count}, Reputation: {targetReputation}).");
+        PlayerSpawnManager.Instance?.QueueSpawn(PlayerSpawnManager.SpawnerWakingUp);
         SceneManager.LoadScene("Home");
     }
 
@@ -722,7 +723,22 @@ public class DayManager : MonoBehaviour
         }
 
         Debug.Log($"[DayManager] Resolving campaign ending with score {finalScore}; node {endingNode}.");
-        MessagesManager.Instance?.AdvanceContactNarrativeNodeByEvent("Riley", endingNode);
+        if (MessagesManager.Instance != null)
+        {
+            MessagesManager.Instance.AdvanceContactNarrativeNodeByEvent("Riley", endingNode);
+            MessagesManager.Instance.SetCurrentContact("Riley");
+            MessagesManager.Instance.MarkContactNotificationsAsRead("Riley");
+        }
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ChangeState((int)UIState.CONVERSATION);
+        }
+
+        if (DialogueManager.Instance != null && !DialogueManager.Instance.IsDialogueActive)
+        {
+            DialogueManager.Instance.StartDialogue();
+        }
     }
 
     #endregion

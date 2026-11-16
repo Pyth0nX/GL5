@@ -65,6 +65,8 @@ public class NPCConversationReaction : MonoBehaviour
     private bool _initialized;
     private bool _isConversationActive;
 
+    public bool IsConversationActive => _isConversationActive;
+
     private void Awake()
     {
         ResolveNpcData();
@@ -265,9 +267,14 @@ public class NPCConversationReaction : MonoBehaviour
     private static void FireTrigger(ParticipantRuntime participant, bool toActiveState)
     {
         Animator anim = participant.Animator;
-        if (anim == null || !anim.isActiveAndEnabled)
+        if (anim == null || !anim.gameObject.activeInHierarchy)
         {
             return;
+        }
+
+        if (!anim.enabled)
+        {
+            anim.enabled = true;
         }
 
         if (toActiveState)
@@ -290,6 +297,30 @@ public class NPCConversationReaction : MonoBehaviour
         }
 
         _poseCoroutine = StartCoroutine(routine);
+    }
+
+    /// <summary>
+    /// Updates the stored resting local pose for a participant when another component
+    /// (such as EncounterDoorBlocker) relocates them aside or resets them for a new day.
+    /// </summary>
+    public void UpdateParticipantRestingPose(Transform participantRoot, Vector3 localPosition, Quaternion? localRotation = null)
+    {
+        if (participantRoot == null)
+        {
+            return;
+        }
+
+        foreach (ParticipantRuntime participant in _runtimes)
+        {
+            if (participant.VisualRoot == participantRoot)
+            {
+                participant.InitialLocalPosition = localPosition;
+                if (localRotation.HasValue)
+                {
+                    participant.InitialLocalRotation = localRotation.Value;
+                }
+            }
+        }
     }
 
     private IEnumerator RotateTowardPlayerRoutine()

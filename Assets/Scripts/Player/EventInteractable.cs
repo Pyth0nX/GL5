@@ -202,9 +202,21 @@ public class EventInteractable : IInteractable
     {
         if (eventList == null || EventBus.Instance == null) return;
 
+        bool defersStoryDaySleep = false;
+        foreach (var candidate in eventList)
+        {
+            if (candidate.EventName() == "SleepTransition")
+            {
+                defersStoryDaySleep = true;
+                break;
+            }
+        }
+
         foreach (var item in eventList)
         {
             if (string.IsNullOrEmpty(item.EventName())) continue;
+            // TransitionManager publishes StoryDaySleep after the black screen hold completes
+            if (defersStoryDaySleep && item.EventName() == "StoryDaySleep") continue;
 
             switch (item.DataType())
             {

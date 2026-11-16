@@ -261,7 +261,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Fair enough. Lost Cause theories it is.",
+          "_content": "I'd rather keep personal stuff offline, if that's okay. Still totally down for Lost Cause theories though.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 35
+          }
+        },
+        {
+          "_content": "Fair enough. Lost Cause theories it is! Okay, then who do you think the masked character really is?",
           "_sender": 1,
           "_speakerName": "Alex",
           "_timestamp": {
@@ -273,7 +285,19 @@
           }
         },
         {
-          "_content": "We should definitely talk more.",
+          "_content": "Honestly? I think it's Julian's older brother. Nobody else knew about the cellar key.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 37
+          }
+        },
+        {
+          "_content": "Wait, really? I didn't even catch that clue, that makes so much sense.",
           "_sender": 1,
           "_speakerName": "Alex",
           "_timestamp": {
@@ -281,7 +305,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 37
+            "minute": 38
           }
         }
       ],
@@ -593,6 +617,42 @@
             "hour": 16,
             "minute": 37
           }
+        },
+        {
+          "_content": "Honestly? I think it's Julian's older brother. Nobody else knew about the cellar key.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 38
+          }
+        },
+        {
+          "_content": "Wait, really? I didn't even catch that clue, that actually makes so much sense.",
+          "_sender": 1,
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 38
+          }
+        },
+        {
+          "_content": "Right?! Look back at chapter twelve, it basically confirms it!",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 39
+          }
         }
       ],
       "_showInScenarioTree": false
@@ -608,6 +668,18 @@
       "_options": [],
       "_dialogues": [
         {
+          "_content": "Honestly, I'm mostly just a huge book nerd. Between school and reading, that's pretty much me.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 35
+          }
+        },
+        {
           "_content": "Same. Books, games and music are basically my entire personality.",
           "_sender": 1,
           "_speakerName": "Alex",
@@ -620,7 +692,7 @@
           }
         },
         {
-          "_content": "What do you usually do after school?",
+          "_content": "What kind of music or games are you into, and how's school going?",
           "_sender": 1,
           "_speakerName": "Alex",
           "_timestamp": {
@@ -632,7 +704,7 @@
           }
         },
         {
-          "_content": "Mostly read, play games and waste too much time online.",
+          "_content": "Mostly indie stuff and cozy story games. School's fine, just way too much homework lately.",
           "_sender": 0,
           "_speakerName": "Luna",
           "_timestamp": {
@@ -641,6 +713,18 @@
             "year": 2026,
             "hour": 16,
             "minute": 38
+          }
+        },
+        {
+          "_content": "Ugh, schoolwork never ends. Glad you still find time to binge good books though.",
+          "_sender": 1,
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 39
           }
         }
       ],
@@ -657,7 +741,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Rainfall School? Maybe we live close to each other haha.",
+          "_content": "Nothing special, I go to Rainfall School near Cedar Park. Usually just head straight home afterwards.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 35
+          }
+        },
+        {
+          "_content": "Rainfall School? Maybe we live close to each other haha. What streets are you around?",
           "_sender": 1,
           "_speakerName": "Alex",
           "_timestamp": {
@@ -669,9 +765,9 @@
           }
         },
         {
-          "_content": "What time do you usually leave, and do you always walk home?",
-          "_sender": 1,
-          "_speakerName": "Alex",
+          "_content": "Just a few blocks past Maple Avenue, it's a pretty quiet area.",
+          "_sender": 0,
+          "_speakerName": "Luna",
           "_timestamp": {
             "day": 1,
             "month": 10,
@@ -681,7 +777,19 @@
           }
         },
         {
-          "_content": "Usually at the same time every day. I pretty much take the same route too.",
+          "_content": "Oh nice! What time do you usually leave school, and do you always walk home?",
+          "_sender": 1,
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 38
+          }
+        },
+        {
+          "_content": "Usually around four every day. Yeah, I pretty much take the same route down Maple too.",
           "_sender": 0,
           "_speakerName": "Luna",
           "_timestamp": {
@@ -689,7 +797,19 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 38
+            "minute": 39
+          }
+        },
+        {
+          "_content": "Gotcha, good to know the area's quiet at least.",
+          "_sender": 1,
+          "_speakerName": "Alex",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 39
           }
         }
       ],
@@ -935,22 +1055,27 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Could you just leave me alone?",
+          "_content": "Could you just leave me alone? I didn't ask for your opinion.",
           "_sender": 0,
           "_speakerName": "Luna"
         },
         {
-          "_content": "Aw, did we hurt your feelings?",
+          "_content": "Whoa, chill. Someone's super sensitive today.",
           "_sender": 1,
           "_speakerName": "Emma"
         },
         {
-          "_content": "Relax. We're just joking.",
+          "_content": "Seriously, we were only joking. Can't you take a joke?",
           "_sender": 1,
           "_speakerName": "Sophie"
         },
         {
-          "_content": "The girls keep laughing and whispering as Luna gets her books and enters the classroom.",
+          "_content": "Jokes are supposed to be funny for everyone. Excuse me.",
+          "_sender": 0,
+          "_speakerName": "Luna"
+        },
+        {
+          "_content": "Luna closes her locker firmly, grabs her books and walks into the classroom before they can keep going.",
           "_sender": 1,
           "_speakerName": "Narration"
         }
@@ -968,22 +1093,22 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna ignores them and quietly gets her books.",
+          "_content": "Luna keeps her eyes on her locker, grabs her notebooks without saying a word and pretends they aren't even there.",
           "_sender": 1,
           "_speakerName": "Narration"
         },
         {
-          "_content": "See? She can't even answer.",
+          "_content": "Hello? Did she suddenly go deaf or is she just scared to talk back?",
           "_sender": 1,
           "_speakerName": "Sophie"
         },
         {
-          "_content": "So embarrassing.",
+          "_content": "Ugh, she's boring anyway. Come on, homeroom's starting.",
           "_sender": 1,
           "_speakerName": "Emma"
         },
         {
-          "_content": "Their whispering follows Luna as she enters the classroom.",
+          "_content": "Their muffled laughs follow behind her as Luna slips quietly into the classroom.",
           "_sender": 1,
           "_speakerName": "Narration"
         }
@@ -1001,22 +1126,22 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "At least I don't spend all day obsessing over other people.",
+          "_content": "At least I don't spend all day obsessing over what other people do.",
           "_sender": 0,
           "_speakerName": "Luna"
         },
         {
-          "_content": "Wow. Touchy.",
+          "_content": "Excuse me? Wait till everyone online sees you trying to act tough.",
           "_sender": 1,
           "_speakerName": "Emma"
         },
         {
-          "_content": "Looks like we hit a nerve.",
+          "_content": "Yeah, keep talking like that and see how fast screenshots spread.",
           "_sender": 1,
           "_speakerName": "Sophie"
         },
         {
-          "_content": "They keep taunting her, but Luna takes her books and enters the classroom.",
+          "_content": "Luna's stomach knots as they smirk at each other. She clutches her books tight and enters the classroom.",
           "_sender": 1,
           "_speakerName": "Narration"
         }
@@ -1120,9 +1245,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "[Luna posts a picture of her favourite book.]",
-          "_sender": 0,
-          "_speakerName": "Luna",
+          "_content": "Luna takes a photo of her copy of Lost Cause on her desk and posts it without any personal details.",
+          "_sender": 1,
+          "_speakerName": "Narration",
           "_timestamp": {
             "day": 2,
             "month": 10,
@@ -1132,7 +1257,19 @@
           }
         },
         {
-          "_content": "A little boring, but I'll share it anyway!",
+          "_content": "Okay, posted! Nothing crazy, just my favourite book.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
+        },
+        {
+          "_content": "Honestly? A little boring haha, people scroll past book covers pretty fast.",
           "_sender": 1,
           "_speakerName": "Jamie",
           "_timestamp": {
@@ -1140,7 +1277,31 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 6
+            "minute": 7
+          }
+        },
+        {
+          "_content": "Still, you've gotta start somewhere! Keep posting more often, I'll share this one so people notice you.",
+          "_sender": 1,
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 8
+          }
+        },
+        {
+          "_content": "Alright, thanks Jamie.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 9
           }
         }
       ],
@@ -1157,9 +1318,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "[Luna posts a selfie without identifying information.]",
-          "_sender": 0,
-          "_speakerName": "Luna",
+          "_content": "Luna snaps a quick selfie against her bedroom wall, making sure nothing personal shows in the background, and hits post.",
+          "_sender": 1,
+          "_speakerName": "Narration",
           "_timestamp": {
             "day": 2,
             "month": 10,
@@ -1169,7 +1330,19 @@
           }
         },
         {
-          "_content": "You look amazing! Sharing it now.",
+          "_content": "Uploaded a selfie. Still feels kind of weird though.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
+        },
+        {
+          "_content": "Wait, are you kidding?! You look amazing! Why were you even nervous?",
           "_sender": 1,
           "_speakerName": "Jamie",
           "_timestamp": {
@@ -1177,7 +1350,31 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 6
+            "minute": 7
+          }
+        },
+        {
+          "_content": "Already shared it to my story! Watch the likes roll in.",
+          "_sender": 1,
+          "_speakerName": "Jamie",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 8
+          }
+        },
+        {
+          "_content": "Haha okay, thanks!",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 9
           }
         }
       ],
@@ -1194,9 +1391,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "[Luna posts a selfie with her school uniform and location visible.]",
-          "_sender": 0,
-          "_speakerName": "Luna",
+          "_content": "Luna posts a mirror selfie wearing her Rainfall School uniform and tags her location.",
+          "_sender": 1,
+          "_speakerName": "Narration",
           "_timestamp": {
             "day": 2,
             "month": 10,
@@ -1206,7 +1403,19 @@
           }
         },
         {
-          "_content": "This is perfect. Everyone will see it!",
+          "_content": "Done! Tagged the area too like people usually do.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
+        },
+        {
+          "_content": "YES, this is perfect! Sharing it to a couple bigger local pages right now so everyone sees it!",
           "_sender": 1,
           "_speakerName": "Jamie",
           "_timestamp": {
@@ -1214,7 +1423,31 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 6
+            "minute": 7
+          }
+        },
+        {
+          "_content": "Within minutes, Luna's notifications start buzzing nonstop with views, comments and friend requests from strangers.",
+          "_sender": 1,
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 9
+          }
+        },
+        {
+          "_content": "Whoa... that got way more attention than I expected.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 10
           }
         }
       ],
@@ -1255,8 +1488,8 @@
         },
         {
           "_content": "You've got to be kidding me...",
-          "_sender": 0,
-          "_speakerName": "Luna",
+          "_sender": 1,
+          "_speakerName": "Thought",
           "_timestamp": {
             "day": 2,
             "month": 10,
@@ -1305,7 +1538,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna saves screenshots and reports the post.",
+          "_content": "Her hands shake slightly, but Luna screenshots the post, the caption and Emma and Sophie's comments before anything can be deleted.",
+          "_sender": 1,
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 34
+          }
+        },
+        {
+          "_content": "She submits a harassment report on Connect and saves the screenshots safely so she can show an adult if it escalates.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -1317,7 +1562,7 @@
           }
         },
         {
-          "_content": "OMG I saw what happened. Maybe you should post something better.",
+          "_content": "OMG I saw what happened. Maybe you should post something better next time.",
           "_sender": 1,
           "_speakerName": "Jamie",
           "_timestamp": {
@@ -1326,6 +1571,18 @@
             "year": 2026,
             "hour": 19,
             "minute": 37
+          }
+        },
+        {
+          "_content": "Seriously, Jamie? Right now?",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 38
           }
         }
       ],
@@ -1342,7 +1599,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna deletes her original post, but the screenshot remains online.",
+          "_content": "Panicking, Luna hurries to her profile and deletes her original post right away, hoping the whole thing will stop.",
+          "_sender": 1,
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 34
+          }
+        },
+        {
+          "_content": "She refreshes the feed, only to freeze when she sees the mocking screenshot is still up and people are still laughing in the comments.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -1351,6 +1620,18 @@
             "year": 2026,
             "hour": 19,
             "minute": 35
+          }
+        },
+        {
+          "_content": "Wait... deleting mine didn't take theirs down at all.",
+          "_sender": 1,
+          "_speakerName": "Thought",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 36
           }
         },
         {
@@ -1379,7 +1660,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "The argument attracts more attention and more people begin commenting.",
+          "_content": "Why are you screenshotting my page? Literally get a life.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 34
+          }
+        },
+        {
+          "_content": "Emma and Sophie reply within seconds, mocking her in front of everyone. Every back-and-forth pushes the post higher in the feed.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -1388,6 +1681,18 @@
             "year": 2026,
             "hour": 19,
             "minute": 35
+          }
+        },
+        {
+          "_content": "Soon, dozens of unfamiliar accounts are piling into the comments to watch the drama.",
+          "_sender": 1,
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 2,
+            "month": 10,
+            "year": 2026,
+            "hour": 19,
+            "minute": 36
           }
         },
         {
@@ -1692,7 +1997,7 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "I'd rather not share personal information.",
+          "_content": "I'd rather not share personal information online, sorry.",
           "_sender": 0,
           "_speakerName": "Luna",
           "_timestamp": {
@@ -1704,7 +2009,7 @@
           }
         },
         {
-          "_content": "Okay, I understand.",
+          "_content": "Hey, totally fair, I understand.",
           "_sender": 1,
           "_speakerName": "Noah",
           "_timestamp": {
@@ -1716,7 +2021,7 @@
           }
         },
         {
-          "_content": "Although Noah accepts her answer, he soon returns to asking personal questions.",
+          "_content": "For a moment Noah keeps things casual, though it doesn't take long before he tries steering back toward personal details.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -1725,6 +2030,18 @@
             "year": 2026,
             "hour": 16,
             "minute": 20
+          }
+        },
+        {
+          "_content": "So are you at least in high school, or do you get stuck with boring afternoon schedules around here too?",
+          "_sender": 1,
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 21
           }
         }
       ],
@@ -1753,7 +2070,7 @@
           }
         },
         {
-          "_content": "Just curious. What do you like doing?",
+          "_content": "Just simple curiosity haha, it's nice knowing who I'm talking to.",
           "_sender": 1,
           "_speakerName": "Noah",
           "_timestamp": {
@@ -1762,6 +2079,30 @@
             "year": 2026,
             "hour": 16,
             "minute": 19
+          }
+        },
+        {
+          "_content": "What do you actually like doing when you're not scrolling on here?",
+          "_sender": 1,
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 20
+          }
+        },
+        {
+          "_content": "Mostly reading, listening to music and hanging out in my room honestly.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 21
           }
         }
       ],
@@ -1778,9 +2119,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna tells Noah her age and shares other details about her personal life.",
-          "_sender": 1,
-          "_speakerName": "Narration",
+          "_content": "I'm fifteen, going into sophomore year.",
+          "_sender": 0,
+          "_speakerName": "Luna",
           "_timestamp": {
             "day": 3,
             "month": 10,
@@ -1790,7 +2131,7 @@
           }
         },
         {
-          "_content": "Cool, we're around the same age.",
+          "_content": "Cool, we're basically the same age then.",
           "_sender": 1,
           "_speakerName": "Noah",
           "_timestamp": {
@@ -1802,7 +2143,7 @@
           }
         },
         {
-          "_content": "Now that he knows Luna's age, Noah continues asking about her personal life.",
+          "_content": "Noah takes note of her age immediately and keeps pressing further into her private life.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -1811,6 +2152,30 @@
             "year": 2026,
             "hour": 16,
             "minute": 20
+          }
+        },
+        {
+          "_content": "Do your parents check your phone much, or do you usually have the place to yourself after school?",
+          "_sender": 1,
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 21
+          }
+        },
+        {
+          "_content": "Not really, they're usually busy at work till late.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 22
           }
         }
       ],
@@ -1901,7 +2266,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna refuses, blocks Noah and reports the account. She does not send a picture.",
+          "_content": "No thanks. I don't send pictures to people I don't know in real life.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 27
+          }
+        },
+        {
+          "_content": "Trusting her gut, Luna stops replying right there, blocks Noah and reports his account.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -1913,7 +2290,7 @@
           }
         },
         {
-          "_content": "Noah cannot continue contacting her through that account.",
+          "_content": "The chat cuts off cleanly—she never sends a photo, and Noah can no longer message her.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -1938,7 +2315,7 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna sends a normal selfie.",
+          "_content": "Hesitating for a second, Luna sends a normal, casual selfie and waits for Noah to send one back.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -1962,7 +2339,19 @@
           }
         },
         {
-          "_content": "Noah does not send a picture back.",
+          "_content": "Thanks! So are you going to send yours?",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 30
+          }
+        },
+        {
+          "_content": "Noah leaves her question on read and never sends a photo of his own.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -1970,7 +2359,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 30
+            "minute": 31
           }
         }
       ],
@@ -1987,7 +2376,7 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna sends a flirty selfie.",
+          "_content": "Wanting the attention after a rough few days, Luna chooses a more flirty, dressed-up selfie and hits send.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2011,7 +2400,31 @@
           }
         },
         {
-          "_content": "He continues complimenting her before suddenly stopping his replies.",
+          "_content": "Seriously, why didn't you say you looked like that? You're gorgeous.",
+          "_sender": 1,
+          "_speakerName": "Noah",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 30
+          }
+        },
+        {
+          "_content": "Haha stop, you're too sweet. What about your photo?",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 31
+          }
+        },
+        {
+          "_content": "After showering her with compliments, Noah's typing indicator vanishes and he suddenly stops replying.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2019,7 +2432,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 30
+            "minute": 32
           }
         }
       ],
@@ -2146,9 +2559,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna saves the evidence, reports the post, blocks Noah and tells a trusted adult.",
+          "_content": "Okay, breathe... I'm saving proof of all of this right now.",
           "_sender": 1,
-          "_speakerName": "Narration",
+          "_speakerName": "Thought",
           "_timestamp": {
             "day": 3,
             "month": 10,
@@ -2158,7 +2571,7 @@
           }
         },
         {
-          "_content": "She begins taking steps to get help.",
+          "_content": "Luna screenshots the reposted photo, the account profile and her entire chat with Noah, then reports and blocks both accounts.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2167,6 +2580,18 @@
             "year": 2026,
             "hour": 20,
             "minute": 6
+          }
+        },
+        {
+          "_content": "Even though her hands are trembling, she reaches out to someone she trusts so she doesn't have to deal with this alone.",
+          "_sender": 1,
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 7
           }
         }
       ],
@@ -2183,9 +2608,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna blocks Noah and closes the app without telling anyone.",
+          "_content": "I can't look at this anymore. I just want him gone.",
           "_sender": 1,
-          "_speakerName": "Narration",
+          "_speakerName": "Thought",
           "_timestamp": {
             "day": 3,
             "month": 10,
@@ -2195,7 +2620,7 @@
           }
         },
         {
-          "_content": "She avoids further contact but is left dealing with the situation alone.",
+          "_content": "Luna blocks Noah and closes Connect straight away, locking her phone face-down on the bed.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2204,6 +2629,18 @@
             "year": 2026,
             "hour": 20,
             "minute": 6
+          }
+        },
+        {
+          "_content": "Her screen goes quiet, but she hasn't told anyone what happened—leaving her trapped alone with the anxiety.",
+          "_sender": 1,
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 7
           }
         }
       ],
@@ -2220,9 +2657,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna ignores the post and hopes it disappears.",
+          "_content": "Maybe it's just some random repost account. If I ignore it, everyone will forget by tomorrow.",
           "_sender": 1,
-          "_speakerName": "Narration",
+          "_speakerName": "Thought",
           "_timestamp": {
             "day": 3,
             "month": 10,
@@ -2232,7 +2669,7 @@
           }
         },
         {
-          "_content": "The post remains online and Luna does not know who has seen it.",
+          "_content": "Luna swipes away the alert without saving evidence or reporting the post, trying to pretend it isn't real.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2241,6 +2678,18 @@
             "year": 2026,
             "hour": 20,
             "minute": 6
+          }
+        },
+        {
+          "_content": "Still, she knows the picture is sitting online where anyone can copy or share it further.",
+          "_sender": 1,
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 3,
+            "month": 10,
+            "year": 2026,
+            "hour": 20,
+            "minute": 7
           }
         }
       ],
@@ -2523,7 +2972,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna saves the messages as evidence, blocks and reports the account, and tells someone about what happened.",
+          "_content": "Yeah, no. Do not message me again.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 4
+          }
+        },
+        {
+          "_content": "Luna ends the conversation immediately, takes screenshots of every message, and blocks and reports the UNKNOWN account.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2535,7 +2996,7 @@
           }
         },
         {
-          "_content": "The conversation stops.",
+          "_content": "Shaken, she backs up the screenshots and texts someone she trusts offline to tell them what happened.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2560,9 +3021,21 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna asks how the account knows her before deciding what to do.",
+          "_content": "Wait... what do you mean you've seen me? How do you know what I look like?",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 4
+          }
+        },
+        {
+          "_content": "Relax, I've seen you walking near Rainfall School a few times.",
           "_sender": 1,
-          "_speakerName": "Narration",
+          "_speakerName": "Unknown",
           "_timestamp": {
             "day": 4,
             "month": 10,
@@ -2572,7 +3045,19 @@
           }
         },
         {
-          "_content": "The account claims it has seen her around school and continues asking questions.",
+          "_content": "Do you always walk by yourself or take the shortcut past the park after last bell?",
+          "_sender": 1,
+          "_speakerName": "Unknown",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
+        },
+        {
+          "_content": "Luna stares at the screen, unsettled as the stranger keeps fishing for confirmation.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2580,7 +3065,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 6
+            "minute": 7
           }
         }
       ],
@@ -2597,9 +3082,21 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna reveals where she usually walks and when she gets home.",
+          "_content": "Oh, do you go near Rainfall too? I usually head down Maple Street right after school.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 4
+          }
+        },
+        {
+          "_content": "Maple Street? Nice, the quiet way past Cedar Park.",
           "_sender": 1,
-          "_speakerName": "Narration",
+          "_speakerName": "Unknown",
           "_timestamp": {
             "day": 4,
             "month": 10,
@@ -2609,7 +3106,31 @@
           }
         },
         {
-          "_content": "The account now knows more about Luna's routine.",
+          "_content": "So you're normally getting home around 4:15 then?",
+          "_sender": 1,
+          "_speakerName": "Unknown",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 6
+          }
+        },
+        {
+          "_content": "Yeah, usually around 4:15 or 4:20 unless I stop by the store.",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 7
+          }
+        },
+        {
+          "_content": "Without thinking, Luna has confirmed both her usual route home and the exact time she walks it.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2617,7 +3138,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 6
+            "minute": 8
           }
         }
       ],
@@ -2633,7 +3154,7 @@
       "_eventOnEnd": "",
       "_dialogues": [
         {
-          "_content": "Luna opens Connect and notices how much information her profile contains. She begins looking through her old posts.",
+          "_content": "Still unsettled by how easily strangers seemed to know where she goes, Luna opens Connect and views her profile as a stranger would.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2645,7 +3166,7 @@
           }
         },
         {
-          "_content": "Some posts reveal details about her school, neighbourhood and daily activities.",
+          "_content": "She scrolls slowly down her own feed—seeing her Rainfall School badge, neighbourhood check-ins, casual posts about walking home and old location tags stacked together.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2658,8 +3179,8 @@
         },
         {
           "_content": "Wait... I've actually posted all of this?",
-          "_sender": 0,
-          "_speakerName": "Luna",
+          "_sender": 1,
+          "_speakerName": "Thought",
           "_timestamp": {
             "day": 4,
             "month": 10,
@@ -2669,7 +3190,7 @@
           }
         },
         {
-          "_content": "She realises someone could use that information to figure out where she spends her time.",
+          "_content": "Seeing every clue laid out in one place hits her hard: anyone could piece together her routine just from her profile.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2720,7 +3241,7 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna makes her account private, removes identifying information and reviews location permissions.",
+          "_content": "Luna switches her profile straight to private, strips her school and neighbourhood from her bio, deletes identifying posts and disables location permissions.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2732,7 +3253,19 @@
           }
         },
         {
-          "_content": "She reduces the information strangers can access.",
+          "_content": "Okay. No stranger gets to read my schedule like a map anymore.",
+          "_sender": 1,
+          "_speakerName": "Thought",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 36
+          }
+        },
+        {
+          "_content": "Seeing the privacy lock icon appear next to her name, she finally feels like she is taking control back.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2740,7 +3273,7 @@
             "month": 10,
             "year": 2026,
             "hour": 18,
-            "minute": 36
+            "minute": 37
           }
         }
       ],
@@ -2757,7 +3290,7 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna deletes a few posts that reveal personal information, but some information remains visible.",
+          "_content": "Luna deletes a couple of her most obvious posts and strips one location tag, but leaves her account public and older clues intact.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2766,6 +3299,30 @@
             "year": 2026,
             "hour": 18,
             "minute": 35
+          }
+        },
+        {
+          "_content": "That's probably enough... nobody scrolls that far back anyway.",
+          "_sender": 1,
+          "_speakerName": "Thought",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 36
+          }
+        },
+        {
+          "_content": "Even so, she can't shake the uneasy feeling that too much of her life is still out there.",
+          "_sender": 1,
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 37
           }
         }
       ],
@@ -2782,7 +3339,7 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna leaves everything public because she does not think anyone would use it against her.",
+          "_content": "Luna backs out of Settings without changing anything, leaving her posts, bio and location history wide open.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2794,7 +3351,19 @@
           }
         },
         {
-          "_content": "Her account continues to expose personal details.",
+          "_content": "If I lock everything down now, it feels like letting them win. Everyone posts like this.",
+          "_sender": 1,
+          "_speakerName": "Thought",
+          "_timestamp": {
+            "day": 4,
+            "month": 10,
+            "year": 2026,
+            "hour": 18,
+            "minute": 36
+          }
+        },
+        {
+          "_content": "Her public profile stays visible to anyone who decides to look closer.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -2802,7 +3371,7 @@
             "month": 10,
             "year": 2026,
             "hour": 18,
-            "minute": 36
+            "minute": 37
           }
         }
       ],
@@ -3173,7 +3742,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna saves evidence, reports the misinformation and begins preparing to ask someone she trusts for help.",
+          "_content": "I'm not arguing with rumours in a comment thread. I'm taking screenshots of the post, who shared it, and reporting all of it.",
+          "_sender": 1,
+          "_speakerName": "Thought",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 8
+          }
+        },
+        {
+          "_content": "Luna carefully saves every screenshot, files a misinformation and harassment report, and decides to ask someone she trusts offline for help immediately.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -3181,7 +3762,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 8
+            "minute": 9
           }
         }
       ],
@@ -3198,7 +3779,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna stops checking the comments, but she does not address the misinformation.",
+          "_content": "If I stop reading the comments, maybe it'll hurt less.",
+          "_sender": 1,
+          "_speakerName": "Thought",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 8
+          }
+        },
+        {
+          "_content": "Luna backs out of the thread and closes the replies—leaving the false rumour unanswered while others keep sharing it.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -3206,7 +3799,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 8
+            "minute": 9
           }
         }
       ],
@@ -3223,7 +3816,19 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna publicly confronts everyone sharing the post. More people join the argument and the post receives additional attention.",
+          "_content": "None of you have any idea what you're talking about—stop spreading lies about me!",
+          "_sender": 0,
+          "_speakerName": "Luna",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 8
+          }
+        },
+        {
+          "_content": "Luna argues furiously with everyone in the comments, but every angry reply only pushes the post onto more feeds and draws more mockery.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -3231,7 +3836,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 8
+            "minute": 9
           }
         }
       ],
@@ -3370,9 +3975,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna refuses to share more information. Riley accepts the decision or stops responding.",
-          "_sender": 1,
-          "_speakerName": "Narration",
+          "_content": "No, sorry. Asking for my account details feels way too sketchy—I'm not sending anything.",
+          "_sender": 0,
+          "_speakerName": "Luna",
           "_timestamp": {
             "day": 5,
             "month": 10,
@@ -3382,7 +3987,19 @@
           }
         },
         {
-          "_content": "Luna decides she needs help from someone she knows offline.",
+          "_content": "Suit yourself. Was only trying to help.",
+          "_sender": 1,
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 23
+          }
+        },
+        {
+          "_content": "Riley reads her message and abruptly stops replying. Luna sets her phone down, sure now that she needs help from someone she actually trusts offline.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -3390,7 +4007,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 23
+            "minute": 24
           }
         }
       ],
@@ -3407,9 +4024,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna asks Riley to explain exactly who will receive the information and why.",
-          "_sender": 1,
-          "_speakerName": "Narration",
+          "_content": "Wait—who exactly would receive my account details, and why couldn't they report it with just the link?",
+          "_sender": 0,
+          "_speakerName": "Luna",
           "_timestamp": {
             "day": 5,
             "month": 10,
@@ -3419,7 +4036,19 @@
           }
         },
         {
-          "_content": "Riley explains the situation, but Luna still needs to decide whether the information is safe to share.",
+          "_content": "It's someone my cousin knows who has mod contacts, they just need your login info to verify ownership fast.",
+          "_sender": 1,
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 23
+          }
+        },
+        {
+          "_content": "Riley tries to brush it off, but the vague explanation only leaves Luna staring at the chat full of doubt.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -3427,7 +4056,7 @@
             "month": 10,
             "year": 2026,
             "hour": 16,
-            "minute": 23
+            "minute": 24
           }
         }
       ],
@@ -3444,9 +4073,9 @@
       "_options": [],
       "_dialogues": [
         {
-          "_content": "Luna sends the screenshots and account details without checking.",
-          "_sender": 1,
-          "_speakerName": "Narration",
+          "_content": "Okay, sending the screenshots along with my email and account details right now. Just please help me get it down.",
+          "_sender": 0,
+          "_speakerName": "Luna",
           "_timestamp": {
             "day": 5,
             "month": 10,
@@ -3456,7 +4085,7 @@
           }
         },
         {
-          "_content": "She has no control over where the information might end up.",
+          "_content": "Desperate for the nightmare to end, Luna sends everything over without double-checking who is on the other side.",
           "_sender": 1,
           "_speakerName": "Narration",
           "_timestamp": {
@@ -3465,6 +4094,30 @@
             "year": 2026,
             "hour": 16,
             "minute": 23
+          }
+        },
+        {
+          "_content": "Got them. Leave the rest to us.",
+          "_sender": 1,
+          "_speakerName": "Riley",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 24
+          }
+        },
+        {
+          "_content": "The moment the message sends, a cold knot forms in her stomach—she has no idea or control over where her details might end up next.",
+          "_sender": 1,
+          "_speakerName": "Narration",
+          "_timestamp": {
+            "day": 5,
+            "month": 10,
+            "year": 2026,
+            "hour": 16,
+            "minute": 25
           }
         }
       ],
@@ -3646,7 +4299,7 @@
     {
       "_id": 71,
       "_nextNode": -1,
-      "_dialogueType": 1,
+      "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
       "_loop": false,
@@ -3715,8 +4368,8 @@
         },
         {
           "_content": "I guess I have to be more careful about what I share.",
-          "_sender": 0,
-          "_speakerName": "Luna",
+          "_sender": 1,
+          "_speakerName": "Thought",
           "_timestamp": {
             "day": 5,
             "month": 10,
@@ -3755,7 +4408,7 @@
     {
       "_id": 72,
       "_nextNode": -1,
-      "_dialogueType": 1,
+      "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
       "_loop": false,
@@ -3812,8 +4465,8 @@
         },
         {
           "_content": "Maybe it'll all just go away.",
-          "_sender": 0,
-          "_speakerName": "Luna",
+          "_sender": 1,
+          "_speakerName": "Thought",
           "_timestamp": {
             "day": 5,
             "month": 10,
@@ -3840,7 +4493,7 @@
     {
       "_id": 73,
       "_nextNode": -1,
-      "_dialogueType": 1,
+      "_dialogueType": 0,
       "_hasOptions": false,
       "_isEndNode": true,
       "_loop": false,
@@ -3933,8 +4586,8 @@
         },
         {
           "_content": "I wish I had never downloaded this.",
-          "_sender": 0,
-          "_speakerName": "Luna",
+          "_sender": 1,
+          "_speakerName": "Thought",
           "_timestamp": {
             "day": 5,
             "month": 10,
@@ -4666,6 +5319,2562 @@
       "_dialogues": [
         {
           "_content": "Have a productive afternoon, Luna. Don't leave your assignments until the last minute.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1200,
+      "_nextNode": 1201,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna! Have you seen everyone glued to their phones today? Half the class joined Connect last night.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1201,
+      "_nextNode": 1202,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "People are already posting memes from yesterday's class on Connect. It's kinda wild how fast it spread.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1202,
+      "_nextNode": 1200,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Careful what you put on your Connect profile, Luna—people screenshot everything around here.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1203,
+      "_nextNode": 1204,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Did you check Connect during break? Someone already made a poll about Mr. Henderson's pop quizzes.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1204,
+      "_nextNode": 1205,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Honestly, Connect is fun, but it feels like everyone knows your business five minutes after it happens.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1205,
+      "_nextNode": 1203,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "See you tomorrow, Luna! Try not to doomscroll Connect all night.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1300,
+      "_nextNode": 1301,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna... have you seen the posts going around on Connect today? People are talking non-stop.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1301,
+      "_nextNode": 1302,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I didn't think Connect would turn into a rumour mill this fast. Everyone's reposting stuff without checking.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1302,
+      "_nextNode": 1300,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Just stick to your close friends on Connect today, Luna. Things feel tense in the hallway.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1303,
+      "_nextNode": 1304,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "That class dragged on, and half the room was still whispering about Connect.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1304,
+      "_nextNode": 1305,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Once a photo gets reposted on Connect, it's almost impossible to make it disappear.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1305,
+      "_nextNode": 1303,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Catch you tomorrow, Luna. Take a breather from the phone tonight.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1400,
+      "_nextNode": 1401,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Morning, Luna. Did you hear about those anonymous accounts popping up on Connect?",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1401,
+      "_nextNode": 1402,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "It's creepy how someone can hide behind a blank profile on Connect and say whatever they want.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1402,
+      "_nextNode": 1400,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Make sure your Connect account is private, Luna. Better safe than sorry.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1403,
+      "_nextNode": 1404,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Even Mr. Henderson looked annoyed at how distracted everyone is with Connect today.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1404,
+      "_nextNode": 1405,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "People act way bolder on Connect than they ever would face-to-face.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1405,
+      "_nextNode": 1403,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Get home safe, Luna. Don't let those weird accounts get to you.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1500,
+      "_nextNode": 1501,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna! Crazy week, right? Feels like Connect took over the whole school in five days.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1501,
+      "_nextNode": 1502,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "A bunch of us finally muted the drama channels on Connect. Honestly, it's a relief.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1502,
+      "_nextNode": 1500,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Whatever happens today, Luna, you've got people in your corner.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1503,
+      "_nextNode": 1504,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "We made it through the week! Half the class is actually talking in person again instead of just on Connect.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1504,
+      "_nextNode": 1505,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I guess Connect isn't all bad if people actually use it responsibly.",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1505,
+      "_nextNode": 1503,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Have a great weekend, Luna!",
+          "_sender": 1,
+          "_speakerName": "Leo"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1210,
+      "_nextNode": 1211,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Luna! Did you download Connect yet? Everyone in homeroom is adding each other!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1211,
+      "_nextNode": 1212,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I spent way too long picking my Connect profile pic this morning. Look how clean the app icon is!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1212,
+      "_nextNode": 1210,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Send me your handle on Connect later so we can actually chat after school!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1213,
+      "_nextNode": 1214,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Okay, Connect notifications are actually addictive. My phone buzzed like twenty times during lunch!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1214,
+      "_nextNode": 1215,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Someone from our class already has a hundred followers on Connect—it's been one day!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1215,
+      "_nextNode": 1213,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Text me on Connect tonight, Luna!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1310,
+      "_nextNode": 1311,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna... did you see what got shared on Connect this morning? People can be so messy.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1311,
+      "_nextNode": 1312,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I thought Connect was just for sharing notes and selfies, not starting drama.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1312,
+      "_nextNode": 1310,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "If anyone tags you in something weird on Connect, just untag yourself right away.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1313,
+      "_nextNode": 1314,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Everyone was side-eyeing each other all period because of that Connect repost.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1314,
+      "_nextNode": 1315,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I muted half my feed on Connect at lunch. Way too much noise.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1315,
+      "_nextNode": 1313,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Talk later, Luna. Hopefully tomorrow is calmer.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1410,
+      "_nextNode": 1411,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Luna, have you been getting weird follow requests on Connect too? Mine won't stop.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1411,
+      "_nextNode": 1412,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I locked my Connect profile to friends-only this morning. Zero regrets.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1412,
+      "_nextNode": 1410,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Be careful who you reply to on Connect today, okay?",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1413,
+      "_nextNode": 1414,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Finally out of class! I barely even opened Connect during break today.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1414,
+      "_nextNode": 1415,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Feels like half the school forgot how to talk without checking Connect first.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1415,
+      "_nextNode": 1413,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "See you tomorrow, Luna! Keep your privacy settings locked down.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1510,
+      "_nextNode": 1511,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Morning Luna! Everyone seems a little calmer today compared to yesterday's Connect chaos.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1511,
+      "_nextNode": 1512,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I unfollowed all the drama pages on Connect and my feed actually looks normal again.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1512,
+      "_nextNode": 1510,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Let's grab lunch together after class, no phones!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1513,
+      "_nextNode": 1514,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "We survived the week! Honestly, I'm taking a break from Connect this weekend.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1514,
+      "_nextNode": 1515,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Thanks for always keeping a cool head, Luna.",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1515,
+      "_nextNode": 1513,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "See you Monday!",
+          "_sender": 1,
+          "_speakerName": "Chloe"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1220,
+      "_nextNode": 1221,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Yo Luna. Everyone's talking about Connect today—did you make an account yet?",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1221,
+      "_nextNode": 1222,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Half the basketball team is on Connect already. Feels like the whole school migrated overnight.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1222,
+      "_nextNode": 1220,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Just watch what you post on Connect, Luna. Teachers might not be on it, but everybody else is.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1223,
+      "_nextNode": 1224,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Dude, someone actually posted a pic of the whiteboard notes on Connect. Best use of the app so far.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1224,
+      "_nextNode": 1225,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Still, Connect moves fast. One joke in the hallway ends up online in ten seconds.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1225,
+      "_nextNode": 1223,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Later, Luna!",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1320,
+      "_nextNode": 1321,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna. Things on Connect got pretty heated last night, huh?",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1321,
+      "_nextNode": 1322,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "People share stuff on Connect just for reactions without thinking who gets hurt.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1322,
+      "_nextNode": 1320,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Keep your head up today, Luna. Don't feed the trolls on Connect.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1323,
+      "_nextNode": 1324,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Glad class is over. Everyone's still gossiping about what happened on Connect.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1324,
+      "_nextNode": 1325,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Honestly, blocking people on Connect is underrated. Saves a lot of headaches.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1325,
+      "_nextNode": 1323,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "See you tomorrow, Luna.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1420,
+      "_nextNode": 1421,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Morning Luna. Heard there are fake accounts messaging people on Connect now.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1421,
+      "_nextNode": 1422,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "If an account has no real name and asks for personal stuff on Connect, block it immediately.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1422,
+      "_nextNode": 1420,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Stay sharp today, Luna.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1423,
+      "_nextNode": 1424,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Finally done with class. Half the guys in the back row were arguing about Connect screenshots.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1424,
+      "_nextNode": 1425,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "People forget that screenshots last way longer than a post.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1425,
+      "_nextNode": 1423,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Catch you tomorrow, Luna.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1520,
+      "_nextNode": 1521,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna! Last day of the week—thank goodness.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1521,
+      "_nextNode": 1522,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "A lot of people finally realized this week that what you do on Connect affects real life.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1522,
+      "_nextNode": 1520,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "You handled yourself well this week, Luna.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1523,
+      "_nextNode": 1524,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "School's out! Time to put the phone away and actually enjoy the weekend.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1524,
+      "_nextNode": 1525,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Don't let Connect stress you out anymore, Luna.",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1525,
+      "_nextNode": 1523,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "See ya!",
+          "_sender": 1,
+          "_speakerName": "Liam"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1230,
+      "_nextNode": 1231,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Oh, hi Luna! Everyone's been talking about Connect since yesterday afternoon.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1231,
+      "_nextNode": 1232,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I made a Connect profile just to keep up with study group updates, though it's already super noisy.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1232,
+      "_nextNode": 1230,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Did you see how Connect changes look depending on how people react to you? Kind of intense.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1233,
+      "_nextNode": 1234,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Between homework and Connect notifications, I barely got a quiet moment at lunch.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1234,
+      "_nextNode": 1235,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Just remember you don't have to reply to everything on Connect right away, Luna.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1235,
+      "_nextNode": 1233,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Have a good evening, Luna!",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1330,
+      "_nextNode": 1331,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hi Luna. Are you doing okay? Some of the stuff on Connect today is really unfair.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1331,
+      "_nextNode": 1332,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "It's scary how fast a single repost on Connect can spiral out of control.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1332,
+      "_nextNode": 1330,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "If you ever need someone to back you up, Luna, just let me know.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1333,
+      "_nextNode": 1334,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I'm glad Mr. Henderson kept everyone busy during class—at least nobody was staring at Connect for an hour.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1334,
+      "_nextNode": 1335,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Don't believe everything you read on Connect, okay?",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1335,
+      "_nextNode": 1333,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Take care tonight, Luna.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1430,
+      "_nextNode": 1431,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna. Someone tried to impersonate a classmate on Connect yesterday—did you hear?",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1431,
+      "_nextNode": 1432,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "It's a good reminder never to share personal details or private photos on Connect.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1432,
+      "_nextNode": 1430,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Let's stick together between classes today, Luna.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1433,
+      "_nextNode": 1434,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Thank goodness class is over. Everything feels much calmer when we're not looking at screens.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1434,
+      "_nextNode": 1435,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Check your Connect privacy settings when you get home if you haven't already.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1435,
+      "_nextNode": 1433,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "See you tomorrow, Luna!",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1530,
+      "_nextNode": 1531,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Good morning, Luna! People seem a lot more thoughtful today after everything on Connect this week.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1531,
+      "_nextNode": 1532,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I think a lot of classmates learned the hard way that words online still matter.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1532,
+      "_nextNode": 1530,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "You've been really strong all week, Luna.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1533,
+      "_nextNode": 1534,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "We made it to Friday! Let's both take a well-deserved break from Connect.",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1534,
+      "_nextNode": 1533,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Have a peaceful weekend, Luna!",
+          "_sender": 1,
+          "_speakerName": "Mia"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1240,
+      "_nextNode": 1241,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna. So you're on Connect now too? Literally everyone in the hallway is.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1241,
+      "_nextNode": 1242,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I mostly use Connect to lurk and see what's trending around school.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1242,
+      "_nextNode": 1240,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Pro tip: turn off Connect push notifications during class or your phone will never shut up.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1243,
+      "_nextNode": 1244,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Someone already started a meme page for our school on Connect. Zero chill.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1244,
+      "_nextNode": 1245,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Still, Connect is pretty handy for finding out what's going on.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1245,
+      "_nextNode": 1243,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "See you around, Luna!",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1340,
+      "_nextNode": 1341,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Yo Luna. Connect got way too real today, didn't it?",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1341,
+      "_nextNode": 1342,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "People love watching drama on Connect until it's about them.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1342,
+      "_nextNode": 1340,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Don't let Emma and Sophie's crowd bait you on Connect, Luna.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1343,
+      "_nextNode": 1344,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Man, that lecture felt twice as long while everyone was checking Connect under their desks.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1344,
+      "_nextNode": 1345,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Best move on Connect is knowing when to log off.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1345,
+      "_nextNode": 1343,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Catch you tomorrow, Luna.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1440,
+      "_nextNode": 1441,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna. Did you see those sketchy anonymous accounts spamming Connect?",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1441,
+      "_nextNode": 1442,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I reported two of them this morning. No way am I trusting random DMs on Connect.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1442,
+      "_nextNode": 1440,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Keep your account locked down, Luna.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1443,
+      "_nextNode": 1444,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Class is finally done. Honestly, Connect feels like a minefield today.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1444,
+      "_nextNode": 1445,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Stay smart online, Luna. Don't give strangers anything they can use.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1445,
+      "_nextNode": 1443,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Later!",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1540,
+      "_nextNode": 1541,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey Luna! Pretty wild how much Connect shook up the whole school this week.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1541,
+      "_nextNode": 1542,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "At least people are finally calling out the fake accounts instead of just laughing along.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1542,
+      "_nextNode": 1540,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Respect for standing your ground this week, Luna.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1543,
+      "_nextNode": 1544,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Weekend at last! I'm leaving Connect muted until Monday.",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1544,
+      "_nextNode": 1543,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Take it easy, Luna!",
+          "_sender": 1,
+          "_speakerName": "Ethan"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1250,
+      "_nextNode": 1251,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Good morning, Luna. Please take your seat before the bell rings.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1251,
+      "_nextNode": 1252,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I've noticed quite a few phones lighting up with this new Connect app—remember to keep them away during class.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1252,
+      "_nextNode": 1250,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Let's focus on today's lesson, shall we?",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1253,
+      "_nextNode": 1254,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Good work today, Luna. Remember that online apps like Connect shouldn't distract from your studies.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1254,
+      "_nextNode": 1255,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Review your notes tonight and get some rest.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1255,
+      "_nextNode": 1253,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Have a good afternoon, Luna.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1350,
+      "_nextNode": 1351,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Morning, Luna. There's a lot of chatter in the halls today—please leave any social media drama outside the classroom.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1351,
+      "_nextNode": 1352,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Take your seat whenever you're ready.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1352,
+      "_nextNode": 1350,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "If anyone is bothering you online or offline, Luna, remember you can always speak to a teacher.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1353,
+      "_nextNode": 1354,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Thank you for staying focused today despite all the distractions.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1354,
+      "_nextNode": 1355,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Don't let rumours on Connect dictate how you feel about yourself, Luna.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1355,
+      "_nextNode": 1353,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "See you tomorrow.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1450,
+      "_nextNode": 1451,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Good morning, Luna. I've had to confiscate three phones already today because of Connect notifications.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1451,
+      "_nextNode": 1452,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Digital safety is just as important as classroom work. Please be careful with what you share online.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1452,
+      "_nextNode": 1450,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Head to your desk when you're ready to begin.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1453,
+      "_nextNode": 1454,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Well done today, Luna. Keep looking out for yourself and your classmates.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1454,
+      "_nextNode": 1455,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "If you encounter harassment or suspicious accounts on Connect, report them and tell a trusted adult.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1455,
+      "_nextNode": 1453,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Have a safe trip home, Luna.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1550,
+      "_nextNode": 1551,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Good morning, Luna. It's the end of a long week—let's finish strong.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1551,
+      "_nextNode": 1552,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I hope everyone learned something this week, both in class and about treating each other with respect online.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1552,
+      "_nextNode": 1550,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Take your seat whenever you're ready.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1553,
+      "_nextNode": 1554,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Excellent work all week, Luna. You've shown real maturity.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1554,
+      "_nextNode": 1555,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Take a break from screens this weekend and recharge.",
+          "_sender": 1,
+          "_speakerName": "Mr. Henderson"
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 1555,
+      "_nextNode": 1553,
+      "_dialogueType": 0,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": true,
+      "_eventOnEnd": "",
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "See you on Monday!",
           "_sender": 1,
           "_speakerName": "Mr. Henderson"
         }

@@ -1558,6 +1558,11 @@ MonoBehaviour:
   _notificationBadgeSprite: {fileID: 21300000, guid: bb2a7e7d4efac2d47b8c63ad311ed71e, type: 3}
   _messagesAppButton: {fileID: 3612019585409655235}
   _connectAppButton: {fileID: 1878103956509056001}
+  _connectVeryLowSprite: {fileID: 21300000, guid: 149db4019d41f0d468cf58186c769395, type: 3}
+  _connectLowSprite: {fileID: 21300000, guid: c86c687edb4b8b145928f06b445bb4de, type: 3}
+  _connectNeutralSprite: {fileID: 21300000, guid: 974cfdd44114a174e9c8d33f9df04c07, type: 3}
+  _connectHighSprite: {fileID: 21300000, guid: 43e15ef3cb07c5942ac2125991ab3353, type: 3}
+  _connectVeryHighSprite: {fileID: 21300000, guid: 89d57c7517348674da566fc06ebac7e6, type: 3}
 --- !u!1 &3209697642008552754
 GameObject:
   m_ObjectHideFlags: 0

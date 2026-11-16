@@ -56,6 +56,19 @@ public class SceneChanger : MonoBehaviour
 
     public void ChangeScene(string sceneName)
     {
-        if(SceneManager.GetActiveScene().name != sceneName) SceneManager.LoadScene(sceneName);
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (string.Equals(currentSceneName, sceneName, System.StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ChangeScene(sceneName);
+            return;
+        }
+
+        PlayerSpawnManager.Instance?.NotifySceneChanging(currentSceneName, sceneName);
+        SceneManager.LoadScene(sceneName);
     }
 }
