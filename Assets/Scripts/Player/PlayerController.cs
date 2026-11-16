@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidbody;
     private readonly RaycastHit[] _raycastHits = new RaycastHit[32];
     private float _currentXRotation;
+    private float _currentYRotation;
     private Coroutine _postTeleportSyncCoroutine;
 
     private void Awake()
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
         }
+        _currentYRotation = transform.eulerAngles.y;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -56,6 +58,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _currentXRotation = 0f;
+        _currentYRotation = transform.eulerAngles.y;
         if (GameManager.Instance != null && string.IsNullOrWhiteSpace(GameManager.Instance.GetPlayerName()))
         {
             GameManager.Instance.SetPlayerName(_playerName);
@@ -190,7 +193,8 @@ public class PlayerController : MonoBehaviour
 
         // Split spawner orientation into upright horizontal yaw for the capsule and clamped pitch for the camera
         Vector3 euler = rotation.eulerAngles;
-        Quaternion bodyRotation = Quaternion.Euler(0f, euler.y, 0f);
+        _currentYRotation = euler.y;
+        Quaternion bodyRotation = Quaternion.Euler(0f, _currentYRotation, 0f);
         float pitch = Mathf.Clamp(Mathf.DeltaAngle(0f, euler.x), -_verticalClamp, _verticalClamp);
 
         RigidbodyInterpolation previousInterpolation = RigidbodyInterpolation.None;
@@ -255,6 +259,7 @@ public class PlayerController : MonoBehaviour
             _rigidbody.angularVelocity = Vector3.zero;
             _rigidbody.position = position;
             _rigidbody.rotation = bodyRotation;
+            _currentYRotation = bodyRotation.eulerAngles.y;
             transform.SetPositionAndRotation(position, bodyRotation);
             Physics.SyncTransforms();
             _rigidbody.interpolation = previousInterpolation;
@@ -314,9 +319,18 @@ public class PlayerController : MonoBehaviour
 
         if (InputManager.Instance == null) return;
 
+        Quaternion yawRotation = Quaternion.Euler(0f, _currentYRotation, 0f);
+        if (_rigidbody != null)
+        {
+            _rigidbody.rotation = yawRotation;
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
+
         Vector2 direction = InputManager.Instance.GetPlayerMovement();
 
-        Vector3 moveDirection = transform.right * direction.x + transform.forward * direction.y;
+        Vector3 right = yawRotation * Vector3.right;
+        Vector3 forward = yawRotation * Vector3.forward;
+        Vector3 moveDirection = right * direction.x + forward * direction.y;
         moveDirection.y = 0f;
 
         if (moveDirection.magnitude > 1f)
@@ -332,23 +346,22 @@ public class PlayerController : MonoBehaviour
 
     private void LookAround()
     {
-        if (_playerCamera == null || Cursor.lockState != CursorLockMode.Locked) return;
+        if (_playerCamera == null) return;
 
-        if (InputManager.Instance != null && InputManager.Instance.PlayerLooked())
+        // Maintain yaw directly in Update so Rigidbody interpolation cannot snap rotation back between physics steps.
+        if (Cursor.lockState == CursorLockMode.Locked &&
+            InputManager.Instance != null &&
+            InputManager.Instance.PlayerLooked())
         {
             Vector2 lookVec = InputManager.Instance.GetPlayerLook();
             float sensitivity = _mouseSensitivity * MouseDeltaScale;
 
-            transform.Rotate(0f, lookVec.x * sensitivity, 0f, Space.World);
-            if (_rigidbody != null)
-            {
-                _rigidbody.rotation = transform.rotation;
-                _rigidbody.angularVelocity = Vector3.zero;
-            }
-
+            _currentYRotation += lookVec.x * sensitivity;
             _currentXRotation = Mathf.Clamp(_currentXRotation - lookVec.y * sensitivity, -_verticalClamp, _verticalClamp);
-            _playerCamera.transform.localRotation = Quaternion.Euler(_currentXRotation, 0f, 0f);
         }
+
+        transform.rotation = Quaternion.Euler(0f, _currentYRotation, 0f);
+        _playerCamera.transform.localRotation = Quaternion.Euler(_currentXRotation, 0f, 0f);
     }
 
     public IEnumerator FocusViewOn(Vector3 worldTarget, float duration)
@@ -398,13 +411,11 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyViewRotation(Quaternion bodyRotation, float cameraPitch)
     {
+        _currentYRotation = bodyRotation.eulerAngles.y;
+        transform.rotation = bodyRotation;
         if (_rigidbody != null)
         {
             _rigidbody.rotation = bodyRotation;
-        }
-        else
-        {
-            transform.rotation = bodyRotation;
         }
 
         _currentXRotation = cameraPitch;

@@ -23,6 +23,9 @@ public class ObjectivesManager : MonoBehaviour
     private Objective _currentObjective;
     private int _currentProgress = 0;
     private Coroutine _day1BedroomExploreTimer;
+    private string _subscribedListenEvent;
+    private string _subscribedActivateEvent;
+    private bool _hasSubscribedInitialObjective;
 
     /// <summary>
     /// Triggered when the current objective changes or its progress updates.
@@ -144,19 +147,44 @@ public class ObjectivesManager : MonoBehaviour
     {
         StopTimedObjective();
 
+        if (EventBus.Instance != null)
+        {
+            if (!string.IsNullOrEmpty(_subscribedListenEvent))
+            {
+                EventBus.Instance.Unsubscribe(_subscribedListenEvent, OnObjectiveProgressed);
+            }
+
+            if (!string.IsNullOrEmpty(_subscribedActivateEvent))
+            {
+                EventBus.Instance.Unsubscribe(_subscribedActivateEvent, OnObjectiveActivated);
+            }
+        }
+
+        _subscribedListenEvent = null;
+        _subscribedActivateEvent = null;
+    }
+
+    private void BindCurrentObjectiveEvents()
+    {
+        UnsubscribeFromCurrentObjective();
+
         if (_currentObjective == null || EventBus.Instance == null)
         {
             return;
         }
 
-        if (!string.IsNullOrEmpty(_currentObjective.EventToListen()))
+        string listenEvent = _currentObjective.EventToListen();
+        if (!string.IsNullOrEmpty(listenEvent))
         {
-            EventBus.Instance.Unsubscribe(_currentObjective.EventToListen(), OnObjectiveProgressed);
+            EventBus.Instance.Subscribe(listenEvent, OnObjectiveProgressed);
+            _subscribedListenEvent = listenEvent;
         }
 
-        if (!string.IsNullOrEmpty(_currentObjective.EventToActivate()))
+        string activateEvent = _currentObjective.EventToActivate();
+        if (!string.IsNullOrEmpty(activateEvent))
         {
-            EventBus.Instance.Unsubscribe(_currentObjective.EventToActivate(), OnObjectiveActivated);
+            EventBus.Instance.Subscribe(activateEvent, OnObjectiveActivated);
+            _subscribedActivateEvent = activateEvent;
         }
     }
 
@@ -175,6 +203,7 @@ public class ObjectivesManager : MonoBehaviour
         }
         else
         {
+            _hasSubscribedInitialObjective = true;
             OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
         }
     }
@@ -204,25 +233,14 @@ public class ObjectivesManager : MonoBehaviour
         {
             _currentObjective.SetActiveState(isActive);
             _currentProgress = Mathf.Clamp(progress, 0, Mathf.Max(0, _currentObjective.TargetCount()));
-
-            if (EventBus.Instance != null)
-            {
-                if (!string.IsNullOrEmpty(_currentObjective.EventToListen()))
-                {
-                    EventBus.Instance.Subscribe(_currentObjective.EventToListen(), OnObjectiveProgressed);
-                }
-
-                if (!string.IsNullOrEmpty(_currentObjective.EventToActivate()))
-                {
-                    EventBus.Instance.Subscribe(_currentObjective.EventToActivate(), OnObjectiveActivated);
-                }
-            }
+            BindCurrentObjectiveEvents();
         }
         else
         {
             _currentProgress = 0;
         }
 
+        _hasSubscribedInitialObjective = true;
         OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
         UpdateTimedObjective();
     }
@@ -230,19 +248,9 @@ public class ObjectivesManager : MonoBehaviour
     private void SubscribeToCurrentObjective()
     {
         _currentProgress = 0;
-            
-        // Subscribe to the event required to progress this objective
-        if (!string.IsNullOrEmpty(_currentObjective.EventToListen()))
-        {
-            EventBus.Instance.Subscribe(_currentObjective.EventToListen(), OnObjectiveProgressed);
-        }
+        _hasSubscribedInitialObjective = true;
+        BindCurrentObjectiveEvents();
 
-        // Subscribe to the event required to activate this objective
-        if (!string.IsNullOrEmpty(_currentObjective.EventToActivate()))
-        {
-            EventBus.Instance.Subscribe(_currentObjective.EventToActivate(), OnObjectiveActivated);
-        }
-            
         OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
         UpdateTimedObjective();
     }
@@ -373,20 +381,29 @@ public class ObjectivesManager : MonoBehaviour
 
     private void Start()
     {
-        EventBus.Instance.Subscribe("ForceSetObjective", (Action<int>)ForceSetObjectiveEvent);
-        
-        if (_currentObjective != null)
+        if (EventBus.Instance != null)
         {
-            SubscribeToCurrentObjective();
+            EventBus.Instance.Unsubscribe("ForceSetObjective", (Action<int>)ForceSetObjectiveEvent);
+            EventBus.Instance.Subscribe("ForceSetObjective", (Action<int>)ForceSetObjectiveEvent);
         }
-        else
+
+        if (!_hasSubscribedInitialObjective)
         {
-            Debug.LogWarning("[ObjectivesManager] No objectives loaded.");
+            if (_currentObjective != null)
+            {
+                SubscribeToCurrentObjective();
+            }
+            else
+            {
+                Debug.LogWarning("[ObjectivesManager] No objectives loaded.");
+            }
         }
     }
 
     private void OnDestroy()
     {
+        UnsubscribeFromCurrentObjective();
+
         if (EventBus.Instance != null)
         {
             EventBus.Instance.Unsubscribe("ForceSetObjective", (Action<int>)ForceSetObjectiveEvent);

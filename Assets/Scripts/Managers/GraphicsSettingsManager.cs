@@ -164,6 +164,7 @@ public class GraphicsSettingsManager : MonoBehaviour
     {
         // applyExpensiveChanges = true ensures the URP asset, shadows, MSAA, and mipmaps update
         QualitySettings.SetQualityLevel(index, true);
+        QualitySettings.vSyncCount = 1;
         CurrentQualityIndex = index;
 
         if (savePreference)
