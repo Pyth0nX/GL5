@@ -5,41 +5,13 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Reduces CPU load caused by high-poly skinned characters in view (e.g. multiple VRoid NPCs)
-/// without reducing mesh vertices or visual silhouette quality.
-/// Scales SkinnedMeshRenderer flags and staggers/throttles offscreen & background NPC Animator updates
-/// according to the active QualitySettings level (Low, Medium, High).
+/// Reduces CPU/GPU load caused by high-poly skinned characters (e.g. multiple VRoid NPCs)
+/// without reducing mesh vertices or causing visual chopping/clipping during fast camera pans.
+/// Scales SkinnedMeshRenderer shadow/probe flags according to the active QualitySettings level (Low, Medium, High).
 /// </summary>
 [DisallowMultipleComponent]
 public class CharacterPerformanceOptimizer : MonoBehaviour
 {
-    private const float LowCloseDistanceSqr = 5.5f * 5.5f;
-    private const float LowCloseUpdateInterval = 1f / 24f;
-    private const float LowFarUpdateInterval = 1f / 15f;
-
-    private const float MediumFullRateDistanceSqr = 3.5f * 3.5f;
-    private const float MediumMidDistanceSqr = 9f * 9f;
-    private const float MediumMidUpdateInterval = 1f / 30f;
-    private const float MediumFarUpdateInterval = 1f / 20f;
-
-    private const float HighFullRateDistanceSqr = 11f * 11f;
-    private const float HighFarUpdateInterval = 1f / 30f;
-
-    private const float MaxAccumulatedDeltaTime = 0.12f;
-    private const int LowMaxAnimatorsUpdatedPerFrame = 4;
-    private const int MediumMaxAnimatorsUpdatedPerFrame = 6;
-    private const int HighMaxAnimatorsUpdatedPerFrame = 8;
-
-    private sealed class TrackedCharacterAnimator
-    {
-        public Animator Animator;
-        public Transform Root;
-        public Renderer[] Renderers;
-        public NPCConversationReaction Reaction;
-        public float Accumulator;
-        public bool WasVisible;
-    }
-
     private sealed class TrackedSkinnedMesh
     {
         public SkinnedMeshRenderer Renderer;
@@ -48,12 +20,8 @@ public class CharacterPerformanceOptimizer : MonoBehaviour
         public bool IsFaceMesh;
     }
 
-    private readonly List<TrackedCharacterAnimator> _trackedAnimators = new List<TrackedCharacterAnimator>();
+    private readonly List<Animator> _trackedAnimators = new List<Animator>();
     private readonly List<TrackedSkinnedMesh> _trackedSkinnedMeshes = new List<TrackedSkinnedMesh>();
-
-    private int _currentQualityIndex = 1;
-    private int _updateCursor;
-    private Camera _cachedMainCamera;
 
     private void OnEnable()
     {
@@ -80,7 +48,6 @@ public class CharacterPerformanceOptimizer : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        _cachedMainCamera = null;
         RefreshAndApply(QualitySettings.GetQualityLevel());
     }
 
@@ -97,10 +64,9 @@ public class CharacterPerformanceOptimizer : MonoBehaviour
     /// </summary>
     public void RefreshAndApply(int qualityIndex)
     {
-        _currentQualityIndex = qualityIndex;
         RebuildSceneCaches();
         ApplySkinnedMeshSettings(qualityIndex);
-        ApplyAnimatorSettings(qualityIndex);
+        ApplyAnimatorSettings();
     }
 
     private void RebuildSceneCaches()
@@ -145,7 +111,6 @@ public class CharacterPerformanceOptimizer : MonoBehaviour
 
         _trackedAnimators.Clear();
         Animator[] allAnimators = UnityEngine.Object.FindObjectsByType<Animator>(FindObjectsInactive.Include);
-        int phaseIndex = 0;
         for (int i = 0; i < allAnimators.Length; i++)
         {
             Animator anim = allAnimators[i];
@@ -154,7 +119,7 @@ public class CharacterPerformanceOptimizer : MonoBehaviour
                 continue;
             }
 
-            // Never throttle the player or non-character animators (UI, doors, props without skinned meshes)
+            // Never alter the player or non-character animators (UI, doors, props without skinned meshes)
             if (anim.GetComponentInParent<PlayerController>() != null)
             {
                 continue;
@@ -166,34 +131,8 @@ public class CharacterPerformanceOptimizer : MonoBehaviour
                 continue;
             }
 
-            // Cache only character meshes (ignore [OutlineHelper] children)
-            List<Renderer> characterRenderers = new List<Renderer>(childSmrs.Length);
-            for (int j = 0; j < childSmrs.Length; j++)
-            {
-                if (childSmrs[j] != null && childSmrs[j].gameObject.name != "[OutlineHelper]")
-                {
-                    characterRenderers.Add(childSmrs[j]);
-                }
-            }
-
-            if (characterRenderers.Count == 0)
-            {
-                continue;
-            }
-
-            _trackedAnimators.Add(new TrackedCharacterAnimator
-            {
-                Animator = anim,
-                Root = anim.transform,
-                Renderers = characterRenderers.ToArray(),
-                Reaction = anim.GetComponentInParent<NPCConversationReaction>(),
-                // Stagger initial phase so visible characters distribute across frames instead of spiking together
-                Accumulator = (phaseIndex++ % 4) * 0.012f,
-                WasVisible = false
-            });
+            _trackedAnimators.Add(anim);
         }
-
-        _updateCursor = 0;
     }
 
     private void ApplySkinnedMeshSettings(int qualityIndex)
@@ -207,8 +146,9 @@ public class CharacterPerformanceOptimizer : MonoBehaviour
                 continue;
             }
 
-            smr.updateWhenOffscreen = false;
-            smr.allowOcclusionWhenDynamic = true;
+            // Keep character meshes updated and exempt from dynamic occlusion culling so fast camera turns never clip or stutter them.
+            smr.updateWhenOffscreen = !item.IsOutlineHelper;
+            smr.allowOcclusionWhenDynamic = false;
             // Motion Blur / TAA motion vectors are disabled across presets, so skip per-vertex motion vector skinning
             smr.skinnedMotionVectors = false;
             smr.motionVectorGenerationMode = MotionVectorGenerationMode.ForceNoMotion;
@@ -244,18 +184,18 @@ public class CharacterPerformanceOptimizer : MonoBehaviour
         }
     }
 
-    private void ApplyAnimatorSettings(int qualityIndex)
+    private void ApplyAnimatorSettings()
     {
         for (int i = 0; i < _trackedAnimators.Count; i++)
         {
-            TrackedCharacterAnimator entry = _trackedAnimators[i];
-            if (entry.Animator == null)
+            Animator anim = _trackedAnimators[i];
+            if (anim == null)
             {
                 continue;
             }
 
-            entry.Animator.cullingMode = AnimatorCullingMode.CullUpdateTransforms;
-            entry.Accumulator = (i % 4) * 0.01f;
+            anim.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+            anim.enabled = true;
         }
     }
 
@@ -263,164 +203,10 @@ public class CharacterPerformanceOptimizer : MonoBehaviour
     {
         for (int i = 0; i < _trackedAnimators.Count; i++)
         {
-            if (_trackedAnimators[i].Animator != null)
+            if (_trackedAnimators[i] != null)
             {
-                _trackedAnimators[i].Animator.enabled = true;
+                _trackedAnimators[i].enabled = true;
             }
         }
-    }
-
-    private void LateUpdate()
-    {
-        if (_trackedAnimators.Count == 0)
-        {
-            return;
-        }
-
-        float dt = Time.deltaTime;
-        if (dt <= 0f)
-        {
-            return;
-        }
-
-        Transform referenceTransform = ResolveReferenceTransform();
-        bool hasRef = referenceTransform != null;
-        Vector3 refPos = hasRef ? referenceTransform.position : Vector3.zero;
-
-        bool isLowQuality = _currentQualityIndex <= 0;
-        bool isMediumQuality = _currentQualityIndex == 1;
-        float fullRateDistSqr = isMediumQuality ? MediumFullRateDistanceSqr : HighFullRateDistanceSqr;
-        int maxUpdatesPerFrame = isLowQuality
-            ? LowMaxAnimatorsUpdatedPerFrame
-            : (isMediumQuality ? MediumMaxAnimatorsUpdatedPerFrame : HighMaxAnimatorsUpdatedPerFrame);
-
-        int updatesThisFrame = 0;
-        int totalCount = _trackedAnimators.Count;
-
-        for (int step = 0; step < totalCount; step++)
-        {
-            int idx = (_updateCursor + step) % totalCount;
-            TrackedCharacterAnimator entry = _trackedAnimators[idx];
-            Animator anim = entry.Animator;
-
-            if (anim == null || !anim.gameObject.activeInHierarchy)
-            {
-                continue;
-            }
-
-            // Active conversation participants always animate at full frame rate
-            if (entry.Reaction != null && entry.Reaction.IsConversationActive)
-            {
-                if (!anim.enabled)
-                {
-                    anim.enabled = true;
-                }
-                entry.Accumulator = 0f;
-                continue;
-            }
-
-            bool isVisible = IsAnyRendererVisible(entry.Renderers);
-            if (!isVisible)
-            {
-                if (anim.enabled)
-                {
-                    anim.enabled = false;
-                }
-                entry.WasVisible = false;
-                continue;
-            }
-
-            float sqrDistance = hasRef && entry.Root != null
-                ? (entry.Root.position - refPos).sqrMagnitude
-                : 0f;
-
-            // Medium keeps only immediate foreground characters at full rate; High keeps nearby ones at full rate
-            if (!isLowQuality && hasRef && sqrDistance <= fullRateDistSqr)
-            {
-                if (!anim.enabled)
-                {
-                    anim.enabled = true;
-                }
-                entry.Accumulator = 0f;
-                entry.WasVisible = true;
-                continue;
-            }
-
-            if (anim.enabled)
-            {
-                anim.enabled = false;
-            }
-
-            entry.Accumulator += dt;
-
-            float targetInterval;
-            if (isLowQuality)
-            {
-                targetInterval = hasRef && sqrDistance > LowCloseDistanceSqr ? LowFarUpdateInterval : LowCloseUpdateInterval;
-            }
-            else if (isMediumQuality)
-            {
-                targetInterval = hasRef && sqrDistance > MediumMidDistanceSqr ? MediumFarUpdateInterval : MediumMidUpdateInterval;
-            }
-            else
-            {
-                targetInterval = HighFarUpdateInterval;
-            }
-
-            bool justBecameVisible = !entry.WasVisible;
-            bool isDue = justBecameVisible || entry.Accumulator >= targetInterval;
-
-            if (!isDue)
-            {
-                continue;
-            }
-
-            if (!justBecameVisible && updatesThisFrame >= maxUpdatesPerFrame)
-            {
-                // Spread remaining due animators across subsequent frames to keep CPU frame times flat
-                continue;
-            }
-
-            float clampedStep = Mathf.Min(entry.Accumulator, MaxAccumulatedDeltaTime);
-            entry.Accumulator = 0f;
-            entry.WasVisible = true;
-
-            anim.Update(clampedStep);
-            updatesThisFrame++;
-            _updateCursor = (idx + 1) % totalCount;
-        }
-    }
-
-    private static bool IsAnyRendererVisible(Renderer[] renderers)
-    {
-        if (renderers == null)
-        {
-            return false;
-        }
-
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            if (renderers[i] != null && renderers[i].enabled && renderers[i].isVisible)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private Transform ResolveReferenceTransform()
-    {
-        if (_cachedMainCamera == null || !_cachedMainCamera.isActiveAndEnabled)
-        {
-            _cachedMainCamera = Camera.main;
-        }
-
-        if (_cachedMainCamera != null)
-        {
-            return _cachedMainCamera.transform;
-        }
-
-        return PlayerController.Instance != null ? PlayerController.Instance.transform : null;
     }
 }
