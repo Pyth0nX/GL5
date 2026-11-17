@@ -2454,7 +2454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 1.94
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2500,49 +2500,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardBox (6)
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 847867577}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
 --- !u!4 &847867575 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
   m_PrefabInstance: {fileID: 847867574}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &847867576 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-  m_PrefabInstance: {fileID: 847867574}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &847867577
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 847867576}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.020000003, y: 0.020000005, z: 0.020000009}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &914094704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2565,7 +2532,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.059999943
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2611,49 +2578,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardBox (4)
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 914094707}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
 --- !u!4 &914094705 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
   m_PrefabInstance: {fileID: 914094704}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &914094706 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-  m_PrefabInstance: {fileID: 914094704}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &914094707
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 914094706}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.020000005, y: 0.02000001, z: 0.020000009}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &997580283
 GameObject:
   m_ObjectHideFlags: 0
@@ -2769,7 +2703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 1.94
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2815,49 +2749,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardBox (7)
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1064866382}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
 --- !u!4 &1064866380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
   m_PrefabInstance: {fileID: 1064866379}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1064866381 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-  m_PrefabInstance: {fileID: 1064866379}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1064866382
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1064866381}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.020000003, y: 0.020000005, z: 0.020000009}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1086749830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2880,7 +2781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.059999943
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2926,49 +2827,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardBox (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1086749833}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
 --- !u!4 &1086749831 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
   m_PrefabInstance: {fileID: 1086749830}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1086749832 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-  m_PrefabInstance: {fileID: 1086749830}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1086749833
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086749832}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.020000003, y: 0.020000005, z: 0.020000009}
-  m_Center: {x: 0, y: 0.000000014901161, z: 0}
 --- !u!1 &1100912018
 GameObject:
   m_ObjectHideFlags: 0
@@ -3466,7 +3334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.21999994
+      value: 0.16
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3512,49 +3380,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardBox (5)
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1176784394}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
 --- !u!4 &1176784392 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
   m_PrefabInstance: {fileID: 1176784391}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1176784393 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-  m_PrefabInstance: {fileID: 1176784391}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1176784394
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176784393}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.020000005, y: 0.02000001, z: 0.020000009}
-  m_Center: {x: 0, y: -0.0000000055879354, z: 0}
 --- !u!1001 &1188424193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4014,7 +3849,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.1500001
+      value: -1.21
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4060,49 +3895,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardBox (8)
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1531492312}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
 --- !u!4 &1531492310 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
   m_PrefabInstance: {fileID: 1531492309}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1531492311 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-  m_PrefabInstance: {fileID: 1531492309}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1531492312
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531492311}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.020000001, y: 0.020000005, z: 0.020000001}
-  m_Center: {x: -0.000000014901161, y: 0.000000007450581, z: 0.000000029802322}
 --- !u!1 &1680396134
 GameObject:
   m_ObjectHideFlags: 0
@@ -4461,7 +4263,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.059999943
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4507,49 +4309,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardBox (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1844701643}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
 --- !u!4 &1844701641 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
   m_PrefabInstance: {fileID: 1844701640}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1844701642 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-  m_PrefabInstance: {fileID: 1844701640}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1844701643
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844701642}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.020000005, y: 0.020000005, z: 0.020000007}
-  m_Center: {x: -0.000000029802322, y: -0.000000007450581, z: -4.656613e-10}
 --- !u!1001 &1847091699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4939,7 +4708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.21999994
+      value: 0.16
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4985,49 +4754,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardBox (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2066038677}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
 --- !u!4 &2066038675 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
   m_PrefabInstance: {fileID: 2066038674}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2066038676 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4cf7033d90fc7a941b85c3c5e007d567, type: 3}
-  m_PrefabInstance: {fileID: 2066038674}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &2066038677
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2066038676}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.020000003, y: 0.020000005, z: 0.020000009}
-  m_Center: {x: 0, y: 0.000000014901161, z: 0}
 --- !u!1 &2146887776
 GameObject:
   m_ObjectHideFlags: 0
@@ -5270,10 +5006,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Desk
       objectReference: {fileID: 0}
-    - target: {fileID: 4493023948289649051, guid: 19337a9ae64fa3148a49e8e237165565, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 4935278474342138792, guid: 19337a9ae64fa3148a49e8e237165565, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -5285,37 +5017,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4493023948289649051, guid: 19337a9ae64fa3148a49e8e237165565, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 499603772693313950}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19337a9ae64fa3148a49e8e237165565, type: 3}
---- !u!1 &499603772693313949 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4493023948289649051, guid: 19337a9ae64fa3148a49e8e237165565, type: 3}
-  m_PrefabInstance: {fileID: 499603772693313948}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &499603772693313950
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499603772693313949}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.5, y: 2.3, z: 4}
-  m_Center: {x: -1.5, y: 1.15, z: 0}
 --- !u!1001 &2176824159599875052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5331,10 +5034,6 @@ PrefabInstance:
     - target: {fileID: 5942512473188824656, guid: 8b2c395b3a7949d4eb3b27d19d835dec, type: 3}
       propertyPath: m_Name
       value: DeskChair
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942512473188824656, guid: 8b2c395b3a7949d4eb3b27d19d835dec, type: 3}
-      propertyPath: m_Layer
-      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6427722094927097066, guid: 8b2c395b3a7949d4eb3b27d19d835dec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5391,7 +5090,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3897723167844060875, guid: cfa72d5f23db8cb409e828f0831d9f2a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.06
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3897723167844060875, guid: cfa72d5f23db8cb409e828f0831d9f2a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5432,10 +5131,6 @@ PrefabInstance:
     - target: {fileID: 4421600513042650225, guid: cfa72d5f23db8cb409e828f0831d9f2a, type: 3}
       propertyPath: m_Name
       value: CardBox
-      objectReference: {fileID: 0}
-    - target: {fileID: 4421600513042650225, guid: cfa72d5f23db8cb409e828f0831d9f2a, type: 3}
-      propertyPath: m_Layer
-      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
