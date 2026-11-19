@@ -262,6 +262,7 @@ public class PhoneStateMachine : MonoBehaviour
             case PhoneState.MESSAGING:
                 _messagingTab?.SetActive(true);
                 _quickGalleryButton?.SetActive(true);
+                _dialogueTab?.SetActive(true);
                 break;
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(true);
@@ -316,7 +317,10 @@ public class PhoneStateMachine : MonoBehaviour
 
     public void ShowDialogueTab()
     {
-        _dialogueTab.SetActive(true);
+        if (_dialogueTab != null)
+        {
+            _dialogueTab.SetActive(true);
+        }
     }
 
     public void UpdatePhoneBackground()

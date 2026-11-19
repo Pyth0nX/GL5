@@ -1332,7 +1332,7 @@ public class MessagesUI : MonoBehaviour
         }
         catch { }
 
-        if (!skipPressed)
+        if (!skipPressed && !InputManager.IsTypingInInputField())
         {
             if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
             {

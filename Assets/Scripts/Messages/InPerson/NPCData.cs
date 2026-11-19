@@ -151,6 +151,23 @@ public class NPCData : IInteractable
     private int ResolveDayBeforeClassNodeId() => ResolveDayAdjustedNodeId(_beforeClassNodeId);
     private int ResolveDayAfterClassNodeId() => ResolveDayAdjustedNodeId(_afterClassNodeId);
 
+    private static readonly System.Collections.Generic.Dictionary<int, int[]> DayAdjustedNodeTable =
+        new System.Collections.Generic.Dictionary<int, int[]>
+        {
+            { 100, new[] { 196, 232, 268, 304 } },
+            { 103, new[] { 199, 235, 271, 307 } },
+            { 110, new[] { 202, 238, 274, 310 } },
+            { 113, new[] { 205, 241, 277, 313 } },
+            { 120, new[] { 208, 244, 280, 316 } },
+            { 123, new[] { 211, 247, 283, 319 } },
+            { 130, new[] { 214, 250, 286, 322 } },
+            { 133, new[] { 217, 253, 289, 325 } },
+            { 140, new[] { 220, 256, 292, 327 } },
+            { 143, new[] { 223, 259, 295, 330 } },
+            { 150, new[] { 226, 262, 298, 332 } },
+            { 153, new[] { 229, 265, 301, 335 } },
+        };
+
     private static int ResolveDayAdjustedNodeId(int baseNodeId)
     {
         if (baseNodeId < 100 || baseNodeId > 159)
@@ -164,14 +181,60 @@ public class NPCData : IInteractable
             return baseNodeId;
         }
 
-        int clampedDay = Mathf.Clamp(currentDay, 2, 5);
-        int candidate = 1000 + clampedDay * 100 + (baseNodeId - 100);
-        if (MessagesManager.Instance != null && MessagesManager.Instance.GetNarrativeNode(candidate) != null)
+        int dayIndex = Mathf.Clamp(currentDay, 2, 5) - 2;
+        if (DayAdjustedNodeTable.TryGetValue(baseNodeId, out int[] dayNodes) &&
+            dayIndex >= 0 && dayIndex < dayNodes.Length)
         {
-            return candidate;
+            int mapped = dayNodes[dayIndex];
+            if (MessagesManager.Instance == null || MessagesManager.Instance.GetNarrativeNode(mapped) != null)
+            {
+                return mapped;
+            }
+        }
+
+        int legacyCandidate = 1000 + Mathf.Clamp(currentDay, 2, 5) * 100 + (baseNodeId - 100);
+        if (MessagesManager.Instance != null && MessagesManager.Instance.GetNarrativeNode(legacyCandidate) != null)
+        {
+            return legacyCandidate;
         }
 
         return baseNodeId;
+    }
+
+    private static bool IsNodeInLoopChain(int targetId, int chainStartId)
+    {
+        if (targetId < 0 || chainStartId < 0)
+        {
+            return false;
+        }
+
+        if (MessagesManager.Instance == null)
+        {
+            return targetId == chainStartId;
+        }
+
+        int cur = chainStartId;
+        for (int i = 0; i < 6 && cur >= 0; i++)
+        {
+            if (cur == targetId)
+            {
+                return true;
+            }
+
+            NarrativeNode node = MessagesManager.Instance.GetNarrativeNode(cur);
+            if (node == null)
+            {
+                break;
+            }
+
+            cur = node.ResolveNextNode();
+            if (cur == chainStartId)
+            {
+                break;
+            }
+        }
+
+        return false;
     }
 
     protected override void Start()
@@ -217,24 +280,18 @@ public class NPCData : IInteractable
             if (contact != null)
             {
                 int curr = contact.NarrativeNode();
-                int beforeEnd = (afterNode > beforeNode)
-                    ? afterNode
-                    : beforeNode + 10;
-                int afterEnd = (afterNode >= 0)
-                    ? afterNode + 10
-                    : -1;
 
                 if (curr < 0)
                 {
                     contact.SetNarrativeNode(targetNode);
                     contact.SetCurrentMessageIndex(0);
                 }
-                else if (classDone && afterNode >= 0 && (curr < afterNode || curr >= afterEnd))
+                else if (classDone && afterNode >= 0 && !IsNodeInLoopChain(curr, afterNode))
                 {
                     contact.SetNarrativeNode(targetNode);
                     contact.SetCurrentMessageIndex(0);
                 }
-                else if (!classDone && (curr < beforeNode || curr >= beforeEnd))
+                else if (!classDone && !IsNodeInLoopChain(curr, beforeNode))
                 {
                     contact.SetNarrativeNode(targetNode);
                     contact.SetCurrentMessageIndex(0);

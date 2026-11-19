@@ -1,6 +1,9 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
 {
@@ -210,10 +213,42 @@ public class InputManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns true while the player is actively focused/typing inside a TMP_InputField or InputField,
+    /// preventing gameplay shortcuts (E, T, F9, F10) from triggering during message composition.
+    /// </summary>
+    public static bool IsTypingInInputField()
+    {
+        if (EventSystem.current == null)
+        {
+            return false;
+        }
+
+        GameObject selected = EventSystem.current.currentSelectedGameObject;
+        if (selected == null || !selected.activeInHierarchy)
+        {
+            return false;
+        }
+
+        TMP_InputField tmpInput = selected.GetComponent<TMP_InputField>();
+        if (tmpInput != null && tmpInput.isFocused)
+        {
+            return true;
+        }
+
+        InputField legacyInput = selected.GetComponent<InputField>();
+        return legacyInput != null && legacyInput.isFocused;
+    }
+
+    /// <summary>
     /// Raw Interact press check without post-dialogue suppression, used inside active dialogue UI.
     /// </summary>
     public bool RawInteractWasPressed()
     {
+        if (IsTypingInInputField())
+        {
+            return false;
+        }
+
         if (_pInteractAction != null && _pInteractAction.WasPressedThisFrame())
         {
             return true;
@@ -254,6 +289,11 @@ public class InputManager : MonoBehaviour
 
     public bool F9WasPressed()
     {
+        if (IsTypingInInputField())
+        {
+            return false;
+        }
+
         if (_pF9Action != null && _pF9Action.WasPressedThisFrame())
         {
             return true;
@@ -269,6 +309,11 @@ public class InputManager : MonoBehaviour
 
     public bool F10WasPressed()
     {
+        if (IsTypingInInputField())
+        {
+            return false;
+        }
+
         if (_pF10Action != null && _pF10Action.WasPressedThisFrame())
         {
             return true;
@@ -284,6 +329,11 @@ public class InputManager : MonoBehaviour
 
     public bool PhoneWasPressed()
     {
+        if (IsTypingInInputField())
+        {
+            return false;
+        }
+
         if (_pPhoneAction == null || Time.frameCount <= _suppressPhoneUntilFrame)
         {
             return false;
@@ -294,6 +344,11 @@ public class InputManager : MonoBehaviour
 
     public bool ContinueDialogueWasPressed()
     {
+        if (IsTypingInInputField())
+        {
+            return false;
+        }
+
         return _pContinueDialogueAction.WasPressedThisFrame();
     }
     #endregion

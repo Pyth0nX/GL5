@@ -290,8 +290,16 @@ public class OptionsChanger : MonoBehaviour
                 }
                 else if (_currentNode.HasOptions())
                 {
-                    ActiveDecisionsPanel(true);
-                    MessagesManager.Instance.GetPhoneStateMachine()?.ShowDecisionsTab();
+                    if (_currentNode.ResponseMode() == PhoneResponseMode.DecisionOverlay)
+                    {
+                        ActiveDecisionsPanel(true);
+                        MessagesManager.Instance.GetPhoneStateMachine()?.ShowDecisionsTab();
+                    }
+                    else
+                    {
+                        contact.SetHasNewMessages(true);
+                        MessagesManager.Instance.GetPhoneStateMachine()?.ShowDialogueTab();
+                    }
                 }
             }
         }

@@ -464,6 +464,11 @@ public class MessagesManager : MonoBehaviour
         }
 
         int resolvedNodeId = ResolveEntryRedirects(newNarrativeNodeId);
+        NarrativeNode entryNode = GetNarrativeNode(resolvedNodeId);
+        if (entryNode != null && entryNode.ConversationStartNode() >= 0)
+        {
+            resolvedNodeId = ResolveEntryRedirects(entryNode.ConversationStartNode());
+        }
         contact.SetNarrativeNode(resolvedNodeId);
         contact.SetCurrentMessageIndex(0);
 
@@ -591,7 +596,9 @@ public class MessagesManager : MonoBehaviour
             {
                 stateMachine?.ShowDialogueTab();
             }
-            else if (newNode.DialogueType() == DialogueType.PHONE && newNode.HasOptions())
+            else if (newNode.DialogueType() == DialogueType.PHONE &&
+                     newNode.HasOptions() &&
+                     newNode.ResponseMode() == PhoneResponseMode.DecisionOverlay)
             {
                 if (_optionsChanger == null)
                 {
@@ -691,37 +698,183 @@ public class MessagesManager : MonoBehaviour
             NarrativeNode node = GetNarrativeNode(nodeId);
             if (node == null || node.DialogueType() != DialogueType.PHONE) continue;
 
-            foreach (Message sourceMessage in node.GetActiveDialogues())
+            if (node.ConversationStartNode() >= 0)
             {
-                if (sourceMessage == null || IsDialogueOverlayLine(sourceMessage)) continue;
+                AppendSubChainToHistory(history, contact, storyDay, node.ConversationStartNode(), nodeId);
+            }
 
-                int messageNumber = history.Count;
-                Date timestamp = sourceMessage.Timestamp().year != 0
-                    ? sourceMessage.Timestamp()
-                    : new()
+            AppendNodeDialoguesToHistory(history, contact, storyDay, node);
+
+            int nextExplicitId = GetNextExplicitNodeId(narrativeNodeIds, nodeId);
+            if (node.HasOptions())
+            {
+                Option matchedOption = FindOptionLeadingTo(node, nextExplicitId);
+                if (matchedOption != null)
+                {
+                    AppendMessagesArrayToHistory(history, contact, storyDay, matchedOption.messagesToSend);
+                }
+                else if (node.ResponseMode() != PhoneResponseMode.DecisionOverlay)
+                {
+                    int defaultIdx = GetDefaultSubOptionIndex(node);
+                    Option[] opts = node.Options();
+                    if (opts != null && defaultIdx >= 0 && defaultIdx < opts.Length && opts[defaultIdx] != null)
                     {
-                        day = Mathf.Clamp(storyDay, 1, 31),
-                        month = 10,
-                        year = 2026,
-                        hour = 8 + Mathf.Min(14, messageNumber / 6),
-                        minute = (messageNumber * 7) % 60
-                    };
-
-                Message historicalMessage = new(
-                    sourceMessage.Content(),
-                    sourceMessage.Sender(),
-                    sourceMessage.SpeakerName(),
-                    timestamp,
-                    sourceMessage.ImagePath(),
-                    sourceMessage.Type());
-
-                history.Add(historicalMessage);
-                contact.SetLastMessageDate(timestamp);
+                        AppendMessagesArrayToHistory(history, contact, storyDay, opts[defaultIdx].messagesToSend);
+                        int branchNext = opts[defaultIdx].ResolveNextNode();
+                        if (branchNext >= 0 && branchNext != nextExplicitId)
+                        {
+                            AppendSubChainToHistory(history, contact, storyDay, branchNext, nextExplicitId);
+                        }
+                    }
+                }
+            }
+            else if (node.NextNode() >= 0 && node.NextNode() != nextExplicitId)
+            {
+                AppendSubChainToHistory(history, contact, storyDay, node.NextNode(), nextExplicitId);
             }
         }
 
         contact.SetHasNewMessages(false);
         contact.ClearUnreadMessages();
+    }
+
+    private static int GetNextExplicitNodeId(int[] narrativeNodeIds, int currentId)
+    {
+        for (int i = 0; i < narrativeNodeIds.Length - 1; i++)
+        {
+            if (narrativeNodeIds[i] == currentId)
+            {
+                return narrativeNodeIds[i + 1];
+            }
+        }
+        return -1;
+    }
+
+    private static Option FindOptionLeadingTo(NarrativeNode node, int targetNodeId)
+    {
+        if (node == null || targetNodeId < 0 || node.Options() == null)
+        {
+            return null;
+        }
+
+        Option[] options = node.Options();
+        for (int i = 0; i < options.Length; i++)
+        {
+            if (options[i] != null && options[i].nextNode == targetNodeId)
+            {
+                return options[i];
+            }
+        }
+        return null;
+    }
+
+    private static int GetDefaultSubOptionIndex(NarrativeNode node)
+    {
+        if (node == null || node.Options() == null || node.Options().Length == 0)
+        {
+            return -1;
+        }
+
+        if (node.ResponseMode() == PhoneResponseMode.FreeText && node.Options().Length > 1)
+        {
+            return 1; // Neutral default
+        }
+
+        return 0;
+    }
+
+    private void AppendSubChainToHistory(List<Message> history, Contact contact, int storyDay, int startNodeId, int stopBeforeNodeId)
+    {
+        HashSet<int> visited = new HashSet<int>();
+        int currentId = startNodeId;
+        const int maxHops = 16;
+
+        for (int hop = 0; hop < maxHops && currentId >= 0 && currentId != stopBeforeNodeId; hop++)
+        {
+            if (!visited.Add(currentId))
+            {
+                break;
+            }
+
+            NarrativeNode subNode = GetNarrativeNode(currentId);
+            if (subNode == null || subNode.DialogueType() != DialogueType.PHONE)
+            {
+                break;
+            }
+
+            if (subNode.HasOptions() && subNode.ResponseMode() == PhoneResponseMode.DecisionOverlay)
+            {
+                break;
+            }
+
+            AppendNodeDialoguesToHistory(history, contact, storyDay, subNode);
+
+            if (subNode.HasOptions())
+            {
+                int optIdx = GetDefaultSubOptionIndex(subNode);
+                Option[] opts = subNode.Options();
+                if (opts == null || optIdx < 0 || optIdx >= opts.Length || opts[optIdx] == null)
+                {
+                    break;
+                }
+
+                AppendMessagesArrayToHistory(history, contact, storyDay, opts[optIdx].messagesToSend);
+                currentId = opts[optIdx].ResolveNextNode();
+            }
+            else
+            {
+                currentId = subNode.ResolveNextNode();
+            }
+        }
+    }
+
+    private static void AppendNodeDialoguesToHistory(List<Message> history, Contact contact, int storyDay, NarrativeNode node)
+    {
+        if (node == null) return;
+        List<Message> dialogues = node.GetActiveDialogues();
+        if (dialogues == null) return;
+
+        for (int i = 0; i < dialogues.Count; i++)
+        {
+            AppendSingleMessageToHistory(history, contact, storyDay, dialogues[i]);
+        }
+    }
+
+    private static void AppendMessagesArrayToHistory(List<Message> history, Contact contact, int storyDay, Message[] messages)
+    {
+        if (messages == null) return;
+        for (int i = 0; i < messages.Length; i++)
+        {
+            AppendSingleMessageToHistory(history, contact, storyDay, messages[i]);
+        }
+    }
+
+    private static void AppendSingleMessageToHistory(List<Message> history, Contact contact, int storyDay, Message sourceMessage)
+    {
+        if (sourceMessage == null || IsDialogueOverlayLine(sourceMessage)) return;
+
+        int messageNumber = history.Count;
+        Date timestamp = sourceMessage.Timestamp().year != 0
+            ? sourceMessage.Timestamp()
+            : new()
+            {
+                day = Mathf.Clamp(storyDay, 1, 31),
+                month = 10,
+                year = 2026,
+                hour = 8 + Mathf.Min(14, messageNumber / 6),
+                minute = (messageNumber * 7) % 60
+            };
+
+        Message historicalMessage = new(
+            sourceMessage.Content(),
+            sourceMessage.Sender(),
+            sourceMessage.SpeakerName(),
+            timestamp,
+            sourceMessage.ImagePath(),
+            sourceMessage.Type());
+
+        history.Add(historicalMessage);
+        contact.SetLastMessageDate(timestamp);
     }
 
     public void CompleteTestSkipHistoryRebuild()
@@ -997,7 +1150,10 @@ public class MessagesManager : MonoBehaviour
         {
             stateMachine?.ShowDialogueTab();
         }
-        else if (currentNode != null && currentNode.DialogueType() == DialogueType.PHONE && currentNode.HasOptions())
+        else if (currentNode != null &&
+                 currentNode.DialogueType() == DialogueType.PHONE &&
+                 currentNode.HasOptions() &&
+                 currentNode.ResponseMode() == PhoneResponseMode.DecisionOverlay)
         {
             _optionsChanger?.ActiveDecisionsPanel(true);
             stateMachine?.ShowDecisionsTab();
