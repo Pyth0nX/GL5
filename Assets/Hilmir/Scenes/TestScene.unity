@@ -186,7 +186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &140711470
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -326,39 +326,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5df528435e7f0bb41872429db2e4fd1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveAction:
-    m_Name: Move
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: fdd0859e-76a5-4272-95c5-6c842a68dff7
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-    m_Priority: 0
-  lookAction:
-    m_Name: Look
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 2cb2723b-e9b2-4189-9058-fdafc7024fd5
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-    m_Priority: 0
-  interactAction:
-    m_Name: Interact
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 2099ebcf-355b-4402-a045-4f76c93d60f0
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-    m_Priority: 0
-  movementSpeed: 5
-  mouseSensitivity: 5
-  verticalClamp: 80
+  _playerName: Luna
+  _movementSpeed: 5
+  _mouseSensitivity: 1
+  _interactDistance: 5
+  _verticalClamp: 80
 --- !u!1 &169908712
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,6 +468,67 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1001 &465029484
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4407905759252250702, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: dbb18580e42c89b4eb1f5fb1307768cc, type: 2}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -40.246502
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.370263
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970682267110549689, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7779693729355231747, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
+      propertyPath: m_Name
+      value: Sophie
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 03b9ac77a22162c46aa6cb75c2b1390c, type: 3}
 --- !u!1 &671354597
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,14 +797,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a335734b1572644a6a5d09d87adc65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Scenes::Unity.Scenes.SubScene
-  _SceneAsset: {fileID: 102900000, guid: 587682dbd9dab91408ed62b428c00c30, type: 3}
-  AutoLoadScene: 1
-  _SceneGUID:
-    Value:
-      x: 3173541765
-      y: 1100721565
-      z: 1260838528
-      w: 62917762
 --- !u!4 &690373050
 Transform:
   m_ObjectHideFlags: 0
@@ -1020,6 +1045,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1943120307}
+  - component: {fileID: 1943120308}
   m_Layer: 0
   m_Name: Exterior
   m_TagString: Untagged
@@ -1043,6 +1069,18 @@ Transform:
   - {fileID: 671354598}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1943120308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943120306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d9c18bc29d0f045a6d199f18ef8ca5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisableGameMode
 --- !u!1 &1943926937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,3 +1421,4 @@ SceneRoots:
   - {fileID: 886176950}
   - {fileID: 690373050}
   - {fileID: 1943926941}
+  - {fileID: 465029484}
