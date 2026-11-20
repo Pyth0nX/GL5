@@ -16,6 +16,16 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _dialogueText; // The text component for displaying dialogue
 
+    [Header("Visual Styling")]
+    [Tooltip("Optional shared ScriptableObject palette for Narrator, Thought, and NPC name-box colors across scenes.")]
+    [SerializeField]
+    private DialogueVisualTheme _visualTheme;
+    [Tooltip("Optional per-scene overrides for specific NPC name-box colors.")]
+    [SerializeField]
+    private List<CharacterDialogueStyle> _npcStyleOverrides = new();
+
+    private readonly DialogueStyleResolver _styleResolver = new DialogueStyleResolver();
+
     private List<Message> _currentDialogues; // The list of dialogues for the current conversation
     private string _currentContact; // The contact that is currently being interacted with
     private int _currentDialogueIndex = 0; // The index of the current dialogue being displayed
@@ -24,13 +34,6 @@ public class DialogueManager : MonoBehaviour
 
     private Button _dialogueAdvanceButton;
     private CanvasGroup _dialogueCanvasGroup;
-    private Image _dialogueBoxImage;
-    private Image _characterBoxImage;
-    private bool _defaultsCaptured;
-    private Color _defaultBoxColor = new Color(1f, 1f, 1f, 0.392f);
-    private Color _defaultCharacterBoxColor = new Color(0f, 0f, 0f, 1f);
-    private Color _defaultNameColor = Color.white;
-    private Color _defaultDialogueTextColor = Color.white;
     private bool _standaloneMonologueActive;
     private Action _standaloneMonologueClosed;
     private Canvas _dialogueCanvas;
@@ -315,11 +318,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         bool isThoughtLine = MessagesManager.IsThought(currentMessage);
-        string styleSpeaker = isThoughtLine
-            ? "Thought"
-            : (currentMessage.Sender() == Sender.Player
-                ? speaker
-                : (!string.IsNullOrEmpty(currentMessage.SpeakerName()) ? currentMessage.SpeakerName() : speaker));
+        string styleSpeaker = isThoughtLine ? "Thought" : speaker;
 
         ApplyDialogueVisualStyle(styleSpeaker, isThoughtLine);
         if (_dialogueText != null) _dialogueText.text = PlayerNameService.FormatText(currentMessage.Content());
@@ -493,100 +492,24 @@ public class DialogueManager : MonoBehaviour
         }
 
         SetChoiceMode(false);
-        CaptureDefaultVisualStyleIfNeeded();
+        _styleResolver.EnsureInitialized(_dialogueBox, _characterNameText, _dialogueText);
     }
 
-    private void CaptureDefaultVisualStyleIfNeeded()
+    private void OnValidate()
     {
-        if (_defaultsCaptured || _dialogueBox == null)
-        {
-            return;
-        }
-
-        _dialogueBoxImage = _dialogueBox.GetComponent<Image>();
-        if (_characterNameText != null &&
-            _characterNameText.transform.parent != null &&
-            _characterNameText.transform.parent != _dialogueBox.transform)
-        {
-            _characterBoxImage = _characterNameText.transform.parent.GetComponent<Image>();
-        }
-        if (_characterBoxImage == null)
-        {
-            Transform charBox = _dialogueBox.transform.Find("BG_CharacterBox");
-            if (charBox != null)
-            {
-                _characterBoxImage = charBox.GetComponent<Image>();
-            }
-        }
-
-        if (_dialogueBoxImage != null) _defaultBoxColor = _dialogueBoxImage.color;
-        if (_characterBoxImage != null) _defaultCharacterBoxColor = _characterBoxImage.color;
-        if (_characterNameText != null) _defaultNameColor = _characterNameText.color;
-        if (_dialogueText != null) _defaultDialogueTextColor = _dialogueText.color;
-
-        _defaultsCaptured = true;
+        _styleResolver.InvalidateSceneOverrideCache();
     }
 
     private void ApplyDialogueVisualStyle(string rawSpeaker, bool forceThought = false)
     {
-        CaptureDefaultVisualStyleIfNeeded();
-
-        string trimmedSpeaker = (rawSpeaker ?? string.Empty).Trim();
-        bool isNarration = !forceThought &&
-                           (string.Equals(trimmedSpeaker, "Narration", StringComparison.OrdinalIgnoreCase) ||
-                            string.Equals(trimmedSpeaker, "Narrator", StringComparison.OrdinalIgnoreCase));
-        bool isThought = forceThought ||
-                         string.Equals(trimmedSpeaker, "Thought", StringComparison.OrdinalIgnoreCase) ||
-                         (trimmedSpeaker.StartsWith("[", StringComparison.Ordinal) &&
-                          trimmedSpeaker.EndsWith("]", StringComparison.Ordinal));
-
-        if (isNarration)
-        {
-            if (_dialogueBoxImage != null) _dialogueBoxImage.color = new Color(0.08f, 0.11f, 0.20f, 0.90f);
-            if (_characterBoxImage != null) _characterBoxImage.color = new Color(0.52f, 0.36f, 0.10f, 0.96f);
-            if (_characterNameText != null)
-            {
-                _characterNameText.color = new Color(1f, 0.88f, 0.52f, 1f);
-                _characterNameText.text = "Narrator";
-            }
-            if (_dialogueText != null)
-            {
-                _dialogueText.color = new Color(0.97f, 0.93f, 0.80f, 1f);
-                _dialogueText.fontStyle = FontStyles.Italic;
-            }
-            return;
-        }
-
-        if (isThought)
-        {
-            if (_dialogueBoxImage != null) _dialogueBoxImage.color = new Color(0.14f, 0.09f, 0.24f, 0.90f);
-            if (_characterBoxImage != null) _characterBoxImage.color = new Color(0.32f, 0.18f, 0.52f, 0.96f);
-            if (_characterNameText != null)
-            {
-                _characterNameText.color = new Color(0.84f, 0.78f, 1f, 1f);
-                _characterNameText.text = $"{PlayerNameService.GetActivePlayerName()} (Thought)";
-            }
-            if (_dialogueText != null)
-            {
-                _dialogueText.color = new Color(0.90f, 0.88f, 1f, 1f);
-                _dialogueText.fontStyle = FontStyles.Italic;
-            }
-            return;
-        }
-
-        // Standard in-person conversation style
-        if (_dialogueBoxImage != null) _dialogueBoxImage.color = _defaultBoxColor;
-        if (_characterBoxImage != null) _characterBoxImage.color = _defaultCharacterBoxColor;
-        if (_characterNameText != null)
-        {
-            _characterNameText.color = _defaultNameColor;
-            _characterNameText.text = PlayerNameService.FormatText(rawSpeaker);
-        }
-        if (_dialogueText != null)
-        {
-            _dialogueText.color = _defaultDialogueTextColor;
-            _dialogueText.fontStyle = FontStyles.Normal;
-        }
+        _styleResolver.ApplyStyle(
+            _dialogueBox,
+            _characterNameText,
+            _dialogueText,
+            rawSpeaker,
+            forceThought,
+            _visualTheme,
+            _npcStyleOverrides);
     }
 
     public void SetChoiceMode(bool isChoosing)

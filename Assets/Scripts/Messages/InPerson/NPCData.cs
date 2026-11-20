@@ -23,9 +23,15 @@ public class NPCData : IInteractable
     [Tooltip("Starting narrative node for the after-class dialogue loop (-1 if unused).")]
     [SerializeField] private int _afterClassNodeId = -1;
 
+    [Header("Dialogue UI")]
+    [Tooltip("If enabled, uses Custom Name Box Color for this NPC's in-person dialogue speaker tag.")]
+    [SerializeField] private bool _useCustomNameBoxColor = false;
+    [SerializeField] private Color _customNameBoxColor = new Color(0.22f, 0.40f, 0.62f, 0.96f);
+
     private static bool _isClassFinishedToday = false;
     private bool _isInConversation;
     private bool _isInStandaloneInteraction;
+    private string _registeredCustomColorKey;
 
     public event System.Action InteractionStarted;
     public event System.Action InteractionEnded;
@@ -34,6 +40,16 @@ public class NPCData : IInteractable
     {
         base.Awake();
         AutoConfigureClassroomNPC();
+        RegisterCustomNameBoxColorIfEnabled();
+    }
+
+    private void RegisterCustomNameBoxColorIfEnabled()
+    {
+        if (_useCustomNameBoxColor && !string.IsNullOrWhiteSpace(_characterName))
+        {
+            _registeredCustomColorKey = _characterName.Trim();
+            DialogueStyleResolver.RegisterRuntimeOverride(_registeredCustomColorKey, _customNameBoxColor);
+        }
     }
 
     private void AutoConfigureClassroomNPC()
@@ -327,6 +343,12 @@ public class NPCData : IInteractable
 
     private void OnDestroy()
     {
+        if (!string.IsNullOrEmpty(_registeredCustomColorKey))
+        {
+            DialogueStyleResolver.UnregisterRuntimeOverride(_registeredCustomColorKey);
+            _registeredCustomColorKey = null;
+        }
+
         SetOutlineActive(false);
 
         if (EventBus.Instance != null)
