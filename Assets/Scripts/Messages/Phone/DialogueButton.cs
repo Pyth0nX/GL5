@@ -1104,13 +1104,13 @@ public class DialogueButton : MonoBehaviour
         btn.colors = colors;
         btn.onClick.AddListener(() => OnModeBOptionSelected(optionIndex));
 
-        TextMeshProUGUI label = CreateTmpText("Text (TMP)", btnGO.transform, string.Empty, 13.5f, FontStyles.Bold, Color.white);
+        TextMeshProUGUI label = CreateTmpText("Text (TMP)", btnGO.transform, string.Empty, 17.5f, FontStyles.Bold, Color.white);
         StretchRect(label.rectTransform);
         label.alignment = TextAlignmentOptions.Center;
         label.textWrappingMode = TextWrappingModes.Normal;
         label.enableAutoSizing = true;
-        label.fontSizeMin = 9.5f;
-        label.fontSizeMax = 13.5f;
+        label.fontSizeMin = 12f;
+        label.fontSizeMax = 17.5f;
         label.margin = new Vector4(6f, 4f, 6f, 4f);
         label.raycastTarget = false;
 

@@ -1,7 +1,7 @@
 {
   "objectives": [
-    { "id": 0, "nextObjectiveId": 2, "description": "Explore around.", "targetCount": 1, "eventToListen": "D1_ExploreTimerComplete", "eventOnComplete": "" },
-    { "id": 1, "description": "Read Alex's first message.", "targetCount": 1, "eventToListen": "D1_AlexIntro_End", "eventOnComplete": "" },
+    { "id": 0, "nextObjectiveId": 1, "description": "Check your messages. Press [ESC/T] to open the phone.", "targetCount": 3, "eventToListen": "D1_TutorialMessageComplete", "eventOnComplete": "D1_TutorialMessagesComplete" },
+    { "id": 1, "nextObjectiveId": 2, "description": "Pick your things to go to school.", "targetCount": 1, "eventToListen": "D1_SchoolItemPicked", "eventOnComplete": "D1_TutorialItemsPicked" },
     { "id": 2, "description": "Go to school.", "targetCount": 1, "eventToListen": "Day1_GoToSchool", "eventOnComplete": "" },
     { "id": 3, "description": "Deal with Emma and Sophie.", "targetCount": 1, "eventToListen": "SchoolEncounterComplete", "eventOnComplete": "" },
     { "id": 4, "description": "Sit at your desk and attend class.", "targetCount": 1, "eventToListen": "SchoolClassFinished", "eventOnComplete": "" },

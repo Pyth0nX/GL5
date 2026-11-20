@@ -341,6 +341,11 @@ public class PhoneNotificationController : MonoBehaviour
     {
         while (_notificationQueue.Count > 0)
         {
+            while (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
+            {
+                yield return null;
+            }
+
             NotificationData data = _notificationQueue.Dequeue();
             yield return StartCoroutine(DisplayNotification(data));
         }

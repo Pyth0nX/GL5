@@ -12442,6 +12442,447 @@
         }
       ],
       "_showInScenarioTree": false
+    },
+    {
+      "_id": 338,
+      "_nextNode": -1,
+      "_dialogueType": 1,
+      "_phoneResponseMode": 0,
+      "_conversationStartNode": -1,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": false,
+      "_loopNode": -1,
+      "_eventOnEnd": "D1_TutorialMessageComplete",
+      "_reputationOperationOnEnd": 0,
+      "_reputationAmountOnEnd": 0,
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Morning kiddo! Don't forget to grab your laptop before heading to school.",
+          "_sender": 1,
+          "_speakerName": "Dad",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 35
+          }
+        },
+        {
+          "_content": "And please eat something before class. Have a good day!",
+          "_sender": 1,
+          "_speakerName": "Dad",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 36
+          }
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 339,
+      "_nextNode": -1,
+      "_dialogueType": 1,
+      "_phoneResponseMode": 1,
+      "_conversationStartNode": -1,
+      "_hasOptions": true,
+      "_isEndNode": false,
+      "_loop": false,
+      "_loopNode": -1,
+      "_eventOnEnd": "",
+      "_reputationOperationOnEnd": 0,
+      "_reputationAmountOnEnd": 0,
+      "_options": [
+        {
+          "text": "Warm positive reply to Mom",
+          "nextNode": 340,
+          "messagesToSend": [
+            {
+              "_content": "Good morning Mom! I'm awake and getting ready now.",
+              "_sender": 0,
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 7,
+                "minute": 38
+              }
+            }
+          ],
+          "eventToPublish": "",
+          "reputationOperation": 0,
+          "reputationAmount": 0,
+          "showInScenarioTree": false,
+          "matchKeywords": [
+            "good morning",
+            "morning",
+            "good",
+            "great",
+            "fine",
+            "awake",
+            "im up",
+            "i am up",
+            "ready",
+            "getting ready",
+            "feeling good",
+            "feeling great",
+            "slept well",
+            "thanks",
+            "thank you",
+            "love you",
+            "almost ready",
+            "on my way",
+            "yes",
+            "yeah"
+          ]
+        },
+        {
+          "text": "Casual neutral reply to Mom",
+          "nextNode": 341,
+          "messagesToSend": [
+            {
+              "_content": "I'm up, still half asleep tbh, getting dressed soon.",
+              "_sender": 0,
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 7,
+                "minute": 38
+              }
+            }
+          ],
+          "eventToPublish": "",
+          "reputationOperation": 0,
+          "reputationAmount": 0,
+          "showInScenarioTree": false,
+          "matchKeywords": [
+            "okay",
+            "ok",
+            "tired",
+            "sleepy",
+            "meh",
+            "alright",
+            "so so",
+            "just tired",
+            "half awake",
+            "still waking up",
+            "five more minutes",
+            "exhausted",
+            "need coffee",
+            "getting dressed",
+            "soon",
+            "maybe",
+            "sort of",
+            "kinda",
+            "i guess"
+          ]
+        },
+        {
+          "text": "Grumpy dismissive reply to Mom",
+          "nextNode": 342,
+          "messagesToSend": [
+            {
+              "_content": "Ugh I feel awful and I'm dreading today, whatever.",
+              "_sender": 0,
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 7,
+                "minute": 38
+              }
+            }
+          ],
+          "eventToPublish": "",
+          "reputationOperation": 0,
+          "reputationAmount": 0,
+          "showInScenarioTree": false,
+          "matchKeywords": [
+            "ugh",
+            "whatever",
+            "bad",
+            "terrible",
+            "awful",
+            "horrible",
+            "annoying",
+            "annoyed",
+            "stressed",
+            "miserable",
+            "cranky",
+            "grumpy",
+            "worst",
+            "skip",
+            "skipping",
+            "hate mornings",
+            "dreading",
+            "sucks",
+            "shut up",
+            "go away"
+          ]
+        }
+      ],
+      "_dialogues": [
+        {
+          "_content": "Good morning, sweetie. Are you awake? How are you feeling before school?",
+          "_sender": 1,
+          "_speakerName": "Mom",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 38
+          }
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 340,
+      "_nextNode": -1,
+      "_dialogueType": 1,
+      "_phoneResponseMode": 0,
+      "_conversationStartNode": -1,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": false,
+      "_loopNode": -1,
+      "_eventOnEnd": "D1_TutorialMessageComplete",
+      "_reputationOperationOnEnd": 0,
+      "_reputationAmountOnEnd": 0,
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Glad to hear it, honey. Grab your things and don't miss the bus!",
+          "_sender": 1,
+          "_speakerName": "Mom",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 39
+          }
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 341,
+      "_nextNode": -1,
+      "_dialogueType": 1,
+      "_phoneResponseMode": 0,
+      "_conversationStartNode": -1,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": false,
+      "_loopNode": -1,
+      "_eventOnEnd": "D1_TutorialMessageComplete",
+      "_reputationOperationOnEnd": 0,
+      "_reputationAmountOnEnd": 0,
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "I know mornings are rough. Splash some water on your face and grab your things before you leave.",
+          "_sender": 1,
+          "_speakerName": "Mom",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 39
+          }
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 342,
+      "_nextNode": -1,
+      "_dialogueType": 1,
+      "_phoneResponseMode": 0,
+      "_conversationStartNode": -1,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": false,
+      "_loopNode": -1,
+      "_eventOnEnd": "D1_TutorialMessageComplete",
+      "_reputationOperationOnEnd": 0,
+      "_reputationAmountOnEnd": 0,
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Hey, take a deep breath. I know you're tired, just pack up your things and head out soon, okay?",
+          "_sender": 1,
+          "_speakerName": "Mom",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 39
+          }
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 343,
+      "_nextNode": -1,
+      "_dialogueType": 1,
+      "_phoneResponseMode": 2,
+      "_conversationStartNode": -1,
+      "_hasOptions": true,
+      "_isEndNode": false,
+      "_loop": false,
+      "_loopNode": -1,
+      "_eventOnEnd": "",
+      "_reputationOperationOnEnd": 0,
+      "_reputationAmountOnEnd": 0,
+      "_options": [
+        {
+          "text": "No way, Claire is hiding something.",
+          "nextNode": 344,
+          "messagesToSend": [
+            {
+              "_content": "No way, Claire is definitely hiding something about the cellar.",
+              "_sender": 0,
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 7,
+                "minute": 42
+              }
+            }
+          ],
+          "eventToPublish": "",
+          "reputationOperation": 0,
+          "reputationAmount": 0,
+          "showInScenarioTree": false
+        },
+        {
+          "text": "I think Julian is the real suspect.",
+          "nextNode": 345,
+          "messagesToSend": [
+            {
+              "_content": "Honestly, I think Julian is the one setting everyone up.",
+              "_sender": 0,
+              "_speakerName": "Luna",
+              "_timestamp": {
+                "day": 1,
+                "month": 10,
+                "year": 2026,
+                "hour": 7,
+                "minute": 42
+              }
+            }
+          ],
+          "eventToPublish": "",
+          "reputationOperation": 0,
+          "reputationAmount": 0,
+          "showInScenarioTree": false
+        }
+      ],
+      "_dialogues": [
+        {
+          "_content": "WAIT did you finish chapter 9 of Lost Cause last night?!",
+          "_sender": 1,
+          "_speakerName": "Maya",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 41
+          }
+        },
+        {
+          "_content": "Tell me right now—do you actually trust Claire after that ending?",
+          "_sender": 1,
+          "_speakerName": "Maya",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 41
+          }
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 344,
+      "_nextNode": -1,
+      "_dialogueType": 1,
+      "_phoneResponseMode": 0,
+      "_conversationStartNode": -1,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": false,
+      "_loopNode": -1,
+      "_eventOnEnd": "D1_TutorialMessageComplete",
+      "_reputationOperationOnEnd": 0,
+      "_reputationAmountOnEnd": 0,
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "YES!! Finally someone sees it! We are debriefing the whole chapter after class.",
+          "_sender": 1,
+          "_speakerName": "Maya",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 43
+          }
+        }
+      ],
+      "_showInScenarioTree": false
+    },
+    {
+      "_id": 345,
+      "_nextNode": -1,
+      "_dialogueType": 1,
+      "_phoneResponseMode": 0,
+      "_conversationStartNode": -1,
+      "_hasOptions": false,
+      "_isEndNode": true,
+      "_loop": false,
+      "_loopNode": -1,
+      "_eventOnEnd": "D1_TutorialMessageComplete",
+      "_reputationOperationOnEnd": 0,
+      "_reputationAmountOnEnd": 0,
+      "_options": [],
+      "_dialogues": [
+        {
+          "_content": "Ooh bold theory! Okay, survive school first and then I am proving you wrong tonight.",
+          "_sender": 1,
+          "_speakerName": "Maya",
+          "_timestamp": {
+            "day": 1,
+            "month": 10,
+            "year": 2026,
+            "hour": 7,
+            "minute": 43
+          }
+        }
+      ],
+      "_showInScenarioTree": false
     }
   ]
 }

@@ -31,6 +31,7 @@ public class Objective
     public int Id() { return id; }
     public int NextObjective() { return nextObjectiveId; }
     public int TargetCount() { return targetCount; }
+    public void SetTargetCount(int count) { targetCount = Mathf.Max(1, count); }
     public string Description() { return description; }
     public string EventToListen() { return eventToListen; }
     public string EventToActivate() { return eventToActivate; }

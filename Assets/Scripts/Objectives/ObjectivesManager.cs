@@ -11,18 +11,15 @@ public class ObjectivesManager : MonoBehaviour
 
     [SerializeField] private string _objectivesFileName = "objectives.json";
 
-    [Header("Day 1 - Scene 1")]
-    [Tooltip("How long Luna can explore her bedroom before the objective changes to Go to school.")]
-    [SerializeField, Min(0f)] private float _day1BedroomExploreDuration = 30f;
-
-    private const int Day1BedroomExploreObjectiveId = 0;
-    private const string Day1BedroomExploreCompleteEvent = "D1_ExploreTimerComplete";
+    private const int Day1GoToSchoolObjectiveId = 2;
+    private const string Day1TutorialItemsCompleteEvent = "D1_TutorialItemsPicked";
 
     [SerializeField]
     private Dictionary<int, Objective> _objectives = new Dictionary<int, Objective>();
+    private readonly Dictionary<string, int> _dynamicTargetCountOverrides =
+        new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
     private Objective _currentObjective;
     private int _currentProgress = 0;
-    private Coroutine _day1BedroomExploreTimer;
     private string _subscribedListenEvent;
     private string _subscribedActivateEvent;
     private bool _hasSubscribedInitialObjective;
@@ -68,6 +65,12 @@ public class ObjectivesManager : MonoBehaviour
             {
                 if (objective != null)
                 {
+                    if (!string.IsNullOrWhiteSpace(objective.EventToListen()) &&
+                        _dynamicTargetCountOverrides.TryGetValue(objective.EventToListen().Trim(), out int overrideCount))
+                    {
+                        objective.SetTargetCount(overrideCount);
+                    }
+
                     _objectives[objective.Id()] = objective;
                 }
             }
@@ -134,19 +137,8 @@ public class ObjectivesManager : MonoBehaviour
         return desc;
     }
 
-    private void StopTimedObjective()
-    {
-        if (_day1BedroomExploreTimer != null)
-        {
-            StopCoroutine(_day1BedroomExploreTimer);
-            _day1BedroomExploreTimer = null;
-        }
-    }
-
     private void UnsubscribeFromCurrentObjective()
     {
-        StopTimedObjective();
-
         if (EventBus.Instance != null)
         {
             if (!string.IsNullOrEmpty(_subscribedListenEvent))
@@ -189,11 +181,48 @@ public class ObjectivesManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Updates the target count for any objective listening to the given event (e.g. scalable pickup items in a scene)
+    /// and preserves the override across Save/Load reloads.
+    /// </summary>
+    public void SyncObjectiveTargetCount(string listenEvent, int requiredCount)
+    {
+        if (string.IsNullOrWhiteSpace(listenEvent))
+        {
+            return;
+        }
+
+        string normalizedEvent = listenEvent.Trim();
+        int clamped = Mathf.Max(1, requiredCount);
+        _dynamicTargetCountOverrides[normalizedEvent] = clamped;
+
+        if (_objectives != null)
+        {
+            foreach (Objective objective in _objectives.Values)
+            {
+                if (objective != null &&
+                    string.Equals(objective.EventToListen(), normalizedEvent, StringComparison.OrdinalIgnoreCase))
+                {
+                    objective.SetTargetCount(clamped);
+                }
+            }
+        }
+
+        if (_currentObjective != null &&
+            string.Equals(_currentObjective.EventToListen(), normalizedEvent, StringComparison.OrdinalIgnoreCase))
+        {
+            _currentObjective.SetTargetCount(clamped);
+            _currentProgress = Mathf.Clamp(_currentProgress, 0, clamped);
+            OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
+        }
+    }
+
+    /// <summary>
     /// Resets all objectives back to their initial definitions from JSON (used when starting a New Game).
     /// </summary>
     public void ResetObjectives()
     {
         UnsubscribeFromCurrentObjective();
+        _dynamicTargetCountOverrides.Clear();
         _currentProgress = 0;
         CreateObjectives();
 
@@ -242,7 +271,6 @@ public class ObjectivesManager : MonoBehaviour
 
         _hasSubscribedInitialObjective = true;
         OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
-        UpdateTimedObjective();
     }
 
     private void SubscribeToCurrentObjective()
@@ -252,59 +280,19 @@ public class ObjectivesManager : MonoBehaviour
         BindCurrentObjectiveEvents();
 
         OnObjectiveUpdated?.Invoke(_currentObjective, _currentProgress);
-        UpdateTimedObjective();
-    }
-
-    private void UpdateTimedObjective()
-    {
-        StopTimedObjective();
-
-        if (_currentObjective != null && _currentObjective.Id() == Day1BedroomExploreObjectiveId)
-        {
-            _day1BedroomExploreTimer = StartCoroutine(Day1BedroomExploreRoutine());
-        }
-    }
-
-    private IEnumerator Day1BedroomExploreRoutine()
-    {
-        // Give scene Start methods one frame before checking transition and scene state
-        yield return null;
-
-        float elapsed = 0f;
-        while (elapsed < _day1BedroomExploreDuration)
-        {
-            bool inHomeScene = string.Equals(SceneManager.GetActiveScene().name, "Home", StringComparison.OrdinalIgnoreCase);
-            bool transitioning = TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning;
-
-            if (inHomeScene && !transitioning)
-            {
-                elapsed += Time.deltaTime;
-            }
-
-            yield return null;
-        }
-
-        _day1BedroomExploreTimer = null;
-
-        if (_currentObjective != null &&
-            _currentObjective.Id() == Day1BedroomExploreObjectiveId &&
-            EventBus.Instance != null)
-        {
-            EventBus.Instance.Publish(Day1BedroomExploreCompleteEvent);
-        }
     }
 
     /// <summary>
-    /// Completes the Day 1 bedroom exploration timer immediately (used for debug/testing).
+    /// Skips the Day 1 morning tutorial objectives immediately and unlocks leaving for school (used for debug/testing).
     /// </summary>
     public void CompleteDay1ExploreTimerImmediately()
     {
         if (_currentObjective != null &&
-            _currentObjective.Id() == Day1BedroomExploreObjectiveId &&
+            (_currentObjective.Id() == 0 || _currentObjective.Id() == 1) &&
             EventBus.Instance != null)
         {
-            StopTimedObjective();
-            EventBus.Instance.Publish(Day1BedroomExploreCompleteEvent);
+            EventBus.Instance.Publish(Day1TutorialItemsCompleteEvent);
+            ForceSetObjective(Day1GoToSchoolObjectiveId);
         }
     }
 

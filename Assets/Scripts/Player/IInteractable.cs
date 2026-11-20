@@ -32,9 +32,35 @@ public abstract class IInteractable : MonoBehaviour
     [Tooltip("Legacy Outline component(s) maintained for backwards compatibility.")]
     [SerializeField, HideInInspector] protected Outline[] _outlines;
 
+    public const string InteractPromptPrefix = "Press [E] to ";
+
     abstract public void Interact();
 
-    public string InteractionMessage() { return _interactMessage; }
+    public string InteractionMessage() { return FormatInteractionPrompt(_interactMessage); }
+    public string RawInteractionMessage() { return _interactMessage; }
+
+    public static string FormatInteractionPrompt(string rawMessage)
+    {
+        if (string.IsNullOrWhiteSpace(rawMessage))
+        {
+            return InteractPromptPrefix + "interact";
+        }
+
+        string trimmed = rawMessage.Trim();
+        if (trimmed.StartsWith(InteractPromptPrefix, StringComparison.OrdinalIgnoreCase) ||
+            trimmed.StartsWith("[E]", StringComparison.OrdinalIgnoreCase))
+        {
+            return trimmed;
+        }
+
+        if (trimmed.Length >= 2 && char.IsUpper(trimmed[0]) && char.IsLower(trimmed[1]))
+        {
+            trimmed = char.ToLowerInvariant(trimmed[0]) + trimmed.Substring(1);
+        }
+
+        return InteractPromptPrefix + trimmed;
+    }
+
     public string NotAvailableMessage() { return _notAvailableMessage; }
     public bool CanInteract() { return _canInteract; }
     public Color AvailableColor { get => _availableColor; set => _availableColor = value; }

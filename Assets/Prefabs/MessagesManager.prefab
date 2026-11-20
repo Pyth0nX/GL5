@@ -7129,6 +7129,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EventNodeUpdater
   _updateRules:
+  - triggerEventName: Start_Day1
+    requiredDay: 1
+    contactUpdates:
+    - contactName: Dad
+      newNarrativeNodeId: 338
+      conditions: []
+    - contactName: Mom
+      newNarrativeNodeId: 339
+      conditions: []
+    - contactName: Maya
+      newNarrativeNodeId: 343
+      conditions: []
   - triggerEventName: D1_ConnectAvailable
     requiredDay: 1
     contactUpdates:

@@ -1027,20 +1027,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 354837299}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5156a6104d89414fb6942a7f9d45361, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b4e2f91c6a84d3ea51c9082f4d1e6a3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LaptopInteractable
-  _canInteract: 1
-  _interactMessage: 
-  _notAvailableMessage: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectivePickupInteractable
+  _canInteract: 0
+  _interactMessage: Pick up laptop
+  _notAvailableMessage: Check your messages first
   _availableColor: {r: 0.2, g: 0.85, b: 0.2, a: 1}
   _notAvailableColor: {r: 0.85, g: 0.2, b: 0.2, a: 1}
   _interactableOutlines: []
   _autoAddOutline: 1
   _defaultOutlineWidth: 2.5
   _outlines: []
-  _laptopScreenDuration: 2
-  _enableDaySkipPrototype: 0
+  _itemId: Laptop
+  _progressEventName: D1_SchoolItemPicked
+  _requiredDay: 1
+  _deactivateOnPickup: 1
+  _autoSyncSceneTargetCount: 1
 --- !u!65 &354837304
 BoxCollider:
   m_ObjectHideFlags: 0

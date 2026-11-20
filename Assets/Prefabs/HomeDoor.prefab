@@ -142,7 +142,7 @@ MonoBehaviour:
     _boolValue: 0
   _instantAction: 1
   _enableEvents:
-  - D1_ExploreTimerComplete
+  - D1_TutorialItemsPicked
   - D2_Morning_End
   - D3_Morning_End
   - D4_Morning_End
