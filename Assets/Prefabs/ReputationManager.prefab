@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 404137967767277}
   - component: {fileID: 8592783412847346738}
   - component: {fileID: 4707660184687193119}
+  - component: {fileID: 7319482651042879105}
   m_Layer: 0
   m_Name: ReputationManager
   m_TagString: Untagged
@@ -76,3 +77,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee71efd39db4f674e99b75c9426c345a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DecisionDataManager
+--- !u!114 &7319482651042879105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304421586985652273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d8a1c3e7f2b49d8a6c1e5b2937f4012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReputationMaterialController
+  _materialTargets:
+  - targetMaterial: {fileID: 2100000, guid: 9e12d6d2268fa0a4ca045f1c0d2818e1, type: 2}
+    colorPropertyName: _BaseColor
+    captureNeutralFromMaterial: 1
+    neutralColor: {r: 0.10110356, g: 0.2746425, b: 0.4528302, a: 1}
+    useCustomTierColors: 0
+    customVeryLowColor: {r: 0.02, g: 0.04, b: 0.12, a: 1}
+    customLowColor: {r: 0.05, g: 0.12, b: 0.28, a: 1}
+    customHighColor: {r: 0.98, g: 0.78, b: 0.14, a: 1}
+    customVeryHighColor: {r: 1, g: 0.88, b: 0.12, a: 1}
+  _veryHighColor: {r: 1, g: 0.88, b: 0.12, a: 1}
+  _highColor: {r: 0.98, g: 0.78, b: 0.14, a: 1}
+  _lowColor: {r: 0.05, g: 0.12, b: 0.28, a: 1}
+  _veryLowColor: {r: 0.02, g: 0.04, b: 0.12, a: 1}
+  _continuousInterpolation: 1
+  _transitionDuration: 1
+  _useUnscaledTime: 1
+  _usePreviewReputation: 0
+  _previewReputation: 50
