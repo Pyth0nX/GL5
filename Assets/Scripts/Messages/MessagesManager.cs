@@ -38,6 +38,19 @@ public class MessagesManager : MonoBehaviour
 
     private MessagingChannel _currentMessagingChannel = MessagingChannel.Phone;
 
+    private static readonly string[] BlockedPhotoMonologues =
+    {
+        "I shouldn't send any photos right now.",
+        "There's no reason to send a picture at the moment.",
+        "Better not share any photos unless they ask for one.",
+        "Sending a photo now doesn't make sense.",
+        "Hold on—I don't need to attach a picture right now.",
+        "I'd rather keep my photos to myself for now.",
+        "Not the right time to send an image."
+    };
+
+    private int _lastBlockedPhotoMonologueIndex = -1;
+
     [SerializeField]
     private List<Contact> _contacts = new(); // List of all contacts in the game
 
@@ -1157,6 +1170,82 @@ public class MessagesManager : MonoBehaviour
         {
             _optionsChanger?.ActiveDecisionsPanel(true);
             stateMachine?.ShowDecisionsTab();
+        }
+    }
+
+    /// <summary>
+    /// Returns true only when the active phone narrative node for the specified contact
+    /// explicitly requires a photo and has finished delivering its incoming messages.
+    /// </summary>
+    public bool CanSendPhotoToContact(string contactName)
+    {
+        if (string.IsNullOrEmpty(contactName)) return false;
+        if (_messagesUI != null && _messagesUI.IsAnimating) return false;
+
+        Contact contact = GetContactByName(contactName);
+        if (contact == null) return false;
+
+        NarrativeNode node = GetNarrativeNode(contact.NarrativeNode());
+        if (node == null || node.DialogueType() != DialogueType.PHONE || !node.RequiresPhoto())
+        {
+            return false;
+        }
+
+        List<Message> activeDialogues = node.GetActiveDialogues();
+        int dialogueCount = activeDialogues != null ? activeDialogues.Count : 0;
+        return contact.CurrentMessageIndex() >= dialogueCount;
+    }
+
+    /// <summary>
+    /// Returns true only when the currently active conversation explicitly requires sending a photo.
+    /// </summary>
+    public bool CanSendPhotoToCurrentContact()
+    {
+        return CanSendPhotoToContact(_currentContact);
+    }
+
+    /// <summary>
+    /// Returns true if at least one contact currently has an active phone narrative node requiring a photo.
+    /// </summary>
+    public bool HasAnyContactRequiringPhoto()
+    {
+        if (_contacts == null) return false;
+
+        for (int i = 0; i < _contacts.Count; i++)
+        {
+            Contact contact = _contacts[i];
+            if (contact != null && CanSendPhotoToContact(contact.Name()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Displays a random inner-thought line when the player attempts to send or attach a photo
+    /// outside a narrative node that requires one.
+    /// </summary>
+    public void TriggerBlockedPhotoSendMonologue()
+    {
+        if (BlockedPhotoMonologues.Length == 0) return;
+
+        int index = UnityEngine.Random.Range(0, BlockedPhotoMonologues.Length);
+        if (BlockedPhotoMonologues.Length > 1 && index == _lastBlockedPhotoMonologueIndex)
+        {
+            index = (index + 1) % BlockedPhotoMonologues.Length;
+        }
+        _lastBlockedPhotoMonologueIndex = index;
+
+        string line = BlockedPhotoMonologues[index];
+        if (DialogueManager.Instance != null)
+        {
+            DialogueManager.Instance.ShowInnerMonologue(line, null);
+        }
+        else
+        {
+            Debug.Log($"[MessagesManager] Inner thought (blocked photo): {line}");
         }
     }
 

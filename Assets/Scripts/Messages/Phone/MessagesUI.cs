@@ -148,11 +148,17 @@ public class MessagesUI : MonoBehaviour
     /// </summary>
     public void OpenQuickGalleryForCurrentContact()
     {
-        if (IsAnimating) return;
+        if (MessagesManager.Instance == null || !MessagesManager.Instance.CanSendPhotoToCurrentContact())
+        {
+            MessagesManager.Instance?.TriggerBlockedPhotoSendMonologue();
+            return;
+        }
 
-        GalleryManager gallery = MessagesManager.Instance != null
-            ? MessagesManager.Instance.GetGalleryManager()
-            : FindAnyObjectByType<GalleryManager>(FindObjectsInactive.Include);
+        GalleryManager gallery = MessagesManager.Instance.GetGalleryManager();
+        if (gallery == null)
+        {
+            gallery = FindAnyObjectByType<GalleryManager>(FindObjectsInactive.Include);
+        }
 
         if (gallery != null)
         {

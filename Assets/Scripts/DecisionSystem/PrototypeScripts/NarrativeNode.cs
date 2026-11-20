@@ -84,6 +84,9 @@ public class NarrativeNode
     private bool _hasOptions = false; // Whether this node has options to choose from or not
 
     [SerializeField]
+    private bool _requiresPhoto = false; // Whether this phone narrative node explicitly requires the player to send a photo
+
+    [SerializeField]
     private string _eventOnEnd; // Event to fire when this node's dialogue finishes
 
     [SerializeField]
@@ -218,6 +221,8 @@ public class NarrativeNode
     public DialogueType DialogueType() { return _dialogueType; }
 
     public PhoneResponseMode ResponseMode() { return _phoneResponseMode; }
+
+    public bool RequiresPhoto() { return _requiresPhoto; }
 
     public int ConversationStartNode() { return _conversationStartNode; }
 

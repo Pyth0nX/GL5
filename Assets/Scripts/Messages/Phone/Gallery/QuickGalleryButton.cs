@@ -11,9 +11,6 @@ public class QuickGalleryButton : MonoBehaviour
     [Tooltip("Optional reference to GalleryManager. If left empty, it is automatically located on the phone.")]
     [SerializeField] private GalleryManager _galleryManager;
 
-    [Tooltip("Temporarily disables the button while message typing animation is playing.")]
-    [SerializeField] private bool _disableWhileAnimatingMessages = true;
-
     private Button _button;
 
     private void Awake()
@@ -35,27 +32,28 @@ public class QuickGalleryButton : MonoBehaviour
 
     private void Update()
     {
-        if (!_disableWhileAnimatingMessages || _button == null) return;
+        if (_button == null) return;
 
-        bool hasActiveContact = MessagesManager.Instance != null &&
-                                !string.IsNullOrEmpty(MessagesManager.Instance.GetCurrentContactName());
-
-        bool isAnimating = MessagesManager.Instance != null &&
-                           MessagesManager.Instance.GetMessagesUI() != null &&
-                           MessagesManager.Instance.GetMessagesUI().IsAnimating;
-
-        bool shouldBeInteractable = hasActiveContact && !isAnimating;
-        if (_button.interactable != shouldBeInteractable)
+        // Keep clickable so pressing the camera icon when photo sending is disallowed
+        // triggers the protagonist's blocked inner thought instead of failing silently.
+        if (!_button.interactable)
         {
-            _button.interactable = shouldBeInteractable;
+            _button.interactable = true;
         }
     }
 
     /// <summary>
-    /// Opens Gallery in quick select mode for the active contact in the current conversation.
+    /// Opens Gallery in quick select mode for the active contact in the current conversation,
+    /// or triggers an inner thought if the current narrative node does not require a photo.
     /// </summary>
     public void OnQuickGalleryClicked()
     {
+        if (MessagesManager.Instance == null || !MessagesManager.Instance.CanSendPhotoToCurrentContact())
+        {
+            MessagesManager.Instance?.TriggerBlockedPhotoSendMonologue();
+            return;
+        }
+
         if (_galleryManager == null)
         {
             if (MessagesManager.Instance != null)

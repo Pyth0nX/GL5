@@ -19,13 +19,12 @@ public class DialogueButton : MonoBehaviour
     private const float ScriptedPlayerLineDelaySeconds = 0.25f;
     private const float PhoneAdvanceCooldownSeconds = 0.08f;
 
-    private static readonly Color InputSurfaceColor = new Color(0.96f, 0.97f, 0.98f, 1f);
-    private static readonly Color InputTextColor = new Color(0.12f, 0.14f, 0.18f, 1f);
-    private static readonly Color InputPlaceholderColor = new Color(0.50f, 0.54f, 0.60f, 1f);
-    private static readonly Color InputActiveBorderColor = new Color(0.20f, 0.72f, 0.44f, 1f);
-    private static readonly Color InputBlockedBorderColor = new Color(0.68f, 0.72f, 0.77f, 1f);
-    private static readonly Color SendActiveColor = new Color(0.20f, 0.72f, 0.44f, 1f);
-    private static readonly Color SendBlockedColor = new Color(0.54f, 0.58f, 0.64f, 1f);
+    private static readonly Color InputSurfaceColor = new Color(0.20f, 0.21f, 0.23f, 1f);
+    private static readonly Color InputTextColor = new Color(0.95f, 0.96f, 0.98f, 1f);
+    private static readonly Color InputPlaceholderColor = new Color(0.74f, 0.78f, 0.84f, 0.85f);
+    private static readonly Color InputActiveBorderColor = new Color(0.22f, 0.76f, 0.42f, 1f);
+    private static readonly Color InputBlockedBorderColor = new Color(0.55f, 0.58f, 0.62f, 1f);
+    private static readonly Color SendActiveColor = Color.white;
     private static readonly Color OptionButtonColor = new Color(0.18f, 0.46f, 0.76f, 1f);
 
     private static readonly string[] BlockedSendMonologues =
@@ -39,18 +38,21 @@ public class DialogueButton : MonoBehaviour
         "Not now... I shouldn't be texting them."
     };
 
+    [Header("Phone Input Bar UI (Prefab References)")]
+    [SerializeField] private GameObject _freeTextContainer;
+    [SerializeField] private TMP_InputField _inputField;
+    [SerializeField] private TextMeshProUGUI _placeholderText;
+    [SerializeField] private Button _sendButton;
+    [SerializeField] private Image _sendButtonImage;
+    [SerializeField] private Image _sendButtonIconImage;
+
     private Button _legacyButton;
     private Image _legacyImage;
     private TextMeshProUGUI _legacyTextMesh;
     private Sprite _roundedSprite;
     private TMP_FontAsset _sharedFont;
 
-    private GameObject _freeTextContainer;
-    private TMP_InputField _inputField;
-    private TextMeshProUGUI _placeholderText;
     private UnityEngine.UI.Outline _inputOutline;
-    private Button _sendButton;
-    private Image _sendButtonImage;
 
     private GameObject _twoOptionsContainer;
     private Button _modeBOption0Button;
@@ -74,7 +76,11 @@ public class DialogueButton : MonoBehaviour
     {
         _legacyButton = GetComponent<Button>();
         _legacyImage = GetComponent<Image>();
-        _legacyTextMesh = GetComponentInChildren<TextMeshProUGUI>(true);
+        Transform legacyLabelTransform = transform.Find("Text (TMP)");
+        if (legacyLabelTransform != null)
+        {
+            _legacyTextMesh = legacyLabelTransform.GetComponent<TextMeshProUGUI>();
+        }
 
         EnsureUI();
     }
@@ -760,7 +766,12 @@ public class DialogueButton : MonoBehaviour
 
         if (_sendButtonImage != null)
         {
-            _sendButtonImage.color = activeForModeA ? SendActiveColor : SendBlockedColor;
+            _sendButtonImage.color = SendActiveColor;
+        }
+
+        if (_sendButtonIconImage != null)
+        {
+            _sendButtonIconImage.color = Color.white;
         }
 
         if (_inputOutline != null)
@@ -858,20 +869,67 @@ public class DialogueButton : MonoBehaviour
             _sharedFont = _legacyTextMesh.font;
             _legacyTextMesh.gameObject.SetActive(false);
         }
+        else if (_placeholderText != null)
+        {
+            _sharedFont = _placeholderText.font;
+        }
 
         if (_sharedFont == null)
         {
             _sharedFont = TMP_Settings.defaultFontAsset;
         }
 
-        if (transform is RectTransform rootRect)
+        if (_freeTextContainer != null && _inputField != null && _sendButton != null)
         {
-            rootRect.sizeDelta = new Vector2(312f, 64f);
+            BindPrefabFreeTextBar();
+        }
+        else
+        {
+            if (transform is RectTransform rootRect)
+            {
+                rootRect.sizeDelta = new Vector2(438f, 62f);
+            }
+
+            BuildFreeTextBar();
         }
 
-        BuildFreeTextBar();
-        BuildTwoOptionsBar();
+        if (_twoOptionsContainer == null)
+        {
+            BuildTwoOptionsBar();
+        }
         ShowFreeTextBar(activeForModeA: false);
+    }
+
+    private void BindPrefabFreeTextBar()
+    {
+        if (_sendButtonImage == null)
+        {
+            _sendButtonImage = _sendButton.GetComponent<Image>();
+        }
+
+        if (_placeholderText == null && _inputField.placeholder != null)
+        {
+            _placeholderText = _inputField.placeholder as TextMeshProUGUI;
+        }
+
+        if (_inputField.textComponent != null)
+        {
+            _inputField.textComponent.richText = false;
+            _inputField.textComponent.textWrappingMode = TextWrappingModes.Normal;
+        }
+
+        _inputField.lineType = TMP_InputField.LineType.MultiLineSubmit;
+        _inputField.scrollSensitivity = 10f;
+        _inputField.restoreOriginalTextOnEscape = false;
+        _inputField.characterLimit = 400;
+        _inputField.onSubmit.RemoveListener(OnInputSubmit);
+        _inputField.onSubmit.AddListener(OnInputSubmit);
+
+        Navigation nav = _sendButton.navigation;
+        nav.mode = Navigation.Mode.None;
+        _sendButton.navigation = nav;
+        _sendButton.onClick.RemoveListener(OnSendTriggered);
+        _sendButton.onClick.AddListener(OnSendTriggered);
     }
 
     private void BuildFreeTextBar()
@@ -979,7 +1037,7 @@ public class DialogueButton : MonoBehaviour
         _sendButtonImage = sendGO.GetComponent<Image>();
         _sendButtonImage.sprite = _roundedSprite;
         _sendButtonImage.type = _roundedSprite != null ? Image.Type.Sliced : Image.Type.Simple;
-        _sendButtonImage.color = SendBlockedColor;
+        _sendButtonImage.color = SendActiveColor;
 
         _sendButton = sendGO.GetComponent<Button>();
         _sendButton.targetGraphic = _sendButtonImage;
@@ -1000,12 +1058,13 @@ public class DialogueButton : MonoBehaviour
         _twoOptionsContainer.layer = gameObject.layer;
         _twoOptionsContainer.transform.SetParent(transform, false);
 
+        float twoOptionsWidth = _freeTextContainer != null ? 318f : 438f;
         RectTransform containerRect = _twoOptionsContainer.GetComponent<RectTransform>();
-        containerRect.anchorMin = new Vector2(0.5f, 0.5f);
-        containerRect.anchorMax = new Vector2(0.5f, 0.5f);
-        containerRect.pivot = new Vector2(0.5f, 0.5f);
+        containerRect.anchorMin = new Vector2(0f, 0.5f);
+        containerRect.anchorMax = new Vector2(0f, 0.5f);
+        containerRect.pivot = new Vector2(0f, 0.5f);
         containerRect.anchoredPosition = Vector2.zero;
-        containerRect.sizeDelta = new Vector2(312f, 66f);
+        containerRect.sizeDelta = new Vector2(twoOptionsWidth, 62f);
 
         HorizontalLayoutGroup layout = _twoOptionsContainer.GetComponent<HorizontalLayoutGroup>();
         layout.spacing = 8f;
