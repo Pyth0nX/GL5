@@ -580,12 +580,17 @@ public static class ScenarioDataCollector
                     if (opt == null || !opt.ShowInScenarioTree()) continue;
 
                     bool taken = (selectedOpt == optIdx);
+                    string fallbackLabel = extraNode.ResponseMode() == PhoneResponseMode.FreeText
+                        ? GetDefaultFreeTextRouteLabel(optIdx)
+                        : "Decision\nMade";
                     string label = !string.IsNullOrWhiteSpace(opt.GetScenarioLabel())
                         ? opt.GetScenarioLabel()
-                        : FormatShortOptionText(opt.text);
+                        : (!string.IsNullOrWhiteSpace(opt.text) ? FormatShortOptionText(opt.text) : fallbackLabel);
                     string annotation = !string.IsNullOrWhiteSpace(opt.GetScenarioAnnotation())
                         ? opt.GetScenarioAnnotation()
-                        : (!string.IsNullOrWhiteSpace(extraOverride.annotation) ? extraOverride.annotation : opt.text);
+                        : (!string.IsNullOrWhiteSpace(extraOverride.annotation)
+                            ? extraOverride.annotation
+                            : (!string.IsNullOrWhiteSpace(opt.text) ? opt.text : fallbackLabel));
 
                     bool showVoidArrows = !taken && branchMode == ScenarioBranchMode.OptionB_FirstNodeWithVoidArrows;
 
@@ -623,10 +628,26 @@ public static class ScenarioDataCollector
 
                 if (extraCol.nodes.Count > 0)
                 {
-                    model.decisionColumns.Add(extraCol);
+                    int insertIdx = model.decisionColumns.Count;
+                    for (int c = 0; c < model.decisionColumns.Count; c++)
+                    {
+                        if (model.decisionColumns[c].storyDay > extraCol.storyDay)
+                        {
+                            insertIdx = c;
+                            break;
+                        }
+                    }
+                    model.decisionColumns.Insert(insertIdx, extraCol);
                 }
             }
         }
+
+        int seqColIndex = model.rootColumn != null ? 1 : 0;
+        for (int c = 0; c < model.decisionColumns.Count; c++)
+        {
+            model.decisionColumns[c].columnIndex = seqColIndex++;
+        }
+        nextColumnIndex = seqColIndex;
 
         // 6. Populate the mandatory 3 Fixed Ending Nodes column only if the campaign is completed
         if (isCampaignCompleted)
@@ -1122,14 +1143,44 @@ public static class ScenarioDataCollector
         return trimmed.Substring(0, 25) + "...";
     }
 
+    private static string GetDefaultFreeTextRouteLabel(int optionIndex)
+    {
+        return optionIndex switch
+        {
+            0 => "Safe Reply",
+            1 => "Neutral Reply",
+            2 => "Risky Reply",
+            _ => "Reply"
+        };
+    }
+
     private static int EstimateStoryDay(NarrativeNode node)
     {
-        if (node != null && node.Dialogues() != null && node.Dialogues().Count > 0)
+        if (node != null)
         {
-            Message first = node.Dialogues()[0];
-            if (first != null && first.Timestamp().day >= 1 && first.Timestamp().day <= 5)
+            if (node.Dialogues() != null && node.Dialogues().Count > 0)
             {
-                return first.Timestamp().day;
+                Message first = node.Dialogues()[0];
+                if (first != null && first.Timestamp().day >= 1 && first.Timestamp().day <= 5)
+                {
+                    return first.Timestamp().day;
+                }
+            }
+
+            Option[] options = node.Options();
+            if (options != null)
+            {
+                for (int i = 0; i < options.Length; i++)
+                {
+                    if (options[i] != null && options[i].messagesToSend != null && options[i].messagesToSend.Length > 0)
+                    {
+                        Message firstSent = options[i].messagesToSend[0];
+                        if (firstSent != null && firstSent.Timestamp().day >= 1 && firstSent.Timestamp().day <= 5)
+                        {
+                            return firstSent.Timestamp().day;
+                        }
+                    }
+                }
             }
         }
         return 1;

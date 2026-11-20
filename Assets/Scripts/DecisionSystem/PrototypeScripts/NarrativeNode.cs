@@ -9,6 +9,14 @@ public enum DialogueType
     PHONE
 }
 
+[System.Serializable]
+public enum PhoneResponseMode
+{
+    DecisionOverlay = 0,
+    FreeText = 1,
+    TwoOptions = 2
+}
+
 /// <summary>
 /// Defines how a narrative option behaves in the interface when its reputation conditions are NOT met.
 /// </summary>
@@ -67,7 +75,16 @@ public class NarrativeNode
     private DialogueType _dialogueType;
 
     [SerializeField]
+    private PhoneResponseMode _phoneResponseMode = PhoneResponseMode.DecisionOverlay;
+
+    [SerializeField]
+    private int _conversationStartNode = -1;
+
+    [SerializeField]
     private bool _hasOptions = false; // Whether this node has options to choose from or not
+
+    [SerializeField]
+    private bool _requiresPhoto = false; // Whether this phone narrative node explicitly requires the player to send a photo
 
     [SerializeField]
     private string _eventOnEnd; // Event to fire when this node's dialogue finishes
@@ -203,6 +220,12 @@ public class NarrativeNode
     
     public DialogueType DialogueType() { return _dialogueType; }
 
+    public PhoneResponseMode ResponseMode() { return _phoneResponseMode; }
+
+    public bool RequiresPhoto() { return _requiresPhoto; }
+
+    public int ConversationStartNode() { return _conversationStartNode; }
+
     public ReputationOperation ReputationOperationOnEnd() { return _reputationOperationOnEnd; }
 
     public int ReputationAmountOnEnd() { return _reputationAmountOnEnd; }
@@ -323,6 +346,7 @@ public class Option
     public int nextNode;
 
     public Message[] messagesToSend;
+    public string[] matchKeywords;
     public string eventToPublish; // Optional event to publish when this option is chosen
     public EventDataType eventDataType = EventDataType.NONE; // The type of data of the event
     public string eventDataRawValue; // raw value of the event data

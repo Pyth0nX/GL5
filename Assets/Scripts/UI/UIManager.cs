@@ -1069,7 +1069,7 @@ public class UIManager : MonoBehaviour
         messagesUI.CreateMessages();
 
         NarrativeNode profileNode = messages.GetCurrentContactNarrativeNode();
-        if (profileNode != null && profileNode.HasOptions())
+        if (profileNode != null && profileNode.HasOptions() && profileNode.ResponseMode() == PhoneResponseMode.DecisionOverlay)
         {
             messages.GetOptionsChanger()?.SetCurrentNode(profileNode);
             messages.GetOptionsChanger()?.ActiveDecisionsPanel(true);

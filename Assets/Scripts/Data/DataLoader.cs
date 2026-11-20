@@ -72,6 +72,7 @@ public class DataLoader
         if (nodes == null) return;
 
         const int defaultChoiceReputationDelta = 6;
+        const int defaultFreeTextReputationDelta = 2;
 
         for (int i = 0; i < nodes.Count; i++)
         {
@@ -79,6 +80,21 @@ public class DataLoader
             if (node == null || node.Options() == null) continue;
 
             Option[] options = node.Options();
+            if (node.ResponseMode() == PhoneResponseMode.FreeText && options.Length >= 3)
+            {
+                if (options[0] != null && options[0].reputationOperation == ReputationOperation.None)
+                {
+                    options[0].reputationOperation = ReputationOperation.Add;
+                    options[0].reputationAmount = defaultFreeTextReputationDelta;
+                }
+
+                if (options[2] != null && options[2].reputationOperation == ReputationOperation.None)
+                {
+                    options[2].reputationOperation = ReputationOperation.Subtract;
+                    options[2].reputationAmount = defaultFreeTextReputationDelta;
+                }
+            }
+
             for (int j = 0; j < options.Length; j++)
             {
                 Option opt = options[j];

@@ -1042,10 +1042,22 @@ public class GalleryManager : MonoBehaviour
     {
         if (_selectedPhoto == null) return;
 
-        // If in Quick-Select mode (opened from a specific conversation), send directly to that contact
+        // If in Quick-Select mode (opened from a specific conversation), verify the node still requires a photo
         if (_isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact))
         {
+            if (MessagesManager.Instance == null || !MessagesManager.Instance.CanSendPhotoToContact(_quickSelectTargetContact))
+            {
+                MessagesManager.Instance?.TriggerBlockedPhotoSendMonologue();
+                return;
+            }
+
             SendPhotoToContact(_selectedPhoto, _quickSelectTargetContact);
+            return;
+        }
+
+        if (MessagesManager.Instance == null || !MessagesManager.Instance.HasAnyContactRequiringPhoto())
+        {
+            MessagesManager.Instance?.TriggerBlockedPhotoSendMonologue();
             return;
         }
 
@@ -1053,11 +1065,17 @@ public class GalleryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Displays the list of valid contacts to write to (those with received messages).
+    /// Displays the list of valid contacts currently requiring a photo from the player.
     /// </summary>
     public void OpenContactSelector()
     {
         if (_selectedPhoto == null || _contactSelectorPanel == null) return;
+
+        if (MessagesManager.Instance == null || !MessagesManager.Instance.HasAnyContactRequiringPhoto())
+        {
+            MessagesManager.Instance?.TriggerBlockedPhotoSendMonologue();
+            return;
+        }
 
         PopulateContactSelectorList();
         _contactSelectorPanel.SetActive(true);
@@ -1092,9 +1110,22 @@ public class GalleryManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        List<Contact> validContacts = MessagesManager.Instance != null
+        List<Contact> writableContacts = MessagesManager.Instance != null
             ? MessagesManager.Instance.GetWritableContacts(_onlyContactsWithReceivedMessages)
             : new List<Contact>();
+
+        List<Contact> validContacts = new List<Contact>();
+        if (writableContacts != null && MessagesManager.Instance != null)
+        {
+            for (int i = 0; i < writableContacts.Count; i++)
+            {
+                Contact contact = writableContacts[i];
+                if (contact != null && MessagesManager.Instance.CanSendPhotoToContact(contact.Name()))
+                {
+                    validContacts.Add(contact);
+                }
+            }
+        }
 
         bool hasContacts = validContacts != null && validContacts.Count > 0;
         if (_emptyContactsText != null)
@@ -1198,6 +1229,12 @@ public class GalleryManager : MonoBehaviour
             return;
         }
 
+        if (!MessagesManager.Instance.CanSendPhotoToContact(contactName))
+        {
+            MessagesManager.Instance.TriggerBlockedPhotoSendMonologue();
+            return;
+        }
+
         Sprite sprite = photo.ResolveSprite();
         string imageKey = photo.GetEffectiveImageKey();
         string caption = photo.DefaultCaption;
@@ -1254,6 +1291,12 @@ public class GalleryManager : MonoBehaviour
     public void OpenQuickSelectForContact(string contactName)
     {
         if (string.IsNullOrEmpty(contactName)) return;
+
+        if (MessagesManager.Instance == null || !MessagesManager.Instance.CanSendPhotoToContact(contactName))
+        {
+            MessagesManager.Instance?.TriggerBlockedPhotoSendMonologue();
+            return;
+        }
 
         _pendingQuickSelectContact = contactName;
         _isQuickSelectMode = true;

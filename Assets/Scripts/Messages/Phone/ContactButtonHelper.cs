@@ -80,10 +80,13 @@ public class ContactButtonHelper : MonoBehaviour
 
     private void ShowDecisionAvailable()
     {
+        Contact current = MessagesManager.Instance.GetCurrentContact();
+        if (current != null && current.HasNewMessages()) return;
+
         NarrativeNode node = MessagesManager.Instance.GetCurrentContactNarrativeNode();
-        int contactNarrativeId = node != null ? node.ID() : -1;
-        if (contactNarrativeId != -1 && MessagesManager.Instance.GetNarrativeNode(contactNarrativeId).HasOptions())
+        if (node != null && node.HasOptions() && node.ResponseMode() == PhoneResponseMode.DecisionOverlay)
         {
+            MessagesManager.Instance.GetOptionsChanger()?.ActiveDecisionsPanel(true);
             MessagesManager.Instance.GetPhoneStateMachine()?.ShowDecisionsTab();
         }
     }
