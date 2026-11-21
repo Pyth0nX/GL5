@@ -584,40 +584,30 @@ public class UIManager : MonoBehaviour
         return true;
     }
 
-    public void OpenAppStoreMonologue()
+    public void OpenAppStore()
     {
-        if (_currentState != UIState.PHONE || DialogueManager.Instance == null) return;
+        if (_currentState != UIState.PHONE) return;
 
-        if (_connectDownloadAvailable && !_connectInstalled)
+        PhoneStateMachine phoneState = MessagesManager.Instance != null
+            ? MessagesManager.Instance.GetPhoneStateMachine()
+            : FindAnyObjectByType<PhoneStateMachine>(FindObjectsInactive.Include);
+
+        if (phoneState != null)
         {
-            bool choicesOpened = ShowPhoneChoices(
-                "<b>App Store</b>\nConnect is available to download.",
-                "Close App Store",
-                "Download Connect",
-                HandleAppStoreChoice);
-
-            if (choicesOpened) return;
-        }
-
-        SetPhoneAppInteraction(false);
-        bool opened = DialogueManager.Instance.ShowInnerMonologue(
-            "I don't want to install anything.",
-            CloseAppStoreMonologue);
-
-        if (!opened)
-        {
-            SetPhoneAppInteraction(true);
+            phoneState.ChangeState((int)PhoneState.APP_STORE);
+            phoneState.UpdatePhoneBackground();
         }
     }
 
-    private void CloseAppStoreMonologue()
+    public void OpenAppStoreMonologue()
     {
-        SetPhoneAppInteraction(true);
+        OpenAppStore();
     }
 
     private void EnableConnectDownload()
     {
         _connectDownloadAvailable = true;
+        AppStoreManager.Instance?.RefreshStoreState();
         Debug.Log("[UIManager] Connect is now available in the App Store.");
     }
 
@@ -629,6 +619,7 @@ public class UIManager : MonoBehaviour
 
     public void ResetConnectState()
     {
+        AppStoreManager.Instance?.ResetStoreState();
         RestoreConnectState(false, false, false);
     }
 
@@ -645,6 +636,7 @@ public class UIManager : MonoBehaviour
 
         UpdatePhoneAppLayout();
         MessagesManager.Instance?.NotifyUnreadCountsChanged();
+        AppStoreManager.Instance?.RefreshStoreState();
     }
 
     public void ApplyCompletedConnectSetupForTestSkip()
@@ -653,10 +645,9 @@ public class UIManager : MonoBehaviour
         Debug.Log("[UIManager] Restored completed Connect setup for debug day start.");
     }
 
-    private void HandleAppStoreChoice(int choiceIndex)
+    public void CompleteConnectDownload()
     {
-        const int DownloadConnectChoice = 1;
-        if (choiceIndex != DownloadConnectChoice || _connectInstalled) return;
+        if (_connectInstalled) return;
 
         _connectInstalled = true;
         if (_connectAppButton != null)
@@ -665,10 +656,10 @@ public class UIManager : MonoBehaviour
         }
 
         UpdatePhoneAppLayout();
+        MessagesManager.Instance?.GetPhoneStateMachine()?.UpdateConnectAppIcon();
         MessagesManager.Instance?.NotifyUnreadCountsChanged();
         EventBus.Instance?.Publish("D1_ConnectAvailable");
         EventBus.Instance?.Publish("D1_ConnectDownloaded");
-        ShowTemporaryMessage("Connect installed.", Color.white, 2.5f);
         Debug.Log("[UIManager] Connect was downloaded and added to the phone.");
     }
 
@@ -935,7 +926,7 @@ public class UIManager : MonoBehaviour
         }
 
         appStoreButton.gameObject.SetActive(true);
-        RebindPhoneButton(appStoreButton, OpenAppStoreMonologue);
+        RebindPhoneButton(appStoreButton, OpenAppStore);
         _appStoreButton = appStoreButton;
 
         Image appStoreImage = appStoreButton.GetComponent<Image>();
@@ -1036,7 +1027,7 @@ public class UIManager : MonoBehaviour
         MessagesManager.Instance.GetMessagesUI()?.RefreshContacts();
     }
 
-    private void OpenConnectApp()
+    public void OpenConnectApp()
     {
         if (!_connectInstalled || MessagesManager.Instance == null) return;
 
@@ -1050,6 +1041,7 @@ public class UIManager : MonoBehaviour
         if (_connectProfileCreated)
         {
             phoneState.ChangeState((int)PhoneState.CONTACTS);
+            phoneState.SetBackButtonState((int)PhoneState.IDLE);
             phoneState.UpdatePhoneBackground();
             messagesUI.RefreshContacts();
             return;
@@ -1064,6 +1056,7 @@ public class UIManager : MonoBehaviour
         messages.SetCurrentContact("Connect");
         messages.MarkContactNotificationsAsRead("Connect");
         phoneState.ChangeState((int)PhoneState.MESSAGING);
+        phoneState.SetBackButtonState((int)PhoneState.IDLE);
         phoneState.UpdatePhoneBackground();
         messagesUI.SetContactName("Connect");
         messagesUI.CreateMessages();

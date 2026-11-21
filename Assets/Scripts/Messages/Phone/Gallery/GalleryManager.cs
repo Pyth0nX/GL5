@@ -1141,7 +1141,7 @@ public class GalleryManager : MonoBehaviour
             if (contact == null) continue;
 
             string targetName = contact.Name();
-            GameObject btnGO = CreateContactSelectorButton(targetName);
+            GameObject btnGO = CreateContactSelectorButton(contact);
             Button btn = btnGO.GetComponent<Button>();
             if (btn != null)
             {
@@ -1156,8 +1156,9 @@ public class GalleryManager : MonoBehaviour
         }
     }
 
-    private GameObject CreateContactSelectorButton(string contactName)
+    private GameObject CreateContactSelectorButton(Contact contact)
     {
+        string contactName = contact != null ? contact.Name() : string.Empty;
         GameObject itemGO;
 
         if (_contactSelectorItemPrefab != null)
@@ -1177,6 +1178,10 @@ public class GalleryManager : MonoBehaviour
             {
                 label.text = contactName;
             }
+
+            MessagesUI ui = MessagesManager.Instance != null ? MessagesManager.Instance.GetMessagesUI() : null;
+            Sprite avatar = ui != null ? ui.ResolveContactProfileSprite(contact) : null;
+            MessagesUI.ApplyCircularAvatarToContactButton(itemGO, avatar);
         }
         else
         {

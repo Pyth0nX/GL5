@@ -2613,6 +2613,7 @@ RectTransform:
   - {fileID: 8908612112233773399}
   - {fileID: 3447065273658801340}
   - {fileID: 7969053331790808128}
+  - {fileID: 8800000000000000602}
   - {fileID: 8800000000000000402}
   - {fileID: 57847639031726533}
   - {fileID: 8723101443215319574}
@@ -2645,12 +2646,15 @@ MonoBehaviour:
   _galleryTab: {fileID: 5572264413696622787}
   _quickGalleryButton: {fileID: 8800000000000000401}
   _dialogueTab: {fileID: 1333551865408897339}
+  _appStoreTab: {fileID: 8800000000000000601}
   _quitTab: {fileID: 0}
   _galleryManager: {fileID: 8800000000000000001}
+  _appStoreManager: {fileID: 8800000000000000604}
   _phoneBgImage: {fileID: 2267638225604526257}
   _defaultBgSprite: {fileID: 21300000, guid: 521158f1228a967439273bb5e43bb6d6, type: 3}
   _messagesBgSprite: {fileID: 21300000, guid: be20a2416f191f6429798fae59dccaad, type: 3}
   _connectBgSprite: {fileID: 21300000, guid: d4f002ac1e9dd4b4fb72c08c5123bf49, type: 3}
+  _appStoreBgSprite: {fileID: 0}
   _notificationBadgeSprite: {fileID: 21300000, guid: bb2a7e7d4efac2d47b8c63ad311ed71e, type: 3}
   _messagesAppButton: {fileID: 3612019585409655235}
   _connectAppButton: {fileID: 1878103956509056001}
@@ -8852,3 +8856,67 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &8800000000000000601
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8800000000000000602}
+  - component: {fileID: 8800000000000000603}
+  - component: {fileID: 8800000000000000604}
+  m_Layer: 5
+  m_Name: AppStoreScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &8800000000000000602
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800000000000000601}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6174641975354131647}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 15}
+  m_SizeDelta: {x: 460, y: 770}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8800000000000000603
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800000000000000601}
+  m_CullTransparentMesh: 1
+--- !u!114 &8800000000000000604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800000000000000601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a3e71b4f6248d59b2e1a6c83f054d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AppStoreManager
+  _includeBuiltInApps: 1
+  _apps: []
+  _appStoreLogoSprite: {fileID: 21300000, guid: 4edf0ca50b33f2549b3191664fffb030, type: 3}
+  _connectIconOverride: {fileID: 21300000, guid: 974cfdd44114a174e9c8d33f9df04c07, type: 3}
+  _connectPreviewSprite: {fileID: 21300000, guid: d4f002ac1e9dd4b4fb72c08c5123bf49, type: 3}
+  _roundedCardSprite: {fileID: 0}
+

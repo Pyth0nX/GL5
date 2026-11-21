@@ -7025,6 +7025,10 @@ MonoBehaviour:
   npcMessagesBubbleSprite: {fileID: 21300000, guid: 4964f497b8e637c479c6a0011a0943e4, type: 3}
   npcConnectBubbleSprite: {fileID: 21300000, guid: 17d563d4153b4df4fb495bf7a730acb6, type: 3}
   notificationBadgeSprite: {fileID: 21300000, guid: bb2a7e7d4efac2d47b8c63ad311ed71e, type: 3}
+  defaultProfileSprite: {fileID: 21300000, guid: 2008515b956ef1e4fab913545da75af0, type: 3}
+  contactAvatarOverrides:
+  - contactName: Connect
+    avatarSprite: {fileID: 21300000, guid: 974cfdd44114a174e9c8d33f9df04c07, type: 3}
   lunaFlirtSelfie: {fileID: -2589699542654849014, guid: 0e04a03c8de1aab4fa9553b55286084f, type: 3}
   lunaNormalSelfie: {fileID: -4644427626319330781, guid: 7dca4c9d4c98eb54face0419dbc32dd5, type: 3}
   messagesScrollRect: {fileID: 0}

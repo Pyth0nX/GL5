@@ -130,7 +130,12 @@ public class PhoneNotificationController : MonoBehaviour
         new AppNotificationConfig { App = PhoneApp.Connect, DisplayName = "Connect" }
     };
 
-    private readonly Queue<NotificationData> _notificationQueue = new Queue<NotificationData>();
+    [Tooltip("Summary text displayed when multiple notifications for the same app arrive together.")]
+    [SerializeField] private string _multipleMessagesText = "New unread messages";
+
+    private readonly List<NotificationData> _notificationQueue = new List<NotificationData>();
+    private NotificationData _activeNotification = null;
+    private bool _isActiveNotificationVisible = false;
     private Coroutine _displayCoroutine = null;
     private Vector2 _onScreenPosition;
     private Vector2 _offScreenPosition;
@@ -178,6 +183,8 @@ public class PhoneNotificationController : MonoBehaviour
             _canvasGroup.DOKill();
         }
         _displayCoroutine = null;
+        _activeNotification = null;
+        _isActiveNotificationVisible = false;
     }
 
     private void OnDestroy()
@@ -249,6 +256,11 @@ public class PhoneNotificationController : MonoBehaviour
         if (_notificationMessageText != null)
         {
             _notificationMessageText.overflowMode = TextOverflowModes.Ellipsis;
+        }
+
+        if (_appLogoImage != null)
+        {
+            _appLogoImage.preserveAspect = true;
         }
 
         SetupPanelContainer();
@@ -327,7 +339,36 @@ public class PhoneNotificationController : MonoBehaviour
         data.Message = PlayerNameService.FormatText(data.Message);
 
         InitializeComponents();
-        _notificationQueue.Enqueue(data);
+
+        // Coalesce with currently visible notification for the same app
+        if (_activeNotification != null &&
+            _isActiveNotificationVisible &&
+            string.Equals(_activeNotification.AppName, data.AppName, StringComparison.OrdinalIgnoreCase))
+        {
+            _activeNotification.Message = _multipleMessagesText;
+            if (_notificationMessageText != null)
+            {
+                _notificationMessageText.text = TruncateMessageToFit(_notificationMessageText, _multipleMessagesText);
+            }
+            return;
+        }
+
+        // Coalesce with any queued notification for the same app (e.g. multiple contacts updated in one batch)
+        for (int i = 0; i < _notificationQueue.Count; i++)
+        {
+            NotificationData queued = _notificationQueue[i];
+            if (queued != null && string.Equals(queued.AppName, data.AppName, StringComparison.OrdinalIgnoreCase))
+            {
+                queued.Message = _multipleMessagesText;
+                if (queued.AppIcon == null && data.AppIcon != null)
+                {
+                    queued.AppIcon = data.AppIcon;
+                }
+                return;
+            }
+        }
+
+        _notificationQueue.Add(data);
 
         if (_displayCoroutine == null && gameObject.activeInHierarchy)
         {
@@ -339,6 +380,9 @@ public class PhoneNotificationController : MonoBehaviour
 
     private IEnumerator ProcessNotificationQueue()
     {
+        // Allow same-frame batch updates (e.g. Start_Day1 updating Dad, Mom, Maya) to coalesce before sliding in
+        yield return null;
+
         while (_notificationQueue.Count > 0)
         {
             while (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning)
@@ -346,10 +390,18 @@ public class PhoneNotificationController : MonoBehaviour
                 yield return null;
             }
 
-            NotificationData data = _notificationQueue.Dequeue();
+            if (_notificationQueue.Count == 0) break;
+
+            NotificationData data = _notificationQueue[0];
+            _notificationQueue.RemoveAt(0);
+
+            _activeNotification = data;
             yield return StartCoroutine(DisplayNotification(data));
+            _activeNotification = null;
         }
         _displayCoroutine = null;
+        _activeNotification = null;
+        _isActiveNotificationVisible = false;
     }
 
     private IEnumerator DisplayNotification(NotificationData data)
@@ -391,6 +443,7 @@ public class PhoneNotificationController : MonoBehaviour
         _canvasGroup.DOKill();
         _canvasGroup.alpha = 1f;
         _canvasGroup.blocksRaycasts = true;
+        _isActiveNotificationVisible = true;
 
         // 6. Slide In: appear moving from the right into the current position
         if (_panelRect != null)
@@ -403,6 +456,8 @@ public class PhoneNotificationController : MonoBehaviour
         // 7. Stay visible for 2 seconds (or configured duration) in its final position
         float displayTime = data.Duration > 0f ? data.Duration : _stayDuration;
         yield return new WaitForSeconds(displayTime);
+
+        _isActiveNotificationVisible = false;
 
         // 8. Slide Out: hide moving back towards the right
         if (_panelRect != null)

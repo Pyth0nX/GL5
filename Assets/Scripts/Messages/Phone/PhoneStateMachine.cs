@@ -48,11 +48,16 @@ public class PhoneStateMachine : MonoBehaviour
     private GameObject _dialogueTab; 
 
     [SerializeField]
+    private GameObject _appStoreTab;
+
+    [SerializeField]
     private GameObject _quitTab;
 
     [Header("App Managers (Optional - Auto-Detected)")]
     [SerializeField]
     private GalleryManager _galleryManager;
+    [SerializeField]
+    private AppStoreManager _appStoreManager;
 
     [Header("Phone Background")]
     [Tooltip("Background Image component of the phone screen (PhoneBG).")]
@@ -63,6 +68,8 @@ public class PhoneStateMachine : MonoBehaviour
     [SerializeField] private Sprite _messagesBgSprite;
     [Tooltip("Background sprite used while inside the Connect app (Connect-UI).")]
     [SerializeField] private Sprite _connectBgSprite;
+    [Tooltip("Background sprite used while inside the App Store. Falls back to Messages background if unassigned.")]
+    [SerializeField] private Sprite _appStoreBgSprite;
 
     [Header("App Notification Badges")]
     [Tooltip("Notification icon sprite displayed in the top-right corner of app icons (Notifications).")]
@@ -149,6 +156,15 @@ public class PhoneStateMachine : MonoBehaviour
             }
         }
 
+        if (_currentState == PhoneState.APP_STORE)
+        {
+            EnsureAppStoreManager();
+            if (_appStoreManager != null && _appStoreManager.TryHandleBackButton())
+            {
+                return;
+            }
+        }
+
         ChangeState(_backButtonState);
     }
 
@@ -162,6 +178,19 @@ public class PhoneStateMachine : MonoBehaviour
         if (_galleryManager == null)
         {
             _galleryManager = GalleryManager.Instance;
+        }
+    }
+
+    private void EnsureAppStoreManager()
+    {
+        if (_appStoreManager == null && _appStoreTab != null)
+        {
+            _appStoreManager = _appStoreTab.GetComponentInChildren<AppStoreManager>(true);
+        }
+
+        if (_appStoreManager == null)
+        {
+            _appStoreManager = AppStoreManager.Instance ?? FindAnyObjectByType<AppStoreManager>(FindObjectsInactive.Include);
         }
     }
 
@@ -230,6 +259,9 @@ public class PhoneStateMachine : MonoBehaviour
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(false);
                 break;
+            case PhoneState.APP_STORE:
+                _appStoreTab?.SetActive(false);
+                break;
             case PhoneState.SETTINGS:
                 if (EventBus.Instance != null)
                 {
@@ -267,6 +299,12 @@ public class PhoneStateMachine : MonoBehaviour
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(true);
                 break;
+            case PhoneState.APP_STORE:
+                _backButtonState = (int)PhoneState.IDLE;
+                _appStoreTab?.SetActive(true);
+                EnsureAppStoreManager();
+                _appStoreManager?.OnStoreOpened();
+                break;
             case PhoneState.SETTINGS:
                 if (EventBus.Instance != null)
                 {
@@ -300,6 +338,19 @@ public class PhoneStateMachine : MonoBehaviour
     public GameObject GetGalleryTab()
     {
         return _galleryTab;
+    }
+
+    public GameObject GetAppStoreTab()
+    {
+        return _appStoreTab;
+    }
+
+    public Sprite GetConnectAppIcon()
+    {
+        ReputationTier currentTier = ReputationManager.Instance != null
+            ? ReputationManager.Instance.CurrentTier
+            : ReputationTier.Neutral;
+        return GetConnectIconForTier(currentTier);
     }
 
     
@@ -337,6 +388,12 @@ public class PhoneStateMachine : MonoBehaviour
 
             targetSprite = channel == MessagingChannel.Connect
                 ? (_connectBgSprite != null ? _connectBgSprite : MessagesUI.LoadSprite("Hilmir/UI/Connect-UI.png"))
+                : (_messagesBgSprite != null ? _messagesBgSprite : MessagesUI.LoadSprite("Hilmir/UI/Messages-UI.png"));
+        }
+        else if (_currentState == PhoneState.APP_STORE)
+        {
+            targetSprite = _appStoreBgSprite != null
+                ? _appStoreBgSprite
                 : (_messagesBgSprite != null ? _messagesBgSprite : MessagesUI.LoadSprite("Hilmir/UI/Messages-UI.png"));
         }
         else

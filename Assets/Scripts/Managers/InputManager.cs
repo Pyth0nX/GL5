@@ -48,17 +48,33 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
         BindActions();
+    }
+
+    private void OnDestroy()
+    {
+        if (_pMenuAction != null)
+        {
+            _pMenuAction.performed -= OnMenuActionPerformed;
+        }
+
+        if (Instance == this)
+        {
+            _pMovementMap?.Disable();
+            _pInteractionsMap?.Disable();
+            Instance = null;
+        }
     }
 
     /// <summary>
@@ -66,21 +82,32 @@ public class InputManager : MonoBehaviour
     /// </summary>
     private void BindActions() 
     {
-        
+        if (_playerAsset == null) return;
+
         _pMovementMap = _playerAsset.FindActionMap("Movement");
-        _pMoveAction = _pMovementMap.FindAction("Move");
-        _pLookAction = _pMovementMap.FindAction("Look");
+        if (_pMovementMap != null)
+        {
+            _pMoveAction = _pMovementMap.FindAction("Move");
+            _pLookAction = _pMovementMap.FindAction("Look");
+        }
 
         _pInteractionsMap = _playerAsset.FindActionMap("Interactions");
-        _pPhoneAction = _pInteractionsMap.FindAction("Phone");
-        _pInteractAction = _pInteractionsMap.FindAction("Interact");
-        _pContinueDialogueAction = _pInteractionsMap.FindAction("ContinueDialogue");
-        _pMenuAction = _pInteractionsMap.FindAction("Menu");
-        _pLeftClickAction = _pInteractionsMap.FindAction("LeftClick");
-        _pF9Action = _pInteractionsMap.FindAction("F9");
-        _pF10Action = _pInteractionsMap.FindAction("F10");
+        if (_pInteractionsMap != null)
+        {
+            _pPhoneAction = _pInteractionsMap.FindAction("Phone");
+            _pInteractAction = _pInteractionsMap.FindAction("Interact");
+            _pContinueDialogueAction = _pInteractionsMap.FindAction("ContinueDialogue");
+            _pMenuAction = _pInteractionsMap.FindAction("Menu");
+            _pLeftClickAction = _pInteractionsMap.FindAction("LeftClick");
+            _pF9Action = _pInteractionsMap.FindAction("F9");
+            _pF10Action = _pInteractionsMap.FindAction("F10");
+        }
 
-        _pMenuAction.performed += OnMenuActionPerformed;
+        if (_pMenuAction != null)
+        {
+            _pMenuAction.performed -= OnMenuActionPerformed;
+            _pMenuAction.performed += OnMenuActionPerformed;
+        }
     }
 
     private void OnMenuActionPerformed(InputAction.CallbackContext context)
@@ -115,7 +142,7 @@ public class InputManager : MonoBehaviour
     #region Getters
     public Vector2 GetPlayerMovement()
     {
-        return _pMoveAction.ReadValue<Vector2>();
+        return _pMoveAction != null ? _pMoveAction.ReadValue<Vector2>() : Vector2.zero;
     }
 
     public bool PlayerMoved()
@@ -125,7 +152,7 @@ public class InputManager : MonoBehaviour
 
     public Vector2 GetPlayerLook()
     {
-        return _pLookAction.ReadValue<Vector2>();
+        return _pLookAction != null ? _pLookAction.ReadValue<Vector2>() : Vector2.zero;
     }
 
     public bool PlayerLooked()
@@ -356,22 +383,22 @@ public class InputManager : MonoBehaviour
     #region Enablers
     public void EnableMovementMap()
     {
-        _pMovementMap.Enable();
+        _pMovementMap?.Enable();
     }
 
     public void EnableInteractionsMap()
     {
-        _pInteractionsMap.Enable();
+        _pInteractionsMap?.Enable();
     }
 
     public void EnablePlayerMovement()
     {
-        _pMoveAction.Enable();
+        _pMoveAction?.Enable();
     }
 
     public void EnablePlayerLook()
     {
-        _pLookAction.Enable();
+        _pLookAction?.Enable();
     } 
 
     public void EnablePhone()
@@ -388,13 +415,13 @@ public class InputManager : MonoBehaviour
 
     public void EnableMenuAction()
     {
-        _pMenuAction.Enable();
+        _pMenuAction?.Enable();
     }
 
     public void EnableInteract()
     {
         SuppressInteract(0f, 1);
-        _pInteractAction.Enable();
+        _pInteractAction?.Enable();
     }
 
     public void EnableLeftClick()
@@ -417,37 +444,37 @@ public class InputManager : MonoBehaviour
 
     public void DisableMovementMap()
     {
-        _pMovementMap.Disable();
+        _pMovementMap?.Disable();
     }
 
     public void DisableInteractionsMap()
     {
-        _pInteractionsMap.Disable();
+        _pInteractionsMap?.Disable();
     }
 
     public void DisablePlayerMovement()
     {
-        _pMoveAction.Disable();
+        _pMoveAction?.Disable();
     }
 
     public void DisablePlayerLook()
     {
-        _pLookAction.Disable();
+        _pLookAction?.Disable();
     }
 
     public void DisablePhone()
     {
-        _pPhoneAction.Disable();
+        _pPhoneAction?.Disable();
     }
 
     public void DisableMenuAction()
     {
-        _pMenuAction.Disable();
+        _pMenuAction?.Disable();
     }
 
     public void DisableInteract()
     {
-        _pInteractAction.Disable();
+        _pInteractAction?.Disable();
     }
 
     public void DisableLeftClick()

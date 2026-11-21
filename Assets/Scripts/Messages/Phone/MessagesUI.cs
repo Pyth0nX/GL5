@@ -31,6 +31,19 @@ public class MessagesUI : MonoBehaviour
     [Tooltip("Notification badge sprite displayed on contacts that have unread messages.")]
     [SerializeField] private Sprite notificationBadgeSprite;
 
+    [Serializable]
+    public struct ContactAvatarOverride
+    {
+        public string contactName;
+        public Sprite avatarSprite;
+    }
+
+    [Header("Contact Profile")]
+    [Tooltip("Default profile picture sprite used when a contact has no custom avatar.")]
+    [SerializeField] private Sprite defaultProfileSprite;
+    [Tooltip("Optional per-contact avatar overrides (matched by contact name, e.g. Connect).")]
+    [SerializeField] private List<ContactAvatarOverride> contactAvatarOverrides = new List<ContactAvatarOverride>();
+
     [Header("Message Images")]
     [SerializeField] private Sprite lunaFlirtSelfie;
     [SerializeField] private Sprite lunaNormalSelfie;
@@ -66,6 +79,10 @@ public class MessagesUI : MonoBehaviour
 
     private static readonly Dictionary<string, Sprite> _loadedSpritesCache = new Dictionary<string, Sprite>();
     private static readonly Dictionary<Sprite, Sprite> _slicedBubbleSpritesCache = new Dictionary<Sprite, Sprite>();
+    private static Sprite _circleMaskSprite;
+
+    private const string DefaultProfileSpritePath = "_PhoneUIImages/DefaultProfilePicture.png";
+    private Image _contactAvatarHeader;
 
     public bool IsAnimating => _isAnimating || _pendingMessages.Count > 0;
 
@@ -172,7 +189,11 @@ public class MessagesUI : MonoBehaviour
 
     private void EnsureContactNameHeader()
     {
-        if (contactNameHeader != null) return;
+        if (contactNameHeader != null)
+        {
+            ResolveContactAvatarFromHeader(contactNameHeader.transform.parent);
+            return;
+        }
 
         // 1. Search up the parent chain of messagesContainer to find ContactInfo/ContactName
         if (messagesContainer != null)
@@ -183,6 +204,7 @@ public class MessagesUI : MonoBehaviour
                 Transform contactInfo = current.Find("ContactInfo");
                 if (contactInfo != null)
                 {
+                    ResolveContactAvatarFromHeader(contactInfo);
                     Transform contactName = contactInfo.Find("ContactName");
                     if (contactName != null)
                     {
@@ -203,14 +225,26 @@ public class MessagesUI : MonoBehaviour
                 if (t.gameObject.scene.isLoaded && t.gameObject.name == "ContactName" && t.transform.parent != null && t.transform.parent.name == "ContactInfo")
                 {
                     contactNameHeader = t;
+                    ResolveContactAvatarFromHeader(t.transform.parent);
                     return;
                 }
             }
         }
     }
 
+    private void ResolveContactAvatarFromHeader(Transform contactInfo)
+    {
+        if (_contactAvatarHeader != null || contactInfo == null) return;
+
+        Transform avatarChild = contactInfo.Find("Image");
+        if (avatarChild != null)
+        {
+            _contactAvatarHeader = avatarChild.GetComponent<Image>();
+        }
+    }
+
     /// <summary>
-    /// Set the contact name text in ContactInfo/ContactName
+    /// Set the contact name text and circular profile avatar in ContactInfo.
     /// </summary>
     public void SetContactName(string contactName)
     {
@@ -219,10 +253,11 @@ public class MessagesUI : MonoBehaviour
         {
             contactNameHeader.text = contactName;
         }
+        UpdateContactHeaderAvatar(contactName);
     }
 
     /// <summary>
-    /// Update the contact name header using the current contact from MessagesManager
+    /// Update the contact name header and circular avatar using the current contact from MessagesManager.
     /// </summary>
     public void UpdateContactNameHeader(string contactName = null)
     {
@@ -236,6 +271,18 @@ public class MessagesUI : MonoBehaviour
         {
             contactNameHeader.text = contactName;
         }
+        UpdateContactHeaderAvatar(contactName);
+    }
+
+    private void UpdateContactHeaderAvatar(string contactName)
+    {
+        if (_contactAvatarHeader == null) return;
+
+        Contact contact = !string.IsNullOrEmpty(contactName) && MessagesManager.Instance != null
+            ? MessagesManager.Instance.GetContactByName(contactName)
+            : null;
+        Sprite profileSprite = ResolveContactProfileSprite(contact);
+        ApplyCircularAvatar(_contactAvatarHeader.rectTransform, profileSprite, Color.white);
     }
 
     public void AddContact(Contact contact)
@@ -292,6 +339,8 @@ public class MessagesUI : MonoBehaviour
 
         ApplyContactDimensions(contactGO);
 
+        ApplyCircularAvatarToContactButton(contactGO, ResolveContactProfileSprite(contact));
+
         ContactButtonHelper helper = contactGO.GetComponent<ContactButtonHelper>();
         if (helper != null)
         {
@@ -318,7 +367,8 @@ public class MessagesUI : MonoBehaviour
         if (contactNameText != null)
         {
             RectTransform nameRect = contactNameText.rectTransform;
-            nameRect.offsetMax = unreadCount > 0 ? new Vector2(-64f, nameRect.offsetMax.y) : new Vector2(0f, nameRect.offsetMax.y);
+            nameRect.offsetMin = new Vector2(78f, nameRect.offsetMin.y);
+            nameRect.offsetMax = unreadCount > 0 ? new Vector2(-64f, nameRect.offsetMax.y) : new Vector2(-12f, nameRect.offsetMax.y);
         }
     }
 
@@ -343,6 +393,159 @@ public class MessagesUI : MonoBehaviour
         }
 
         return Mathf.Max(0f, width);
+    }
+
+    private Sprite GetDefaultProfileSprite()
+    {
+        if (defaultProfileSprite != null) return defaultProfileSprite;
+        return LoadSprite(DefaultProfileSpritePath);
+    }
+
+    /// <summary>
+    /// Resolves a contact's profile sprite from per-contact Inspector overrides, _contactImagePath, or DefaultProfilePicture.
+    /// </summary>
+    public Sprite ResolveContactProfileSprite(Contact contact)
+    {
+        if (contact != null)
+        {
+            if (contactAvatarOverrides != null)
+            {
+                for (int i = 0; i < contactAvatarOverrides.Count; i++)
+                {
+                    ContactAvatarOverride entry = contactAvatarOverrides[i];
+                    if (entry.avatarSprite != null &&
+                        !string.IsNullOrEmpty(entry.contactName) &&
+                        string.Equals(entry.contactName.Trim(), contact.Name(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        return entry.avatarSprite;
+                    }
+                }
+            }
+
+            string customPath = contact.ImagePath();
+            if (!string.IsNullOrEmpty(customPath) &&
+                !string.Equals(customPath, "Assets/Sprites/UnknownProfile.png", StringComparison.OrdinalIgnoreCase))
+            {
+                Sprite customSprite = LoadSprite(customPath);
+                if (customSprite != null) return customSprite;
+            }
+        }
+
+        return GetDefaultProfileSprite();
+    }
+
+    /// <summary>
+    /// Creates or updates a circular profile avatar inside a ContactButton instance and offsets its label cleanly.
+    /// </summary>
+    public static void ApplyCircularAvatarToContactButton(GameObject contactButtonGO, Sprite resolvedSprite)
+    {
+        if (contactButtonGO == null) return;
+
+        Sprite avatar = resolvedSprite != null ? resolvedSprite : LoadSprite(DefaultProfileSpritePath);
+
+        Transform avatarTransform = contactButtonGO.transform.Find("ProfileAvatar");
+        RectTransform avatarRect;
+        if (avatarTransform == null)
+        {
+            GameObject avatarGO = new GameObject("ProfileAvatar", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Mask));
+            avatarGO.layer = contactButtonGO.layer;
+            avatarGO.transform.SetParent(contactButtonGO.transform, false);
+            avatarRect = avatarGO.GetComponent<RectTransform>();
+            avatarRect.anchorMin = new Vector2(0f, 0.5f);
+            avatarRect.anchorMax = new Vector2(0f, 0.5f);
+            avatarRect.pivot = new Vector2(0f, 0.5f);
+            avatarRect.anchoredPosition = new Vector2(12f, 0f);
+            avatarRect.sizeDelta = new Vector2(54f, 54f);
+        }
+        else
+        {
+            avatarRect = avatarTransform as RectTransform;
+        }
+
+        ApplyCircularAvatar(avatarRect, avatar, Color.white);
+
+        Transform nameChild = contactButtonGO.transform.Find("Text (TMP)");
+        if (nameChild != null && nameChild is RectTransform nameRect)
+        {
+            nameRect.offsetMin = new Vector2(78f, nameRect.offsetMin.y);
+        }
+    }
+
+    /// <summary>
+    /// Clips any profile sprite into a smooth circle using a cached procedural circular Mask.
+    /// </summary>
+    public static void ApplyCircularAvatar(RectTransform containerRect, Sprite avatarSprite, Color backdropColor)
+    {
+        if (containerRect == null) return;
+
+        Image maskImg = containerRect.GetComponent<Image>();
+        if (maskImg == null) maskImg = containerRect.gameObject.AddComponent<Image>();
+        maskImg.sprite = GetCircleMaskSprite();
+        maskImg.type = Image.Type.Simple;
+        maskImg.preserveAspect = true;
+        maskImg.color = backdropColor;
+        maskImg.raycastTarget = false;
+
+        Mask mask = containerRect.GetComponent<Mask>();
+        if (mask == null) mask = containerRect.gameObject.AddComponent<Mask>();
+        mask.showMaskGraphic = true;
+
+        Transform childTransform = containerRect.Find("AvatarImage");
+        Image avatarImg;
+        if (childTransform == null)
+        {
+            GameObject childGO = new GameObject("AvatarImage", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            childGO.layer = containerRect.gameObject.layer;
+            childGO.transform.SetParent(containerRect, false);
+            RectTransform childRect = childGO.GetComponent<RectTransform>();
+            childRect.anchorMin = Vector2.zero;
+            childRect.anchorMax = Vector2.one;
+            childRect.offsetMin = Vector2.zero;
+            childRect.offsetMax = Vector2.zero;
+            avatarImg = childGO.GetComponent<Image>();
+        }
+        else
+        {
+            avatarImg = childTransform.GetComponent<Image>();
+            if (avatarImg == null) avatarImg = childTransform.gameObject.AddComponent<Image>();
+        }
+
+        avatarImg.sprite = avatarSprite != null ? avatarSprite : LoadSprite(DefaultProfileSpritePath);
+        avatarImg.preserveAspect = true;
+        avatarImg.color = Color.white;
+        avatarImg.raycastTarget = false;
+    }
+
+    private static Sprite GetCircleMaskSprite()
+    {
+        if (_circleMaskSprite != null) return _circleMaskSprite;
+
+        const int size = 128;
+        Texture2D tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
+        tex.name = "CircularAvatarMask";
+        tex.filterMode = FilterMode.Bilinear;
+        tex.wrapMode = TextureWrapMode.Clamp;
+
+        float center = (size - 1) * 0.5f;
+        float radius = size * 0.5f - 1.5f;
+        Color[] pixels = new Color[size * size];
+
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                float dx = x - center;
+                float dy = y - center;
+                float dist = Mathf.Sqrt(dx * dx + dy * dy);
+                float alpha = Mathf.Clamp01((radius - dist) / 1.5f);
+                pixels[y * size + x] = new Color(1f, 1f, 1f, alpha);
+            }
+        }
+
+        tex.SetPixels(pixels);
+        tex.Apply();
+        _circleMaskSprite = Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f), 100f);
+        return _circleMaskSprite;
     }
 
     private void ApplyContactDimensions(GameObject contactGO)

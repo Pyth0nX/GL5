@@ -471,7 +471,7 @@ public class MessagesManager : MonoBehaviour
             Debug.Log($"[MessagesManager] Contact '{contactName}' not found in contacts list. Creating new Contact.");
             contact = new Contact();
             contact.SetName(contactName);
-            contact.SetImagePath("Assets/Sprites/UnknownProfile.png");
+            contact.SetImagePath(string.Empty);
             _contacts.Add(contact);
             GetMessageStore(contact.Name())[contact.Name()] = new List<Message>();
         }
@@ -637,7 +637,7 @@ public class MessagesManager : MonoBehaviour
         {
             contact = new Contact();
             contact.SetName(contactName);
-            contact.SetImagePath("Assets/Sprites/UnknownProfile.png");
+            contact.SetImagePath(string.Empty);
             _contacts.Add(contact);
             GetMessageStore(contact.Name())[contact.Name()] = new List<Message>();
         }
@@ -695,7 +695,7 @@ public class MessagesManager : MonoBehaviour
         {
             contact = new Contact();
             contact.SetName(contactName);
-            contact.SetImagePath("Assets/Sprites/UnknownProfile.png");
+            contact.SetImagePath(string.Empty);
             _contacts.Add(contact);
         }
 
