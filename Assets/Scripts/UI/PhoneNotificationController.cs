@@ -376,6 +376,37 @@ public class PhoneNotificationController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Clears all pending queued notifications and hides any active notification banner immediately.
+    /// </summary>
+    public void ClearAllNotifications()
+    {
+        _notificationQueue.Clear();
+
+        if (_displayCoroutine != null)
+        {
+            StopCoroutine(_displayCoroutine);
+            _displayCoroutine = null;
+        }
+
+        _activeNotification = null;
+        _isActiveNotificationVisible = false;
+
+        if (_panelRect != null)
+        {
+            _panelRect.DOKill();
+            _panelRect.anchoredPosition = _offScreenPosition;
+        }
+
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.DOKill();
+            _canvasGroup.alpha = 0f;
+            _canvasGroup.blocksRaycasts = false;
+            _canvasGroup.interactable = false;
+        }
+    }
+
     #endregion
 
     private IEnumerator ProcessNotificationQueue()

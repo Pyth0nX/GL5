@@ -527,9 +527,15 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void RecoverFromInvalidDialogue(string reason)
+    /// <summary>
+    /// Clears any active or standalone dialogue state cleanly (e.g., on new game or replay reset).
+    /// </summary>
+    public void ResetDialogueState(bool forceResetUiState = false)
     {
-        Debug.LogWarning($"[DialogueManager] {reason}");
+        bool hadActiveDialogue = _currentDialogues != null
+            || _standaloneMonologueActive
+            || (_dialogueBox != null && _dialogueBox.activeSelf);
+
         _currentDialogueIndex = 0;
         _currentDialogues = null;
         _isEndNode = false;
@@ -544,14 +550,24 @@ public class DialogueManager : MonoBehaviour
         }
 
         MessagesManager.Instance?.GetOptionsChanger()?.ActiveDecisionsPanel(false);
-        InputManager.Instance?.SuppressInteract();
 
-        if (UIManager.Instance != null)
+        if (forceResetUiState || hadActiveDialogue)
         {
-            UIManager.Instance.ChangeState(0);
-        }
+            InputManager.Instance?.SuppressInteract();
 
-        ReturnPlayerToIdle();
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ChangeState(0);
+            }
+
+            ReturnPlayerToIdle();
+        }
+    }
+
+    private void RecoverFromInvalidDialogue(string reason)
+    {
+        Debug.LogWarning($"[DialogueManager] {reason}");
+        ResetDialogueState(forceResetUiState: true);
     }
 
     private void ReturnPlayerToIdle()

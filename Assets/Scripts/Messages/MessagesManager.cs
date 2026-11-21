@@ -173,6 +173,15 @@ public class MessagesManager : MonoBehaviour
 
     private void OnNarrativeCompleted()
     {
+        if (SaveManager.HasInstance)
+        {
+            SaveManager.Instance.RecordCurrentRunScenarioProgress(incrementCompletedPlaythrough: false);
+            if (SaveManager.Instance.HasActiveSlot)
+            {
+                SaveManager.Instance.SaveCurrentSlot();
+            }
+        }
+
         PhoneNotificationController.Instance?.ShowNotification(
             PhoneApp.Connect,
             "Before You Send - Story Complete",
@@ -1501,7 +1510,7 @@ public class MessagesManager : MonoBehaviour
                     contact.SetName(entry.contactName);
                     contact.SetImagePath(!string.IsNullOrEmpty(entry.contactImagePath)
                         ? entry.contactImagePath
-                        : "Assets/Sprites/UnknownProfile.png");
+                        : string.Empty);
                     _contacts.Add(contact);
                 }
                 else if (!string.IsNullOrEmpty(entry.contactImagePath))

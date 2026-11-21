@@ -34,6 +34,12 @@ public class SaveSlotUI : MonoBehaviour
     [Tooltip("Delete button integrated with or positioned below this slot card.")]
     [SerializeField] private Button _deleteButton;
 
+    [Tooltip("Optional label displaying the percentage of scenario nodes/paths discovered in this save slot.")]
+    [SerializeField] private TMP_Text _discoveryPercentageText;
+
+    [Tooltip("Format string used for the discovered percentage label ({0} = rounded integer percentage).")]
+    [SerializeField] private string _discoveryFormat = "Discovered: {0}%";
+
     [Header("Visual Behavior")]
     [Tooltip("Text displayed on the card when the slot has no saved data.")]
     [SerializeField] private string _emptySlotText = "New Game";
@@ -132,6 +138,12 @@ public class SaveSlotUI : MonoBehaviour
                 _timestampText.text = string.Empty;
                 _timestampText.gameObject.SetActive(false);
             }
+
+            if (_discoveryPercentageText != null)
+            {
+                _discoveryPercentageText.text = string.Empty;
+                _discoveryPercentageText.gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -158,9 +170,68 @@ public class SaveSlotUI : MonoBehaviour
             {
                 _statusOrObjectiveText.text = displayObjective;
             }
+
+            EnsureDiscoveryLabel();
+            if (_discoveryPercentageText != null)
+            {
+                int pct = Mathf.Clamp(Mathf.RoundToInt(metadata.scenarioDiscoveryPercent), 0, 100);
+                _discoveryPercentageText.gameObject.SetActive(true);
+                _discoveryPercentageText.text = string.Format(_discoveryFormat, pct);
+            }
         }
 
         UpdateDeleteButtonState(isOccupied);
+    }
+
+    private void EnsureDiscoveryLabel()
+    {
+        if (_discoveryPercentageText != null)
+        {
+            return;
+        }
+
+        Transform existing = transform.Find("DiscoveryPercentageText");
+        if (existing != null)
+        {
+            _discoveryPercentageText = existing.GetComponent<TMP_Text>();
+            if (_discoveryPercentageText != null)
+            {
+                return;
+            }
+        }
+
+        Transform targetParent = _timestampText != null && _timestampText.transform.parent != null
+            ? _timestampText.transform.parent
+            : transform;
+
+        GameObject labelObj = new GameObject("DiscoveryPercentageText", typeof(RectTransform), typeof(TextMeshProUGUI));
+        labelObj.layer = gameObject.layer;
+        labelObj.transform.SetParent(targetParent, false);
+
+        RectTransform rt = labelObj.GetComponent<RectTransform>();
+        rt.anchorMin = new Vector2(1f, 0f);
+        rt.anchorMax = new Vector2(1f, 0f);
+        rt.pivot = new Vector2(1f, 0f);
+        rt.anchoredPosition = new Vector2(-115f, 10f);
+        rt.sizeDelta = new Vector2(190f, 24f);
+
+        TextMeshProUGUI tmp = labelObj.GetComponent<TextMeshProUGUI>();
+        if (_timestampText != null && _timestampText.font != null)
+        {
+            tmp.font = _timestampText.font;
+        }
+        else if (_statusOrObjectiveText != null && _statusOrObjectiveText.font != null)
+        {
+            tmp.font = _statusOrObjectiveText.font;
+        }
+
+        tmp.fontSize = 14f;
+        tmp.fontStyle = FontStyles.Bold;
+        tmp.color = new Color(0.18f, 0.45f, 0.36f, 1f);
+        tmp.alignment = TextAlignmentOptions.MidlineRight;
+        tmp.raycastTarget = false;
+
+        _discoveryPercentageText = tmp;
     }
 
     /// <summary>

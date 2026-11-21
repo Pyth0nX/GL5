@@ -394,7 +394,7 @@ public class PhoneStateMachine : MonoBehaviour
         {
             targetSprite = _appStoreBgSprite != null
                 ? _appStoreBgSprite
-                : (_messagesBgSprite != null ? _messagesBgSprite : MessagesUI.LoadSprite("Hilmir/UI/Messages-UI.png"));
+                : MessagesUI.LoadSprite("Hilmir/UI/AppStoreOverlay.png");
         }
         else
         {

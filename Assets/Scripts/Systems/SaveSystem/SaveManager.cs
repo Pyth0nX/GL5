@@ -86,6 +86,15 @@ public class SaveManager : MonoBehaviour
     private bool _pendingInitialNewGameSave = false;
     private Coroutine _deferredAutoSaveCoroutine;
 
+    // Cross-playthrough discovery history persisted per save slot
+    private readonly HashSet<string> _slotDiscoveredScenarioNodes = new HashSet<string>(StringComparer.Ordinal);
+    private readonly HashSet<string> _slotDiscoveredScenarioEdges = new HashSet<string>(StringComparer.Ordinal);
+    private int _slotCompletedPlaythroughs = 0;
+
+    public IReadOnlyCollection<string> DiscoveredScenarioNodes => _slotDiscoveredScenarioNodes;
+    public IReadOnlyCollection<string> DiscoveredScenarioEdges => _slotDiscoveredScenarioEdges;
+    public int CompletedPlaythroughs => _slotCompletedPlaythroughs;
+
     /// <summary>
     /// Invoked whenever a slot is saved to disk. Parameter: slotIndex.
     /// </summary>
@@ -181,6 +190,70 @@ public class SaveManager : MonoBehaviour
         _isLoadingSavedGame = false;
         _pendingLoadData = null;
         _pendingInitialNewGameSave = false;
+        ClearSlotDiscoveryCache();
+    }
+
+    private void ClearSlotDiscoveryCache()
+    {
+        _slotDiscoveredScenarioNodes.Clear();
+        _slotDiscoveredScenarioEdges.Clear();
+        _slotCompletedPlaythroughs = 0;
+    }
+
+    /// <summary>
+    /// Records all nodes and directed transitions from the active playthrough into the slot's persistent history.
+    /// </summary>
+    public void RecordCurrentRunScenarioProgress(bool incrementCompletedPlaythrough = false)
+    {
+        ScenarioDataCollector.CollectCurrentRunKeys(out HashSet<string> runNodes, out HashSet<string> runEdges);
+        _slotDiscoveredScenarioNodes.UnionWith(runNodes);
+        _slotDiscoveredScenarioEdges.UnionWith(runEdges);
+
+        if (incrementCompletedPlaythrough)
+        {
+            _slotCompletedPlaythroughs++;
+        }
+    }
+
+    /// <summary>
+    /// Archives the finished playthrough's discovered paths inside the current save slot (or active session),
+    /// resets story, reputation, objectives, and phone state back to Day 1, and starts a fresh replay.
+    /// </summary>
+    public void StartNewPlaythroughInCurrentSlot()
+    {
+        RecordCurrentRunScenarioProgress(incrementCompletedPlaythrough: true);
+
+        if (_deferredAutoSaveCoroutine != null)
+        {
+            StopCoroutine(_deferredAutoSaveCoroutine);
+            _deferredAutoSaveCoroutine = null;
+        }
+
+        string preservedPlayerName = PlayerNameService.GetActivePlayerName();
+        int preservedSlotIndex = _activeSlotIndex;
+
+        // Persist archived discovery history & completed playthrough count before resetting runtime managers.
+        if (IsValidSlotIndex(preservedSlotIndex))
+        {
+            SaveGame(preservedSlotIndex);
+        }
+
+        Time.timeScale = 1f;
+        _isLoadingSavedGame = false;
+        _pendingLoadData = null;
+        _pendingInitialNewGameSave = IsValidSlotIndex(preservedSlotIndex);
+        _activeSlotIndex = preservedSlotIndex;
+
+        ResetRuntimeGameplayManagers();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetPlayerName(PlayerNameService.SanitizeName(preservedPlayerName));
+        }
+
+        Debug.Log($"[SaveManager] Starting Playthrough #{_slotCompletedPlaythroughs + 1} (slot {preservedSlotIndex}, '{preservedPlayerName}') with {_slotDiscoveredScenarioNodes.Count} remembered scenario nodes.");
+        PlayerSpawnManager.Instance?.QueueSpawn(PlayerSpawnManager.SpawnerWakingUp);
+        SceneManager.LoadScene(_newGameStartingScene);
     }
 
     /// <summary>
@@ -318,8 +391,9 @@ public class SaveManager : MonoBehaviour
         _isLoadingSavedGame = false;
         _pendingLoadData = null;
         _pendingInitialNewGameSave = _autoSaveOnNewGameStart;
+        ClearSlotDiscoveryCache();
 
-        ResetAllRuntimeSystemsForNewGame();
+        ResetRuntimeGameplayManagers();
 
         if (GameManager.Instance != null)
         {
@@ -360,6 +434,11 @@ public class SaveManager : MonoBehaviour
         if (_activeSlotIndex == slotIndex && !IsGameplayScene(SceneManager.GetActiveScene().name))
         {
             _activeSlotIndex = -1;
+            ClearSlotDiscoveryCache();
+        }
+        else if (_activeSlotIndex == slotIndex)
+        {
+            ClearSlotDiscoveryCache();
         }
 
         OnSlotDeleted?.Invoke(slotIndex);
@@ -597,6 +676,15 @@ public class SaveManager : MonoBehaviour
 
         List<SceneInteractableSaveData> interactableStates = CaptureSceneInteractables(activeScene);
 
+        ScenarioDataCollector.CollectCurrentRunKeys(out HashSet<string> currentRunNodes, out HashSet<string> currentRunEdges);
+        HashSet<string> mergedNodes = new HashSet<string>(_slotDiscoveredScenarioNodes, StringComparer.Ordinal);
+        mergedNodes.UnionWith(currentRunNodes);
+
+        HashSet<string> mergedEdges = new HashSet<string>(_slotDiscoveredScenarioEdges, StringComparer.Ordinal);
+        mergedEdges.UnionWith(currentRunEdges);
+
+        float discoveryPercent = ScenarioDataCollector.ComputeDiscoveryPercentage(mergedNodes);
+
         return new GameSaveData
         {
             slotIndex = slotIndex,
@@ -620,13 +708,45 @@ public class SaveManager : MonoBehaviour
             contactNarrativeProgress = contactsProgress,
             decisionVariables = decisionVars,
             unlockedGalleryPhotos = unlockedPhotos,
-            sceneInteractables = interactableStates
+            sceneInteractables = interactableStates,
+            completedPlaythroughs = _slotCompletedPlaythroughs,
+            scenarioDiscoveryPercent = discoveryPercent,
+            discoveredScenarioNodes = new List<string>(mergedNodes),
+            discoveredScenarioEdges = new List<string>(mergedEdges)
         };
     }
 
     private void RestorePersistentManagersState(GameSaveData saveData)
     {
         DayManager.ClearQueuedTestStart();
+
+        ClearSlotDiscoveryCache();
+        _slotCompletedPlaythroughs = saveData.completedPlaythroughs;
+        if (saveData.discoveredScenarioNodes != null && saveData.discoveredScenarioNodes.Count > 0)
+        {
+            for (int i = 0; i < saveData.discoveredScenarioNodes.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(saveData.discoveredScenarioNodes[i]))
+                {
+                    _slotDiscoveredScenarioNodes.Add(saveData.discoveredScenarioNodes[i]);
+                }
+            }
+        }
+        else if (saveData.decisionVariables != null && saveData.decisionVariables.Count > 0)
+        {
+            ScenarioDataCollector.ExtractKeysFromDecisionVariables(saveData.decisionVariables, _slotDiscoveredScenarioNodes);
+        }
+
+        if (saveData.discoveredScenarioEdges != null)
+        {
+            for (int i = 0; i < saveData.discoveredScenarioEdges.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(saveData.discoveredScenarioEdges[i]))
+                {
+                    _slotDiscoveredScenarioEdges.Add(saveData.discoveredScenarioEdges[i]);
+                }
+            }
+        }
 
         if (GameManager.Instance != null)
         {
@@ -693,10 +813,18 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    private void ResetAllRuntimeSystemsForNewGame()
+    /// <summary>
+    /// Resets all runtime gameplay managers (day, decisions, reputation, phone, messages, objectives,
+    /// gallery, dialogue, notifications, and scenario tree overlay) to a clean Day 1 baseline.
+    /// </summary>
+    public static void ResetRuntimeGameplayManagers()
     {
         DayManager.ClearQueuedTestStart();
         TransitionManager.Instance?.ResetCutsceneState();
+        PhoneNotificationController.Instance?.ClearAllNotifications();
+
+        DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
+        dialogueManager?.ResetDialogueState();
 
         if (GameManager.Instance != null)
         {
@@ -713,7 +841,7 @@ public class SaveManager : MonoBehaviour
             DecisionDataManager.Instance.ResetVariables();
         }
 
-        var reputationManager = FindAnyObjectByType<ReputationManager>(FindObjectsInactive.Include);
+        ReputationManager reputationManager = FindAnyObjectByType<ReputationManager>(FindObjectsInactive.Include);
         if (reputationManager != null)
         {
             reputationManager.ResetReputation();
@@ -721,6 +849,7 @@ public class SaveManager : MonoBehaviour
 
         if (UIManager.Instance != null)
         {
+            UIManager.Instance.HideScenarioSystem();
             UIManager.Instance.ResetConnectState();
         }
 
@@ -729,9 +858,22 @@ public class SaveManager : MonoBehaviour
             MessagesManager.Instance.ResetToInitialState();
         }
 
+        PhoneStateMachine phoneState = MessagesManager.Instance != null
+            ? MessagesManager.Instance.GetPhoneStateMachine()
+            : FindAnyObjectByType<PhoneStateMachine>(FindObjectsInactive.Include);
+        phoneState?.ChangeState((int)PhoneState.IDLE);
+
         if (ObjectivesManager.Instance != null)
         {
             ObjectivesManager.Instance.ResetObjectives();
+        }
+
+        GalleryManager galleryManager = GalleryManager.Instance != null
+            ? GalleryManager.Instance
+            : FindAnyObjectByType<GalleryManager>(FindObjectsInactive.Include);
+        if (galleryManager != null)
+        {
+            galleryManager.RestoreUnlockedPhotos(new List<string>());
         }
     }
 

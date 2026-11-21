@@ -3,25 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Defines how untaken narrative branches are displayed in the endgame ScenarioSystem flowchart.
+/// Tracks whether a node or transition was taken in the current playthrough,
+/// discovered in a previous playthrough within the same save slot, or remains undiscovered.
 /// </summary>
-public enum ScenarioBranchMode
+public enum ScenarioNodeVisitState
 {
-    /// <summary>
-    /// Option B (Preferred): Shows the first node of an untaken branch with "???" (both in the node and on hover),
-    /// hides child/future nodes that depend exclusively on that untaken branch, and draws outgoing arrows pointing into the void.
-    /// </summary>
-    OptionB_FirstNodeWithVoidArrows = 0,
-
-    /// <summary>
-    /// Option A: Shows all nodes of untaken branches with "???" inside the node and "???" in the hover annotation box.
-    /// </summary>
-    OptionA_ShowAllNodesAsHidden = 1
+    Undiscovered = 0,
+    PreviousRun = 1,
+    CurrentRun = 2
 }
 
 /// <summary>
 /// Inspector-configurable override allowing designers to toggle whether a specific NarrativeNode appears
-/// in the endgame ScenarioSystem summary screen and optionally customize its title or hover annotation.
+/// in the endgame ScenarioSystem summary screen and optionally customize its title, annotation, sprites, or XY position.
 /// </summary>
 [Serializable]
 public class ScenarioNodeOverride
@@ -35,7 +29,7 @@ public class ScenarioNodeOverride
     [Tooltip("Optional override for the short title shown inside the node when revealed.")]
     public string customTitle;
 
-    [Tooltip("Optional override for the hover annotation box when this node was taken.")]
+    [Tooltip("Optional override for the detail description when this node was discovered.")]
     [TextArea(2, 4)]
     public string customAnnotation;
 
@@ -44,14 +38,24 @@ public class ScenarioNodeOverride
 
     [Tooltip("Optional custom sprite for this specific node when untaken ('???').")]
     public Sprite customUntakenSprite;
+
+    [Tooltip("Optional representative situation illustration displayed on the left side of the 70% detail screen.")]
+    public Sprite detailSituationImage;
+
+    [Tooltip("If enabled, places this node/stage at the specified XY graph coordinate instead of auto-layout.")]
+    public bool useCustomGraphPosition;
+
+    [Tooltip("Manual XY coordinates used when useCustomGraphPosition is enabled.")]
+    public Vector2 customGraphPosition;
 }
 
 /// <summary>
-/// Runtime view-model for a single node box inside the ScenarioSystem flowchart.
+/// Runtime view-model for a single node box inside the ScenarioSystem XY flowchart.
 /// </summary>
 [Serializable]
 public class ScenarioOptionNodeData
 {
+    public string nodeKey;
     public int parentNodeId;
     public int optionIndex;
     public int resolvedNextNodeId;
@@ -59,21 +63,28 @@ public class ScenarioOptionNodeData
     public string stageTitle;
     public string revealedLabel;
     public string revealedAnnotation;
+    public ScenarioNodeVisitState visitState;
     public bool isTaken;
     public bool isRootNode;
     public bool isEndingNode;
     public int endingNodeId;
-    public bool hasOutgoingVoidArrows;
-    public int voidArrowCount;
     public Sprite customSprite;
+    public Sprite situationImage;
+    public bool hasCustomGraphPosition;
+    public Vector2 graphPosition;
+
+    public bool IsDiscovered =>
+        visitState == ScenarioNodeVisitState.CurrentRun ||
+        visitState == ScenarioNodeVisitState.PreviousRun ||
+        isTaken;
 
     /// <summary>
-    /// Returns the text to display inside the node box according to whether the player took this decision.
-    /// Untaken nodes always display "???".
+    /// Returns the text to display inside the node box according to whether the player discovered this decision.
+    /// Undiscovered nodes always display "???".
     /// </summary>
     public string GetDisplayLabel()
     {
-        if (!isTaken)
+        if (!IsDiscovered)
         {
             return "???";
         }
@@ -82,12 +93,12 @@ public class ScenarioOptionNodeData
     }
 
     /// <summary>
-    /// Returns the text to display inside the hover annotation tooltip according to whether the player took this decision.
-    /// Untaken nodes always display "???".
+    /// Returns the detailed description shown inside the 70% node inspection screen.
+    /// Undiscovered nodes always display "???".
     /// </summary>
     public string GetDisplayAnnotation()
     {
-        if (!isTaken)
+        if (!IsDiscovered)
         {
             return "???";
         }
@@ -96,6 +107,18 @@ public class ScenarioOptionNodeData
             ? "You selected this narrative path during your playthrough."
             : revealedAnnotation;
     }
+}
+
+/// <summary>
+/// Directed edge between two scenario nodes inside the XY flowchart.
+/// </summary>
+[Serializable]
+public class ScenarioEdgeData
+{
+    public string fromNodeKey;
+    public string toNodeKey;
+    public ScenarioNodeVisitState visitState;
+    public bool isEndingConnection;
 }
 
 /// <summary>
@@ -123,11 +146,16 @@ public class ScenarioTreeModel
     public ScenarioColumnData rootColumn;
     public List<ScenarioColumnData> decisionColumns = new List<ScenarioColumnData>();
     public ScenarioColumnData endingColumn;
+    public List<ScenarioEdgeData> edges = new List<ScenarioEdgeData>();
     public int finalReputation = 50;
     public int narrativeRiskScore = 0;
     public int reachedEndingNodeId = 72;
     public string reachedEndingTitle = "NEUTRAL ENDING";
     public bool isCampaignCompleted = false;
+    public bool hasPreviousRunHistory = false;
+    public float discoveryPercent = 0f;
+    public int discoveredNodeCount = 0;
+    public int totalDiscoverableNodeCount = 0;
 }
 
 /// <summary>
@@ -317,15 +345,388 @@ public static class ScenarioDataCollector
         }
     };
 
+    public const int RootNodeId = -100;
+    public const int ConnectIntroSkipNodeId = 4;
+    public const int GoodEndingNodeId = 71;
+    public const int NeutralEndingNodeId = 72;
+    public const int BadEndingNodeId = 73;
+
+    private struct EndingSpec
+    {
+        public int id;
+        public int optionIndex;
+        public string defaultTitle;
+        public string headline;
+        public string defaultLabel;
+        public string defaultAnnotation;
+    }
+
+    private static readonly EndingSpec[] CanonicalEndings =
+    {
+        new EndingSpec
+        {
+            id = GoodEndingNodeId,
+            optionIndex = 0,
+            defaultTitle = "Good Ending",
+            headline = "GOOD ENDING",
+            defaultLabel = "GOOD ENDING\nSafe & Supported",
+            defaultAnnotation = "GOOD ENDING: Luna protected her boundaries, documented the harassment, and trusted the people around her. The impersonation account was removed and she regained her peace of mind."
+        },
+        new EndingSpec
+        {
+            id = NeutralEndingNodeId,
+            optionIndex = 1,
+            defaultTitle = "Neutral Ending",
+            headline = "NEUTRAL ENDING",
+            defaultLabel = "NEUTRAL ENDING\nLingering Doubt",
+            defaultAnnotation = "NEUTRAL ENDING: The worst rumors eventually faded, but the leaked posts and unanswered messages left Luna cautious and uneasy every time her phone buzzed."
+        },
+        new EndingSpec
+        {
+            id = BadEndingNodeId,
+            optionIndex = 2,
+            defaultTitle = "Bad Ending",
+            headline = "BAD ENDING",
+            defaultLabel = "BAD ENDING\nExposed & Overwhelmed",
+            defaultAnnotation = "BAD ENDING: Oversharing personal information, photos, and credentials snowballed into severe harassment and impersonation that followed Luna into school."
+        }
+    };
+
+    public const string RootNodeKey = "ROOT";
+
+    public static string MakeDecisionNodeKey(int parentNodeId, int optionIndex) => $"N{parentNodeId}_O{optionIndex}";
+    public static string MakeEndingNodeKey(int endingNodeId) => $"E{endingNodeId}";
+    public static string MakeEdgeKey(string fromKey, string toKey) => $"{fromKey}->{toKey}";
+
     /// <summary>
-    /// Builds the complete ScenarioTreeModel by inspecting the current state of DayManager, DecisionDataManager,
-    /// ReputationManager, and MessagesManager, filtered by NarrativeNode.ShowInScenarioTree() and Inspector overrides.
+    /// Returns true if the specified NarrativeNode ID is one of the canonical campaign ending nodes.
+    /// </summary>
+    public static bool IsCanonicalEndingNodeId(int nodeId)
+    {
+        for (int i = 0; i < CanonicalEndings.Length; i++)
+        {
+            if (CanonicalEndings[i].id == nodeId)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static string GetEndingHeadline(int endingNodeId)
+    {
+        for (int i = 0; i < CanonicalEndings.Length; i++)
+        {
+            if (CanonicalEndings[i].id == endingNodeId)
+            {
+                return CanonicalEndings[i].headline;
+            }
+        }
+        return "Campaign in Progress";
+    }
+
+    private static HashSet<int> BuildCanonicalExcludedNodeIds()
+    {
+        HashSet<int> ids = new HashSet<int> { ConnectIntroSkipNodeId };
+        for (int i = 0; i < CanonicalEndings.Length; i++)
+        {
+            ids.Add(CanonicalEndings[i].id);
+        }
+        for (int i = 0; i < CampaignSpecs.Length; i++)
+        {
+            ids.Add(CampaignSpecs[i].nodeId);
+        }
+        return ids;
+    }
+
+    /// <summary>
+    /// Returns the ordered canonical (nodeId, stageTitle) list shared with ScenarioSituationImageCatalog.
+    /// </summary>
+    public static List<(int nodeId, string title)> GetDefaultSituationCatalogEntries()
+    {
+        var entries = new List<(int nodeId, string title)>(1 + CampaignSpecs.Length + CanonicalEndings.Length)
+        {
+            (RootNodeId, "Campaign Start - Connect Installed")
+        };
+
+        for (int i = 0; i < CampaignSpecs.Length; i++)
+        {
+            entries.Add((CampaignSpecs[i].nodeId, CampaignSpecs[i].stageTitle));
+        }
+
+        for (int i = 0; i < CanonicalEndings.Length; i++)
+        {
+            entries.Add((CanonicalEndings[i].id, CanonicalEndings[i].defaultTitle));
+        }
+
+        return entries;
+    }
+
+    /// <summary>
+    /// Counts the total discoverable narrative option nodes + canonical endings across the campaign.
+    /// Automatically scales when designers add extra decision nodes or custom options in narrativeNodes.json.
+    /// </summary>
+    public static int GetTotalDiscoverableNodeCount(IReadOnlyDictionary<int, NarrativeNode> allNodes = null)
+    {
+        if (allNodes == null && MessagesManager.Instance != null)
+        {
+            allNodes = MessagesManager.Instance.GetAllNarrativeNodes();
+        }
+
+        int total = 0;
+        HashSet<int> counted = new HashSet<int> { ConnectIntroSkipNodeId };
+        for (int i = 0; i < CanonicalEndings.Length; i++)
+        {
+            counted.Add(CanonicalEndings[i].id);
+        }
+
+        for (int i = 0; i < CampaignSpecs.Length; i++)
+        {
+            CampaignDecisionSpec spec = CampaignSpecs[i];
+            counted.Add(spec.nodeId);
+
+            if (allNodes != null && allNodes.TryGetValue(spec.nodeId, out NarrativeNode node) && node != null)
+            {
+                if (!node.ShowInScenarioTree()) continue;
+
+                Option[] opts = node.Options();
+                if (opts != null && opts.Length > 0)
+                {
+                    for (int o = 0; o < opts.Length; o++)
+                    {
+                        if (opts[o] != null && opts[o].ShowInScenarioTree())
+                        {
+                            total++;
+                        }
+                    }
+                    continue;
+                }
+            }
+
+            total += 3;
+        }
+
+        if (allNodes != null)
+        {
+            foreach (KeyValuePair<int, NarrativeNode> kvp in allNodes)
+            {
+                NarrativeNode node = kvp.Value;
+                if (node == null || counted.Contains(node.ID()) || !node.HasOptions() || !node.ShowInScenarioTree())
+                {
+                    continue;
+                }
+
+                Option[] opts = node.Options();
+                if (opts == null) continue;
+
+                for (int o = 0; o < opts.Length; o++)
+                {
+                    if (opts[o] != null && opts[o].ShowInScenarioTree())
+                    {
+                        total++;
+                    }
+                }
+            }
+        }
+
+        total += CanonicalEndings.Length;
+        return Mathf.Max(1, total);
+    }
+
+    /// <summary>
+    /// Computes the percentage (0..100) of scenario decision & ending nodes discovered from canonical node keys.
+    /// </summary>
+    public static float ComputeDiscoveryPercentage(
+        IEnumerable<string> discoveredKeys,
+        IReadOnlyDictionary<int, NarrativeNode> allNodes = null)
+    {
+        if (discoveredKeys == null)
+        {
+            return 0f;
+        }
+
+        HashSet<string> uniqueDiscoverables = new HashSet<string>(StringComparer.Ordinal);
+        foreach (string key in discoveredKeys)
+        {
+            if (IsDiscoverableKey(key))
+            {
+                uniqueDiscoverables.Add(key);
+            }
+        }
+
+        int total = GetTotalDiscoverableNodeCount(allNodes);
+        return Mathf.Clamp((uniqueDiscoverables.Count / (float)total) * 100f, 0f, 100f);
+    }
+
+    /// <summary>
+    /// Fallback calculation for legacy save files that predate discoveredScenarioNodes.
+    /// </summary>
+    public static float ComputeLegacyDiscoveryPercentage(List<DecisionVariableSaveData> decisionVariables)
+    {
+        if (decisionVariables == null || decisionVariables.Count == 0)
+        {
+            return 0f;
+        }
+
+        HashSet<string> keys = new HashSet<string>(StringComparer.Ordinal);
+        ExtractKeysFromDecisionVariables(decisionVariables, keys);
+        return ComputeDiscoveryPercentage(keys);
+    }
+
+    public static void ExtractKeysFromDecisionVariables(
+        IReadOnlyList<DecisionVariableSaveData> decisionVariables,
+        HashSet<string> destinationKeys)
+    {
+        if (decisionVariables == null || destinationKeys == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < decisionVariables.Count; i++)
+        {
+            DecisionVariableSaveData variable = decisionVariables[i];
+            if (string.IsNullOrEmpty(variable.name) || !int.TryParse(variable.serializedValue, out int intVal))
+            {
+                continue;
+            }
+
+            if (variable.name.StartsWith("Scenario_Choice_", StringComparison.Ordinal) &&
+                int.TryParse(variable.name.Substring("Scenario_Choice_".Length), out int choiceNumber))
+            {
+                for (int s = 0; s < CampaignSpecs.Length; s++)
+                {
+                    if (CampaignSpecs[s].choiceNumber == choiceNumber)
+                    {
+                        int optIdx = intVal switch
+                        {
+                            (int)DayManager.TestRoute.Safe => 0,
+                            (int)DayManager.TestRoute.Neutral => 1,
+                            (int)DayManager.TestRoute.Risky => 2,
+                            _ => 1
+                        };
+                        destinationKeys.Add(MakeDecisionNodeKey(CampaignSpecs[s].nodeId, optIdx));
+                        break;
+                    }
+                }
+            }
+            else if (variable.name.StartsWith("Scenario_Node_", StringComparison.Ordinal) &&
+                     int.TryParse(variable.name.Substring("Scenario_Node_".Length), out int nodeId) &&
+                     intVal >= 0)
+            {
+                destinationKeys.Add(MakeDecisionNodeKey(nodeId, intVal));
+            }
+            else if (variable.name == "Scenario_EndingNode" &&
+                     IsCanonicalEndingNodeId(intVal))
+            {
+                destinationKeys.Add(MakeEndingNodeKey(intVal));
+            }
+        }
+    }
+
+    private static bool IsDiscoverableKey(string key)
+    {
+        return !string.IsNullOrEmpty(key) && (key[0] == 'N' || key[0] == 'E');
+    }
+
+    /// <summary>
+    /// Collects all canonical node keys and consecutive transition edge keys from the active playthrough.
+    /// </summary>
+    public static void CollectCurrentRunKeys(out HashSet<string> nodeKeys, out HashSet<string> edgeKeys)
+    {
+        nodeKeys = new HashSet<string>(StringComparer.Ordinal);
+        edgeKeys = new HashSet<string>(StringComparer.Ordinal);
+
+        IReadOnlyDictionary<int, NarrativeNode> allNodes = MessagesManager.Instance != null
+            ? MessagesManager.Instance.GetAllNarrativeNodes()
+            : null;
+
+        List<string> orderedTakenKeys = new List<string>();
+        if (IsConnectAppDownloaded())
+        {
+            nodeKeys.Add(RootNodeKey);
+            orderedTakenKeys.Add(RootNodeKey);
+        }
+
+        for (int i = 0; i < CampaignSpecs.Length; i++)
+        {
+            CampaignDecisionSpec spec = CampaignSpecs[i];
+            int selectedOpt = ResolveSelectedOptionIndex(spec, allNodes);
+            if (selectedOpt >= 0)
+            {
+                string key = MakeDecisionNodeKey(spec.nodeId, selectedOpt);
+                nodeKeys.Add(key);
+                orderedTakenKeys.Add(key);
+            }
+        }
+
+        if (allNodes != null)
+        {
+            HashSet<int> canonicalIds = BuildCanonicalExcludedNodeIds();
+
+            List<int> extraIds = new List<int>();
+            foreach (KeyValuePair<int, NarrativeNode> kvp in allNodes)
+            {
+                NarrativeNode n = kvp.Value;
+                if (n == null || canonicalIds.Contains(n.ID())) continue;
+                if (n.HasOptions() && n.Options() != null && n.Options().Length > 0 && n.ShowInScenarioTree())
+                {
+                    extraIds.Add(n.ID());
+                }
+            }
+            extraIds.Sort();
+
+            for (int i = 0; i < extraIds.Count; i++)
+            {
+                int selectedExtra = ResolveCustomNodeSelectedOption(extraIds[i]);
+                if (selectedExtra >= 0)
+                {
+                    string key = MakeDecisionNodeKey(extraIds[i], selectedExtra);
+                    nodeKeys.Add(key);
+                    orderedTakenKeys.Add(key);
+                }
+            }
+        }
+
+        if (IsCampaignCompleted())
+        {
+            int endingId = ResolveReachedEndingNodeId(allNodes);
+            string endingKey = MakeEndingNodeKey(endingId);
+            nodeKeys.Add(endingKey);
+            orderedTakenKeys.Add(endingKey);
+        }
+
+        for (int i = 0; i + 1 < orderedTakenKeys.Count; i++)
+        {
+            edgeKeys.Add(MakeEdgeKey(orderedTakenKeys[i], orderedTakenKeys[i + 1]));
+        }
+    }
+
+    /// <summary>
+    /// Builds the complete ScenarioTreeModel by inspecting the current playthrough and merging it with
+    /// previous playthrough discoveries stored in SaveManager so taken/previous/undiscovered paths are distinct.
     /// </summary>
     public static ScenarioTreeModel CollectTreeModel(
-        ScenarioBranchMode branchMode,
-        List<ScenarioNodeOverride> inspectorOverrides = null)
+        List<ScenarioNodeOverride> inspectorOverrides = null,
+        IReadOnlyCollection<string> previousDiscoveredNodes = null,
+        IReadOnlyCollection<string> previousDiscoveredEdges = null)
     {
         ScenarioTreeModel model = new ScenarioTreeModel();
+
+        if (previousDiscoveredNodes == null && SaveManager.HasInstance)
+        {
+            previousDiscoveredNodes = SaveManager.Instance.DiscoveredScenarioNodes;
+        }
+        if (previousDiscoveredEdges == null && SaveManager.HasInstance)
+        {
+            previousDiscoveredEdges = SaveManager.Instance.DiscoveredScenarioEdges;
+        }
+
+        HashSet<string> prevNodeSet = previousDiscoveredNodes != null
+            ? new HashSet<string>(previousDiscoveredNodes, StringComparer.Ordinal)
+            : new HashSet<string>(StringComparer.Ordinal);
+        HashSet<string> prevEdgeSet = previousDiscoveredEdges != null
+            ? new HashSet<string>(previousDiscoveredEdges, StringComparer.Ordinal)
+            : new HashSet<string>(StringComparer.Ordinal);
 
         // 1. Read final Reputation and Risk Score
         if (ReputationManager.Instance != null)
@@ -360,14 +761,24 @@ public static class ScenarioDataCollector
         model.isCampaignCompleted = isCampaignCompleted;
 
         bool isConnectDownloaded = IsConnectAppDownloaded();
+        bool rootWasInPreviousRun = prevNodeSet.Contains(RootNodeKey);
 
-        // 2. The initial story root node ("Luna joins Connect") only appears once the Connect application has been downloaded
-        if (isConnectDownloaded)
+        // 2. Root node ("Luna joins Connect") appears when Connect was downloaded in this or an earlier run
+        if (isConnectDownloaded || rootWasInPreviousRun)
         {
+            ScenarioNodeVisitState rootVisit = isConnectDownloaded
+                ? ScenarioNodeVisitState.CurrentRun
+                : ScenarioNodeVisitState.PreviousRun;
+
+            if (rootVisit == ScenarioNodeVisitState.PreviousRun)
+            {
+                model.hasPreviousRunHistory = true;
+            }
+
             model.rootColumn = new ScenarioColumnData
             {
                 columnIndex = 0,
-                narrativeNodeId = -100,
+                narrativeNodeId = RootNodeId,
                 choiceNumber = 0,
                 storyDay = 1,
                 columnHeader = "Start",
@@ -377,26 +788,33 @@ public static class ScenarioDataCollector
 
             string rootTitle = "Day 1\nConnect Installed";
             string rootAnnotation = "Start of 'Before You Send': Luna joins the Connect social network at her new school. Every decision shapes her digital footprint and safety across the 5 days.";
-            if (overrideMap.TryGetValue(-100, out ScenarioNodeOverride rootOverride))
+
+            if (overrideMap.TryGetValue(RootNodeId, out ScenarioNodeOverride rootOverride) && rootOverride != null)
             {
                 if (!string.IsNullOrWhiteSpace(rootOverride.customTitle)) rootTitle = rootOverride.customTitle;
                 if (!string.IsNullOrWhiteSpace(rootOverride.customAnnotation)) rootAnnotation = rootOverride.customAnnotation;
             }
 
+            ResolvedNodeVisuals rootVisuals = ResolveNodeVisualOverrides(RootNodeId, rootVisit, overrideMap);
+
             model.rootColumn.nodes.Add(new ScenarioOptionNodeData
             {
-                parentNodeId = -100,
+                nodeKey = RootNodeKey,
+                parentNodeId = RootNodeId,
                 optionIndex = 0,
                 resolvedNextNodeId = 0,
                 storyDay = 1,
                 stageTitle = "Campaign Start",
                 revealedLabel = rootTitle,
                 revealedAnnotation = rootAnnotation,
-                isTaken = true,
+                visitState = rootVisit,
+                isTaken = rootVisit == ScenarioNodeVisitState.CurrentRun,
                 isRootNode = true,
                 isEndingNode = false,
-                hasOutgoingVoidArrows = false,
-                voidArrowCount = 0
+                customSprite = rootVisuals.customSprite,
+                situationImage = rootVisuals.situationImage,
+                hasCustomGraphPosition = rootVisuals.useCustomGraphPosition,
+                graphPosition = rootVisuals.customGraphPosition
             });
         }
         else
@@ -408,6 +826,7 @@ public static class ScenarioDataCollector
         int choice7SelectedIndex = ResolveSelectedOptionIndex(CampaignSpecs[6], allNodes);
         bool choice7WasTaken = (choice7SelectedIndex >= 0);
         bool choice7WasSafe = choice7WasTaken && (choice7SelectedIndex == 0);
+        bool choice8PreviouslyDiscovered = HasAnyOptionInSet(CampaignSpecs[7].nodeId, 3, prevNodeSet);
 
         HashSet<int> handledNodeIds = new HashSet<int>();
         int nextColumnIndex = model.rootColumn != null ? 1 : 0;
@@ -423,26 +842,34 @@ public static class ScenarioDataCollector
                 continue;
             }
 
-            // Under Option B, if Choice 7 was Safe (refused to send photo), Choice 8 (Node 40 - Leaked Photo Crisis)
-            // belongs exclusively to the untaken Neutral/Risky branches of Choice 7 and is hidden completely!
-            if (spec.dependsOnChoice7NonSafe && choice7WasSafe && branchMode == ScenarioBranchMode.OptionB_FirstNodeWithVoidArrows)
+            // If Choice 7 was Safe in the current run and Choice 8 was never discovered in previous runs,
+            // Choice 8 belongs exclusively to untaken Neutral/Risky branches and stays hidden.
+            // If Choice 8 WAS discovered in a previous run, keep only its discovered option(s) visible.
+            if (spec.dependsOnChoice7NonSafe &&
+                choice7WasSafe &&
+                !choice8PreviouslyDiscovered)
             {
                 continue;
             }
 
-            bool isSkippedBranchUnderOptionA = isCampaignCompleted && spec.dependsOnChoice7NonSafe && choice7WasSafe && branchMode == ScenarioBranchMode.OptionA_ShowAllNodesAsHidden;
-            int selectedOptionIndex = isSkippedBranchUnderOptionA ? -1 : ResolveSelectedOptionIndex(spec, allNodes);
-
-            // In-game preview before campaign completion (e.g. F10 during gameplay): only display decisions already taken!
-            if (selectedOptionIndex < 0 && !isSkippedBranchUnderOptionA)
-            {
-                continue;
-            }
+            int selectedOptionIndex = (spec.dependsOnChoice7NonSafe && choice7WasSafe)
+                ? -1
+                : ResolveSelectedOptionIndex(spec, allNodes);
 
             NarrativeNode narrativeNode = null;
             if (allNodes != null)
             {
                 allNodes.TryGetValue(spec.nodeId, out narrativeNode);
+            }
+
+            Option[] rawOptions = narrativeNode != null ? narrativeNode.Options() : null;
+            int optionCount = (rawOptions != null && rawOptions.Length > 0) ? rawOptions.Length : 3;
+            bool colHasPrevDiscovery = HasAnyOptionInSet(spec.nodeId, optionCount, prevNodeSet);
+
+            // In-game preview (before completion): display decisions taken so far or discovered in earlier playthroughs
+            if (selectedOptionIndex < 0 && !colHasPrevDiscovery)
+            {
+                continue;
             }
 
             ScenarioOverridePair nodeLevelOverride = GetNodeLevelOverride(spec.nodeId, narrativeNode, overrideMap);
@@ -456,11 +883,8 @@ public static class ScenarioDataCollector
                 columnHeader = !string.IsNullOrWhiteSpace(nodeLevelOverride.title) ? nodeLevelOverride.title : spec.stageTitle,
                 isRootEntryColumn = false,
                 isEndingColumn = false,
-                isSkippedBranchColumn = isSkippedBranchUnderOptionA
+                isSkippedBranchColumn = false
             };
-
-            Option[] rawOptions = narrativeNode != null ? narrativeNode.Options() : null;
-            int optionCount = (rawOptions != null && rawOptions.Length > 0) ? rawOptions.Length : 3;
 
             for (int optIdx = 0; optIdx < optionCount; optIdx++)
             {
@@ -470,33 +894,37 @@ public static class ScenarioDataCollector
                     continue;
                 }
 
-                bool isOptionTaken = (selectedOptionIndex == optIdx);
+                string optKey = MakeDecisionNodeKey(spec.nodeId, optIdx);
+                bool isCurrentRunOption = (selectedOptionIndex == optIdx);
+                bool isPreviousRunOption = !isCurrentRunOption && prevNodeSet.Contains(optKey);
+
+                ScenarioNodeVisitState visitState = isCurrentRunOption
+                    ? ScenarioNodeVisitState.CurrentRun
+                    : (isPreviousRunOption ? ScenarioNodeVisitState.PreviousRun : ScenarioNodeVisitState.Undiscovered);
+
+                if (visitState == ScenarioNodeVisitState.PreviousRun)
+                {
+                    model.hasPreviousRunHistory = true;
+                }
+
+                // If Choice 7 was Safe in this run, Choice 8 was skipped; only show options previously discovered
+                if (spec.dependsOnChoice7NonSafe &&
+                    choice7WasSafe &&
+                    visitState == ScenarioNodeVisitState.Undiscovered)
+                {
+                    continue;
+                }
+
                 string defaultLabel = GetSpecOptionLabel(spec, optIdx, rawOpt, optionCount);
                 string defaultAnnotation = GetSpecOptionAnnotation(spec, optIdx, rawOpt, nodeLevelOverride.annotation, optionCount);
-
                 int nextNodeId = rawOpt != null ? rawOpt.nextNode : GetSpecBranchNode(spec, optIdx);
 
-                // Check for custom per-node / per-option sprites configured in inspector or NarrativeNode
-                Sprite customOptSprite = null;
-                if (overrideMap != null && overrideMap.TryGetValue(spec.nodeId, out ScenarioNodeOverride specOv) && specOv != null)
-                {
-                    customOptSprite = isOptionTaken ? specOv.customTakenSprite : specOv.customUntakenSprite;
-                }
-                if (customOptSprite == null && rawOpt != null)
-                {
-                    customOptSprite = rawOpt.GetScenarioCustomSprite();
-                }
-                if (customOptSprite == null && narrativeNode != null)
-                {
-                    customOptSprite = narrativeNode.ScenarioCustomSprite();
-                }
-
-                // Under Option B, untaken decision nodes are the first node of the unchosen path ("???")
-                // and their outgoing connection lines point into the void (empty space).
-                bool showVoidArrows = !isOptionTaken && branchMode == ScenarioBranchMode.OptionB_FirstNodeWithVoidArrows;
+                ResolvedNodeVisuals specVisuals = ResolveNodeVisualOverrides(
+                    spec.nodeId, visitState, overrideMap, rawOpt, narrativeNode);
 
                 column.nodes.Add(new ScenarioOptionNodeData
                 {
+                    nodeKey = optKey,
                     parentNodeId = spec.nodeId,
                     optionIndex = optIdx,
                     resolvedNextNodeId = nextNodeId,
@@ -504,12 +932,14 @@ public static class ScenarioDataCollector
                     stageTitle = column.columnHeader,
                     revealedLabel = defaultLabel,
                     revealedAnnotation = defaultAnnotation,
-                    isTaken = isOptionTaken,
+                    visitState = visitState,
+                    isTaken = isCurrentRunOption,
                     isRootNode = false,
                     isEndingNode = false,
-                    hasOutgoingVoidArrows = showVoidArrows,
-                    voidArrowCount = showVoidArrows ? 2 : 0,
-                    customSprite = customOptSprite
+                    customSprite = specVisuals.customSprite,
+                    situationImage = specVisuals.situationImage,
+                    hasCustomGraphPosition = specVisuals.useCustomGraphPosition,
+                    graphPosition = specVisuals.customGraphPosition
                 });
             }
 
@@ -519,12 +949,12 @@ public static class ScenarioDataCollector
             }
         }
 
-        // 5. Also include any custom/additional NarrativeNodes added by designers that have _hasOptions == true and _showInScenarioTree == true
-        // (Excluding Node 4 which is the legacy unused duplicate of Node 9, and excluding ending nodes 71, 72, 73)
-        handledNodeIds.Add(4);
-        handledNodeIds.Add(71);
-        handledNodeIds.Add(72);
-        handledNodeIds.Add(73);
+        // 5. Extra designer-defined decision nodes (_hasOptions == true and _showInScenarioTree == true)
+        handledNodeIds.Add(ConnectIntroSkipNodeId);
+        for (int e = 0; e < CanonicalEndings.Length; e++)
+        {
+            handledNodeIds.Add(CanonicalEndings[e].id);
+        }
 
         if (allNodes != null)
         {
@@ -551,10 +981,11 @@ public static class ScenarioDataCollector
             {
                 int extraNodeId = extraNodeIds[i];
                 NarrativeNode extraNode = allNodes[extraNodeId];
+                Option[] opts = extraNode.Options();
                 int selectedOpt = ResolveCustomNodeSelectedOption(extraNodeId);
+                bool hasPrevExtra = HasAnyOptionInSet(extraNodeId, opts != null ? opts.Length : 0, prevNodeSet);
 
-                // If this custom decision node has not been reached/selected by the player yet, skip it
-                if (selectedOpt < 0)
+                if (selectedOpt < 0 && !hasPrevExtra)
                 {
                     continue;
                 }
@@ -573,13 +1004,24 @@ public static class ScenarioDataCollector
                     columnHeader = stageHeader
                 };
 
-                Option[] opts = extraNode.Options();
                 for (int optIdx = 0; optIdx < opts.Length; optIdx++)
                 {
                     Option opt = opts[optIdx];
                     if (opt == null || !opt.ShowInScenarioTree()) continue;
 
-                    bool taken = (selectedOpt == optIdx);
+                    string optKey = MakeDecisionNodeKey(extraNodeId, optIdx);
+                    bool currentTaken = (selectedOpt == optIdx);
+                    bool prevTaken = !currentTaken && prevNodeSet.Contains(optKey);
+
+                    ScenarioNodeVisitState visitState = currentTaken
+                        ? ScenarioNodeVisitState.CurrentRun
+                        : (prevTaken ? ScenarioNodeVisitState.PreviousRun : ScenarioNodeVisitState.Undiscovered);
+
+                    if (visitState == ScenarioNodeVisitState.PreviousRun)
+                    {
+                        model.hasPreviousRunHistory = true;
+                    }
+
                     string fallbackLabel = extraNode.ResponseMode() == PhoneResponseMode.FreeText
                         ? GetDefaultFreeTextRouteLabel(optIdx)
                         : "Decision\nMade";
@@ -592,24 +1034,12 @@ public static class ScenarioDataCollector
                             ? extraOverride.annotation
                             : (!string.IsNullOrWhiteSpace(opt.text) ? opt.text : fallbackLabel));
 
-                    bool showVoidArrows = !taken && branchMode == ScenarioBranchMode.OptionB_FirstNodeWithVoidArrows;
-
-                    Sprite customOptSprite = null;
-                    if (overrideMap != null && overrideMap.TryGetValue(extraNodeId, out ScenarioNodeOverride extraOv) && extraOv != null)
-                    {
-                        customOptSprite = taken ? extraOv.customTakenSprite : extraOv.customUntakenSprite;
-                    }
-                    if (customOptSprite == null && opt != null)
-                    {
-                        customOptSprite = opt.GetScenarioCustomSprite();
-                    }
-                    if (customOptSprite == null && extraNode != null)
-                    {
-                        customOptSprite = extraNode.ScenarioCustomSprite();
-                    }
+                    ResolvedNodeVisuals extraVisuals = ResolveNodeVisualOverrides(
+                        extraNodeId, visitState, overrideMap, opt, extraNode);
 
                     extraCol.nodes.Add(new ScenarioOptionNodeData
                     {
+                        nodeKey = optKey,
                         parentNodeId = extraNodeId,
                         optionIndex = optIdx,
                         resolvedNextNodeId = opt.nextNode,
@@ -617,12 +1047,14 @@ public static class ScenarioDataCollector
                         stageTitle = stageHeader,
                         revealedLabel = label,
                         revealedAnnotation = annotation,
-                        isTaken = taken,
+                        visitState = visitState,
+                        isTaken = currentTaken,
                         isRootNode = false,
                         isEndingNode = false,
-                        hasOutgoingVoidArrows = showVoidArrows,
-                        voidArrowCount = showVoidArrows ? 2 : 0,
-                        customSprite = customOptSprite
+                        customSprite = extraVisuals.customSprite,
+                        situationImage = extraVisuals.situationImage,
+                        hasCustomGraphPosition = extraVisuals.useCustomGraphPosition,
+                        graphPosition = extraVisuals.customGraphPosition
                     });
                 }
 
@@ -649,126 +1081,357 @@ public static class ScenarioDataCollector
         }
         nextColumnIndex = seqColIndex;
 
-        // 6. Populate the mandatory 3 Fixed Ending Nodes column only if the campaign is completed
-        if (isCampaignCompleted)
+        // 6. Special Ending Section: ONLY display endings that have been reached (CurrentRun or PreviousRun).
+        // Never display unreached endings or reveal how many total endings exist!
+        int reachedEndingId = isCampaignCompleted ? ResolveReachedEndingNodeId(allNodes) : -1;
+        model.reachedEndingNodeId = reachedEndingId;
+        model.reachedEndingTitle = GetEndingHeadline(reachedEndingId);
+
+        ScenarioColumnData endingColumn = new ScenarioColumnData
         {
-            int reachedEndingId = ResolveReachedEndingNodeId(allNodes);
-            model.reachedEndingNodeId = reachedEndingId;
-            model.reachedEndingTitle = reachedEndingId switch
+            columnIndex = nextColumnIndex,
+            narrativeNodeId = reachedEndingId,
+            choiceNumber = 14,
+            storyDay = 5,
+            columnHeader = "ENDING",
+            isRootEntryColumn = false,
+            isEndingColumn = true
+        };
+
+        for (int e = 0; e < CanonicalEndings.Length; e++)
+        {
+            EndingSpec spec = CanonicalEndings[e];
+            string endingKey = MakeEndingNodeKey(spec.id);
+            bool isCurrentEnding = isCampaignCompleted && (reachedEndingId == spec.id);
+            bool isPreviousEnding = !isCurrentEnding && prevNodeSet.Contains(endingKey);
+
+            // Never expose unreached endings or the total ending count
+            if (!isCurrentEnding && !isPreviousEnding)
             {
-                71 => "GOOD ENDING",
-                73 => "BAD ENDING",
-                _ => "NEUTRAL ENDING"
-            };
+                continue;
+            }
 
-            model.endingColumn = new ScenarioColumnData
+            ScenarioNodeVisitState visitState = isCurrentEnding
+                ? ScenarioNodeVisitState.CurrentRun
+                : ScenarioNodeVisitState.PreviousRun;
+
+            if (visitState == ScenarioNodeVisitState.PreviousRun)
             {
-                columnIndex = nextColumnIndex,
-                narrativeNodeId = reachedEndingId,
-                choiceNumber = 14,
-                storyDay = 5,
-                columnHeader = "Endings",
-                isRootEntryColumn = false,
-                isEndingColumn = true
-            };
+                model.hasPreviousRunHistory = true;
+            }
 
-            AddFixedEndingNode(
-                model.endingColumn,
-                71,
-                0,
-                reachedEndingId == 71,
-                "GOOD ENDING\nSafe & Supported",
-                "GOOD ENDING (Node 71): Luna protected her boundaries, documented the harassment, and trusted the people around her. The impersonation account was removed and she regained her peace of mind.",
-                allNodes,
-                overrideMap);
+            AddDiscoveredEndingNode(endingColumn, spec, visitState, allNodes, overrideMap);
+        }
 
-            AddFixedEndingNode(
-                model.endingColumn,
-                72,
-                1,
-                reachedEndingId == 72,
-                "NEUTRAL ENDING\nLingering Doubt",
-                "NEUTRAL ENDING (Node 72): The worst rumors eventually faded, but the leaked posts and unanswered messages left Luna cautious and uneasy every time her phone buzzed.",
-                allNodes,
-                overrideMap);
-
-            AddFixedEndingNode(
-                model.endingColumn,
-                73,
-                2,
-                reachedEndingId == 73,
-                "BAD ENDING\nExposed & Overwhelmed",
-                "BAD ENDING (Node 73): Oversharing personal information, photos, and credentials snowballed into severe harassment and impersonation that followed Luna into school.",
-                allNodes,
-                overrideMap);
+        if (endingColumn.nodes.Count > 0)
+        {
+            endingColumn.columnHeader = endingColumn.nodes.Count > 1 ? "ENDINGS" : "ENDING";
+            model.endingColumn = endingColumn;
         }
         else
         {
             model.endingColumn = null;
-            model.reachedEndingNodeId = -1;
-            model.reachedEndingTitle = "Campaign in Progress";
         }
+
+        // 7. Build explicit directed edges across playthroughs & compute slot discovery metrics
+        BuildModelEdges(model, prevEdgeSet);
+
+        HashSet<string> combinedDiscovered = new HashSet<string>(prevNodeSet, StringComparer.Ordinal);
+        CollectCurrentRunKeys(out HashSet<string> currentRunKeys, out _);
+        combinedDiscovered.UnionWith(currentRunKeys);
+
+        int uniqueDiscoverableCount = 0;
+        foreach (string key in combinedDiscovered)
+        {
+            if (IsDiscoverableKey(key)) uniqueDiscoverableCount++;
+        }
+
+        model.totalDiscoverableNodeCount = GetTotalDiscoverableNodeCount(allNodes);
+        model.discoveredNodeCount = uniqueDiscoverableCount;
+        model.discoveryPercent = ComputeDiscoveryPercentage(combinedDiscovered, allNodes);
 
         return model;
     }
 
-    private static void AddFixedEndingNode(
+    private static bool HasAnyOptionInSet(int parentNodeId, int optionCount, HashSet<string> nodeSet)
+    {
+        if (nodeSet == null || nodeSet.Count == 0)
+        {
+            return false;
+        }
+
+        for (int o = 0; o < optionCount; o++)
+        {
+            if (nodeSet.Contains(MakeDecisionNodeKey(parentNodeId, o)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void BuildModelEdges(ScenarioTreeModel model, HashSet<string> prevEdgeSet)
+    {
+        if (model == null) return;
+
+        List<ScenarioColumnData> storyCols = new List<ScenarioColumnData>();
+        if (model.rootColumn != null) storyCols.Add(model.rootColumn);
+        if (model.decisionColumns != null) storyCols.AddRange(model.decisionColumns);
+
+        Dictionary<string, ScenarioOptionNodeData> nodeLookup = new Dictionary<string, ScenarioOptionNodeData>(StringComparer.Ordinal);
+        List<ScenarioColumnData> allCols = new List<ScenarioColumnData>(storyCols);
+        if (model.endingColumn != null) allCols.Add(model.endingColumn);
+
+        for (int c = 0; c < allCols.Count; c++)
+        {
+            List<ScenarioOptionNodeData> nodes = allCols[c].nodes;
+            for (int n = 0; n < nodes.Count; n++)
+            {
+                if (nodes[n] != null && !string.IsNullOrEmpty(nodes[n].nodeKey))
+                {
+                    nodeLookup[nodes[n].nodeKey] = nodes[n];
+                }
+            }
+        }
+
+        Dictionary<string, ScenarioEdgeData> edgeMap = new Dictionary<string, ScenarioEdgeData>(StringComparer.Ordinal);
+
+        void RegisterEdge(string fromKey, string toKey, ScenarioNodeVisitState state, bool isEnding)
+        {
+            if (string.IsNullOrEmpty(fromKey) || string.IsNullOrEmpty(toKey)) return;
+            if (!nodeLookup.ContainsKey(fromKey) || !nodeLookup.ContainsKey(toKey)) return;
+
+            string key = MakeEdgeKey(fromKey, toKey);
+            if (edgeMap.TryGetValue(key, out ScenarioEdgeData existing))
+            {
+                if ((int)state > (int)existing.visitState)
+                {
+                    existing.visitState = state;
+                }
+                existing.isEndingConnection |= isEnding;
+                return;
+            }
+
+            ScenarioEdgeData edge = new ScenarioEdgeData
+            {
+                fromNodeKey = fromKey,
+                toNodeKey = toKey,
+                visitState = state,
+                isEndingConnection = isEnding
+            };
+            edgeMap[key] = edge;
+            model.edges.Add(edge);
+        }
+
+        // A. Connect current-run spine (including reached ending if completed)
+        List<ScenarioOptionNodeData> currentRunSpine = new List<ScenarioOptionNodeData>();
+        for (int c = 0; c < storyCols.Count; c++)
+        {
+            ScenarioOptionNodeData currentInCol = FindNodeWithState(storyCols[c].nodes, ScenarioNodeVisitState.CurrentRun);
+            if (currentInCol != null)
+            {
+                currentRunSpine.Add(currentInCol);
+            }
+        }
+        if (model.endingColumn != null)
+        {
+            ScenarioOptionNodeData currentEnding = FindNodeWithState(model.endingColumn.nodes, ScenarioNodeVisitState.CurrentRun);
+            if (currentEnding != null)
+            {
+                currentRunSpine.Add(currentEnding);
+            }
+        }
+
+        for (int i = 0; i + 1 < currentRunSpine.Count; i++)
+        {
+            RegisterEdge(
+                currentRunSpine[i].nodeKey,
+                currentRunSpine[i + 1].nodeKey,
+                ScenarioNodeVisitState.CurrentRun,
+                currentRunSpine[i + 1].isEndingNode);
+        }
+
+        // B. Restore exact traversed edges from previous playthroughs in this save slot
+        if (prevEdgeSet != null && prevEdgeSet.Count > 0)
+        {
+            foreach (string rawEdge in prevEdgeSet)
+            {
+                if (string.IsNullOrEmpty(rawEdge)) continue;
+                int sep = rawEdge.IndexOf("->", StringComparison.Ordinal);
+                if (sep <= 0) continue;
+
+                string fromKey = rawEdge.Substring(0, sep);
+                string toKey = rawEdge.Substring(sep + 2);
+                if (nodeLookup.TryGetValue(toKey, out ScenarioOptionNodeData toNode))
+                {
+                    RegisterEdge(fromKey, toKey, ScenarioNodeVisitState.PreviousRun, toNode.isEndingNode);
+                }
+            }
+        }
+
+        // C. Connect undiscovered ("???") sibling options cleanly from adjacent column's active or previously-taken node
+        for (int c = 0; c + 1 < storyCols.Count; c++)
+        {
+            ScenarioOptionNodeData parentSource =
+                FindNodeWithState(storyCols[c].nodes, ScenarioNodeVisitState.CurrentRun) ??
+                FindNodeWithState(storyCols[c].nodes, ScenarioNodeVisitState.PreviousRun);
+
+            if (parentSource == null) continue;
+
+            List<ScenarioOptionNodeData> nextNodes = storyCols[c + 1].nodes;
+            for (int n = 0; n < nextNodes.Count; n++)
+            {
+                ScenarioOptionNodeData target = nextNodes[n];
+                if (target == null) continue;
+
+                if (target.visitState == ScenarioNodeVisitState.Undiscovered)
+                {
+                    RegisterEdge(parentSource.nodeKey, target.nodeKey, ScenarioNodeVisitState.Undiscovered, false);
+                }
+                else if (target.visitState == ScenarioNodeVisitState.PreviousRun &&
+                         !HasIncomingEdge(target.nodeKey, model.edges))
+                {
+                    // Legacy save fallback if edge list was not yet recorded
+                    RegisterEdge(parentSource.nodeKey, target.nodeKey, ScenarioNodeVisitState.PreviousRun, false);
+                }
+            }
+        }
+
+        // D. Ensure any previous ending without explicit saved edge links from the last story column's previous/current node
+        if (model.endingColumn != null && storyCols.Count > 0)
+        {
+            List<ScenarioOptionNodeData> lastStoryNodes = storyCols[storyCols.Count - 1].nodes;
+            for (int e = 0; e < model.endingColumn.nodes.Count; e++)
+            {
+                ScenarioOptionNodeData endNode = model.endingColumn.nodes[e];
+                if (endNode == null || HasIncomingEdge(endNode.nodeKey, model.edges)) continue;
+
+                ScenarioOptionNodeData source =
+                    FindNodeWithState(lastStoryNodes, endNode.visitState) ??
+                    FindNodeWithState(lastStoryNodes, ScenarioNodeVisitState.PreviousRun) ??
+                    FindNodeWithState(lastStoryNodes, ScenarioNodeVisitState.CurrentRun);
+
+                if (source != null)
+                {
+                    RegisterEdge(source.nodeKey, endNode.nodeKey, endNode.visitState, true);
+                }
+            }
+        }
+    }
+
+    private static ScenarioOptionNodeData FindNodeWithState(List<ScenarioOptionNodeData> nodes, ScenarioNodeVisitState state)
+    {
+        if (nodes == null) return null;
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            if (nodes[i] != null && nodes[i].visitState == state)
+            {
+                return nodes[i];
+            }
+        }
+        return null;
+    }
+
+    private static bool HasIncomingEdge(string targetKey, List<ScenarioEdgeData> edges)
+    {
+        for (int i = 0; i < edges.Count; i++)
+        {
+            if (string.Equals(edges[i].toNodeKey, targetKey, StringComparison.Ordinal))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void AddDiscoveredEndingNode(
         ScenarioColumnData endingColumn,
-        int endingNodeId,
-        int optionIndex,
-        bool isReached,
-        string defaultLabel,
-        string defaultAnnotation,
+        EndingSpec spec,
+        ScenarioNodeVisitState visitState,
         IReadOnlyDictionary<int, NarrativeNode> allNodes,
         Dictionary<int, ScenarioNodeOverride> overrideMap)
     {
         NarrativeNode endingNode = null;
         if (allNodes != null)
         {
-            allNodes.TryGetValue(endingNodeId, out endingNode);
+            allNodes.TryGetValue(spec.id, out endingNode);
         }
 
-        ScenarioOverridePair ov = GetNodeLevelOverride(endingNodeId, endingNode, overrideMap);
-        string label = !string.IsNullOrWhiteSpace(ov.title) ? ov.title : defaultLabel;
-        string annotation = !string.IsNullOrWhiteSpace(ov.annotation) ? ov.annotation : defaultAnnotation;
+        ScenarioOverridePair ov = GetNodeLevelOverride(spec.id, endingNode, overrideMap);
+        string title = !string.IsNullOrWhiteSpace(ov.title) ? ov.title : spec.defaultTitle;
+        string label = !string.IsNullOrWhiteSpace(ov.title) ? ov.title : spec.defaultLabel;
+        string annotation = !string.IsNullOrWhiteSpace(ov.annotation) ? ov.annotation : spec.defaultAnnotation;
 
-        // If the NarrativeNode in JSON has narration lines, append the first line for extra context if no custom override was set
         if (string.IsNullOrWhiteSpace(ov.annotation) && endingNode != null && endingNode.Dialogues() != null && endingNode.Dialogues().Count > 1)
         {
             string summaryLine = endingNode.Dialogues()[1].Content();
             if (!string.IsNullOrWhiteSpace(summaryLine))
             {
-                annotation = $"{defaultAnnotation}\n\n\"{summaryLine}\"";
+                annotation = $"{spec.defaultAnnotation}\n\n\"{summaryLine}\"";
             }
         }
 
-        Sprite customEndingSprite = null;
-        if (overrideMap != null && overrideMap.TryGetValue(endingNodeId, out ScenarioNodeOverride endingOv) && endingOv != null)
-        {
-            customEndingSprite = isReached ? endingOv.customTakenSprite : endingOv.customUntakenSprite;
-        }
-        if (customEndingSprite == null && endingNode != null)
-        {
-            customEndingSprite = endingNode.ScenarioCustomSprite();
-        }
+        ResolvedNodeVisuals visuals = ResolveNodeVisualOverrides(
+            spec.id, visitState, overrideMap, null, endingNode);
 
         endingColumn.nodes.Add(new ScenarioOptionNodeData
         {
-            parentNodeId = endingNodeId,
-            optionIndex = optionIndex,
+            nodeKey = MakeEndingNodeKey(spec.id),
+            parentNodeId = spec.id,
+            optionIndex = spec.optionIndex,
             resolvedNextNodeId = -1,
             storyDay = 5,
-            stageTitle = "Campaign Ending",
+            stageTitle = title,
             revealedLabel = label,
             revealedAnnotation = annotation,
-            isTaken = isReached,
+            visitState = visitState,
+            isTaken = visitState == ScenarioNodeVisitState.CurrentRun,
             isRootNode = false,
             isEndingNode = true,
-            endingNodeId = endingNodeId,
-            hasOutgoingVoidArrows = false,
-            voidArrowCount = 0,
-            customSprite = customEndingSprite
+            endingNodeId = spec.id,
+            customSprite = visuals.customSprite,
+            situationImage = visuals.situationImage,
+            hasCustomGraphPosition = visuals.useCustomGraphPosition,
+            graphPosition = visuals.customGraphPosition
         });
+    }
+
+    private struct ResolvedNodeVisuals
+    {
+        public Sprite customSprite;
+        public Sprite situationImage;
+        public bool useCustomGraphPosition;
+        public Vector2 customGraphPosition;
+    }
+
+    private static ResolvedNodeVisuals ResolveNodeVisualOverrides(
+        int nodeId,
+        ScenarioNodeVisitState visitState,
+        Dictionary<int, ScenarioNodeOverride> overrideMap,
+        Option rawOption = null,
+        NarrativeNode narrativeNode = null)
+    {
+        ResolvedNodeVisuals resolved = default;
+        if (overrideMap != null && overrideMap.TryGetValue(nodeId, out ScenarioNodeOverride ov) && ov != null)
+        {
+            resolved.customSprite = visitState != ScenarioNodeVisitState.Undiscovered
+                ? ov.customTakenSprite
+                : ov.customUntakenSprite;
+            resolved.situationImage = ov.detailSituationImage;
+            resolved.useCustomGraphPosition = ov.useCustomGraphPosition;
+            resolved.customGraphPosition = ov.customGraphPosition;
+        }
+
+        if (resolved.customSprite == null && rawOption != null)
+        {
+            resolved.customSprite = rawOption.GetScenarioCustomSprite();
+        }
+        if (resolved.customSprite == null && narrativeNode != null)
+        {
+            resolved.customSprite = narrativeNode.ScenarioCustomSprite();
+        }
+
+        return resolved;
     }
 
     private struct ScenarioOverridePair
@@ -860,25 +1523,21 @@ public static class ScenarioDataCollector
         return false;
     }
 
-    /// <summary>
-    /// Checks whether the campaign ending sequence has been reached and resolved.
-    /// </summary>
-    public static bool IsCampaignCompleted()
+    private static bool TryGetExplicitEndingNodeId(out int endingNodeId)
     {
         // 1. Check DayManager last resolved ending node
-        if (DayManager.Instance != null &&
-            (DayManager.Instance.LastResolvedEndingNode == 71 ||
-             DayManager.Instance.LastResolvedEndingNode == 72 ||
-             DayManager.Instance.LastResolvedEndingNode == 73))
+        if (DayManager.Instance != null && IsCanonicalEndingNodeId(DayManager.Instance.LastResolvedEndingNode))
         {
+            endingNodeId = DayManager.Instance.LastResolvedEndingNode;
             return true;
         }
 
         // 2. Check DecisionDataManager for saved ending node
         if (DecisionDataManager.Instance != null &&
             DecisionDataManager.Instance.TryGetIntVariable("Scenario_EndingNode", out int savedEnding) &&
-            (savedEnding == 71 || savedEnding == 72 || savedEnding == 73))
+            IsCanonicalEndingNodeId(savedEnding))
         {
+            endingNodeId = savedEnding;
             return true;
         }
 
@@ -886,13 +1545,23 @@ public static class ScenarioDataCollector
         if (MessagesManager.Instance != null)
         {
             Contact riley = MessagesManager.Instance.GetContactByName("Riley");
-            if (riley != null && (riley.NarrativeNode() == 71 || riley.NarrativeNode() == 72 || riley.NarrativeNode() == 73))
+            if (riley != null && IsCanonicalEndingNodeId(riley.NarrativeNode()))
             {
+                endingNodeId = riley.NarrativeNode();
                 return true;
             }
         }
 
+        endingNodeId = -1;
         return false;
+    }
+
+    /// <summary>
+    /// Checks whether the campaign ending sequence has been reached and resolved.
+    /// </summary>
+    public static bool IsCampaignCompleted()
+    {
+        return TryGetExplicitEndingNodeId(out _);
     }
 
     private static int ResolveSelectedOptionIndex(
@@ -994,38 +1663,12 @@ public static class ScenarioDataCollector
 
     private static int ResolveReachedEndingNodeId(IReadOnlyDictionary<int, NarrativeNode> allNodes)
     {
-        // 1. Check DayManager's last resolved ending node
-        if (DayManager.Instance != null &&
-            (DayManager.Instance.LastResolvedEndingNode == 71 ||
-             DayManager.Instance.LastResolvedEndingNode == 72 ||
-             DayManager.Instance.LastResolvedEndingNode == 73))
+        if (TryGetExplicitEndingNodeId(out int explicitEnding))
         {
-            return DayManager.Instance.LastResolvedEndingNode;
+            return explicitEnding;
         }
 
-        // 2. Check DecisionDataManager saved ending node
-        if (DecisionDataManager.Instance != null &&
-            DecisionDataManager.Instance.TryGetIntVariable("Scenario_EndingNode", out int savedEnding) &&
-            (savedEnding == 71 || savedEnding == 72 || savedEnding == 73))
-        {
-            return savedEnding;
-        }
-
-        // 3. Check Riley's current narrative node in MessagesManager
-        if (MessagesManager.Instance != null)
-        {
-            Contact riley = MessagesManager.Instance.GetContactByName("Riley");
-            if (riley != null)
-            {
-                int rileyNode = riley.NarrativeNode();
-                if (rileyNode == 71 || rileyNode == 72 || rileyNode == 73)
-                {
-                    return rileyNode;
-                }
-            }
-        }
-
-        // 4. Compute from DayManager risk score (or Reputation fallback)
+        // Fallback: compute from DayManager risk score (or Reputation)
         if (DayManager.Instance != null)
         {
             int modifier = 0;
@@ -1040,19 +1683,19 @@ public static class ScenarioDataCollector
             }
 
             int finalScore = DayManager.Instance.NarrativeRiskScore + modifier;
-            if (finalScore <= -4) return 71;
-            if (finalScore >= 5) return 73;
-            return 72;
+            if (finalScore <= -4) return GoodEndingNodeId;
+            if (finalScore >= 5) return BadEndingNodeId;
+            return NeutralEndingNodeId;
         }
 
         if (ReputationManager.Instance != null)
         {
             int rep = ReputationManager.Instance.CurrentReputation;
-            if (rep >= 65) return 71;
-            if (rep <= 35) return 73;
+            if (rep >= 65) return GoodEndingNodeId;
+            if (rep <= 35) return BadEndingNodeId;
         }
 
-        return 72;
+        return NeutralEndingNodeId;
     }
 
     private static int GetSpecBranchNode(CampaignDecisionSpec spec, int optionIndex)

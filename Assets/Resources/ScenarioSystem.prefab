@@ -1146,8 +1146,8 @@ MonoBehaviour:
   _verticalNodeSpacing: 175
   _voidArrowLength: 68
   _backgroundColor: {r: 0.149, g: 0.149, b: 0.149, a: 1}
-  _takenArrowColor: {r: 0.45, g: 0.03, b: 0.03, a: 1}
-  _untakenArrowColor: {r: 0.4, g: 0.02, b: 0.02, a: 0.9}
+  _takenArrowColor: {r: 0.96, g: 0.82, b: 0.34, a: 1}
+  _untakenArrowColor: {r: 0.45, g: 0.45, b: 0.5, a: 0.58}
   _customTakenNodeSprite: {fileID: 0}
   _customUntakenNodeSprite: {fileID: 0}
   _customEndingNodeSprite: {fileID: 0}

@@ -2,39 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
-/// Main controller for the endgame ScenarioSystem UI Canvas.
-/// Dynamically builds and renders the narrative decision tree / flowchart at the end of the campaign,
-/// connecting taken decisions, displaying "???" with void-pointing arrows for untaken paths (Option B),
-/// and converging into the 3 fixed story endings.
+/// Main controller for the ScenarioSystem XY flowchart Canvas.
+/// Renders the interactive 2D narrative decision tree across playthroughs,
+/// opens a centered 70% detail screen when clicking any node, hides unreached endings so total ending count stays secret,
+/// supports full XY drag-pan and scroll-wheel zoom, and prompts the player to start a new playthrough on close.
 /// </summary>
-public class ScenarioSystemUI : MonoBehaviour
+public class ScenarioSystemUI : MonoBehaviour, IScrollHandler
 {
     public static ScenarioSystemUI Instance { get; private set; }
-
-    [Header("Branch Visibility Mode")]
-    [Tooltip("Option B (Default/Preferred): Shows the first node of untaken branches as '???' with outgoing arrows pointing into the void, hiding exclusive child branches. Option A: Shows all nodes with '???'.")]
-    [SerializeField] private ScenarioBranchMode _branchMode = ScenarioBranchMode.OptionB_FirstNodeWithVoidArrows;
 
     [Header("Per-Node Visibility & Annotation Overrides")]
     [Tooltip("Optional list of per-node overrides. Allows enabling/disabling whether specific NarrativeNodes appear in the ScenarioSystem summary screen.")]
     [SerializeField] private List<ScenarioNodeOverride> _nodeOverrides = new List<ScenarioNodeOverride>();
 
-    [Header("Layout Settings")]
-    [SerializeField] private Vector2 _decisionNodeSize = new Vector2(126f, 126f);
-    [SerializeField] private Vector2 _untakenNodeSize = new Vector2(96f, 96f);
-    [SerializeField] private Vector2 _endingNodeSize = new Vector2(142f, 132f);
-    [SerializeField] private float _horizontalColumnSpacing = 250f;
-    [SerializeField] private float _verticalNodeSpacing = 175f;
-    [SerializeField] private float _voidArrowLength = 68f;
+    [Header("Layout & 2D XY Navigation Settings")]
+    [SerializeField] private Vector2 _decisionNodeSize = new Vector2(132f, 126f);
+    [SerializeField] private Vector2 _untakenNodeSize = new Vector2(100f, 98f);
+    [SerializeField] private Vector2 _endingNodeSize = new Vector2(154f, 138f);
+    [SerializeField] private float _horizontalColumnSpacing = 265f;
+    [SerializeField] private float _verticalNodeSpacing = 185f;
+    [SerializeField] private float _minZoom = 0.45f;
+    [SerializeField] private float _maxZoom = 1.5f;
+    [SerializeField] private float _zoomStep = 0.12f;
 
-    [Header("Visual Palette (ScenarioSystemConcept)")]
+    [Header("Situation Images (70% Detail Modal)")]
+    [Tooltip("Optional ScriptableObject catalog mapping NarrativeNode IDs to situation artwork.")]
+    [SerializeField] private ScenarioSituationImageCatalog _situationImageCatalog;
+
+    [Tooltip("Optional inline list of situation illustrations for the 70% node inspection modal.")]
+    [SerializeField] private List<ScenarioSituationImageEntry> _situationImages = new List<ScenarioSituationImageEntry>();
+
+    [Header("Visual Palette Across Playthroughs")]
     [SerializeField] private Color _backgroundColor = new Color(0.149f, 0.149f, 0.149f, 1f); // #262626
-    [SerializeField] private Color _takenArrowColor = new Color(0.45f, 0.03f, 0.03f, 1f);    // #730808
-    [SerializeField] private Color _untakenArrowColor = new Color(0.40f, 0.02f, 0.02f, 0.9f); // #660505
+    [SerializeField] private Color _takenArrowColor = new Color(0.96f, 0.82f, 0.34f, 1f);     // Bright Gold (Current Playthrough)
+    [SerializeField] private Color _previousRunArrowColor = new Color(0.58f, 0.50f, 0.85f, 0.88f); // Lavender (Previous Playthroughs)
+    [SerializeField] private Color _untakenArrowColor = new Color(0.45f, 0.45f, 0.50f, 0.58f);   // Muted Grey (Undiscovered)
+    [SerializeField] private Color _dividerColor = new Color(0.85f, 0.85f, 0.88f, 0.55f);
 
     [Header("Custom Visual Sprites (Optional — falls back to procedural generation if null)")]
     [Tooltip("Optional custom sprite for nodes representing decisions taken. If unassigned, procedural rounded rect is used.")]
@@ -43,28 +51,33 @@ public class ScenarioSystemUI : MonoBehaviour
     [Tooltip("Optional custom sprite for untaken nodes ('???'). If unassigned, procedural rounded rect is used.")]
     [SerializeField] private Sprite _customUntakenNodeSprite;
 
-    [Tooltip("Optional custom sprite for the 3 ending nodes. If unassigned, procedural rounded rect or _customTakenNodeSprite is used.")]
+    [Tooltip("Optional custom sprite for the ending nodes. If unassigned, procedural rounded rect or _customTakenNodeSprite is used.")]
     [SerializeField] private Sprite _customEndingNodeSprite;
 
     [Tooltip("Optional custom sprite for the node when hovered by mouse.")]
     [SerializeField] private Sprite _customHoverNodeSprite;
 
-    [Tooltip("Optional custom sprite for the hover annotation tooltip box. If unassigned, procedural rounded rect is used.")]
-    [SerializeField] private Sprite _customTooltipSprite;
-
-    [Tooltip("Optional custom single-piece sprite for the entire taken path connection arrow. Points right (+X).")]
+    [Header("Custom Arrow Sprites (Per Path State — points right +X)")]
+    [Tooltip("Custom single-piece arrow sprite for paths taken in the CURRENT playthrough.")]
     [SerializeField] private Sprite _customTakenArrowSprite;
 
-    [Tooltip("Optional custom single-piece sprite for untaken/void connection arrows. If unassigned but Taken Arrow is assigned, Taken Arrow is used as fallback.")]
+    [Tooltip("Custom single-piece arrow sprite for paths taken in PREVIOUS playthroughs. Falls back to Taken Arrow if unassigned.")]
+    [SerializeField] private Sprite _customPreviousRunArrowSprite;
+
+    [Tooltip("Custom single-piece arrow sprite for UNDISCOVERED paths leading to '???' nodes. Falls back to Taken Arrow if unassigned.")]
     [SerializeField] private Sprite _customUntakenArrowSprite;
 
     [Tooltip("Height / thickness for custom single-piece arrow sprites in UI units.")]
     [SerializeField] private float _customArrowHeight = 20f;
 
-    [Tooltip("If true, custom arrow sprites are tinted with Taken/Untaken Arrow Color. If false, they keep their native sprite colors.")]
+    [Tooltip("If true, custom arrow sprites are tinted with Current/Previous/Undiscovered Arrow Color. If false, they keep their native sprite colors.")]
     [SerializeField] private bool _tintCustomArrowSprites = false;
 
-    [Tooltip("Alpha opacity applied when an untaken arrow reuses the taken arrow sprite as fallback without full tinting.")]
+    [Tooltip("Alpha opacity applied when a previous-run arrow reuses the current arrow sprite as fallback without tinting.")]
+    [Range(0.1f, 1f)]
+    [SerializeField] private float _fallbackPreviousArrowAlpha = 0.8f;
+
+    [Tooltip("Alpha opacity applied when an undiscovered arrow reuses the current arrow sprite as fallback without tinting.")]
     [Range(0.1f, 1f)]
     [SerializeField] private float _fallbackUntakenArrowAlpha = 0.5f;
 
@@ -92,22 +105,25 @@ public class ScenarioSystemUI : MonoBehaviour
     [SerializeField] private RectTransform _graphContentRect;
     [SerializeField] private RectTransform _connectionsLayerRect;
     [SerializeField] private RectTransform _nodesLayerRect;
-    [SerializeField] private ScenarioAnnotationTooltipUI _tooltipUI;
     [SerializeField] private TextMeshProUGUI _headerSummaryText;
-    [SerializeField] private TextMeshProUGUI _modeButtonLabel;
-    [SerializeField] private Button _toggleModeButton;
     [SerializeField] private Button _resetViewButton;
     [SerializeField] private Button _mainMenuButton;
     [SerializeField] private Button _closeButton;
 
     private readonly List<GameObject> _spawnedGraphObjects = new List<GameObject>();
-    private ScenarioNodeUI _currentlyHoveredNode;
+    private ScenarioNodeDetailModalUI _detailModalUI;
+    private ScenarioReplayPromptModalUI _replayPromptModalUI;
+    private GameObject _legendContainer;
+    private GameObject _legendPreviousRow;
+    private Button _zoomInButton;
+    private Button _zoomOutButton;
+    private float _currentZoom = 1f;
+    private bool _isCurrentViewCampaignCompleted;
     private bool _isHierarchyInitialized;
     private float _previousTimeScale = 1f;
     private bool _hasCapturedTimeScale;
 
     public bool IsVisible => _panelRoot != null && _panelRoot.activeSelf;
-    public ScenarioBranchMode BranchMode => _branchMode;
 
     private void Awake()
     {
@@ -153,14 +169,118 @@ public class ScenarioSystemUI : MonoBehaviour
             Cursor.visible = true;
         }
 
-        // Allow closing the ScenarioSystem with Escape
-        if (Keyboard.current != null)
+        // Handle Escape in priority order: 70% detail modal -> replay prompt -> campaign replay prompt or close
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            HandleCloseOrBackRequested();
+            return;
+        }
+
+        // Allow keyboard WASD / Arrow XY panning and mouse-wheel zoom when no modal overlay is open
+        bool modalOpen = IsAnyModalOpen();
+        if (!modalOpen && Mouse.current != null)
+        {
+            float scrollY = Mouse.current.scroll.ReadValue().y;
+            if (Mathf.Abs(scrollY) > 0.01f)
             {
-                HideScenarioTree();
+                AdjustZoom(Mathf.Sign(scrollY) * _zoomStep);
             }
         }
+
+        if (!modalOpen && _scrollRect != null && Keyboard.current != null)
+        {
+            float moveX = 0f;
+            float moveY = 0f;
+            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) moveX -= 1f;
+            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) moveX += 1f;
+            if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) moveY += 1f;
+            if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) moveY -= 1f;
+
+            if ((moveX != 0f || moveY != 0f) && _graphContentRect != null && _viewportRect != null)
+            {
+                float maxScrollX = Mathf.Max(1f, (_graphContentRect.rect.width * _currentZoom) - _viewportRect.rect.width);
+                float maxScrollY = Mathf.Max(1f, (_graphContentRect.rect.height * _currentZoom) - _viewportRect.rect.height);
+                float panSpeed = 950f * Time.unscaledDeltaTime;
+
+                _scrollRect.horizontalNormalizedPosition = Mathf.Clamp01(
+                    _scrollRect.horizontalNormalizedPosition + (moveX * panSpeed / maxScrollX));
+                _scrollRect.verticalNormalizedPosition = Mathf.Clamp01(
+                    _scrollRect.verticalNormalizedPosition + (moveY * panSpeed / maxScrollY));
+            }
+        }
+    }
+
+    private bool IsAnyModalOpen()
+    {
+        return (_detailModalUI != null && _detailModalUI.IsOpen) ||
+               (_replayPromptModalUI != null && _replayPromptModalUI.IsOpen);
+    }
+
+    public void OnScroll(PointerEventData eventData)
+    {
+        if (!IsVisible || IsAnyModalOpen())
+        {
+            return;
+        }
+
+        if (Mathf.Abs(eventData.scrollDelta.y) > 0.01f)
+        {
+            AdjustZoom(Mathf.Sign(eventData.scrollDelta.y) * _zoomStep);
+        }
+    }
+
+    private void AdjustZoom(float delta)
+    {
+        SetZoom(_currentZoom + delta);
+    }
+
+    private void SetZoom(float targetZoom)
+    {
+        float clamped = Mathf.Clamp(targetZoom, _minZoom, _maxZoom);
+        if (Mathf.Approximately(clamped, _currentZoom) && _graphContentRect != null &&
+            Mathf.Approximately(_graphContentRect.localScale.x, clamped))
+        {
+            return;
+        }
+
+        float prevNormX = _scrollRect != null ? _scrollRect.horizontalNormalizedPosition : 0f;
+        float prevNormY = _scrollRect != null ? _scrollRect.verticalNormalizedPosition : 0.5f;
+
+        _currentZoom = clamped;
+        if (_graphContentRect != null)
+        {
+            _graphContentRect.localScale = new Vector3(_currentZoom, _currentZoom, 1f);
+        }
+
+        if (_scrollRect != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            _scrollRect.horizontalNormalizedPosition = Mathf.Clamp01(prevNormX);
+            _scrollRect.verticalNormalizedPosition = Mathf.Clamp01(prevNormY);
+        }
+    }
+
+    private void HandleCloseOrBackRequested()
+    {
+        if (_detailModalUI != null && _detailModalUI.IsOpen)
+        {
+            _detailModalUI.Hide();
+            return;
+        }
+
+        if (_replayPromptModalUI != null && _replayPromptModalUI.IsOpen)
+        {
+            _replayPromptModalUI.Hide();
+            return;
+        }
+
+        if (_isCurrentViewCampaignCompleted)
+        {
+            ShowReplayPromptModal();
+            return;
+        }
+
+        HideScenarioTree();
     }
 
     private void OnRectTransformDimensionsChange()
@@ -227,6 +347,21 @@ public class ScenarioSystemUI : MonoBehaviour
         gameObject.SetActive(true);
         transform.SetAsLastSibling();
 
+        if (_detailModalUI != null)
+        {
+            _detailModalUI.Hide();
+        }
+        if (_replayPromptModalUI != null)
+        {
+            _replayPromptModalUI.Hide();
+        }
+
+        _currentZoom = 1f;
+        if (_graphContentRect != null)
+        {
+            _graphContentRect.localScale = Vector3.one;
+        }
+
         RebuildScenarioTree();
 
         if (isActiveAndEnabled)
@@ -236,15 +371,18 @@ public class ScenarioSystemUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Hides the ScenarioSystem summary screen and any active hover annotation tooltip,
+    /// Hides the ScenarioSystem summary screen and any open modal overlays,
     /// restoring gameplay timeScale and player inputs according to the active UI state.
     /// </summary>
     public void HideScenarioTree()
     {
-        _currentlyHoveredNode = null;
-        if (_tooltipUI != null)
+        if (_detailModalUI != null)
         {
-            _tooltipUI.HideImmediate();
+            _detailModalUI.Hide();
+        }
+        if (_replayPromptModalUI != null)
+        {
+            _replayPromptModalUI.Hide();
         }
 
         if (_panelRoot != null)
@@ -385,18 +523,16 @@ public class ScenarioSystemUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Switches between Option B (First untaken node with void arrows & hidden exclusive child branches)
-    /// and Option A (All untaken nodes shown as "???") and refreshes the flowchart.
-    /// </summary>
-    public void ToggleBranchMode()
+    private ScenarioGraphLayoutSettings BuildLayoutSettings()
     {
-        _branchMode = _branchMode == ScenarioBranchMode.OptionB_FirstNodeWithVoidArrows
-            ? ScenarioBranchMode.OptionA_ShowAllNodesAsHidden
-            : ScenarioBranchMode.OptionB_FirstNodeWithVoidArrows;
-
-        UpdateModeButtonLabel();
-        RebuildScenarioTree();
+        return new ScenarioGraphLayoutSettings
+        {
+            decisionNodeSize = _decisionNodeSize,
+            untakenNodeSize = _untakenNodeSize,
+            endingNodeSize = _endingNodeSize,
+            horizontalColumnSpacing = _horizontalColumnSpacing,
+            verticalNodeSpacing = _verticalNodeSpacing
+        };
     }
 
     /// <summary>
@@ -408,100 +544,160 @@ public class ScenarioSystemUI : MonoBehaviour
         EnsureHierarchyBuilt();
         ClearSpawnedGraphObjects();
 
-        if (_tooltipUI != null)
+        if (_scrollRect != null)
         {
-            _tooltipUI.HideImmediate();
+            _scrollRect.horizontal = true;
+            _scrollRect.vertical = true;
+            _scrollRect.movementType = ScrollRect.MovementType.Elastic;
+            _scrollRect.scrollSensitivity = 0f; // Mouse wheel is dedicated to XY zoom
         }
 
-        ScenarioTreeModel model = ScenarioDataCollector.CollectTreeModel(_branchMode, _nodeOverrides);
+        ScenarioTreeModel model = ScenarioDataCollector.CollectTreeModel(_nodeOverrides);
+        _isCurrentViewCampaignCompleted = model.isCampaignCompleted;
         UpdateHeaderSummary(model);
-        UpdateModeButtonLabel();
+        UpdateLegendUI(model);
 
-        // Combine columns in left-to-right narrative sequence: [Root] -> [Decision Columns...] -> [3 Fixed Endings]
-        List<ScenarioColumnData> allColumns = new List<ScenarioColumnData>();
+        List<ScenarioColumnData> storyColumns = new List<ScenarioColumnData>();
         if (model.rootColumn != null)
         {
-            allColumns.Add(model.rootColumn);
+            storyColumns.Add(model.rootColumn);
         }
         if (model.decisionColumns != null)
         {
-            allColumns.AddRange(model.decisionColumns);
-        }
-        if (model.endingColumn != null)
-        {
-            allColumns.Add(model.endingColumn);
+            storyColumns.AddRange(model.decisionColumns);
         }
 
-        if (allColumns.Count == 0)
+        bool hasEndings = model.endingColumn != null && model.endingColumn.nodes != null && model.endingColumn.nodes.Count > 0;
+        if (storyColumns.Count == 0 && !hasEndings)
         {
             CreateEmptyStateLabel("No narrative decisions have been taken yet.");
             return;
         }
 
-        const float leftMargin = 160f;
-        const float rightMargin = 220f;
-        float totalWidth = leftMargin + Mathf.Max(1, allColumns.Count - 1) * _horizontalColumnSpacing + rightMargin;
-        float viewportWidth = (_viewportRect != null && _viewportRect.rect.width > 0f) ? _viewportRect.rect.width : 1920f;
-        float viewportHeight = (_viewportRect != null && _viewportRect.rect.height > 0f) ? _viewportRect.rect.height : 1012f;
+        ScenarioGraphLayoutSettings layoutSettings = BuildLayoutSettings();
+        Vector2 viewportSize = _viewportRect != null ? _viewportRect.rect.size : Vector2.zero;
 
-        float totalContentWidth = Mathf.Max(viewportWidth, totalWidth);
-        float totalHeight = Mathf.Max(viewportHeight, 920f);
+        // Compute organic 2D XY positions before instantiating nodes or connections
+        ScenarioGraphLayoutResult layoutResult = ScenarioGraphLayoutSolver.ComputeLayout(
+            storyColumns,
+            hasEndings ? model.endingColumn : null,
+            layoutSettings,
+            viewportSize);
 
         if (_graphContentRect != null)
         {
-            _graphContentRect.sizeDelta = new Vector2(totalContentWidth, totalHeight);
+            _graphContentRect.localScale = Vector3.one;
+            _graphContentRect.sizeDelta = layoutResult.contentSize;
         }
 
-        List<List<ScenarioNodeUI>> spawnedColumns = new List<List<ScenarioNodeUI>>(allColumns.Count);
+        Dictionary<string, ScenarioNodeUI> spawnedNodesByKey = new Dictionary<string, ScenarioNodeUI>(System.StringComparer.Ordinal);
+        List<ScenarioNodeUI> allSpawnedNodes = new List<ScenarioNodeUI>();
 
-        // 1. Instantiate all visible columns and their nodes
-        for (int colIdx = 0; colIdx < allColumns.Count; colIdx++)
+        // 1. Spawn story decision nodes in XY space
+        for (int colIdx = 0; colIdx < storyColumns.Count; colIdx++)
         {
-            ScenarioColumnData colData = allColumns[colIdx];
-            float columnX = leftMargin + (colIdx * _horizontalColumnSpacing);
+            ScenarioColumnData colData = storyColumns[colIdx];
+            if (colData == null || colData.nodes == null || colData.nodes.Count == 0) continue;
 
-            CreateColumnHeaderLabel(colData, columnX, totalHeight * 0.5f - 58f);
-
-            List<ScenarioNodeUI> columnNodeUIs = new List<ScenarioNodeUI>();
+            float colTopY = float.MinValue;
+            float colSumX = 0f;
             int count = colData.nodes.Count;
 
-            for (int rowIdx = 0; rowIdx < count; rowIdx++)
+            for (int n = 0; n < count; n++)
             {
-                ScenarioOptionNodeData nodeData = colData.nodes[rowIdx];
+                ScenarioOptionNodeData nodeData = colData.nodes[n];
+                Vector2 size = ScenarioGraphLayoutSolver.GetNodeBoxSize(
+                    nodeData,
+                    colData.isEndingColumn,
+                    colData.isRootEntryColumn,
+                    layoutSettings);
 
-                // Center the column vertically around Y = 0
-                float centeredOffsetIndex = ( (count - 1) * 0.5f ) - rowIdx;
-                float spacing = colData.isEndingColumn ? (_verticalNodeSpacing + 28f) : _verticalNodeSpacing;
-                float nodeY = centeredOffsetIndex * spacing;
-
-                // Slight organic vertical stagger for untaken nodes to mirror ScenarioSystemConcept.png
-                if (!nodeData.isTaken && !colData.isEndingColumn && !colData.isRootEntryColumn)
+                ScenarioNodeUI nodeUI = CreateNodeUI(nodeData, nodeData.graphPosition, size);
+                allSpawnedNodes.Add(nodeUI);
+                if (!string.IsNullOrEmpty(nodeData.nodeKey))
                 {
-                    nodeY += (rowIdx == 0 ? 10f : (rowIdx == 2 ? -10f : 0f));
+                    spawnedNodesByKey[nodeData.nodeKey] = nodeUI;
                 }
 
-                Vector2 size = _decisionNodeSize;
-                if (colData.isEndingColumn)
-                {
-                    size = _endingNodeSize;
-                }
-                else if (!nodeData.isTaken && !colData.isRootEntryColumn)
-                {
-                    size = _untakenNodeSize;
-                }
-
-                ScenarioNodeUI nodeUI = CreateNodeUI(nodeData, new Vector2(columnX, nodeY), size);
-                columnNodeUIs.Add(nodeUI);
+                colSumX += nodeData.graphPosition.x;
+                float topEdge = nodeData.graphPosition.y + (size.y * 0.5f);
+                if (topEdge > colTopY) colTopY = topEdge;
             }
 
-            spawnedColumns.Add(columnNodeUIs);
+            CreateColumnHeaderLabel(colData, colSumX / count, colTopY + 30f);
         }
 
-        // Force layout/transform update before computing world-space connection coordinates
+        // 2. Vertical dashed separator before special Ending zone
+        if (hasEndings)
+        {
+            DrawVerticalDashedDivider(layoutResult.dividerX, layoutResult.dividerMinY, layoutResult.dividerMaxY);
+
+            ScenarioColumnData endingCol = model.endingColumn;
+            float endingHeaderY = float.MinValue;
+            float endingXSum = 0f;
+            int endingCount = endingCol.nodes.Count;
+
+            for (int e = 0; e < endingCount; e++)
+            {
+                ScenarioOptionNodeData endData = endingCol.nodes[e];
+                Vector2 size = _endingNodeSize;
+                ScenarioNodeUI endNodeUI = CreateNodeUI(endData, endData.graphPosition, size);
+                allSpawnedNodes.Add(endNodeUI);
+                if (!string.IsNullOrEmpty(endData.nodeKey))
+                {
+                    spawnedNodesByKey[endData.nodeKey] = endNodeUI;
+                }
+
+                endingXSum += endData.graphPosition.x;
+                float topEdge = endData.graphPosition.y + (size.y * 0.5f);
+                if (topEdge > endingHeaderY) endingHeaderY = topEdge;
+            }
+
+            CreateColumnHeaderLabel(endingCol, endingXSum / endingCount, endingHeaderY + 34f);
+        }
+
+        // Force canvas transform update at 1x scale before computing connection anchors
         Canvas.ForceUpdateCanvases();
 
-        // 2. Draw directed dark-red arrows between columns and outgoing void arrows for untaken nodes
-        DrawTreeConnections(allColumns, spawnedColumns);
+        // 3. Draw directed XY connections (Undiscovered -> PreviousRun -> CurrentRun)
+        DrawGraphEdges(model, allSpawnedNodes, spawnedNodesByKey);
+
+        // Restore active zoom scale
+        if (_graphContentRect != null)
+        {
+            _graphContentRect.localScale = new Vector3(_currentZoom, _currentZoom, 1f);
+        }
+    }
+
+    private void DrawVerticalDashedDivider(float dividerX, float minY, float maxY)
+    {
+        if (_connectionsLayerRect == null) return;
+
+        // Convert graph anchored Y (centered vertically inside _graphContentRect) to connections layer local coordinates
+        const float dashHeight = 22f;
+        const float gapHeight = 16f;
+        const float dashWidth = 4f;
+
+        for (float y = minY; y < maxY; y += (dashHeight + gapHeight))
+        {
+            float segLen = Mathf.Min(dashHeight, maxY - y);
+            if (segLen < 4f) break;
+
+            GameObject dashObj = new GameObject("DividerDash", typeof(RectTransform), typeof(Image));
+            dashObj.transform.SetParent(_connectionsLayerRect, false);
+            _spawnedGraphObjects.Add(dashObj);
+
+            RectTransform rect = dashObj.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0f, 0.5f);
+            rect.anchorMax = new Vector2(0f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = new Vector2(dividerX, y + segLen * 0.5f);
+            rect.sizeDelta = new Vector2(dashWidth, segLen);
+
+            Image img = dashObj.GetComponent<Image>();
+            img.color = _dividerColor;
+            img.raycastTarget = false;
+        }
     }
 
     private void UpdateHeaderSummary(ScenarioTreeModel model)
@@ -511,12 +707,15 @@ public class ScenarioSystemUI : MonoBehaviour
             return;
         }
 
+        int pct = Mathf.Clamp(Mathf.RoundToInt(model.discoveryPercent), 0, 100);
+
         if (model.isCampaignCompleted)
         {
             _headerSummaryText.text =
-                $"SCENARIO SYSTEM  |  Ending Reached: <color=#D8DF64>{model.reachedEndingTitle}</color>  |  " +
-                $"Final Safety / Reputation: <color=#7CE08A>{model.finalReputation}/100</color>  |  " +
-                $"Hover over any node to read its annotation";
+                $"SCENARIO SYSTEM  |  <color=#D8DF64>{model.reachedEndingTitle}</color>  |  " +
+                $"Discovered: <color=#8BE0A4>{pct}%</color>  |  " +
+                $"Final Safety: <color=#7CE08A>{model.finalReputation}/100</color>  |  " +
+                $"<color=#B0B6C4><size=85%>Click node: details  •  Drag: XY pan  •  Wheel: zoom</size></color>";
         }
         else
         {
@@ -531,9 +730,10 @@ public class ScenarioSystemUI : MonoBehaviour
             else
             {
                 _headerSummaryText.text =
-                    $"SCENARIO SYSTEM (PREVIEW)  |  Campaign in Progress: <color=#D8DF64>Day {currentDay}</color>  |  " +
-                    $"Decisions Taken: <color=#D8DF64>{decisionsTaken}</color>  |  " +
-                    $"Current Safety / Reputation: <color=#7CE08A>{model.finalReputation}/100</color>";
+                    $"SCENARIO SYSTEM (PREVIEW)  |  Day {currentDay}  |  " +
+                    $"Discovered: <color=#8BE0A4>{pct}%</color>  |  " +
+                    $"Safety: <color=#7CE08A>{model.finalReputation}/100</color>  |  " +
+                    $"<color=#B0B6C4><size=85%>Click node: details  •  Drag: XY pan  •  Wheel: zoom</size></color>";
             }
         }
     }
@@ -561,131 +761,73 @@ public class ScenarioSystemUI : MonoBehaviour
         tmp.raycastTarget = false;
     }
 
-    private void UpdateModeButtonLabel()
+    private void DrawGraphEdges(
+        ScenarioTreeModel model,
+        List<ScenarioNodeUI> allSpawnedNodes,
+        Dictionary<string, ScenarioNodeUI> spawnedNodesByKey)
     {
-        if (_modeButtonLabel == null)
+        if (_connectionsLayerRect == null || model == null)
         {
             return;
         }
 
-        _modeButtonLabel.text = _branchMode == ScenarioBranchMode.OptionB_FirstNodeWithVoidArrows
-            ? "Mode: Option B (Void Arrows)"
-            : "Mode: Option A (All Nodes)";
-    }
-
-    private void DrawTreeConnections(
-        List<ScenarioColumnData> allColumns,
-        List<List<ScenarioNodeUI>> spawnedColumns)
-    {
-        if (_connectionsLayerRect == null)
+        // Draw directed edges in strict Z-order: Undiscovered -> PreviousRun -> CurrentRun (never draw outgoing arrows from '???' nodes)
+        ScenarioNodeVisitState[] drawOrder =
         {
-            return;
-        }
+            ScenarioNodeVisitState.Undiscovered,
+            ScenarioNodeVisitState.PreviousRun,
+            ScenarioNodeVisitState.CurrentRun
+        };
 
-        for (int colIdx = 0; colIdx < spawnedColumns.Count; colIdx++)
+        for (int pass = 0; pass < drawOrder.Length; pass++)
         {
-            List<ScenarioNodeUI> currentColNodes = spawnedColumns[colIdx];
-            ScenarioColumnData currentColData = allColumns[colIdx];
-
-            // Find the taken node(s) in the current column that will propagate to the next column
-            ScenarioNodeUI takenNodeInCurrentCol = null;
-            for (int i = 0; i < currentColNodes.Count; i++)
+            ScenarioNodeVisitState targetState = drawOrder[pass];
+            for (int e = 0; e < model.edges.Count; e++)
             {
-                if (currentColNodes[i] != null && currentColNodes[i].NodeData != null && currentColNodes[i].NodeData.isTaken)
+                ScenarioEdgeData edge = model.edges[e];
+                if (edge == null || edge.visitState != targetState) continue;
+
+                if (!spawnedNodesByKey.TryGetValue(edge.fromNodeKey, out ScenarioNodeUI fromUI) || fromUI == null) continue;
+                if (!spawnedNodesByKey.TryGetValue(edge.toNodeKey, out ScenarioNodeUI toUI) || toUI == null) continue;
+
+                Vector3 targetCenterWorld = toUI.RectTransform.TransformPoint(toUI.RectTransform.rect.center);
+                Vector3 sourceCenterWorld = fromUI.RectTransform.TransformPoint(fromUI.RectTransform.rect.center);
+
+                Vector3 startWorld = fromUI.GetPerimeterConnectionWorldPoint(targetCenterWorld);
+                Vector3 endWorld = toUI.GetPerimeterConnectionWorldPoint(sourceCenterWorld);
+
+                Vector2 startLocal = _connectionsLayerRect.InverseTransformPoint(startWorld);
+                Vector2 endLocal = _connectionsLayerRect.InverseTransformPoint(endWorld);
+
+                Color arrowColor = targetState switch
                 {
-                    takenNodeInCurrentCol = currentColNodes[i];
-                    break;
-                }
-            }
-
-            // Connect the taken node in this column to every option node in the next column (including the 3 Fixed Endings!)
-            if (colIdx + 1 < spawnedColumns.Count && takenNodeInCurrentCol != null)
-            {
-                List<ScenarioNodeUI> nextColNodes = spawnedColumns[colIdx + 1];
-                int nextCount = nextColNodes.Count;
-
-                for (int nextIdx = 0; nextIdx < nextCount; nextIdx++)
+                    ScenarioNodeVisitState.CurrentRun => _takenArrowColor,
+                    ScenarioNodeVisitState.PreviousRun => _previousRunArrowColor,
+                    _ => _untakenArrowColor
+                };
+                float thickness = targetState switch
                 {
-                    ScenarioNodeUI targetNode = nextColNodes[nextIdx];
-                    if (targetNode == null) continue;
+                    ScenarioNodeVisitState.CurrentRun => 4.2f,
+                    ScenarioNodeVisitState.PreviousRun => 3.0f,
+                    _ => 2.2f
+                };
 
-                    float normalizedFan = nextCount > 1
-                        ? Mathf.Lerp(0.85f, -0.85f, (float)nextIdx / (nextCount - 1))
-                        : 0f;
-
-                    Vector3 startWorld = takenNodeInCurrentCol.GetRightConnectionWorldPoint(normalizedFan);
-                    Vector3 endWorld = targetNode.GetLeftConnectionWorldPoint(0f);
-
-                    Vector2 startLocal = _connectionsLayerRect.InverseTransformPoint(startWorld);
-                    Vector2 endLocal = _connectionsLayerRect.InverseTransformPoint(endWorld);
-
-                    bool leadsToTaken = targetNode.NodeData != null && targetNode.NodeData.isTaken;
-                    Color arrowColor = leadsToTaken ? _takenArrowColor : _untakenArrowColor;
-                    float thickness = leadsToTaken ? 3.2f : 2.4f;
-
-                    CreateDirectedArrow(startLocal, endLocal, arrowColor, thickness, leadsToTaken);
-                }
+                CreateDirectedArrow(startLocal, endLocal, arrowColor, thickness, targetState);
             }
-
-            // Option B: For untaken decision nodes ("???"), draw outgoing arrows pointing into the void ("hacia la nada")
-            if (!currentColData.isEndingColumn && !currentColData.isRootEntryColumn)
-            {
-                for (int i = 0; i < currentColNodes.Count; i++)
-                {
-                    ScenarioNodeUI nodeUI = currentColNodes[i];
-                    if (nodeUI == null || nodeUI.NodeData == null || nodeUI.NodeData.isTaken)
-                    {
-                        continue;
-                    }
-
-                    if (nodeUI.NodeData.hasOutgoingVoidArrows && nodeUI.NodeData.voidArrowCount > 0)
-                    {
-                        DrawOutgoingVoidArrows(nodeUI, nodeUI.NodeData.voidArrowCount);
-                    }
-                    else if (_branchMode == ScenarioBranchMode.OptionA_ShowAllNodesAsHidden && colIdx + 1 < spawnedColumns.Count)
-                    {
-                        // Under Option A, if a whole column is a skipped branch, still connect it visually so it isn't floating
-                        DrawOutgoingVoidArrows(nodeUI, 2);
-                    }
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Draws short diverging dark-red arrows from an untaken "???" node pointing into empty space (the void),
-    /// matching ScenarioSystemConcept.png and Option B requirements.
-    /// </summary>
-    private void DrawOutgoingVoidArrows(ScenarioNodeUI untakenNode, int arrowCount)
-    {
-        if (untakenNode == null || _connectionsLayerRect == null)
-        {
-            return;
-        }
-
-        for (int a = 0; a < arrowCount; a++)
-        {
-            float fan = arrowCount > 1 ? Mathf.Lerp(0.55f, -0.55f, (float)a / (arrowCount - 1)) : 0f;
-            Vector3 startWorld = untakenNode.GetRightConnectionWorldPoint(fan);
-            Vector2 startLocal = _connectionsLayerRect.InverseTransformPoint(startWorld);
-
-            float angleDeg = fan * 24f;
-            float angleRad = angleDeg * Mathf.Deg2Rad;
-            Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
-            Vector2 endLocal = startLocal + (direction * _voidArrowLength);
-
-            CreateDirectedArrow(startLocal, endLocal, _untakenArrowColor, 2.3f, false);
         }
     }
 
     /// <summary>
     /// Creates a UI directed arrow pointing from startPos to endPos inside _connectionsLayerRect.
-    /// If single-piece custom arrow sprites are provided (_customTakenArrowSprite / _customUntakenArrowSprite),
-    /// it instantiates a single GameObject stretched along the connection vector.
-    /// If untaken arrow sprite is missing, it falls back to the taken arrow sprite.
-    /// If no custom sprites are provided, it falls back to procedural 2-piece arrow (shaft + head).
+    /// Supports distinct single-piece custom arrow sprites for CurrentRun, PreviousRun, and Undiscovered paths,
+    /// falling back to _customTakenArrowSprite or the procedural 2-piece arrow when unassigned.
     /// </summary>
-    private void CreateDirectedArrow(Vector2 startPos, Vector2 endPos, Color color, float thickness, bool isTaken = true)
+    private void CreateDirectedArrow(
+        Vector2 startPos,
+        Vector2 endPos,
+        Color color,
+        float thickness,
+        ScenarioNodeVisitState visitState = ScenarioNodeVisitState.CurrentRun)
     {
         Vector2 delta = endPos - startPos;
         float fullDistance = delta.magnitude;
@@ -696,35 +838,51 @@ public class ScenarioSystemUI : MonoBehaviour
 
         float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
 
-        // Resolve single custom arrow sprite (points right / +X by default)
+        // Resolve single custom arrow sprite according to the path state (points right / +X by default)
         Sprite customArrowSprite = null;
         bool isUsingFallbackTakenSprite = false;
 
-        if (isTaken)
+        switch (visitState)
         {
-            if (_customTakenArrowSprite != null)
-            {
+            case ScenarioNodeVisitState.CurrentRun:
                 customArrowSprite = _customTakenArrowSprite;
-            }
-        }
-        else
-        {
-            if (_customUntakenArrowSprite != null)
-            {
-                customArrowSprite = _customUntakenArrowSprite;
-            }
-            else if (_customTakenArrowSprite != null)
-            {
-                // Fallback: If no untaken arrow sprite is provided but a taken arrow sprite is assigned, use the taken arrow sprite
-                customArrowSprite = _customTakenArrowSprite;
-                isUsingFallbackTakenSprite = true;
-            }
+                break;
+
+            case ScenarioNodeVisitState.PreviousRun:
+                if (_customPreviousRunArrowSprite != null)
+                {
+                    customArrowSprite = _customPreviousRunArrowSprite;
+                }
+                else if (_customTakenArrowSprite != null)
+                {
+                    customArrowSprite = _customTakenArrowSprite;
+                    isUsingFallbackTakenSprite = true;
+                }
+                break;
+
+            default:
+                if (_customUntakenArrowSprite != null)
+                {
+                    customArrowSprite = _customUntakenArrowSprite;
+                }
+                else if (_customTakenArrowSprite != null)
+                {
+                    customArrowSprite = _customTakenArrowSprite;
+                    isUsingFallbackTakenSprite = true;
+                }
+                break;
         }
 
         // If a single custom arrow sprite is available, instantiate 1 single GameObject for the entire arrow
         if (customArrowSprite != null)
         {
-            GameObject arrowObj = new GameObject(isTaken ? "CustomArrow_Taken" : "CustomArrow_Untaken", typeof(RectTransform), typeof(Image));
+            string arrowName = visitState switch
+            {
+                ScenarioNodeVisitState.CurrentRun => "CustomArrow_Current",
+                ScenarioNodeVisitState.PreviousRun => "CustomArrow_Previous",
+                _ => "CustomArrow_Undiscovered"
+            };
+            GameObject arrowObj = new GameObject(arrowName, typeof(RectTransform), typeof(Image));
             arrowObj.transform.SetParent(_connectionsLayerRect, false);
             _spawnedGraphObjects.Add(arrowObj);
 
@@ -747,8 +905,10 @@ public class ScenarioSystemUI : MonoBehaviour
             }
             else if (isUsingFallbackTakenSprite)
             {
-                // Dim slightly so the player still perceives untaken branches visually when sharing the same sprite
-                img.color = new Color(1f, 1f, 1f, _fallbackUntakenArrowAlpha);
+                float alpha = visitState == ScenarioNodeVisitState.PreviousRun
+                    ? _fallbackPreviousArrowAlpha
+                    : _fallbackUntakenArrowAlpha;
+                img.color = new Color(1f, 1f, 1f, alpha);
             }
             else
             {
@@ -875,41 +1035,67 @@ public class ScenarioSystemUI : MonoBehaviour
 
         Sprite fallbackSprite = nodeData.isEndingNode
             ? (_customEndingNodeSprite != null ? _customEndingNodeSprite : _customTakenNodeSprite)
-            : (nodeData.isTaken ? _customTakenNodeSprite : _customUntakenNodeSprite);
+            : (nodeData.IsDiscovered ? _customTakenNodeSprite : _customUntakenNodeSprite);
 
         ScenarioNodeUI nodeUI = nodeObj.GetComponent<ScenarioNodeUI>();
         nodeUI.ConfigureReferences(nodeRect, bgImage, outline, labelTmp);
         nodeUI.Initialize(
             nodeData,
-            OnNodeHoverEnter,
-            OnNodeHoverExit,
+            null,
+            null,
             fallbackSprite,
             _customHoverNodeSprite,
-            _tintCustomNodeSprites);
+            _tintCustomNodeSprites,
+            OnNodeClicked);
 
         return nodeUI;
     }
 
-    private void OnNodeHoverEnter(ScenarioNodeUI hoveredNode)
+    private void OnNodeClicked(ScenarioNodeUI clickedNode)
     {
-        _currentlyHoveredNode = hoveredNode;
-        if (_tooltipUI != null && hoveredNode != null)
+        if (clickedNode == null || clickedNode.NodeData == null)
         {
-            RectTransform tooltipContainer = _viewportRect != null ? _viewportRect : _panelRoot.GetComponent<RectTransform>();
-            _tooltipUI.ShowForNode(hoveredNode, tooltipContainer);
+            return;
         }
+
+        EnsureRuntimeOverlaysAndControls();
+        if (_detailModalUI == null)
+        {
+            return;
+        }
+
+        Sprite resolvedSprite = ResolveSituationImage(clickedNode.NodeData);
+        _detailModalUI.ShowForNode(clickedNode.NodeData, resolvedSprite);
     }
 
-    private void OnNodeHoverExit(ScenarioNodeUI exitedNode)
+    private Sprite ResolveSituationImage(ScenarioOptionNodeData data)
     {
-        if (_currentlyHoveredNode == exitedNode)
+        if (data == null) return null;
+
+        if (data.situationImage != null)
         {
-            _currentlyHoveredNode = null;
-            if (_tooltipUI != null)
+            return data.situationImage;
+        }
+
+        Sprite inlineMatch = ScenarioSituationImageCatalog.ResolveFromEntries(
+            _situationImages,
+            data.parentNodeId,
+            data.optionIndex);
+        if (inlineMatch != null)
+        {
+            return inlineMatch;
+        }
+
+        if (_situationImageCatalog != null)
+        {
+            Sprite catalogMatch = _situationImageCatalog.ResolveImage(data.parentNodeId, data.optionIndex);
+            if (catalogMatch != null)
             {
-                _tooltipUI.HideImmediate();
+                return catalogMatch;
             }
         }
+
+        return ScenarioSituationImageCatalog.ResolveFallbackFromResources(data.parentNodeId, data.optionIndex);
     }
 
     private void ClearSpawnedGraphObjects()
@@ -936,6 +1122,7 @@ public class ScenarioSystemUI : MonoBehaviour
 
     private void OnResetViewClicked()
     {
+        SetZoom(1f);
         if (_scrollRect != null)
         {
             _scrollRect.horizontalNormalizedPosition = 0f;
@@ -945,6 +1132,15 @@ public class ScenarioSystemUI : MonoBehaviour
 
     private void OnMainMenuClicked()
     {
+        if (_isCurrentViewCampaignCompleted && SaveManager.HasInstance)
+        {
+            SaveManager.Instance.RecordCurrentRunScenarioProgress(incrementCompletedPlaythrough: false);
+            if (SaveManager.Instance.HasActiveSlot)
+            {
+                SaveManager.Instance.SaveCurrentSlot();
+            }
+        }
+
         HideScenarioTree();
         if (GameManager.Instance != null)
         {
@@ -954,6 +1150,36 @@ public class ScenarioSystemUI : MonoBehaviour
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
+    }
+
+    private void OnStartNewPlaythroughClicked()
+    {
+        if (_replayPromptModalUI != null)
+        {
+            _replayPromptModalUI.Hide();
+        }
+
+        if (SaveManager.HasInstance)
+        {
+            SaveManager.Instance.StartNewPlaythroughInCurrentSlot();
+            return;
+        }
+
+        HideScenarioTree();
+        SaveManager.ResetRuntimeGameplayManagers();
+        PlayerSpawnManager.Instance?.QueueSpawn(PlayerSpawnManager.SpawnerWakingUp);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
+    }
+
+    private void ShowReplayPromptModal()
+    {
+        EnsureRuntimeOverlaysAndControls();
+        _replayPromptModalUI?.Show();
+    }
+
+    private void HideReplayPromptModal()
+    {
+        _replayPromptModalUI?.Hide();
     }
 
     /// <summary>
@@ -1046,9 +1272,10 @@ public class ScenarioSystemUI : MonoBehaviour
 
     public void EnsureHierarchyBuilt()
     {
-        if (_isHierarchyInitialized && _panelRoot != null && _graphContentRect != null && _tooltipUI != null)
+        if (_isHierarchyInitialized && _panelRoot != null && _graphContentRect != null)
         {
             EnforceFullScreenLayout();
+            EnsureRuntimeOverlaysAndControls();
             BindButtonListeners();
             return;
         }
@@ -1088,7 +1315,7 @@ public class ScenarioSystemUI : MonoBehaviour
         }
 
         // 2. If child hierarchy already exists (e.g., instantiated from ScenarioSystem.prefab), bind and return
-        if (_panelRoot != null && _graphContentRect != null && _connectionsLayerRect != null && _nodesLayerRect != null && _tooltipUI != null)
+        if (_panelRoot != null && _graphContentRect != null && _connectionsLayerRect != null && _nodesLayerRect != null)
         {
             _isHierarchyInitialized = true;
             if (_customBackgroundSprite != null)
@@ -1101,10 +1328,7 @@ public class ScenarioSystemUI : MonoBehaviour
                     bg.color = Color.white;
                 }
             }
-            if (_customTooltipSprite != null && _tooltipUI != null)
-            {
-                _tooltipUI.SetCustomSprite(_customTooltipSprite);
-            }
+            EnsureRuntimeOverlaysAndControls();
             BindButtonListeners();
             return;
         }
@@ -1161,16 +1385,7 @@ public class ScenarioSystemUI : MonoBehaviour
         _headerSummaryText.alignment = TextAlignmentOptions.MidlineLeft;
         _headerSummaryText.text = "SCENARIO SYSTEM — NARRATIVE PATH SUMMARY";
 
-        // Header Action Buttons (Mode Toggle, Reset View, Main Menu, Close)
-        _toggleModeButton = CreateHeaderButton(
-            headerObj.transform,
-            "ToggleModeButton",
-            new Vector2(-460f, 0f),
-            new Vector2(210f, 42f),
-            "Mode: Option B (Void Arrows)",
-            new Color(0.28f, 0.28f, 0.28f, 1f),
-            out _modeButtonLabel);
-
+        // Header Action Buttons (Reset View, Main Menu, Close — no Option A mode toggle)
         _resetViewButton = CreateHeaderButton(
             headerObj.transform,
             "ResetViewButton",
@@ -1251,44 +1466,195 @@ public class ScenarioSystemUI : MonoBehaviour
         _scrollRect.inertia = true;
         _scrollRect.decelerationRate = 0.12f;
 
-        // Olive-Green Hover Annotation Tooltip Box (matches ScenarioSystemConcept.png)
-        GameObject tooltipObj = new GameObject(
-            "ScenarioAnnotationTooltip",
-            typeof(RectTransform),
-            typeof(CanvasGroup),
-            typeof(Image),
-            typeof(ScenarioAnnotationTooltipUI));
-        tooltipObj.transform.SetParent(_viewportRect, false);
-
-        RectTransform tooltipRect = tooltipObj.GetComponent<RectTransform>();
-        tooltipRect.sizeDelta = new Vector2(235f, 185f);
-
-        Image tooltipBg = tooltipObj.GetComponent<Image>();
-        CanvasGroup tooltipCg = tooltipObj.GetComponent<CanvasGroup>();
-
-        GameObject tooltipTextObj = new GameObject("AnnotationText", typeof(RectTransform), typeof(TextMeshProUGUI));
-        tooltipTextObj.transform.SetParent(tooltipObj.transform, false);
-        RectTransform tooltipTextRect = tooltipTextObj.GetComponent<RectTransform>();
-        tooltipTextRect.anchorMin = Vector2.zero;
-        tooltipTextRect.anchorMax = Vector2.one;
-        tooltipTextRect.offsetMin = new Vector2(16f, 14f);
-        tooltipTextRect.offsetMax = new Vector2(-16f, -14f);
-
-        TextMeshProUGUI tooltipTmp = tooltipTextObj.GetComponent<TextMeshProUGUI>();
-        tooltipTmp.fontSize = 15f;
-        tooltipTmp.color = Color.white;
-        tooltipTmp.alignment = TextAlignmentOptions.TopLeft;
-
-        _tooltipUI = tooltipObj.GetComponent<ScenarioAnnotationTooltipUI>();
-        _tooltipUI.ConfigureReferences(tooltipRect, tooltipBg, tooltipTmp, tooltipCg);
-        if (_customTooltipSprite != null)
-        {
-            _tooltipUI.SetCustomSprite(_customTooltipSprite);
-        }
-        _tooltipUI.HideImmediate();
-
         _isHierarchyInitialized = true;
+        EnsureRuntimeOverlaysAndControls();
         BindButtonListeners();
+    }
+
+    private void EnsureRuntimeOverlaysAndControls()
+    {
+        if (_panelRoot == null) return;
+
+        // Ensure HeaderSummaryText never overlaps header buttons
+        if (_headerSummaryText != null)
+        {
+            RectTransform summaryRect = _headerSummaryText.rectTransform;
+            summaryRect.anchorMax = new Vector2(0.66f, 1f);
+            _headerSummaryText.textWrappingMode = TextWrappingModes.Normal;
+            _headerSummaryText.overflowMode = TextOverflowModes.Ellipsis;
+        }
+
+        // Deactivate any legacy Option A / hover-tooltip objects present on older serialized prefabs
+        Transform legacyTooltip = _viewportRect != null ? _viewportRect.Find("ScenarioAnnotationTooltip") : null;
+        if (legacyTooltip != null)
+        {
+            legacyTooltip.gameObject.SetActive(false);
+        }
+
+        // Ensure compact Zoom + / - buttons exist next to Reset View
+        Transform headerTransform = _panelRoot.transform.Find("HeaderBar");
+        if (headerTransform != null)
+        {
+            Transform legacyModeBtn = headerTransform.Find("ToggleModeButton");
+            if (legacyModeBtn != null)
+            {
+                legacyModeBtn.gameObject.SetActive(false);
+            }
+
+            if (_zoomInButton == null)
+            {
+                Transform existing = headerTransform.Find("ZoomInButton");
+                _zoomInButton = existing != null
+                    ? existing.GetComponent<Button>()
+                    : CreateHeaderButton(
+                        headerTransform,
+                        "ZoomInButton",
+                        new Vector2(-375f, 0f),
+                        new Vector2(40f, 42f),
+                        "+",
+                        new Color(0.28f, 0.28f, 0.28f, 1f),
+                        out _);
+            }
+
+            if (_zoomOutButton == null)
+            {
+                Transform existing = headerTransform.Find("ZoomOutButton");
+                _zoomOutButton = existing != null
+                    ? existing.GetComponent<Button>()
+                    : CreateHeaderButton(
+                        headerTransform,
+                        "ZoomOutButton",
+                        new Vector2(-421f, 0f),
+                        new Vector2(40f, 42f),
+                        "-",
+                        new Color(0.28f, 0.28f, 0.28f, 1f),
+                        out _);
+            }
+        }
+
+        // Ensure 70% Detail Modal UI exists
+        if (_detailModalUI == null)
+        {
+            _detailModalUI = _panelRoot.GetComponentInChildren<ScenarioNodeDetailModalUI>(true);
+            if (_detailModalUI == null)
+            {
+                GameObject modalObj = new GameObject("ScenarioNodeDetailModal", typeof(RectTransform), typeof(ScenarioNodeDetailModalUI));
+                modalObj.transform.SetParent(_panelRoot.transform, false);
+                _detailModalUI = modalObj.GetComponent<ScenarioNodeDetailModalUI>();
+            }
+            _detailModalUI.EnsureBuilt(_panelRoot.transform);
+        }
+
+        // Ensure Post-Campaign Replay Prompt Modal exists
+        if (_replayPromptModalUI == null)
+        {
+            _replayPromptModalUI = _panelRoot.GetComponentInChildren<ScenarioReplayPromptModalUI>(true);
+            if (_replayPromptModalUI == null)
+            {
+                Transform existingPrompt = _panelRoot.transform.Find("ScenarioReplayPromptModal");
+                GameObject promptObj = existingPrompt != null
+                    ? existingPrompt.gameObject
+                    : new GameObject("ScenarioReplayPromptModal", typeof(RectTransform));
+                if (existingPrompt == null)
+                {
+                    promptObj.transform.SetParent(_panelRoot.transform, false);
+                }
+
+                _replayPromptModalUI = promptObj.GetComponent<ScenarioReplayPromptModalUI>();
+                if (_replayPromptModalUI == null)
+                {
+                    _replayPromptModalUI = promptObj.AddComponent<ScenarioReplayPromptModalUI>();
+                }
+            }
+        }
+        _replayPromptModalUI.EnsureBuilt(
+            _panelRoot.transform,
+            _takenArrowColor,
+            OnStartNewPlaythroughClicked,
+            OnMainMenuClicked);
+
+        // Ensure bottom-left Path Legend exists
+        if (_legendContainer == null && _viewportRect != null)
+        {
+            Transform existingLegend = _viewportRect.Find("PathLegend");
+            _legendContainer = existingLegend != null ? existingLegend.gameObject : BuildPathLegend(_viewportRect);
+        }
+    }
+
+    private GameObject BuildPathLegend(Transform parent)
+    {
+        GameObject legendObj = new GameObject("PathLegend", typeof(RectTransform), typeof(Image), typeof(VerticalLayoutGroup));
+        legendObj.transform.SetParent(parent, false);
+
+        RectTransform rect = legendObj.GetComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0f, 0f);
+        rect.anchorMax = new Vector2(0f, 0f);
+        rect.pivot = new Vector2(0f, 0f);
+        rect.anchoredPosition = new Vector2(20f, 20f);
+        rect.sizeDelta = new Vector2(228f, 92f);
+
+        Image bg = legendObj.GetComponent<Image>();
+        bg.sprite = ScenarioProceduralSprites.GetRoundedRectSprite();
+        bg.type = Image.Type.Sliced;
+        bg.color = new Color(0.10f, 0.10f, 0.12f, 0.88f);
+        bg.raycastTarget = false;
+
+        VerticalLayoutGroup vlg = legendObj.GetComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(12, 12, 8, 8);
+        vlg.spacing = 4f;
+        vlg.childControlWidth = true;
+        vlg.childControlHeight = true;
+        vlg.childForceExpandWidth = true;
+        vlg.childForceExpandHeight = true;
+
+        CreateLegendRow(legendObj.transform, _takenArrowColor, "Current Playthrough");
+        _legendPreviousRow = CreateLegendRow(legendObj.transform, _previousRunArrowColor, "Previous Playthroughs");
+        CreateLegendRow(legendObj.transform, _untakenArrowColor, "Undiscovered (???)");
+
+        return legendObj;
+    }
+
+    private GameObject CreateLegendRow(Transform parent, Color swatchColor, string labelText)
+    {
+        GameObject rowObj = new GameObject($"Legend_{labelText}", typeof(RectTransform), typeof(HorizontalLayoutGroup));
+        rowObj.transform.SetParent(parent, false);
+
+        HorizontalLayoutGroup hlg = rowObj.GetComponent<HorizontalLayoutGroup>();
+        hlg.spacing = 8f;
+        hlg.childAlignment = TextAnchor.MiddleLeft;
+        hlg.childControlWidth = false;
+        hlg.childControlHeight = false;
+        hlg.childForceExpandWidth = false;
+        hlg.childForceExpandHeight = false;
+
+        GameObject swatchObj = new GameObject("Swatch", typeof(RectTransform), typeof(Image));
+        swatchObj.transform.SetParent(rowObj.transform, false);
+        swatchObj.GetComponent<RectTransform>().sizeDelta = new Vector2(14f, 14f);
+        Image swatchImg = swatchObj.GetComponent<Image>();
+        swatchImg.sprite = ScenarioProceduralSprites.GetRoundedRectSprite();
+        swatchImg.type = Image.Type.Sliced;
+        swatchImg.color = swatchColor;
+        swatchImg.raycastTarget = false;
+
+        GameObject txtObj = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI));
+        txtObj.transform.SetParent(rowObj.transform, false);
+        txtObj.GetComponent<RectTransform>().sizeDelta = new Vector2(178f, 20f);
+        TextMeshProUGUI tmp = txtObj.GetComponent<TextMeshProUGUI>();
+        tmp.text = labelText;
+        tmp.fontSize = 13.5f;
+        tmp.color = Color.white;
+        tmp.alignment = TextAlignmentOptions.MidlineLeft;
+        tmp.raycastTarget = false;
+
+        return rowObj;
+    }
+
+    private void UpdateLegendUI(ScenarioTreeModel model)
+    {
+        if (_legendPreviousRow != null && model != null)
+        {
+            _legendPreviousRow.SetActive(model.hasPreviousRunHistory);
+        }
     }
 
     /// <summary>
@@ -1304,23 +1670,14 @@ public class ScenarioSystemUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Configures custom sprite for the hover annotation tooltip box.
+    /// Configures custom single-piece arrow sprites for the flowchart connections:
+    /// current playthrough path, undiscovered ('???') paths, and previous playthrough paths.
     /// </summary>
-    public void SetCustomTooltipSprite(Sprite tooltipSprite)
-    {
-        _customTooltipSprite = tooltipSprite;
-        if (_tooltipUI != null) _tooltipUI.SetCustomSprite(_customTooltipSprite);
-    }
-
-    /// <summary>
-    /// Configures custom sprites for the flowchart connection arrows.
-    /// Supports a single sprite for taken arrows and an optional sprite for untaken arrows.
-    /// If untakenArrow is null, the takenArrow sprite will be used for untaken arrows as well.
-    /// </summary>
-    public void SetCustomArrowSprites(Sprite takenArrow, Sprite untakenArrow = null)
+    public void SetCustomArrowSprites(Sprite takenArrow, Sprite untakenArrow = null, Sprite previousRunArrow = null)
     {
         _customTakenArrowSprite = takenArrow;
         _customUntakenArrowSprite = untakenArrow;
+        _customPreviousRunArrowSprite = previousRunArrow;
         if (IsVisible) RebuildScenarioTree();
     }
 
@@ -1362,12 +1719,6 @@ public class ScenarioSystemUI : MonoBehaviour
 
     private void BindButtonListeners()
     {
-        if (_toggleModeButton != null)
-        {
-            _toggleModeButton.onClick.RemoveListener(ToggleBranchMode);
-            _toggleModeButton.onClick.AddListener(ToggleBranchMode);
-        }
-
         if (_resetViewButton != null)
         {
             _resetViewButton.onClick.RemoveListener(OnResetViewClicked);
@@ -1383,9 +1734,25 @@ public class ScenarioSystemUI : MonoBehaviour
         if (_closeButton != null)
         {
             _closeButton.onClick.RemoveListener(HideScenarioTree);
-            _closeButton.onClick.AddListener(HideScenarioTree);
+            _closeButton.onClick.RemoveListener(HandleCloseOrBackRequested);
+            _closeButton.onClick.AddListener(HandleCloseOrBackRequested);
+        }
+
+        if (_zoomInButton != null)
+        {
+            _zoomInButton.onClick.RemoveListener(HandleZoomInClicked);
+            _zoomInButton.onClick.AddListener(HandleZoomInClicked);
+        }
+
+        if (_zoomOutButton != null)
+        {
+            _zoomOutButton.onClick.RemoveListener(HandleZoomOutClicked);
+            _zoomOutButton.onClick.AddListener(HandleZoomOutClicked);
         }
     }
+
+    private void HandleZoomInClicked() => AdjustZoom(_zoomStep);
+    private void HandleZoomOutClicked() => AdjustZoom(-_zoomStep);
 
     private Button CreateHeaderButton(
         Transform parent,
@@ -1396,37 +1763,32 @@ public class ScenarioSystemUI : MonoBehaviour
         Color bgColor,
         out TextMeshProUGUI labelTmp)
     {
-        GameObject btnObj = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Button));
-        btnObj.transform.SetParent(parent, false);
+        Button btn = ScenarioUiFactory.CreateRoundedButton(
+            parent,
+            name,
+            label,
+            bgColor,
+            Color.white,
+            14f,
+            FontStyles.Normal,
+            null,
+            out labelTmp);
 
-        RectTransform rect = btnObj.GetComponent<RectTransform>();
+        RectTransform rect = btn.GetComponent<RectTransform>();
         rect.anchorMin = new Vector2(1f, 0.5f);
         rect.anchorMax = new Vector2(1f, 0.5f);
         rect.pivot = new Vector2(0.5f, 0.5f);
         rect.anchoredPosition = anchoredPos;
         rect.sizeDelta = size;
 
-        Image img = btnObj.GetComponent<Image>();
-        Sprite btnSprite = _customHeaderButtonSprite != null ? _customHeaderButtonSprite : ScenarioProceduralSprites.GetRoundedRectSprite();
-        img.sprite = btnSprite;
-        img.type = (btnSprite != null && btnSprite.border != Vector4.zero) ? Image.Type.Sliced : Image.Type.Simple;
-        img.color = _customHeaderButtonSprite != null ? Color.white : bgColor;
+        if (_customHeaderButtonSprite != null)
+        {
+            Image img = btn.GetComponent<Image>();
+            img.sprite = _customHeaderButtonSprite;
+            img.type = (_customHeaderButtonSprite.border != Vector4.zero) ? Image.Type.Sliced : Image.Type.Simple;
+            img.color = Color.white;
+        }
 
-        GameObject txtObj = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI));
-        txtObj.transform.SetParent(btnObj.transform, false);
-        RectTransform txtRect = txtObj.GetComponent<RectTransform>();
-        txtRect.anchorMin = Vector2.zero;
-        txtRect.anchorMax = Vector2.one;
-        txtRect.offsetMin = new Vector2(6f, 2f);
-        txtRect.offsetMax = new Vector2(-6f, -2f);
-
-        labelTmp = txtObj.GetComponent<TextMeshProUGUI>();
-        labelTmp.text = label;
-        labelTmp.fontSize = 14f;
-        labelTmp.color = Color.white;
-        labelTmp.alignment = TextAlignmentOptions.Center;
-        labelTmp.raycastTarget = false;
-
-        return btnObj.GetComponent<Button>();
+        return btn;
     }
 }

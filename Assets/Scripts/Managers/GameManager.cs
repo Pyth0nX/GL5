@@ -141,40 +141,11 @@ public class GameManager : MonoBehaviour
     {
         if (scene.name.Equals("MainMenu", System.StringComparison.OrdinalIgnoreCase))
         {
-            _hasEnteredHomeFirstTime = false;
             _playerName = PlayerNameService.DefaultPlayerName;
-            DayManager.ClearQueuedTestStart();
-
-            if (DayManager.Instance != null)
-            {
-                DayManager.Instance.ResetDay();
-            }
-
-            if (DecisionDataManager.Instance != null)
-            {
-                DecisionDataManager.Instance.ResetVariables();
-            }
-
-            var reputationManager = FindAnyObjectByType<ReputationManager>(FindObjectsInactive.Include);
-            if (reputationManager != null)
-            {
-                reputationManager.ResetReputation();
-            }
-
-            if (MessagesManager.Instance != null)
-            {
-                MessagesManager.Instance.ResetToInitialState();
-            }
-
-            if (ObjectivesManager.Instance != null)
-            {
-                ObjectivesManager.Instance.ResetObjectives();
-            }
+            SaveManager.ResetRuntimeGameplayManagers();
 
             if (UIManager.Instance != null)
             {
-                UIManager.Instance.HideScenarioSystem();
-                UIManager.Instance.ResetConnectState();
                 UIManager.Instance.ChangeState((int)UIState.MAIN_MENU);
             }
 

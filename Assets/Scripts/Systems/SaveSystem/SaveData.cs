@@ -110,6 +110,8 @@ public class SaveSlotMetadata
     public string sceneName;
     public int currentDay;
     public int reputationValue;
+    public float scenarioDiscoveryPercent;
+    public int completedPlaythroughs;
 }
 
 /// <summary>
@@ -190,11 +192,30 @@ public class GameSaveData
     [Tooltip("Availability state of scene interactables (doors, bed, NPCs) across visited scenes.")]
     public List<SceneInteractableSaveData> sceneInteractables = new List<SceneInteractableSaveData>();
 
+    [Header("Scenario Discovery Progress")]
+    [Tooltip("Number of completed playthroughs recorded in this save slot.")]
+    public int completedPlaythroughs = 0;
+
+    [Tooltip("Percentage (0..100) of scenario decision & ending nodes discovered across playthroughs in this slot.")]
+    public float scenarioDiscoveryPercent = 0f;
+
+    [Tooltip("Canonical discovered scenario node keys (e.g. N0_O0, E71) persisted across playthroughs.")]
+    public List<string> discoveredScenarioNodes = new List<string>();
+
+    [Tooltip("Canonical traversed scenario edge keys (fromKey->toKey) persisted across playthroughs.")]
+    public List<string> discoveredScenarioEdges = new List<string>();
+
     /// <summary>
     /// Extracts lightweight metadata for UI display from this save data object.
     /// </summary>
     public SaveSlotMetadata ToMetadata()
     {
+        float resolvedPercent = (this.discoveredScenarioNodes != null && this.discoveredScenarioNodes.Count > 0)
+            ? ScenarioDataCollector.ComputeDiscoveryPercentage(this.discoveredScenarioNodes)
+            : (this.scenarioDiscoveryPercent > 0f
+                ? this.scenarioDiscoveryPercent
+                : ScenarioDataCollector.ComputeLegacyDiscoveryPercentage(this.decisionVariables));
+
         return new SaveSlotMetadata
         {
             slotIndex = this.slotIndex,
@@ -204,7 +225,9 @@ public class GameSaveData
             currentObjective = this.currentObjective,
             sceneName = this.sceneName,
             currentDay = this.currentDay,
-            reputationValue = this.reputationValue
+            reputationValue = this.reputationValue,
+            scenarioDiscoveryPercent = resolvedPercent,
+            completedPlaythroughs = this.completedPlaythroughs
         };
     }
 }
