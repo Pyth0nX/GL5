@@ -63,9 +63,13 @@ public class GalleryPhotoData
     [SerializeField]
     private string _eventOnShare;
 
+    [Tooltip("Marks this photo as a personal/identifying portrait (e.g. selfie) for Connect profile privacy scoring.")]
+    [SerializeField]
+    private bool _isPersonalPhoto = false;
+
     public GalleryPhotoData() { }
 
-    public GalleryPhotoData(string id, string title, string imagePath, Sprite sprite = null, bool unlocked = true, string defaultCaption = "")
+    public GalleryPhotoData(string id, string title, string imagePath, Sprite sprite = null, bool unlocked = true, string defaultCaption = "", bool isPersonalPhoto = false)
     {
         _id = id;
         _title = title;
@@ -73,6 +77,7 @@ public class GalleryPhotoData
         _sprite = sprite;
         _unlocked = unlocked;
         _defaultCaption = defaultCaption;
+        _isPersonalPhoto = isPersonalPhoto;
     }
 
     public string Id
@@ -127,6 +132,34 @@ public class GalleryPhotoData
     {
         get => _eventOnShare;
         set => _eventOnShare = value;
+    }
+
+    public bool IsPersonalPhoto
+    {
+        get => _isPersonalPhoto;
+        set => _isPersonalPhoto = value;
+    }
+
+    /// <summary>
+    /// Returns true if this photo represents an identifying personal portrait/selfie.
+    /// </summary>
+    public bool IsPersonalPortraitPhoto()
+    {
+        if (_isPersonalPhoto)
+        {
+            return true;
+        }
+
+        string effectiveId = Id;
+        string path = _imagePath ?? string.Empty;
+        return (!string.IsNullOrEmpty(effectiveId) &&
+                (effectiveId.IndexOf("selfie", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                 effectiveId.IndexOf("lunanormalselfie", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                 effectiveId.IndexOf("lunaflirtselfie", StringComparison.OrdinalIgnoreCase) >= 0)) ||
+               (!string.IsNullOrEmpty(path) &&
+                (path.IndexOf("selfie", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                 path.IndexOf("lunanormalselfie", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                 path.IndexOf("lunaflirtselfie", StringComparison.OrdinalIgnoreCase) >= 0));
     }
 
     /// <summary>

@@ -33,6 +33,10 @@ public class PlayerStateMachine : MonoBehaviour
         if (_currentState != newState)
         {
             _currentState = newState;
+            if (newState == PlayerState.Idle && DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.EnsureClosedOnPlayerIdle();
+            }
         }
     }
 

@@ -43,6 +43,7 @@ public class DialogueManager : MonoBehaviour
     private int _lastAdvanceFrame = -1;
     private float _lastAdvanceTime = -1f;
     private const float DialogueAdvanceCooldownSeconds = 0.18f;
+    private bool _closingForIdleSafeguard;
 
     public bool HasActiveDecision => _hasActiveDecision;
     public bool IsDialogueActive => _dialogueBox != null && _dialogueBox.activeSelf;
@@ -561,6 +562,62 @@ public class DialogueManager : MonoBehaviour
             }
 
             ReturnPlayerToIdle();
+        }
+    }
+
+    /// <summary>
+    /// Safeguard invoked when the player returns to Idle: ensures no world/standalone dialogue
+    /// remains visibly open while the player regains movement control.
+    /// </summary>
+    public void EnsureClosedOnPlayerIdle()
+    {
+        if (_closingForIdleSafeguard)
+        {
+            return;
+        }
+
+        bool hasOpenOrPendingDialogue = IsDialogueActive || _standaloneMonologueActive || _currentDialogues != null;
+        if (!hasOpenOrPendingDialogue)
+        {
+            return;
+        }
+
+        if (UIManager.Instance != null && UIManager.Instance.GetCurrentState() == UIState.PHONE)
+        {
+            return;
+        }
+
+        _closingForIdleSafeguard = true;
+        try
+        {
+            _currentDialogueIndex = 0;
+            _currentDialogues = null;
+            _isEndNode = false;
+            _standaloneMonologueActive = false;
+            SetHasActiveDecision(false);
+            SetChoiceMode(false);
+
+            if (_dialogueBox != null && _dialogueBox.activeSelf)
+            {
+                _dialogueBox.SetActive(false);
+            }
+
+            if (_dialogueCanvas != null)
+            {
+                _dialogueCanvas.overrideSorting = _previousOverrideSorting;
+                _dialogueCanvas.sortingOrder = _previousSortingOrder;
+                _dialogueCanvas = null;
+            }
+
+            MessagesManager.Instance?.GetOptionsChanger()?.ActiveDecisionsPanel(false);
+
+            Action closed = _standaloneMonologueClosed;
+            _standaloneMonologueClosed = null;
+            closed?.Invoke();
+        }
+        finally
+        {
+            _closingForIdleSafeguard = false;
         }
     }
 

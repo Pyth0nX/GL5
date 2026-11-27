@@ -97,6 +97,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         ResolveMainMenuReference();
+        ConnectAppManager.EnsureStaticStorySubscriptions();
         ConfigurePhoneLayout();
         ConfigureSimpleChoices();
         ConfigureDayTracker();
@@ -604,22 +605,40 @@ public class UIManager : MonoBehaviour
         OpenAppStore();
     }
 
+    private static AppStoreManager ResolveAppStoreManager()
+    {
+        return AppStoreManager.Instance != null
+            ? AppStoreManager.Instance
+            : FindAnyObjectByType<AppStoreManager>(FindObjectsInactive.Include);
+    }
+
+    private static ConnectAppManager ResolveConnectAppManager()
+    {
+        return ConnectAppManager.Instance != null
+            ? ConnectAppManager.Instance
+            : FindAnyObjectByType<ConnectAppManager>(FindObjectsInactive.Include);
+    }
+
     private void EnableConnectDownload()
     {
         _connectDownloadAvailable = true;
-        AppStoreManager.Instance?.RefreshStoreState();
+        ResolveAppStoreManager()?.RefreshStoreState();
         Debug.Log("[UIManager] Connect is now available in the App Store.");
     }
 
     private void CompleteConnectProfile()
     {
         _connectProfileCreated = true;
+        ConnectAppManager.SyncStateWithStoryProgression();
         Debug.Log("[UIManager] Luna's Connect profile setup is complete.");
     }
 
     public void ResetConnectState()
     {
-        AppStoreManager.Instance?.ResetStoreState();
+        AppStoreManager.ClearPersistedInstalledApps();
+        ResolveAppStoreManager()?.ResetStoreState();
+        ConnectAppManager.ResetPersistedState();
+        ResolveConnectAppManager()?.ResetUIState();
         RestoreConnectState(false, false, false);
     }
 
@@ -636,12 +655,14 @@ public class UIManager : MonoBehaviour
 
         UpdatePhoneAppLayout();
         MessagesManager.Instance?.NotifyUnreadCountsChanged();
-        AppStoreManager.Instance?.RefreshStoreState();
+        ResolveAppStoreManager()?.RefreshStoreState();
+        ConnectAppManager.SyncStateWithStoryProgression();
     }
 
     public void ApplyCompletedConnectSetupForTestSkip()
     {
         RestoreConnectState(true, true, true);
+        ConnectAppManager.SyncStateWithStoryProgression();
         Debug.Log("[UIManager] Restored completed Connect setup for debug day start.");
     }
 
@@ -658,6 +679,7 @@ public class UIManager : MonoBehaviour
         UpdatePhoneAppLayout();
         MessagesManager.Instance?.GetPhoneStateMachine()?.UpdateConnectAppIcon();
         MessagesManager.Instance?.NotifyUnreadCountsChanged();
+        ResolveAppStoreManager()?.RefreshStoreState();
         EventBus.Instance?.Publish("D1_ConnectAvailable");
         EventBus.Instance?.Publish("D1_ConnectDownloaded");
         Debug.Log("[UIManager] Connect was downloaded and added to the phone.");
@@ -743,6 +765,18 @@ public class UIManager : MonoBehaviour
 
         switch (_currentState)
         {
+            case UIState.NONE:
+                {
+                    if (InputManager.Instance != null)
+                    {
+                        InputManager.Instance.DisableMovementMap();
+                        InputManager.Instance.DisableInteract();
+                        InputManager.Instance.DisablePhone();
+                        InputManager.Instance.DisableMenuAction();
+                    }
+                    UnlockMouse();
+                }
+                break;
             case UIState.DEFAULT:
                 {
                     if (InputManager.Instance != null)
@@ -899,6 +933,41 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private static Button InstantiatePhoneAppButtonFromTemplate(Button template, Transform parent, string buttonName)
+    {
+        if (template == null) return null;
+
+        bool wasActive = template.gameObject.activeSelf;
+        template.gameObject.SetActive(false);
+        try
+        {
+            Button clone = Instantiate(template, parent);
+            clone.name = buttonName;
+            return clone;
+        }
+        finally
+        {
+            if (wasActive && template != null)
+            {
+                template.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    private static void SafeDestroyComponent(Behaviour comp)
+    {
+        if (comp == null) return;
+        comp.enabled = false;
+        if (Application.isPlaying)
+        {
+            Destroy(comp);
+        }
+        else
+        {
+            DestroyImmediate(comp);
+        }
+    }
+
     private void ConfigureAppStoreButton(Transform buttonPanel)
     {
         Button appStoreButton = buttonPanel.Find("AppStore")?.GetComponent<Button>();
@@ -913,16 +982,15 @@ public class UIManager : MonoBehaviour
                 return;
             }
 
-            appStoreButton = Instantiate(template, buttonPanel);
-            appStoreButton.name = "AppStore";
+            appStoreButton = InstantiatePhoneAppButtonFromTemplate(template, buttonPanel, "AppStore");
             _appStoreCreatedFromTemplate = true;
         }
 
-        // Ensure button never triggers unrelated UIEventPublisher actions
+        // Ensure button never triggers unrelated UIEventPublisher actions before activation
         UIEventPublisher[] eventPublishers = appStoreButton.GetComponents<UIEventPublisher>();
         for (int i = 0; i < eventPublishers.Length; i++)
         {
-            DestroyImmediate(eventPublishers[i]);
+            SafeDestroyComponent(eventPublishers[i]);
         }
 
         appStoreButton.gameObject.SetActive(true);
@@ -959,15 +1027,14 @@ public class UIManager : MonoBehaviour
         if (_connectAppButton == null)
         {
             if (_settingsAppButton == null) return;
-            _connectAppButton = Instantiate(_settingsAppButton, buttonPanel);
-            _connectAppButton.name = "Connect";
+            _connectAppButton = InstantiatePhoneAppButtonFromTemplate(_settingsAppButton, buttonPanel, "Connect");
             _connectCreatedFromTemplate = true;
         }
 
         UIEventPublisher[] eventPublishers = _connectAppButton.GetComponents<UIEventPublisher>();
         for (int i = 0; i < eventPublishers.Length; i++)
         {
-            DestroyImmediate(eventPublishers[i]);
+            SafeDestroyComponent(eventPublishers[i]);
         }
 
         RebindPhoneButton(_connectAppButton, OpenConnectApp);
@@ -1035,43 +1102,29 @@ public class UIManager : MonoBehaviour
         messages.SetMessagingChannel(MessagingChannel.Connect);
 
         PhoneStateMachine phoneState = messages.GetPhoneStateMachine();
-        MessagesUI messagesUI = messages.GetMessagesUI();
-        if (phoneState == null || messagesUI == null) return;
+        if (phoneState == null) return;
 
-        if (_connectProfileCreated)
+        ConnectAppManager connectApp = phoneState.EnsureConnectAppManager();
+        if (!_connectProfileCreated)
         {
-            phoneState.ChangeState((int)PhoneState.CONTACTS);
-            phoneState.SetBackButtonState((int)PhoneState.IDLE);
-            phoneState.UpdatePhoneBackground();
-            messagesUI.RefreshContacts();
-            return;
+            messages.MarkContactNotificationsAsRead("Connect");
+        }
+        else
+        {
+            connectApp?.SelectInitialTabOnOpen(preferMessagesIfUnread: true);
         }
 
-        Contact connectContact = messages.GetContactByName("Connect");
-        if (connectContact == null || connectContact.NarrativeNode() < 0 || connectContact.NarrativeNode() > 3)
+        if (phoneState.GetCurrentState() == PhoneState.CONNECT)
         {
-            messages.AdvanceContactNarrativeNodeByEvent("Connect", 0);
+            connectApp?.OnConnectOpened();
+        }
+        else
+        {
+            phoneState.ChangeState((int)PhoneState.CONNECT);
         }
 
-        messages.SetCurrentContact("Connect");
-        messages.MarkContactNotificationsAsRead("Connect");
-        phoneState.ChangeState((int)PhoneState.MESSAGING);
         phoneState.SetBackButtonState((int)PhoneState.IDLE);
         phoneState.UpdatePhoneBackground();
-        messagesUI.SetContactName("Connect");
-        messagesUI.CreateMessages();
-
-        NarrativeNode profileNode = messages.GetCurrentContactNarrativeNode();
-        if (profileNode != null && profileNode.HasOptions() && profileNode.ResponseMode() == PhoneResponseMode.DecisionOverlay)
-        {
-            messages.GetOptionsChanger()?.SetCurrentNode(profileNode);
-            messages.GetOptionsChanger()?.ActiveDecisionsPanel(true);
-            phoneState.ShowDecisionsTab();
-        }
-        else if (connectContact != null && connectContact.HasNewMessages())
-        {
-            phoneState.ShowDialogueTab();
-        }
     }
 
     private void SetPhoneAppInteraction(bool interactable)

@@ -1110,13 +1110,23 @@ public class DebugCampaignPanelUI : MonoBehaviour
         QuitGame[] quitComponents = buttonObject.GetComponents<QuitGame>();
         for (int i = 0; i < quitComponents.Length; i++)
         {
-            DestroyImmediate(quitComponents[i]);
+            if (quitComponents[i] == null) continue;
+            quitComponents[i].enabled = false;
+            if (Application.isPlaying)
+                Destroy(quitComponents[i]);
+            else
+                DestroyImmediate(quitComponents[i]);
         }
 
         UIEventPublisher[] publishers = buttonObject.GetComponents<UIEventPublisher>();
         for (int i = 0; i < publishers.Length; i++)
         {
-            DestroyImmediate(publishers[i]);
+            if (publishers[i] == null) continue;
+            publishers[i].enabled = false;
+            if (Application.isPlaying)
+                Destroy(publishers[i]);
+            else
+                DestroyImmediate(publishers[i]);
         }
     }
 

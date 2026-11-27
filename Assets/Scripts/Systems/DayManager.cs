@@ -520,6 +520,8 @@ public class DayManager : MonoBehaviour
 
         ClearQueuedTestStart();
 
+        ConnectAppManager.SyncStateWithStoryProgression(forceDayMinimum: targetDay);
+
         if (EventBus.Instance != null)
         {
             EventBus.Instance.Publish($"Start_Day{_currentDay}");

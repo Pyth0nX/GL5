@@ -593,6 +593,28 @@ public class SaveManager : MonoBehaviour
         _deferredAutoSaveCoroutine = StartCoroutine(AutoSaveAtEndOfFrame());
     }
 
+    /// <summary>
+    /// Schedules an end-of-frame auto-save in the active slot if currently inside gameplay.
+    /// </summary>
+    public void RequestDeferredAutoSave()
+    {
+        if (_isLoadingSavedGame || _pendingInitialNewGameSave || !HasActiveSlot)
+        {
+            return;
+        }
+
+        if (!IsGameplayScene(SceneManager.GetActiveScene().name))
+        {
+            return;
+        }
+
+        if (_deferredAutoSaveCoroutine != null)
+        {
+            StopCoroutine(_deferredAutoSaveCoroutine);
+        }
+        _deferredAutoSaveCoroutine = StartCoroutine(AutoSaveAtEndOfFrame());
+    }
+
     private IEnumerator AutoSaveAtEndOfFrame()
     {
         yield return new WaitForEndOfFrame();
@@ -658,6 +680,20 @@ public class SaveManager : MonoBehaviour
         bool connectInstalled = UIManager.Instance != null && UIManager.Instance.IsConnectInstalled;
         bool connectProfile = UIManager.Instance != null && UIManager.Instance.IsConnectProfileCreated;
 
+        ConnectProfileData connectProfileSnapshot = ConnectAppManager.ExportProfileSaveData();
+        List<ConnectPostData> connectPostsSnapshot = ConnectAppManager.ExportPostsSaveData();
+
+        AppStoreManager appStoreManager = AppStoreManager.Instance != null
+            ? AppStoreManager.Instance
+            : FindAnyObjectByType<AppStoreManager>(FindObjectsInactive.Include);
+        List<string> installedApps = appStoreManager != null
+            ? appStoreManager.GetInstalledAppIds()
+            : AppStoreManager.GetPersistedInstalledAppIds();
+        if (connectInstalled && !installedApps.Exists(id => string.Equals(id, "connect", StringComparison.OrdinalIgnoreCase)))
+        {
+            installedApps.Add("connect");
+        }
+
         List<ContactNarrativeSaveData> contactsProgress = MessagesManager.Instance != null
             ? MessagesManager.Instance.ExportContactsSaveData()
             : new List<ContactNarrativeSaveData>();
@@ -705,6 +741,9 @@ public class SaveManager : MonoBehaviour
             connectDownloadAvailable = connectDownload,
             connectInstalled = connectInstalled,
             connectProfileCreated = connectProfile,
+            connectProfileData = connectProfileSnapshot,
+            connectPosts = connectPostsSnapshot,
+            installedAppIds = installedApps,
             contactNarrativeProgress = contactsProgress,
             decisionVariables = decisionVars,
             unlockedGalleryPhotos = unlockedPhotos,
@@ -773,6 +812,7 @@ public class SaveManager : MonoBehaviour
         }
 
         ApplySavedConnectState(saveData);
+        ApplySavedAppStoreState(saveData);
 
         if (MessagesManager.Instance != null)
         {
@@ -798,19 +838,50 @@ public class SaveManager : MonoBehaviour
 
     private static void ApplySavedConnectState(GameSaveData saveData)
     {
-        if (UIManager.Instance == null || saveData == null) return;
+        if (saveData == null) return;
 
-        if (saveData.currentDay >= 2 && !saveData.connectInstalled)
+        bool effectiveProfileCreated = saveData.connectProfileCreated || saveData.currentDay >= 2;
+        if (UIManager.Instance != null)
         {
-            UIManager.Instance.RestoreConnectState(true, true, true);
+            if (saveData.currentDay >= 2 && !saveData.connectInstalled)
+            {
+                UIManager.Instance.RestoreConnectState(true, true, true);
+            }
+            else
+            {
+                UIManager.Instance.RestoreConnectState(
+                    saveData.connectDownloadAvailable,
+                    saveData.connectInstalled,
+                    saveData.connectProfileCreated);
+            }
         }
-        else
+
+        ConnectAppManager.RestoreFromSaveData(
+            saveData.connectProfileData,
+            saveData.connectPosts,
+            effectiveProfileCreated,
+            Mathf.Max(1, saveData.currentDay));
+    }
+
+    private static void ApplySavedAppStoreState(GameSaveData saveData)
+    {
+        if (saveData == null) return;
+
+        List<string> effectiveIds = saveData.installedAppIds != null
+            ? new List<string>(saveData.installedAppIds)
+            : new List<string>();
+
+        if ((saveData.connectInstalled || saveData.currentDay >= 2) &&
+            !effectiveIds.Exists(id => string.Equals(id, "connect", StringComparison.OrdinalIgnoreCase)))
         {
-            UIManager.Instance.RestoreConnectState(
-                saveData.connectDownloadAvailable,
-                saveData.connectInstalled,
-                saveData.connectProfileCreated);
+            effectiveIds.Add("connect");
         }
+
+        AppStoreManager.SetPersistedInstalledApps(effectiveIds);
+        AppStoreManager appStore = AppStoreManager.Instance != null
+            ? AppStoreManager.Instance
+            : FindAnyObjectByType<AppStoreManager>(FindObjectsInactive.Include);
+        appStore?.RestoreInstalledApps(effectiveIds);
     }
 
     /// <summary>
@@ -822,6 +893,10 @@ public class SaveManager : MonoBehaviour
         DayManager.ClearQueuedTestStart();
         TransitionManager.Instance?.ResetCutsceneState();
         PhoneNotificationController.Instance?.ClearAllNotifications();
+        AppStoreManager.ClearPersistedInstalledApps();
+        (AppStoreManager.Instance ?? FindAnyObjectByType<AppStoreManager>(FindObjectsInactive.Include))?.ResetStoreState();
+        ConnectAppManager.ResetPersistedState();
+        (ConnectAppManager.Instance ?? FindAnyObjectByType<ConnectAppManager>(FindObjectsInactive.Include))?.ResetUIState();
 
         DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
         dialogueManager?.ResetDialogueState();
@@ -888,6 +963,7 @@ public class SaveManager : MonoBehaviour
         }
 
         ApplySavedConnectState(saveData);
+        ApplySavedAppStoreState(saveData);
         RestoreSceneInteractables(SceneManager.GetActiveScene(), saveData.sceneInteractables);
 
         // Re-broadcast objective and reputation states so newly initialized HUD elements update

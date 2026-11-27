@@ -180,6 +180,16 @@ public class GameSaveData
     [Tooltip("Whether Luna has completed her Connect profile setup.")]
     public bool connectProfileCreated = false;
 
+    [Tooltip("Protagonist Connect social profile configuration (display name, bio, avatar, privacy settings).")]
+    public ConnectProfileData connectProfileData = new ConnectProfileData();
+
+    [Tooltip("Protagonist posts uploaded or unlocked on the Connect social feed.")]
+    public List<ConnectPostData> connectPosts = new List<ConnectPostData>();
+
+    [Header("App Store Progression")]
+    [Tooltip("Identifiers (appId) of all App Store apps installed in this save slot.")]
+    public List<string> installedAppIds = new List<string>();
+
     [Tooltip("Serializable list mapping each contact to their current narrative node ID and chat history.")]
     public List<ContactNarrativeSaveData> contactNarrativeProgress = new List<ContactNarrativeSaveData>();
 

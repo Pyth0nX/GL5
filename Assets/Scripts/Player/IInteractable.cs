@@ -63,6 +63,15 @@ public abstract class IInteractable : MonoBehaviour
 
     public string NotAvailableMessage() { return _notAvailableMessage; }
     public bool CanInteract() { return _canInteract; }
+
+    /// <summary>
+    /// Returns true if the given collider is allowed to target this interactable via player raycast.
+    /// Override to exclude auxiliary spatial/event triggers attached to the same hierarchy.
+    /// </summary>
+    public virtual bool CanBeTargetedByCollider(Collider hitCollider)
+    {
+        return hitCollider != null;
+    }
     public Color AvailableColor { get => _availableColor; set => _availableColor = value; }
     public Color NotAvailableColor { get => _notAvailableColor; set => _notAvailableColor = value; }
 

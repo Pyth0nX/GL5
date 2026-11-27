@@ -299,9 +299,33 @@ public class MessagesUI : MonoBehaviour
 
         for (int i = contactListContainer.childCount - 1; i >= 0; i--)
         {
-            Destroy(contactListContainer.GetChild(i).gameObject);
+            GameObject child = contactListContainer.GetChild(i).gameObject;
+            child.SetActive(false);
+            child.transform.SetParent(null, false);
+            if (Application.isPlaying)
+                Destroy(child);
+            else
+                DestroyImmediate(child);
         }
         CreateContacts();
+        ConnectAppManager.Instance?.RefreshMessagesEmptyState();
+    }
+
+    public int GetVisibleContactCount()
+    {
+        return contactListContainer != null ? contactListContainer.childCount : 0;
+    }
+
+    public Sprite GetDefaultAvatarSprite() => GetDefaultProfileSprite();
+
+    public Sprite GetLunaNormalSelfieSprite()
+    {
+        return lunaNormalSelfie != null ? lunaNormalSelfie : LoadSprite("SiD/Luna/LunaNormalSelfie1.png");
+    }
+
+    public Sprite GetLunaFlirtSelfieSprite()
+    {
+        return lunaFlirtSelfie != null ? lunaFlirtSelfie : LoadSprite("SiD/Luna/LunaFlirtSelfie1.png");
     }
 
     /// <summary>
@@ -311,11 +335,18 @@ public class MessagesUI : MonoBehaviour
     {
         if (MessagesManager.Instance == null || contactListContainer == null) return;
 
+        bool isConnectChannel = MessagesManager.Instance.GetMessagingChannel() == MessagingChannel.Connect;
         List<Contact> contacts = MessagesManager.Instance.GetContacts();
         if (contacts != null && contacts.Count > 0)
         {
             foreach (Contact contact in contacts)
             {
+                if (contact == null) continue;
+                if (isConnectChannel && string.Equals(contact.Name(), "Connect", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
                 if (MessagesManager.Instance.ContactHasMessages(contact.Name()) || contact.UnreadMessagesCount() > 0)
                 {
                     InstantiateContact(contact);
@@ -472,9 +503,10 @@ public class MessagesUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Clips any profile sprite into a smooth circle using a cached procedural circular Mask.
+    /// Clips any profile sprite into a smooth circle using a cached procedural circular Mask,
+    /// defaulting to aspect-fill ("cover" / EnvelopeParent) cropping like real social apps.
     /// </summary>
-    public static void ApplyCircularAvatar(RectTransform containerRect, Sprite avatarSprite, Color backdropColor)
+    public static void ApplyCircularAvatar(RectTransform containerRect, Sprite avatarSprite, Color backdropColor, bool coverCrop = true)
     {
         if (containerRect == null) return;
 
@@ -483,37 +515,91 @@ public class MessagesUI : MonoBehaviour
         maskImg.sprite = GetCircleMaskSprite();
         maskImg.type = Image.Type.Simple;
         maskImg.preserveAspect = true;
-        maskImg.color = backdropColor;
+        maskImg.color = Color.white;
         maskImg.raycastTarget = false;
 
         Mask mask = containerRect.GetComponent<Mask>();
         if (mask == null) mask = containerRect.gameObject.AddComponent<Mask>();
-        mask.showMaskGraphic = true;
+        mask.showMaskGraphic = false;
+
+        Transform backdropTransform = containerRect.Find("AvatarBackdrop");
+        Image backdropImg;
+        if (backdropTransform == null)
+        {
+            GameObject backdropGO = new GameObject("AvatarBackdrop", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            backdropGO.layer = containerRect.gameObject.layer;
+            backdropGO.transform.SetParent(containerRect, false);
+            backdropGO.transform.SetSiblingIndex(0);
+            RectTransform bgRect = backdropGO.GetComponent<RectTransform>();
+            bgRect.anchorMin = Vector2.zero;
+            bgRect.anchorMax = Vector2.one;
+            bgRect.pivot = new Vector2(0.5f, 0.5f);
+            bgRect.offsetMin = Vector2.zero;
+            bgRect.offsetMax = Vector2.zero;
+            bgRect.anchoredPosition = Vector2.zero;
+            backdropImg = backdropGO.GetComponent<Image>();
+        }
+        else
+        {
+            backdropTransform.SetSiblingIndex(0);
+            backdropImg = backdropTransform.GetComponent<Image>() ?? backdropTransform.gameObject.AddComponent<Image>();
+        }
+
+        backdropImg.color = backdropColor;
+        backdropImg.raycastTarget = false;
+        backdropImg.gameObject.SetActive(backdropColor.a > 0.001f);
 
         Transform childTransform = containerRect.Find("AvatarImage");
         Image avatarImg;
+        RectTransform childRect;
         if (childTransform == null)
         {
             GameObject childGO = new GameObject("AvatarImage", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
             childGO.layer = containerRect.gameObject.layer;
             childGO.transform.SetParent(containerRect, false);
-            RectTransform childRect = childGO.GetComponent<RectTransform>();
-            childRect.anchorMin = Vector2.zero;
-            childRect.anchorMax = Vector2.one;
-            childRect.offsetMin = Vector2.zero;
-            childRect.offsetMax = Vector2.zero;
+            childGO.transform.SetSiblingIndex(1);
+            childRect = childGO.GetComponent<RectTransform>();
             avatarImg = childGO.GetComponent<Image>();
         }
         else
         {
-            avatarImg = childTransform.GetComponent<Image>();
-            if (avatarImg == null) avatarImg = childTransform.gameObject.AddComponent<Image>();
+            childTransform.SetSiblingIndex(1);
+            childRect = childTransform.GetComponent<RectTransform>();
+            avatarImg = childTransform.GetComponent<Image>() ?? childTransform.gameObject.AddComponent<Image>();
         }
 
-        avatarImg.sprite = avatarSprite != null ? avatarSprite : LoadSprite(DefaultProfileSpritePath);
-        avatarImg.preserveAspect = true;
+        childRect.anchorMin = Vector2.zero;
+        childRect.anchorMax = Vector2.one;
+        childRect.pivot = new Vector2(0.5f, 0.5f);
+        childRect.offsetMin = Vector2.zero;
+        childRect.offsetMax = Vector2.zero;
+        childRect.anchoredPosition = Vector2.zero;
+
+        Sprite resolved = avatarSprite != null ? avatarSprite : LoadSprite(DefaultProfileSpritePath);
+        avatarImg.sprite = resolved;
+        avatarImg.type = Image.Type.Simple;
         avatarImg.color = Color.white;
         avatarImg.raycastTarget = false;
+
+        AspectRatioFitter fitter = avatarImg.GetComponent<AspectRatioFitter>();
+        if (coverCrop && resolved != null && resolved.rect.width > 0.01f && resolved.rect.height > 0.01f)
+        {
+            avatarImg.preserveAspect = false;
+            if (fitter == null)
+            {
+                fitter = avatarImg.gameObject.AddComponent<AspectRatioFitter>();
+            }
+            fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+            fitter.aspectRatio = resolved.rect.width / resolved.rect.height;
+        }
+        else
+        {
+            if (fitter != null)
+            {
+                fitter.aspectMode = AspectRatioFitter.AspectMode.None;
+            }
+            avatarImg.preserveAspect = true;
+        }
     }
 
     private static Sprite GetCircleMaskSprite()
@@ -720,9 +806,17 @@ public class MessagesUI : MonoBehaviour
     /// </summary>
     private void ClearMessages()
     {
+        if (messagesContainer == null) return;
+
         for (int i = messagesContainer.childCount - 1; i >= 0; i--)
         {
-            DestroyImmediate(messagesContainer.GetChild(i).gameObject);
+            GameObject child = messagesContainer.GetChild(i).gameObject;
+            child.SetActive(false);
+            child.transform.SetParent(null, false);
+            if (Application.isPlaying)
+                Destroy(child);
+            else
+                DestroyImmediate(child);
         }
     }
 
@@ -1434,23 +1528,37 @@ public class MessagesUI : MonoBehaviour
         if (messageGO == null) return;
 
         HorizontalLayoutGroup oldHlg = messageGO.GetComponent<HorizontalLayoutGroup>();
-        if (oldHlg != null) DestroyImmediate(oldHlg);
+        if (oldHlg != null) SafeDestroyUiComponent(oldHlg);
 
         Image image = messageGO.GetComponentInChildren<Image>();
         if (image != null)
         {
             VerticalLayoutGroup bubbleVlg = image.GetComponent<VerticalLayoutGroup>();
-            if (bubbleVlg != null) DestroyImmediate(bubbleVlg);
+            if (bubbleVlg != null) SafeDestroyUiComponent(bubbleVlg);
             LayoutElement bubbleLe = image.GetComponent<LayoutElement>();
-            if (bubbleLe != null) DestroyImmediate(bubbleLe);
+            if (bubbleLe != null)
+            {
+                bubbleLe.ignoreLayout = true;
+                SafeDestroyUiComponent(bubbleLe);
+            }
         }
 
         TextMeshProUGUI messageText = messageGO.GetComponentInChildren<TextMeshProUGUI>();
         if (messageText != null)
         {
             ContentSizeFitter csf = messageText.GetComponent<ContentSizeFitter>();
-            if (csf != null) DestroyImmediate(csf);
+            if (csf != null) SafeDestroyUiComponent(csf);
         }
+    }
+
+    private static void SafeDestroyUiComponent(Behaviour comp)
+    {
+        if (comp == null) return;
+        comp.enabled = false;
+        if (Application.isPlaying)
+            Destroy(comp);
+        else
+            DestroyImmediate(comp);
     }
 
     private float GetAvailableWidth()

@@ -29,6 +29,21 @@ public class StudentGroupConnectEncounter : IInteractable
     private MapObject _exitDoor;
     private Collider _playerCollider;
     private float _nextOverlapCheckTime;
+    private BoxCollider _originalOverhearCollider;
+    private BoxCollider _isolatedOverhearCollider;
+    private NonInteractableTriggerZone _overhearZoneRelay;
+
+    public override bool CanBeTargetedByCollider(Collider hitCollider)
+    {
+        if (hitCollider == null) return false;
+        if (hitCollider == _overhearTrigger ||
+            hitCollider == _isolatedOverhearCollider ||
+            hitCollider == _originalOverhearCollider)
+        {
+            return false;
+        }
+        return true;
+    }
 
     protected override void Awake()
     {
@@ -53,9 +68,54 @@ public class StudentGroupConnectEncounter : IInteractable
         if (_overhearTrigger != null)
         {
             _overhearTrigger.isTrigger = true;
+            IsolateOverhearTriggerCollider();
         }
 
         base.Awake();
+    }
+
+    private void IsolateOverhearTriggerCollider()
+    {
+        if (_overhearTrigger == null) return;
+
+        int ignoreRaycastLayer = LayerMask.NameToLayer("Ignore Raycast");
+        int targetLayer = ignoreRaycastLayer >= 0 ? ignoreRaycastLayer : 2;
+
+        if (_overhearTrigger.gameObject != gameObject)
+        {
+            _overhearTrigger.gameObject.layer = targetLayer;
+            _isolatedOverhearCollider = _overhearTrigger;
+            _overhearZoneRelay = _overhearTrigger.GetComponent<NonInteractableTriggerZone>();
+            if (_overhearZoneRelay == null)
+            {
+                _overhearZoneRelay = _overhearTrigger.gameObject.AddComponent<NonInteractableTriggerZone>();
+            }
+            _overhearZoneRelay.TriggerEntered -= HandleOverhearTriggerEntered;
+            _overhearZoneRelay.TriggerEntered += HandleOverhearTriggerEntered;
+            return;
+        }
+
+        _originalOverhearCollider = _overhearTrigger;
+
+        GameObject zoneGO = new GameObject("OverhearTriggerZone");
+        zoneGO.layer = targetLayer;
+        zoneGO.transform.SetParent(transform, false);
+        zoneGO.transform.localPosition = Vector3.zero;
+        zoneGO.transform.localRotation = Quaternion.identity;
+        zoneGO.transform.localScale = Vector3.one;
+
+        BoxCollider cloned = zoneGO.AddComponent<BoxCollider>();
+        cloned.center = _originalOverhearCollider.center;
+        cloned.size = _originalOverhearCollider.size;
+        cloned.isTrigger = true;
+        cloned.enabled = _originalOverhearCollider.enabled;
+
+        _overhearZoneRelay = zoneGO.AddComponent<NonInteractableTriggerZone>();
+        _overhearZoneRelay.TriggerEntered += HandleOverhearTriggerEntered;
+
+        _originalOverhearCollider.enabled = false;
+        _isolatedOverhearCollider = cloned;
+        _overhearTrigger = cloned;
     }
 
     protected override void Start()
@@ -144,6 +204,11 @@ public class StudentGroupConnectEncounter : IInteractable
     {
         SetOutlineActive(false);
 
+        if (_overhearZoneRelay != null)
+        {
+            _overhearZoneRelay.TriggerEntered -= HandleOverhearTriggerEntered;
+        }
+
         if (EventBus.Instance != null)
         {
             EventBus.Instance.Unsubscribe(_classFinishedEvent, ArmEncounter);
@@ -198,7 +263,12 @@ public class StudentGroupConnectEncounter : IInteractable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!_encounterArmed || _overheard || _encounterComplete || !IsDayOne()) return;
+        HandleOverhearTriggerEntered(other);
+    }
+
+    private void HandleOverhearTriggerEntered(Collider other)
+    {
+        if (other == null || !_encounterArmed || _overheard || _encounterComplete || !IsDayOne()) return;
         if (other.GetComponentInParent<PlayerController>() == null &&
             other.GetComponentInParent<PlayerStateMachine>() == null) return;
 

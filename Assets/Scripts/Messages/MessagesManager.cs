@@ -1064,6 +1064,7 @@ public class MessagesManager : MonoBehaviour
         {
             Contact contact = _contacts[i];
             if (contact == null) continue;
+            if (string.Equals(contact.Name(), "Connect", StringComparison.OrdinalIgnoreCase)) continue;
 
             if (GetChannelForContact(contact.Name()) == MessagingChannel.Connect && !connectAvailable)
             {
@@ -1142,7 +1143,10 @@ public class MessagesManager : MonoBehaviour
         if (stateMachine != null)
         {
             stateMachine.ChangeState((int)PhoneState.MESSAGING);
-            stateMachine.SetBackButtonState((int)PhoneState.CONTACTS);
+            stateMachine.SetBackButtonState(
+                _currentMessagingChannel == MessagingChannel.Connect
+                    ? (int)PhoneState.CONNECT
+                    : (int)PhoneState.CONTACTS);
         }
 
         if (_messagesUI == null)

@@ -18,6 +18,7 @@ public class DialogueButton : MonoBehaviour
     private const float NpcMessageDelaySeconds = 1.0f;
     private const float ScriptedPlayerLineDelaySeconds = 0.25f;
     private const float PhoneAdvanceCooldownSeconds = 0.08f;
+    private const string FreeTextTutorialCompletedKey = "Tutorial_FreeTextKeyboardCompleted";
 
     private static readonly Color InputSurfaceColor = new Color(0.20f, 0.21f, 0.23f, 1f);
     private static readonly Color InputTextColor = new Color(0.95f, 0.96f, 0.98f, 1f);
@@ -46,6 +47,14 @@ public class DialogueButton : MonoBehaviour
     [SerializeField] private Image _sendButtonImage;
     [SerializeField] private Image _sendButtonIconImage;
 
+    [Header("Free-Text Typography & Tutorial")]
+    [SerializeField, Min(12f)] private float _placeholderFontSize = 19.5f;
+    [SerializeField, Min(12f)] private float _inputFontSize = 19.5f;
+    [SerializeField] private string _defaultPlaceholderPrompt = "Type a message...";
+    [SerializeField] private string _tutorialPlaceholderPrompt = "Type with your keyboard...";
+    [SerializeField] private bool _enableFreeTextTutorialHint = true;
+    [SerializeField, TextArea(1, 3)] private string _freeTextTutorialHintText = "Use your real keyboard to type a reply, then press [ENTER] or SEND.";
+
     private Button _legacyButton;
     private Image _legacyImage;
     private TextMeshProUGUI _legacyTextMesh;
@@ -53,6 +62,9 @@ public class DialogueButton : MonoBehaviour
     private TMP_FontAsset _sharedFont;
 
     private UnityEngine.UI.Outline _inputOutline;
+    private GameObject _freeTextTutorialBanner;
+    private TextMeshProUGUI _freeTextTutorialLabel;
+    private bool _freeTextTutorialCompletedFallback;
 
     private GameObject _twoOptionsContainer;
     private Button _modeBOption0Button;
@@ -99,6 +111,10 @@ public class DialogueButton : MonoBehaviour
         _isWaitingForTwoOptions = false;
         _narrationDialogueActive = false;
         _blockedMonologueActive = false;
+        if (_freeTextTutorialBanner != null)
+        {
+            _freeTextTutorialBanner.SetActive(false);
+        }
         UnfocusInputField();
     }
 
@@ -435,6 +451,15 @@ public class DialogueButton : MonoBehaviour
         }
 
         _isWaitingForFreeText = false;
+        _freeTextTutorialCompletedFallback = true;
+        DecisionDataManager.Instance?.SetOrAddIntVariable(
+            FreeTextTutorialCompletedKey,
+            1,
+            "Completed Free-Text keyboard tutorial");
+        if (_freeTextTutorialBanner != null)
+        {
+            _freeTextTutorialBanner.SetActive(false);
+        }
         _timer = 0f;
         _lastAdvanceFrame = Time.frameCount;
         _lastAdvanceTime = Time.unscaledTime;
@@ -747,6 +772,21 @@ public class DialogueButton : MonoBehaviour
         }
     }
 
+    private bool ShouldShowFreeTextTutorialHint()
+    {
+        if (!_enableFreeTextTutorialHint || string.IsNullOrWhiteSpace(_freeTextTutorialHintText))
+        {
+            return false;
+        }
+
+        if (DecisionDataManager.Instance != null)
+        {
+            return DecisionDataManager.Instance.GetIntVariable(FreeTextTutorialCompletedKey, 0) <= 0;
+        }
+
+        return !_freeTextTutorialCompletedFallback;
+    }
+
     private void ShowFreeTextBar(bool activeForModeA)
     {
         if (_freeTextContainer != null && !_freeTextContainer.activeSelf)
@@ -779,14 +819,36 @@ public class DialogueButton : MonoBehaviour
             _inputOutline.effectColor = activeForModeA ? InputActiveBorderColor : InputBlockedBorderColor;
         }
 
+        bool showTutorial = activeForModeA && ShouldShowFreeTextTutorialHint();
+        if (_freeTextTutorialBanner != null)
+        {
+            if (showTutorial && _freeTextTutorialLabel != null)
+            {
+                _freeTextTutorialLabel.text = _freeTextTutorialHintText;
+            }
+
+            if (_freeTextTutorialBanner.activeSelf != showTutorial)
+            {
+                _freeTextTutorialBanner.SetActive(showTutorial);
+            }
+        }
+
         if (_placeholderText != null)
         {
-            _placeholderText.text = "Type a message...";
+            _placeholderText.text = showTutorial && !string.IsNullOrWhiteSpace(_tutorialPlaceholderPrompt)
+                ? _tutorialPlaceholderPrompt
+                : _defaultPlaceholderPrompt;
+            _placeholderText.fontSize = _placeholderFontSize;
         }
     }
 
     private void ShowTwoOptionsBar(NarrativeNode node)
     {
+        if (_freeTextTutorialBanner != null && _freeTextTutorialBanner.activeSelf)
+        {
+            _freeTextTutorialBanner.SetActive(false);
+        }
+
         if (_freeTextContainer != null && _freeTextContainer.activeSelf)
         {
             _freeTextContainer.SetActive(false);
@@ -893,6 +955,8 @@ public class DialogueButton : MonoBehaviour
             BuildFreeTextBar();
         }
 
+        EnsureFreeTextTutorialBanner();
+
         if (_twoOptionsContainer == null)
         {
             BuildTwoOptionsBar();
@@ -930,6 +994,90 @@ public class DialogueButton : MonoBehaviour
         _sendButton.navigation = nav;
         _sendButton.onClick.RemoveListener(OnSendTriggered);
         _sendButton.onClick.AddListener(OnSendTriggered);
+
+        ApplyInputTypographyAndViewport();
+    }
+
+    private void ApplyInputTypographyAndViewport()
+    {
+        if (_inputField != null)
+        {
+            _inputField.pointSize = _inputFontSize;
+
+            if (_inputField.textComponent != null)
+            {
+                _inputField.textComponent.fontSize = _inputFontSize;
+            }
+
+            if (_inputField.textViewport != null &&
+                Mathf.Approximately(_inputField.textViewport.anchorMin.y, 0f) &&
+                Mathf.Approximately(_inputField.textViewport.anchorMax.y, 1f) &&
+                (_inputField.textViewport.offsetMin.y > 5.5f || _inputField.textViewport.offsetMax.y < -5.5f))
+            {
+                _inputField.textViewport.offsetMin = new Vector2(_inputField.textViewport.offsetMin.x, 5f);
+                _inputField.textViewport.offsetMax = new Vector2(_inputField.textViewport.offsetMax.x, -5f);
+            }
+        }
+
+        if (_placeholderText != null)
+        {
+            _placeholderText.fontSize = _placeholderFontSize;
+        }
+    }
+
+    private void EnsureFreeTextTutorialBanner()
+    {
+        if (_freeTextContainer == null || _freeTextTutorialBanner != null)
+        {
+            return;
+        }
+
+        _freeTextTutorialBanner = new GameObject(
+            "FreeTextTutorialBanner",
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(Image),
+            typeof(UnityEngine.UI.Outline));
+        _freeTextTutorialBanner.layer = _freeTextContainer.layer;
+        _freeTextTutorialBanner.transform.SetParent(_freeTextContainer.transform, false);
+
+        RectTransform bannerRect = _freeTextTutorialBanner.GetComponent<RectTransform>();
+        bannerRect.anchorMin = new Vector2(0f, 1f);
+        bannerRect.anchorMax = new Vector2(1f, 1f);
+        bannerRect.pivot = new Vector2(0.5f, 0f);
+        bannerRect.anchoredPosition = new Vector2(0f, 6f);
+        bannerRect.sizeDelta = new Vector2(0f, 42f);
+
+        Sprite bannerSprite = _roundedSprite != null
+            ? _roundedSprite
+            : (_sendButtonImage != null ? _sendButtonImage.sprite : null);
+        Image bannerBg = _freeTextTutorialBanner.GetComponent<Image>();
+        bannerBg.sprite = bannerSprite;
+        bannerBg.type = bannerSprite != null ? Image.Type.Sliced : Image.Type.Simple;
+        bannerBg.color = new Color(0.10f, 0.16f, 0.14f, 0.96f);
+        bannerBg.raycastTarget = false;
+
+        UnityEngine.UI.Outline bannerOutline = _freeTextTutorialBanner.GetComponent<UnityEngine.UI.Outline>();
+        bannerOutline.effectColor = InputActiveBorderColor;
+        bannerOutline.effectDistance = new Vector2(1.2f, -1.2f);
+
+        _freeTextTutorialLabel = CreateTmpText(
+            "HintText",
+            _freeTextTutorialBanner.transform,
+            _freeTextTutorialHintText,
+            14.5f,
+            FontStyles.Bold,
+            new Color(0.90f, 0.98f, 0.93f, 1f));
+        StretchRect(_freeTextTutorialLabel.rectTransform);
+        _freeTextTutorialLabel.alignment = TextAlignmentOptions.Center;
+        _freeTextTutorialLabel.textWrappingMode = TextWrappingModes.Normal;
+        _freeTextTutorialLabel.enableAutoSizing = true;
+        _freeTextTutorialLabel.fontSizeMin = 11.5f;
+        _freeTextTutorialLabel.fontSizeMax = 15f;
+        _freeTextTutorialLabel.margin = new Vector4(10f, 4f, 10f, 4f);
+        _freeTextTutorialLabel.raycastTarget = false;
+
+        _freeTextTutorialBanner.SetActive(false);
     }
 
     private void BuildFreeTextBar()
@@ -944,7 +1092,7 @@ public class DialogueButton : MonoBehaviour
         containerRect.offsetMin = Vector2.zero;
         containerRect.offsetMax = Vector2.zero;
 
-        // Fixed-size multi-line scrollable input box (224x58) on the left
+        // Fixed-size multi-line scrollable input box (224x62) on the left
         GameObject inputGO = new GameObject(
             "MessageInputField",
             typeof(RectTransform),
@@ -960,7 +1108,7 @@ public class DialogueButton : MonoBehaviour
         inputRect.anchorMax = new Vector2(0f, 0.5f);
         inputRect.pivot = new Vector2(0f, 0.5f);
         inputRect.anchoredPosition = Vector2.zero;
-        inputRect.sizeDelta = new Vector2(224f, 58f);
+        inputRect.sizeDelta = new Vector2(224f, 62f);
 
         Image inputBg = inputGO.GetComponent<Image>();
         inputBg.sprite = _roundedSprite;
@@ -979,19 +1127,19 @@ public class DialogueButton : MonoBehaviour
         RectTransform textAreaRect = textAreaGO.GetComponent<RectTransform>();
         textAreaRect.anchorMin = Vector2.zero;
         textAreaRect.anchorMax = Vector2.one;
-        textAreaRect.offsetMin = new Vector2(10f, 6f);
-        textAreaRect.offsetMax = new Vector2(-16f, -6f);
+        textAreaRect.offsetMin = new Vector2(10f, 5f);
+        textAreaRect.offsetMax = new Vector2(-16f, -5f);
 
         RectMask2D mask = textAreaGO.GetComponent<RectMask2D>();
         mask.padding = Vector4.zero;
 
-        _placeholderText = CreateTmpText("Placeholder", textAreaGO.transform, "Type a message...", 15f, FontStyles.Italic, InputPlaceholderColor);
+        _placeholderText = CreateTmpText("Placeholder", textAreaGO.transform, _defaultPlaceholderPrompt, _placeholderFontSize, FontStyles.Italic, InputPlaceholderColor);
         StretchRect(_placeholderText.rectTransform);
         _placeholderText.alignment = TextAlignmentOptions.TopLeft;
         _placeholderText.textWrappingMode = TextWrappingModes.Normal;
         _placeholderText.raycastTarget = false;
 
-        TextMeshProUGUI inputText = CreateTmpText("Text", textAreaGO.transform, string.Empty, 15.5f, FontStyles.Normal, InputTextColor);
+        TextMeshProUGUI inputText = CreateTmpText("Text", textAreaGO.transform, string.Empty, _inputFontSize, FontStyles.Normal, InputTextColor);
         StretchRect(inputText.rectTransform);
         inputText.alignment = TextAlignmentOptions.TopLeft;
         inputText.richText = false;
@@ -1016,6 +1164,7 @@ public class DialogueButton : MonoBehaviour
         _inputField.caretWidth = 2;
         _inputField.selectionColor = new Color(0.20f, 0.72f, 0.44f, 0.25f);
         _inputField.onSubmit.AddListener(OnInputSubmit);
+        ApplyInputTypographyAndViewport();
 
         // SEND button (80x58) on the right
         GameObject sendGO = new GameObject(

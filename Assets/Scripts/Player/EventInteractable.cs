@@ -172,7 +172,7 @@ public class EventInteractable : IInteractable
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.ShowTemporaryMessage(
-                    _notAvailableMessage,
+                    ResolveUnavailableMessage(),
                     UIManager.UnavailableInteractionColor,
                     2f);
             }
@@ -187,6 +187,31 @@ public class EventInteractable : IInteractable
         {
             Invoke(nameof(RevertPlayerState), 0.1f);
         }
+    }
+
+    private string ResolveUnavailableMessage()
+    {
+        if (_enableEvents != null &&
+            _enableEvents.Contains("D1_TutorialItemsPicked") &&
+            ObjectivesManager.Instance != null)
+        {
+            Objective activeObj = ObjectivesManager.Instance.GetCurrentObjective();
+            if (activeObj != null && activeObj.IsActive())
+            {
+                string listenEvent = activeObj.EventToListen();
+                if (string.Equals(listenEvent, "D1_TutorialMessageComplete", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "Check your messages first";
+                }
+
+                if (string.Equals(listenEvent, "D1_SchoolItemPicked", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "Grab your laptop before leaving for school";
+                }
+            }
+        }
+
+        return _notAvailableMessage;
     }
 
     private void RevertPlayerState()

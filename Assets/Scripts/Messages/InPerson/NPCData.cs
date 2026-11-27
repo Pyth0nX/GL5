@@ -489,6 +489,13 @@ public class NPCData : IInteractable
 
     private void EndStandaloneInteraction()
     {
+        if (!_isInStandaloneInteraction)
+        {
+            return;
+        }
+
+        _isInStandaloneInteraction = false;
+
         if (UIManager.Instance != null)
         {
             UIManager.Instance.ChangeState((int)UIState.DEFAULT);
@@ -500,6 +507,11 @@ public class NPCData : IInteractable
             playerState.ChangeState(PlayerState.Idle);
         }
 
+        InteractionEnded?.Invoke();
+    }
+
+    private void OnDisable()
+    {
         if (_isInStandaloneInteraction)
         {
             _isInStandaloneInteraction = false;

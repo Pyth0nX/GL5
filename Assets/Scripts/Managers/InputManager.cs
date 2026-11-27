@@ -142,6 +142,7 @@ public class InputManager : MonoBehaviour
     #region Getters
     public Vector2 GetPlayerMovement()
     {
+        if (IsTypingInInputField()) return Vector2.zero;
         return _pMoveAction != null ? _pMoveAction.ReadValue<Vector2>() : Vector2.zero;
     }
 
@@ -162,11 +163,13 @@ public class InputManager : MonoBehaviour
 
     public bool MenuWasTapped()
     {
+        if (IsTypingInInputField()) return false;
         return _menuWasTapped;
     }
 
     public bool MenuWasHeld()
     {
+        if (IsTypingInInputField()) return false;
         return _menuWasHeld;
     }
 

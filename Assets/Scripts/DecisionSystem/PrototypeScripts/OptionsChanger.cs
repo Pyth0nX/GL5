@@ -217,13 +217,14 @@ public class OptionsChanger : MonoBehaviour
 
     public void ChangeOptions(int selectedOptionId)
     {
-        if (_currentNode == null || !_currentNode.HasOptions() ||
-            selectedOptionId < 0 || selectedOptionId >= _currentNode.Options().Length)
+        Option[] options = _currentNode != null ? _currentNode.Options() : null;
+        if (_currentNode == null || !_currentNode.HasOptions() || options == null ||
+            selectedOptionId < 0 || selectedOptionId >= options.Length)
         {
             return;
         }
 
-        Option selectedOption = _currentNode.Options()[selectedOptionId];
+        Option selectedOption = options[selectedOptionId];
         if (selectedOption == null || !selectedOption.AreConditionsMet())
         {
             return;

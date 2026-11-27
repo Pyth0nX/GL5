@@ -51,6 +51,9 @@ public class PhoneStateMachine : MonoBehaviour
     private GameObject _appStoreTab;
 
     [SerializeField]
+    private GameObject _connectTab;
+
+    [SerializeField]
     private GameObject _quitTab;
 
     [Header("App Managers (Optional - Auto-Detected)")]
@@ -58,6 +61,8 @@ public class PhoneStateMachine : MonoBehaviour
     private GalleryManager _galleryManager;
     [SerializeField]
     private AppStoreManager _appStoreManager;
+    [SerializeField]
+    private ConnectAppManager _connectAppManager;
 
     [Header("Phone Background")]
     [Tooltip("Background Image component of the phone screen (PhoneBG).")]
@@ -165,6 +170,15 @@ public class PhoneStateMachine : MonoBehaviour
             }
         }
 
+        if (_currentState == PhoneState.CONNECT)
+        {
+            EnsureConnectAppManager();
+            if (_connectAppManager != null && _connectAppManager.TryHandleBackButton())
+            {
+                return;
+            }
+        }
+
         ChangeState(_backButtonState);
     }
 
@@ -192,6 +206,64 @@ public class PhoneStateMachine : MonoBehaviour
         {
             _appStoreManager = AppStoreManager.Instance ?? FindAnyObjectByType<AppStoreManager>(FindObjectsInactive.Include);
         }
+    }
+
+    public ConnectAppManager EnsureConnectAppManager()
+    {
+        if (_connectTab == null)
+        {
+            Transform existingTab = transform.Find("ConnectScreen");
+            if (existingTab != null)
+            {
+                _connectTab = existingTab.gameObject;
+            }
+        }
+
+        if (_connectAppManager == null && _connectTab != null)
+        {
+            _connectAppManager = _connectTab.GetComponentInChildren<ConnectAppManager>(true);
+            if (_connectAppManager == null)
+            {
+                _connectAppManager = _connectTab.AddComponent<ConnectAppManager>();
+            }
+        }
+
+        if (_connectAppManager == null)
+        {
+            _connectAppManager = GetComponentInChildren<ConnectAppManager>(true) ??
+                                 ConnectAppManager.Instance ??
+                                 FindAnyObjectByType<ConnectAppManager>(FindObjectsInactive.Include);
+
+            if (_connectAppManager != null && _connectTab == null)
+            {
+                _connectTab = _connectAppManager.gameObject;
+            }
+        }
+
+        if (_connectAppManager == null)
+        {
+            GameObject connectGO = new GameObject("ConnectScreen", typeof(RectTransform), typeof(CanvasRenderer));
+            connectGO.layer = gameObject.layer;
+            connectGO.transform.SetParent(transform, false);
+
+            RectTransform rect = connectGO.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = new Vector2(0f, 15f);
+            rect.sizeDelta = new Vector2(460f, 770f);
+
+            if (_appStoreTab != null && _appStoreTab.transform.parent == transform)
+            {
+                connectGO.transform.SetSiblingIndex(_appStoreTab.transform.GetSiblingIndex() + 1);
+            }
+
+            _connectTab = connectGO;
+            _connectAppManager = connectGO.AddComponent<ConnectAppManager>();
+            connectGO.SetActive(false);
+        }
+
+        return _connectAppManager;
     }
 
     // Update is called once per frame
@@ -262,6 +334,10 @@ public class PhoneStateMachine : MonoBehaviour
             case PhoneState.APP_STORE:
                 _appStoreTab?.SetActive(false);
                 break;
+            case PhoneState.CONNECT:
+                _connectTab?.SetActive(false);
+                EnsureConnectAppManager()?.OnConnectExited(nextState);
+                break;
             case PhoneState.SETTINGS:
                 if (EventBus.Instance != null)
                 {
@@ -295,6 +371,15 @@ public class PhoneStateMachine : MonoBehaviour
                 _messagingTab?.SetActive(true);
                 _quickGalleryButton?.SetActive(true);
                 _dialogueTab?.SetActive(true);
+                if (_backButtonState == (int)PhoneState.GALLERY || _backButtonState == (int)PhoneState.MESSAGING)
+                {
+                    MessagingChannel activeChannel = MessagesManager.Instance != null
+                        ? MessagesManager.Instance.GetMessagingChannel()
+                        : MessagingChannel.Phone;
+                    _backButtonState = activeChannel == MessagingChannel.Connect
+                        ? (int)PhoneState.CONNECT
+                        : (int)PhoneState.CONTACTS;
+                }
                 break;
             case PhoneState.GALLERY:
                 _galleryTab?.SetActive(true);
@@ -304,6 +389,12 @@ public class PhoneStateMachine : MonoBehaviour
                 _appStoreTab?.SetActive(true);
                 EnsureAppStoreManager();
                 _appStoreManager?.OnStoreOpened();
+                break;
+            case PhoneState.CONNECT:
+                _backButtonState = (int)PhoneState.IDLE;
+                EnsureConnectAppManager();
+                _connectTab?.SetActive(true);
+                _connectAppManager?.OnConnectOpened();
                 break;
             case PhoneState.SETTINGS:
                 if (EventBus.Instance != null)
@@ -317,6 +408,7 @@ public class PhoneStateMachine : MonoBehaviour
         }
 
         UpdatePhoneBackground();
+        _connectAppManager?.SyncChromeVisibility(_currentState);
     }
 
     #region Getters
@@ -380,7 +472,13 @@ public class PhoneStateMachine : MonoBehaviour
         if (_phoneBgImage == null) return;
 
         Sprite targetSprite = null;
-        if (_currentState == PhoneState.CONTACTS || _currentState == PhoneState.MESSAGING)
+        if (_currentState == PhoneState.CONNECT)
+        {
+            targetSprite = _connectBgSprite != null
+                ? _connectBgSprite
+                : MessagesUI.LoadSprite("Hilmir/UI/Connect-UI.png");
+        }
+        else if (_currentState == PhoneState.CONTACTS || _currentState == PhoneState.MESSAGING)
         {
             MessagingChannel channel = MessagesManager.Instance != null
                 ? MessagesManager.Instance.GetMessagingChannel()

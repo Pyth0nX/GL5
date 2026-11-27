@@ -146,7 +146,10 @@ public class PlayerController : MonoBehaviour
     {
         if ((UIManager.Instance != null && UIManager.Instance.IsScenarioSystemOpen) ||
             (ScenarioSystemUI.Instance != null && ScenarioSystemUI.Instance.IsVisible) ||
-            (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning))
+            (TransitionManager.Instance != null && TransitionManager.Instance.IsTransitioning) ||
+            (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive) ||
+            (UIManager.Instance != null && UIManager.Instance.GetCurrentState() == UIState.CONVERSATION) ||
+            (_playerStateMachine != null && !_playerStateMachine.IsPhoneOpen() && _playerStateMachine.GetCurrentState() == PlayerState.Interacting))
         {
             return;
         }
@@ -308,7 +311,11 @@ public class PlayerController : MonoBehaviour
     {
         if ((DebugCampaignPanelUI.Instance != null && DebugCampaignPanelUI.Instance.IsOpen) ||
             (UIManager.Instance != null && UIManager.Instance.IsScenarioSystemOpen) ||
-            (ScenarioSystemUI.Instance != null && ScenarioSystemUI.Instance.IsVisible))
+            (ScenarioSystemUI.Instance != null && ScenarioSystemUI.Instance.IsVisible) ||
+            (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive) ||
+            (_playerStateMachine != null &&
+             (_playerStateMachine.GetCurrentState() == PlayerState.Interacting ||
+              _playerStateMachine.GetCurrentState() == PlayerState.Phone)))
         {
             if (_rigidbody != null)
             {
@@ -424,10 +431,11 @@ public class PlayerController : MonoBehaviour
 
     private void CheckInteractableHover()
     {
-        // Safety recovery: if UI returned to DEFAULT mode, ensure player state is back to Idle
+        // Safety recovery: if UI returned to DEFAULT mode and no dialogue is open, ensure player state is back to Idle
         if (_playerStateMachine != null && _playerStateMachine.GetCurrentState() == PlayerState.Interacting)
         {
-            if (UIManager.Instance != null && UIManager.Instance.GetCurrentState() == UIState.DEFAULT)
+            bool dialogueOpen = DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive;
+            if (!dialogueOpen && UIManager.Instance != null && UIManager.Instance.GetCurrentState() == UIState.DEFAULT)
             {
                 _playerStateMachine.ChangeState(PlayerState.Idle);
             }
@@ -578,6 +586,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Interacted");
             if (interactable.CanInteract())
             {
+                StopMovementImmediately();
                 _playerStateMachine.ChangeState(PlayerState.Interacting);
                 interactable.Interact();
             }
@@ -632,12 +641,17 @@ public class PlayerController : MonoBehaviour
             GameObject hitObject = hit.collider.gameObject;
 
             if (hitObject == gameObject || hitObject.transform.root == transform.root) continue;
+            if (hit.collider.GetComponent<NonInteractableTriggerZone>() != null) continue;
 
             // Allow interactables that use a trigger volume as their targeting area,
-            // while ignoring non-interactable trigger volumes so they don't block the ray.
+            // while ignoring non-interactable trigger volumes and auxiliary excluded triggers so they don't block the ray.
             IInteractable interactable = hitObject.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
+                if (!interactable.CanBeTargetedByCollider(hit.collider))
+                {
+                    continue;
+                }
                 return interactable;
             }
 
@@ -663,7 +677,7 @@ public class PlayerController : MonoBehaviour
             GameObject hitObject = hit.collider.gameObject;
 
             if (hitObject == gameObject || hitObject.transform.root == transform.root) continue;
-            if (hit.collider.isTrigger) continue;
+            if (hit.collider.isTrigger || hit.collider.GetComponent<NonInteractableTriggerZone>() != null) continue;
 
             InteractableOutline outline = hitObject.GetComponentInParent<InteractableOutline>();
             if (outline != null)

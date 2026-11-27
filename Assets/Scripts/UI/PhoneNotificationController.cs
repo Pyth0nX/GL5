@@ -518,9 +518,11 @@ public class PhoneNotificationController : MonoBehaviour
         textComponent.overflowMode = TextOverflowModes.Ellipsis;
         textComponent.ForceMeshUpdate();
 
-        int charCount = textComponent.textInfo.characterCount;
-        if (charCount > 0 && textComponent.textInfo.characterInfo != null)
+        if (textComponent.textInfo != null &&
+            textComponent.textInfo.characterCount > 0 &&
+            textComponent.textInfo.characterInfo != null)
         {
+            int charCount = textComponent.textInfo.characterCount;
             int lastVisible = -1;
             for (int i = 0; i < charCount && i < textComponent.textInfo.characterInfo.Length; i++)
             {

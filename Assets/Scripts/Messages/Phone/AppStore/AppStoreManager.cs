@@ -97,6 +97,15 @@ public class AppStoreManager : MonoBehaviour
     [SerializeField] private Sprite _connectPreviewSprite;
     [SerializeField] private Sprite _roundedCardSprite;
 
+    private static readonly HashSet<string> s_installedAppIds =
+        new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStaticInstalledCache()
+    {
+        s_installedAppIds.Clear();
+    }
+
     private readonly Dictionary<string, AppRuntimeState> _runtimeStates =
         new Dictionary<string, AppRuntimeState>(StringComparer.OrdinalIgnoreCase);
 
@@ -216,6 +225,7 @@ public class AppStoreManager : MonoBehaviour
     {
         StopAllDownloads(resetProgress: true);
         _runtimeStates.Clear();
+        s_installedAppIds.Clear();
         _selectedDetailAppId = null;
         _sortByTopCharts = false;
 
@@ -225,6 +235,89 @@ public class AppStoreManager : MonoBehaviour
             ShowStorefrontView();
             RebuildStorefrontList();
         }
+    }
+
+    public static void ClearPersistedInstalledApps()
+    {
+        s_installedAppIds.Clear();
+        if (Instance != null)
+        {
+            Instance.ResetStoreState();
+        }
+    }
+
+    public static List<string> GetPersistedInstalledAppIds()
+    {
+        if (UIManager.Instance != null && UIManager.Instance.IsConnectInstalled)
+        {
+            s_installedAppIds.Add("connect");
+        }
+
+        List<string> result = new List<string>(s_installedAppIds);
+        result.Sort(StringComparer.OrdinalIgnoreCase);
+        return result;
+    }
+
+    public List<string> GetInstalledAppIds()
+    {
+        foreach (KeyValuePair<string, AppRuntimeState> kvp in _runtimeStates)
+        {
+            if (kvp.Value != null && kvp.Value.isInstalled && !string.IsNullOrWhiteSpace(kvp.Key))
+            {
+                s_installedAppIds.Add(kvp.Key.Trim());
+            }
+        }
+
+        SyncConnectRuntimeState();
+        return GetPersistedInstalledAppIds();
+    }
+
+    public static void SetPersistedInstalledApps(IEnumerable<string> appIds)
+    {
+        s_installedAppIds.Clear();
+        if (appIds == null)
+        {
+            return;
+        }
+
+        foreach (string appId in appIds)
+        {
+            if (!string.IsNullOrWhiteSpace(appId))
+            {
+                s_installedAppIds.Add(appId.Trim());
+            }
+        }
+    }
+
+    public void RestoreInstalledApps(IEnumerable<string> appIds)
+    {
+        StopAllDownloads(resetProgress: true);
+        _runtimeStates.Clear();
+        SetPersistedInstalledApps(appIds);
+
+        if (UIManager.Instance != null)
+        {
+            if (UIManager.Instance.IsConnectInstalled)
+            {
+                s_installedAppIds.Add("connect");
+            }
+            else if (s_installedAppIds.Contains("connect"))
+            {
+                UIManager.Instance.RestoreConnectState(true, true, UIManager.Instance.IsConnectProfileCreated);
+            }
+        }
+
+        foreach (string appId in s_installedAppIds)
+        {
+            _runtimeStates[appId] = new AppRuntimeState
+            {
+                isInstalled = true,
+                isDownloading = false,
+                progress = 1f
+            };
+        }
+
+        RefreshStoreState();
     }
 
     /// <summary>
@@ -419,14 +512,23 @@ public class AppStoreManager : MonoBehaviour
             _runtimeStates[key] = state;
         }
 
-        if (app.isConnectApp && UIManager.Instance != null)
+        if (app.isConnectApp)
         {
-            state.isInstalled = UIManager.Instance.IsConnectInstalled;
-            if (state.isInstalled)
+            bool connectInstalled = (UIManager.Instance != null && UIManager.Instance.IsConnectInstalled) ||
+                                    s_installedAppIds.Contains(key);
+            state.isInstalled = connectInstalled;
+            if (connectInstalled)
             {
+                s_installedAppIds.Add(key);
                 state.isDownloading = false;
                 state.progress = 1f;
             }
+        }
+        else if (s_installedAppIds.Contains(key))
+        {
+            state.isInstalled = true;
+            state.isDownloading = false;
+            state.progress = 1f;
         }
 
         return state;
@@ -437,6 +539,15 @@ public class AppStoreManager : MonoBehaviour
         if (UIManager.Instance == null) return;
 
         bool connectInstalled = UIManager.Instance.IsConnectInstalled;
+        if (connectInstalled)
+        {
+            s_installedAppIds.Add("connect");
+        }
+        else
+        {
+            s_installedAppIds.Remove("connect");
+        }
+
         if (_runtimeStates.TryGetValue("connect", out AppRuntimeState connectState))
         {
             connectState.isInstalled = connectInstalled;
@@ -528,6 +639,11 @@ public class AppStoreManager : MonoBehaviour
         state.isInstalled = true;
         state.downloadCoroutine = null;
 
+        if (!string.IsNullOrWhiteSpace(app.appId))
+        {
+            s_installedAppIds.Add(app.appId.Trim());
+        }
+
         if (app.isConnectApp)
         {
             UIManager.Instance?.CompleteConnectDownload();
@@ -539,6 +655,7 @@ public class AppStoreManager : MonoBehaviour
         }
 
         UpdateAppProgressUI(app, state);
+        SaveManager.Instance?.RequestDeferredAutoSave();
     }
 
     private void OpenInstalledApp(AppStoreAppData app)

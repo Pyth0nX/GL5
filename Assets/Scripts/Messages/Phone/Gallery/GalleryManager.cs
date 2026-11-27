@@ -153,6 +153,12 @@ public class GalleryManager : MonoBehaviour
     [Tooltip("List of photo entries configured in the Inspector.")]
     [SerializeField] private List<GalleryPhotoData> _photos = new List<GalleryPhotoData>();
 
+    [Tooltip("Optional extra base profile photos preloaded from the start of the game.")]
+    [SerializeField] private List<GalleryPhotoData> _baseProfilePhotos = new List<GalleryPhotoData>();
+
+    [Tooltip("Automatically registers default profile photos (selfies and default avatar) so players can pick one from day 1.")]
+    [SerializeField] private bool _autoRegisterDefaultProfilePhotos = true;
+
     [Tooltip("Automatically scans StreamingAssets/Images (.png/.jpg/.jpeg) at startup and adds found images without duplicates.")]
     [SerializeField] private bool _autoLoadStreamingAssetsImages = true;
 
@@ -172,6 +178,15 @@ public class GalleryManager : MonoBehaviour
     private string _quickSelectTargetContact = string.Empty;
     private string _pendingQuickSelectContact = null;
 
+    private bool _isProfilePhotoSelectMode = false;
+    private bool _pendingProfilePhotoSelect = false;
+    private Action<GalleryPhotoData> _onProfilePhotoSelected;
+    private Action _onProfilePhotoCancelled;
+    private Action<GalleryPhotoData> _pendingOnProfilePhotoSelected;
+    private Action _pendingOnProfilePhotoCancelled;
+    private IEnumerable<GalleryPhotoData> _pendingProfileExtraPhotos;
+    private string _profileSelectBannerMessage = "Choose profile picture";
+
     private bool _hasInitializedPhotos = false;
     private bool _uiListenersBound = false;
     private Coroutine _deferredLayoutCoroutine;
@@ -180,6 +195,7 @@ public class GalleryManager : MonoBehaviour
     private bool _hasRecordedDefaultScrollOffset = false;
 
     public bool IsQuickSelectMode => _isQuickSelectMode;
+    public bool IsProfilePhotoSelectMode => _isProfilePhotoSelectMode;
     public string QuickSelectTargetContact => _quickSelectTargetContact;
     public int CurrentColumns => _currentColumns;
 
@@ -235,6 +251,20 @@ public class GalleryManager : MonoBehaviour
             _pendingQuickSelectContact = null;
         }
 
+        // Activate Profile Photo Select mode if queued from Connect Create Profile
+        if (_pendingProfilePhotoSelect)
+        {
+            _isProfilePhotoSelectMode = true;
+            _onProfilePhotoSelected = _pendingOnProfilePhotoSelected;
+            _onProfilePhotoCancelled = _pendingOnProfilePhotoCancelled;
+            IEnumerable<GalleryPhotoData> extra = _pendingProfileExtraPhotos;
+            _pendingProfilePhotoSelect = false;
+            _pendingOnProfilePhotoSelected = null;
+            _pendingOnProfilePhotoCancelled = null;
+            _pendingProfileExtraPhotos = null;
+            EnsureBaseProfilePhotos(extra);
+        }
+
         CloseContactSelector();
         ClosePreview();
         UpdateQuickSelectBanner();
@@ -256,12 +286,19 @@ public class GalleryManager : MonoBehaviour
         }
 
         // When leaving the Gallery screen (via Home, Back, phone close, or sending),
-        // clean up modals and reset quick-select state for future normal openings.
+        // clean up modals and reset quick-select / profile-select state for future normal openings.
         CloseContactSelector();
         ClosePreview();
         _isQuickSelectMode = false;
         _quickSelectTargetContact = string.Empty;
         _pendingQuickSelectContact = null;
+        _isProfilePhotoSelectMode = false;
+        _onProfilePhotoSelected = null;
+        _onProfilePhotoCancelled = null;
+        _pendingProfilePhotoSelect = false;
+        _pendingOnProfilePhotoSelected = null;
+        _pendingOnProfilePhotoCancelled = null;
+        _pendingProfileExtraPhotos = null;
         UpdateQuickSelectBanner();
     }
 
@@ -545,6 +582,118 @@ public class GalleryManager : MonoBehaviour
         {
             SyncImagesFromChatHistory();
         }
+
+        EnsureBaseProfilePhotos(_pendingProfileExtraPhotos);
+    }
+
+    /// <summary>
+    /// Ensures base/default profile photos (including Inspector presets, selfies, and default avatar)
+    /// are registered and unlocked in the Gallery without duplicates.
+    /// </summary>
+    public void EnsureBaseProfilePhotos(IEnumerable<GalleryPhotoData> extraPhotos = null)
+    {
+        if (!_hasInitializedPhotos)
+        {
+            InitializePhotoCollection();
+        }
+
+        if (_baseProfilePhotos != null)
+        {
+            for (int i = 0; i < _baseProfilePhotos.Count; i++)
+            {
+                RegisterPhotoDataIfMissing(_baseProfilePhotos[i]);
+            }
+        }
+
+        if (_autoRegisterDefaultProfilePhotos)
+        {
+            MessagesUI ui = MessagesManager.Instance?.GetMessagesUI() ?? FindAnyObjectByType<MessagesUI>(FindObjectsInactive.Include);
+
+            RegisterPhotoDataIfMissing(new GalleryPhotoData(
+                id: "LunaNormalSelfie",
+                title: "Casual Selfie",
+                imagePath: "SiD/Luna/LunaNormalSelfie1.png",
+                sprite: ui != null ? ui.GetLunaNormalSelfieSprite() : MessagesUI.LoadSprite("SiD/Luna/LunaNormalSelfie1.png"),
+                unlocked: true,
+                isPersonalPhoto: true));
+
+            RegisterPhotoDataIfMissing(new GalleryPhotoData(
+                id: "LunaFlirtSelfie",
+                title: "Personal Selfie",
+                imagePath: "SiD/Luna/LunaFlirtSelfie1.png",
+                sprite: ui != null ? ui.GetLunaFlirtSelfieSprite() : MessagesUI.LoadSprite("SiD/Luna/LunaFlirtSelfie1.png"),
+                unlocked: true,
+                isPersonalPhoto: true));
+
+            RegisterPhotoDataIfMissing(new GalleryPhotoData(
+                id: "DefaultAvatar",
+                title: "Default Avatar",
+                imagePath: "_PhoneUIImages/DefaultProfilePicture.png",
+                sprite: ui != null ? ui.GetDefaultAvatarSprite() : MessagesUI.LoadSprite("_PhoneUIImages/DefaultProfilePicture.png"),
+                unlocked: true,
+                isPersonalPhoto: false));
+        }
+
+        if (extraPhotos != null)
+        {
+            foreach (GalleryPhotoData extra in extraPhotos)
+            {
+                RegisterPhotoDataIfMissing(extra);
+            }
+        }
+    }
+
+    private void RegisterPhotoDataIfMissing(GalleryPhotoData candidate)
+    {
+        if (candidate == null) return;
+
+        string key = candidate.GetEffectiveImageKey();
+        if (ContainsPhotoWithPathOrKey(key, candidate.Id))
+        {
+            return;
+        }
+
+        Sprite resolved = candidate.ResolveSprite();
+        if (resolved == null)
+        {
+            return;
+        }
+
+        candidate.IsUnlocked = true;
+        _photos.Add(candidate);
+    }
+
+    /// <summary>
+    /// Looks up a registered photo Sprite in the Gallery by image key, path, or ID.
+    /// </summary>
+    public Sprite FindPhotoSpriteByKey(string keyOrPath)
+    {
+        if (string.IsNullOrEmpty(keyOrPath)) return null;
+
+        if (!_hasInitializedPhotos)
+        {
+            InitializePhotoCollection();
+        }
+
+        string normalized = keyOrPath.Replace('\\', '/');
+        string fileName = Path.GetFileName(normalized);
+
+        for (int i = 0; i < _photos.Count; i++)
+        {
+            GalleryPhotoData p = _photos[i];
+            if (p == null) continue;
+
+            if (string.Equals(p.GetEffectiveImageKey(), normalized, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(p.Id, normalized, StringComparison.OrdinalIgnoreCase) ||
+                (!string.IsNullOrEmpty(p.ImagePath) &&
+                 (string.Equals(p.ImagePath.Replace('\\', '/'), normalized, StringComparison.OrdinalIgnoreCase) ||
+                  (!string.IsNullOrEmpty(fileName) && string.Equals(Path.GetFileName(p.ImagePath), fileName, StringComparison.OrdinalIgnoreCase)))))
+            {
+                return p.ResolveSprite();
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -621,22 +770,28 @@ public class GalleryManager : MonoBehaviour
         return true;
     }
 
-    private bool ContainsPhotoWithPathOrKey(string imagePath)
+    private bool ContainsPhotoWithPathOrKey(string imagePath, string id = null)
     {
-        string normalized = imagePath.Replace('\\', '/');
-        string fileName = Path.GetFileName(normalized);
+        string normalized = !string.IsNullOrEmpty(imagePath) ? imagePath.Replace('\\', '/') : string.Empty;
+        string fileName = !string.IsNullOrEmpty(normalized) ? Path.GetFileName(normalized) : string.Empty;
 
         for (int i = 0; i < _photos.Count; i++)
         {
             GalleryPhotoData p = _photos[i];
             if (p == null) continue;
 
-            if (string.Equals(p.GetEffectiveImageKey(), normalized, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(id) && string.Equals(p.Id, id, StringComparison.OrdinalIgnoreCase))
                 return true;
 
-            if (!string.IsNullOrEmpty(p.ImagePath) &&
-                string.Equals(Path.GetFileName(p.ImagePath), fileName, StringComparison.OrdinalIgnoreCase))
-                return true;
+            if (!string.IsNullOrEmpty(normalized))
+            {
+                if (string.Equals(p.GetEffectiveImageKey(), normalized, StringComparison.OrdinalIgnoreCase))
+                    return true;
+
+                if (!string.IsNullOrEmpty(p.ImagePath) &&
+                    string.Equals(Path.GetFileName(p.ImagePath), fileName, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
         }
         return false;
     }
@@ -844,6 +999,11 @@ public class GalleryManager : MonoBehaviour
             return;
         }
 
+        if (_currentZoomPresetIndex < 0 || _currentZoomPresetIndex >= _zoomColumnPresets.Length)
+        {
+            _currentZoomPresetIndex = 0;
+        }
+
         _currentZoomPresetIndex = (_currentZoomPresetIndex + 1) % _zoomColumnPresets.Length;
         SetColumns(_zoomColumnPresets[_currentZoomPresetIndex]);
     }
@@ -926,7 +1086,12 @@ public class GalleryManager : MonoBehaviour
 
     private void SyncZoomPresetIndexFromColumns(int cols)
     {
-        if (_zoomColumnPresets == null) return;
+        if (_zoomColumnPresets == null || _zoomColumnPresets.Length == 0)
+        {
+            _currentZoomPresetIndex = 0;
+            return;
+        }
+
         for (int i = 0; i < _zoomColumnPresets.Length; i++)
         {
             if (_zoomColumnPresets[i] == cols)
@@ -935,6 +1100,8 @@ public class GalleryManager : MonoBehaviour
                 return;
             }
         }
+
+        _currentZoomPresetIndex = Mathf.Clamp(_currentZoomPresetIndex, 0, _zoomColumnPresets.Length - 1);
     }
 
     private void UpdateZoomStatusLabel()
@@ -954,6 +1121,13 @@ public class GalleryManager : MonoBehaviour
         if (item == null || item.PhotoData == null) return;
 
         _selectedPhoto = item.PhotoData;
+
+        // If in Profile Photo Select mode (Connect Create Profile -> Gallery), immediately apply photo and return
+        if (_isProfilePhotoSelectMode)
+        {
+            CompleteProfilePhotoSelect(_selectedPhoto);
+            return;
+        }
 
         // If in Quick-Select mode and instant send is enabled:
         if (_isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact) && _instantSendOnQuickSelect)
@@ -977,6 +1151,12 @@ public class GalleryManager : MonoBehaviour
 
         if (_previewPanel == null)
         {
+            if (_isProfilePhotoSelectMode)
+            {
+                CompleteProfilePhotoSelect(_selectedPhoto);
+                return;
+            }
+
             // Fallback: if no preview panel is configured, go directly to contact selector/send
             OnShareButtonClicked();
             return;
@@ -998,7 +1178,11 @@ public class GalleryManager : MonoBehaviour
 
         if (_shareButtonLabel != null)
         {
-            if (_isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact))
+            if (_isProfilePhotoSelectMode)
+            {
+                _shareButtonLabel.text = "Use as Profile Photo";
+            }
+            else if (_isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact))
             {
                 _shareButtonLabel.text = $"Send to {_quickSelectTargetContact}";
             }
@@ -1041,6 +1225,12 @@ public class GalleryManager : MonoBehaviour
     public void OnShareButtonClicked()
     {
         if (_selectedPhoto == null) return;
+
+        if (_isProfilePhotoSelectMode)
+        {
+            CompleteProfilePhotoSelect(_selectedPhoto);
+            return;
+        }
 
         // If in Quick-Select mode (opened from a specific conversation), verify the node still requires a photo
         if (_isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact))
@@ -1168,10 +1358,20 @@ public class GalleryManager : MonoBehaviour
             // If ContactButton.prefab from ContactsScreen was reused, remove navigation scripts
             // to prevent interference with the Gallery photo-sharing callback.
             ContactButtonHelper legacyHelper = itemGO.GetComponent<ContactButtonHelper>();
-            if (legacyHelper != null) DestroyImmediate(legacyHelper);
+            if (legacyHelper != null)
+            {
+                legacyHelper.enabled = false;
+                if (Application.isPlaying) Destroy(legacyHelper);
+                else DestroyImmediate(legacyHelper);
+            }
 
             PhoneTabButton legacyTabBtn = itemGO.GetComponent<PhoneTabButton>();
-            if (legacyTabBtn != null) DestroyImmediate(legacyTabBtn);
+            if (legacyTabBtn != null)
+            {
+                legacyTabBtn.enabled = false;
+                if (Application.isPlaying) Destroy(legacyTabBtn);
+                else DestroyImmediate(legacyTabBtn);
+            }
 
             TMP_Text label = itemGO.GetComponentInChildren<TMP_Text>(true);
             if (label != null)
@@ -1332,10 +1532,131 @@ public class GalleryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Cancels Quick-Select Mode and returns directly to the conversation where the player came from.
+    /// Opens the Gallery in Profile Photo Selection mode so the player can pick a Connect profile picture.
+    /// </summary>
+    public void OpenProfilePhotoSelect(
+        Action<GalleryPhotoData> onPhotoSelected,
+        Action onCancelled = null,
+        string bannerMessage = "Choose profile picture",
+        IEnumerable<GalleryPhotoData> extraBasePhotos = null)
+    {
+        _isQuickSelectMode = false;
+        _quickSelectTargetContact = string.Empty;
+        _pendingQuickSelectContact = null;
+
+        _profileSelectBannerMessage = string.IsNullOrWhiteSpace(bannerMessage)
+            ? "Choose profile picture"
+            : bannerMessage;
+        _pendingProfilePhotoSelect = true;
+        _pendingOnProfilePhotoSelected = onPhotoSelected;
+        _pendingOnProfilePhotoCancelled = onCancelled;
+        _pendingProfileExtraPhotos = extraBasePhotos;
+
+        PhoneStateMachine stateMachine = MessagesManager.Instance != null
+            ? MessagesManager.Instance.GetPhoneStateMachine()
+            : FindAnyObjectByType<PhoneStateMachine>(FindObjectsInactive.Include);
+
+        if (stateMachine != null)
+        {
+            stateMachine.ChangeState((int)PhoneState.GALLERY);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
+
+        // Ensure active state even if Gallery was already active when invoked
+        if (_pendingProfilePhotoSelect)
+        {
+            _isProfilePhotoSelectMode = true;
+            _onProfilePhotoSelected = _pendingOnProfilePhotoSelected;
+            _onProfilePhotoCancelled = _pendingOnProfilePhotoCancelled;
+            _pendingProfilePhotoSelect = false;
+            _pendingOnProfilePhotoSelected = null;
+            _pendingOnProfilePhotoCancelled = null;
+        }
+
+        _pendingProfileExtraPhotos = null;
+        EnsureBaseProfilePhotos(extraBasePhotos);
+        CloseContactSelector();
+        ClosePreview();
+        UpdateQuickSelectBanner();
+        RefreshGallery();
+    }
+
+    private void CompleteProfilePhotoSelect(GalleryPhotoData photo)
+    {
+        Action<GalleryPhotoData> callback = _onProfilePhotoSelected;
+        _isProfilePhotoSelectMode = false;
+        _onProfilePhotoSelected = null;
+        _onProfilePhotoCancelled = null;
+        _pendingProfilePhotoSelect = false;
+        _pendingOnProfilePhotoSelected = null;
+        _pendingOnProfilePhotoCancelled = null;
+        _pendingProfileExtraPhotos = null;
+
+        CloseContactSelector();
+        ClosePreview();
+        UpdateQuickSelectBanner();
+
+        if (callback != null)
+        {
+            callback.Invoke(photo);
+        }
+        else
+        {
+            ReturnToConnectScreen();
+        }
+    }
+
+    private void CancelProfilePhotoSelect()
+    {
+        Action cancelCallback = _onProfilePhotoCancelled;
+        _isProfilePhotoSelectMode = false;
+        _onProfilePhotoSelected = null;
+        _onProfilePhotoCancelled = null;
+        _pendingProfilePhotoSelect = false;
+        _pendingOnProfilePhotoSelected = null;
+        _pendingOnProfilePhotoCancelled = null;
+        _pendingProfileExtraPhotos = null;
+
+        CloseContactSelector();
+        ClosePreview();
+        UpdateQuickSelectBanner();
+
+        if (cancelCallback != null)
+        {
+            cancelCallback.Invoke();
+        }
+        else
+        {
+            ReturnToConnectScreen();
+        }
+    }
+
+    private static void ReturnToConnectScreen()
+    {
+        PhoneStateMachine stateMachine = MessagesManager.Instance != null
+            ? MessagesManager.Instance.GetPhoneStateMachine()
+            : FindAnyObjectByType<PhoneStateMachine>(FindObjectsInactive.Include);
+
+        if (stateMachine != null)
+        {
+            stateMachine.ChangeState((int)PhoneState.CONNECT);
+        }
+    }
+
+    /// <summary>
+    /// Cancels Quick-Select Mode (or Profile Photo Select Mode) and returns to the caller screen.
     /// </summary>
     public void CancelQuickSelectAndReturnToChat()
     {
+        if (_isProfilePhotoSelectMode)
+        {
+            CancelProfilePhotoSelect();
+            return;
+        }
+
         string targetContact = _quickSelectTargetContact;
         _isQuickSelectMode = false;
         _quickSelectTargetContact = string.Empty;
@@ -1431,7 +1752,8 @@ public class GalleryManager : MonoBehaviour
 
     private void UpdateQuickSelectBanner()
     {
-        bool showBanner = _isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact);
+        bool showChatQuickSelect = _isQuickSelectMode && !string.IsNullOrEmpty(_quickSelectTargetContact);
+        bool showBanner = showChatQuickSelect || _isProfilePhotoSelectMode;
 
         if (_quickSelectBanner != null)
         {
@@ -1440,7 +1762,9 @@ public class GalleryManager : MonoBehaviour
 
         if (_quickSelectBannerText != null && showBanner)
         {
-            _quickSelectBannerText.text = $"Send photo to {_quickSelectTargetContact}";
+            _quickSelectBannerText.text = _isProfilePhotoSelectMode
+                ? _profileSelectBannerMessage
+                : $"Send photo to {_quickSelectTargetContact}";
         }
 
         AdjustScrollViewLayoutForBanner(showBanner);
@@ -1448,7 +1772,7 @@ public class GalleryManager : MonoBehaviour
 
     /// <summary>
     /// Intercepts mobile UI/hardware "Back" action while Gallery is active.
-    /// Returns true if Gallery consumed the event (dismissing a modal or returning from Quick-Select).
+    /// Returns true if Gallery consumed the event (dismissing a modal or returning from Quick-Select / Profile-Select).
     /// </summary>
     public bool TryHandleBackButton()
     {
@@ -1461,6 +1785,12 @@ public class GalleryManager : MonoBehaviour
         if (IsPreviewOpen())
         {
             ClosePreview();
+            return true;
+        }
+
+        if (_isProfilePhotoSelectMode)
+        {
+            CancelProfilePhotoSelect();
             return true;
         }
 
